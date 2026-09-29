@@ -1,0 +1,193 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Spell_Water_9_Projectile
+  m_Shader: {fileID: -6465566751694194690, guid: 9288d611ada25b343955547306ee5086, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _DISSOLVE
+  - _MATERIAL_MODE_PARTICLE
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords:
+  - _ENUM_PARTICLE
+  - _MATERIAL_MODE_TRAIL_PARTICLE
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    MotionVector: User
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
+  - TransparentBackface
+  - MOTIONVECTORS
+  - TransparentDepthPrepass
+  - TransparentDepthPostpass
+  - SHADOWCASTER
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Foam_Texture:
+        m_Texture: {fileID: 2800000, guid: cbe939e74dace8f4eb898d7555f42164, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Liquid_Texture:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Particle_Texture:
+        m_Texture: {fileID: 2800000, guid: 54e81eab89dd6f34a9bcc8a1ec9b0df1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 54e81eab89dd6f34a9bcc8a1ec9b0df1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 1
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 10
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _Alpha_Clip: 0.054
+    - _Blend: 0
+    - _BlendMode: 0
+    - _CastShadows: 0
+    - _ConservativeDepthOffsetEnable: 0
+    - _Cull: 2
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _Custom_Data: 0
+    - _DISSOLVE: 1
+    - _DepthOffsetEnable: 0
+    - _Dissolve_Amount: 0.409
+    - _Dissolve_Detail: 1.58
+    - _Dissolve_Edge: 0.146
+    - _Dissolve_Invert_Direction: 0
+    - _Dissolve_Scale: 10
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedGIMode: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 10
+    - _DstBlend2: 10
+    - _EnableBlendModePreserveSpecularLighting: 0
+    - _EnableFogOnTransparent: 1
+    - _ExcludeFromTUAndAA: 0
+    - _FOAM_DISTORTION: 0
+    - _FRESNEL: 0
+    - _Foam_Distortion_Intensity: 0.06
+    - _Fresnel_Power: 5
+    - _Highlight_Opacity: 0.9
+    - _Liquid_Color_Range: 1.65
+    - _MATERIAL_MODE: 1
+    - _OpaqueCullMode: 2
+    - _PerPixelSorting: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _RenderQueueType: 3
+    - _SOFT_PARTICLE: 0
+    - _Shadow_Opacity: 0.608
+    - _Soft_Particle: 1
+    - _SrcBlend: 5
+    - _StencilRef: 0
+    - _StencilRefDepth: 1
+    - _StencilRefDistortionVec: 4
+    - _StencilRefMV: 33
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 9
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskMV: 43
+    - _Surface: 1
+    - _SurfaceType: 1
+    - _Trail_Mode: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _VERTEX_ANIMATION: 0
+    - _Vertex_Intensity: 0.2
+    - _ZTest: 4
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Color: {r: 1.304119, g: 1.304119, b: 1.304119, a: 1}
+    - _DIssolve_Speed: {r: -1, g: -0.4, b: 0, a: 0}
+    - _Dissolve_Color: {r: 1.2745364, g: 1.980838, b: 2.270603, a: 1}
+    - _Dissolve_Range: {r: 1.96, g: 5.39, b: 0, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Foam_Color: {r: 0.830453, g: 1.1675662, b: 1.304119, a: 1}
+    - _Foam_Distortion_Speed: {r: 0.3, g: 0.3, b: 0, a: 0}
+    - _Foam_Distortion_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _Foam_Speed: {r: -1, g: 0, b: 0, a: 0}
+    - _Foam_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _Fresnel_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Highlight_Range: {r: 2.58, g: -0.28, b: 0, a: 0}
+    - _Liquid_Color_A: {r: 0.23113209, g: 0.5811112, b: 1, a: 1}
+    - _Liquid_Color_B: {r: 0.014684939, g: 0.29074693, b: 0.6226415, a: 1}
+    - _Liquid_Speed: {r: -0.5, g: 0.3, b: 0, a: 0}
+    - _Liquid_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _Soft_Particle_Range: {r: 0, g: 1, b: 0, a: 0}
+    - _Vertex_Speed: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Vertex_Tiling: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &7591304034559026376
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10
+--- !u!114 &8012360865059040749
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 13
+  hdPluginSubTargetMaterialVersions:
+    m_Keys: []
+    m_Values: 

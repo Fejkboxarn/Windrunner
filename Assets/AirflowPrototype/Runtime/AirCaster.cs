@@ -105,8 +105,10 @@ namespace AirflowPrototype
         public AirCastSettings Settings => settings;
 
         public event Action ChargeStarted;
+        public event Action<AirNode> TargetedChargeStarted;
         public event Action ChargeCanceled;
         public event Action<float, bool> PulseReleased;
+        public event Action<AirNode, float, bool> TargetedPulseReleased;
         public event Action<AirNode, float> PulseHit;
         public event Action PulseMissed;
         public event Action<AirNode, float> PerfectReleased;
@@ -186,9 +188,15 @@ namespace AirflowPrototype
 
             if (input.CastHeld)
             {
-                _chargeTime += Time.deltaTime;
-                UpdateTargetLock(Time.deltaTime);
+                _chargeTime +=
+                    Time.deltaTime;
+
+                UpdateTargetLock(
+                    Time.deltaTime);
             }
+
+            if (!_charging)
+                return;
 
             if (input.CastReleasedThisFrame)
                 Release();
@@ -196,40 +204,58 @@ namespace AirflowPrototype
 
         private void BeginCharge()
         {
+            AirNode target =
+                targeter != null
+                    ? targeter.CurrentTarget
+                    : null;
+
+            // LMB is intentionally inert without a valid normal Air Node.
+            // This keeps the action target-driven instead of behaving like
+            // a free-firing projectile weapon.
+            if (target == null ||
+                !target.IsAvailable)
+            {
+                return;
+            }
+
             _charging = true;
             _chargeTime = 0f;
             _targetLockTime = 0f;
 
-            // Claim the selected node at the moment charging begins.
             _trackedTarget =
-                targeter.CurrentTarget;
+                target;
 
             ChargeStarted?.Invoke();
+
+            TargetedChargeStarted?.Invoke(
+                _trackedTarget);
         }
 
         private void UpdateTargetLock(float dt)
         {
-            // Stay on the claimed target even if another node becomes higher priority.
-            if (IsTrackedTargetAvailable())
+            // A charge is hard-locked to the node claimed on LMB press.
+            // If that node disappears, cancel instead of jumping to another node.
+            if (!IsTrackedTargetAvailable())
             {
-                _targetLockTime += dt;
+                CancelCharge();
                 return;
             }
 
-            // Only switch when the claimed target is no longer available.
-            AirNode replacement =
-                targeter.CurrentTarget;
+            _targetLockTime +=
+                dt;
+        }
 
-            if (replacement != _trackedTarget)
-            {
-                _trackedTarget = replacement;
-                _targetLockTime = 0f;
-            }
+        private void CancelCharge()
+        {
+            if (!_charging)
+                return;
 
-            if (IsTrackedTargetAvailable())
-                _targetLockTime += dt;
-            else
-                _targetLockTime = 0f;
+            _charging = false;
+            _chargeTime = 0f;
+
+            ResetTargetLock();
+
+            ChargeCanceled?.Invoke();
         }
 
         private bool IsTrackedTargetAvailable()
@@ -339,8 +365,6 @@ namespace AirflowPrototype
                     directToTarget,
                     accuracy).normalized;
 
-            ResetTargetLock();
-
             AirPulseProjectile.Spawn(
                 this,
                 target,
@@ -350,9 +374,16 @@ namespace AirflowPrototype
                 ready,
                 settings);
 
+            TargetedPulseReleased?.Invoke(
+                target,
+                charge01,
+                ready);
+
             PulseReleased?.Invoke(
                 charge01,
                 ready);
+
+            ResetTargetLock();
 
             if (perfect)
             {
@@ -399,15 +430,7 @@ namespace AirflowPrototype
 
         private void OnDisable()
         {
-            if (_charging)
-            {
-                _charging = false;
-                _chargeTime = 0f;
-
-                ResetTargetLock();
-
-                ChargeCanceled?.Invoke();
-            }
+            CancelCharge();
         }
     }
 }

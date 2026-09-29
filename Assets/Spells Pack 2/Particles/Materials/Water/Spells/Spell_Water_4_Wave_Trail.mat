@@ -1,0 +1,208 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Spell_Water_4_Wave_Trail
+  m_Shader: {fileID: -6465566751694194690, guid: f137801ddc0ef72498ad0a2e4d829077, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SOFT_PARTICLE
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  - SHADOWCASTER
+  - DepthOnly
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Fluid_Texture:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Foam_Texture:
+        m_Texture: {fileID: 2800000, guid: cbe939e74dace8f4eb898d7555f42164, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Liquid_Texture:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_1_Texture:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_2_Texture:
+        m_Texture: {fileID: 2800000, guid: cbe939e74dace8f4eb898d7555f42164, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Particle_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SP2DistortionUVs_ff707187ba194184a45f704b73a65f11_NoiseTexture_2080430526_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SP2SimpleAnimatedTexture_e76f1fe5d2694f24b72b12ddce29fe3a_Noise_3837491272_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SP2VertexAnimation_6671b7f1dddb409c84add6dac6a697fd_VertexTexture_4121003619_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_20b13f914af34509b4d138793582f96c_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_6841c3558c444c3f9a231c8291fd3018_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e1fdd65ea03448345a83763963fba5b0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7f52f9f78cab4063ac8506b3622000c4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b4f6b559726b48e59152cf2769143fbe_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_faa7512510104929970f830a00f82114_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: cbe939e74dace8f4eb898d7555f42164, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Water_Texture:
+        m_Texture: {fileID: 2800000, guid: 6d3176aad7697b2459607a99b69b7536, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Alpha_Clip: 0
+    - _Alpha_Edge: 0.19
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _CastShadows: 0
+    - _Color_Mixing: 1
+    - _Cull: 0
+    - _Custom_Data: 0
+    - _DISSOLVE: 1
+    - _Direactional_Light_Blend: 0.724
+    - _Dissolve_Amount: 0.847
+    - _Dissolve_Detail: 0.96
+    - _Dissolve_Edge: 0.147
+    - _Dissolve_Invert_Direction: 0
+    - _Dissolve_Scale: 25
+    - _DstBlend: 10
+    - _ENUM: 0
+    - _FOAM_DISTORTION: 1
+    - _FRESNEL: 0
+    - _Fluid_Color_Range: 1.22
+    - _Foam_Distortion_Intensity: 0.1
+    - _Fresnel_Power: 7
+    - _Highlight_Opacity: 0.551
+    - _Highlights_Opacity: 0.8
+    - _Liquid_Color_Range: 1.66
+    - _MATERIAL_MODE: 1
+    - _Noise_1_Length_Scale: 1
+    - _Noise_1_Radial_Scale: 1
+    - _Noise_2_Length_Scale: 1
+    - _Noise_2_Radial_Scale: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Range: 0.63
+    - _ReceiveShadows: 1
+    - _SOFT_PARTICLE: 1
+    - _Shadow_Opacity: 0.782
+    - _Shadows_Opacity: 0.78
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _Time_Mode: 1
+    - _Trail_Mode: 0
+    - _VERTEX_ANIMATION: 0
+    - _Vertex_Intensity: 0.4
+    - _WAVE_DISTORTION: 0
+    - _Water_Color_Range: 1.22
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
+    - _Color_1: {r: 0.58427966, g: 0.8129003, b: 1.202595, a: 1}
+    - _Color_2: {r: 0.15970986, g: 0.42975068, b: 0.9150943, a: 1}
+    - _DIssolve_Speed: {r: 0, g: -1, b: 0, a: 0}
+    - _Dissolve_Color: {r: 0.4392157, g: 0.5539267, b: 0.78431374, a: 1}
+    - _Dissolve_Range: {r: 1.43, g: 3.09, b: 0, a: 0}
+    - _Fluid_Color_A: {r: 0.15566039, g: 0.5430634, b: 1, a: 1}
+    - _Fluid_Color_B: {r: 0, g: 0.42407918, b: 0.6037736, a: 1}
+    - _Fluid_Speed: {r: 0.3, g: 0.3, b: 0, a: 0}
+    - _Fluid_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _Foam_Color: {r: 0.38742003, g: 0.54468894, b: 0.60839295, a: 1}
+    - _Foam_Distortion_Speed: {r: -0.2, g: -1, b: 0, a: 0}
+    - _Foam_Distortion_Tiling: {r: 1, g: 2, b: 0, a: 0}
+    - _Foam_Speed: {r: 0.2, g: -2, b: 0, a: 0}
+    - _Foam_Tiling: {r: 1, g: 2, b: 0, a: 0}
+    - _Fresnel_Color: {r: 2.7951517, g: 4.520872, b: 8.47419, a: 1}
+    - _Highlight_Range: {r: 0.02, g: 1.86, b: 0, a: 0}
+    - _Highlights_Range: {r: 0.07, g: 1.15, b: 0, a: 0}
+    - _Liquid_Color_A: {r: 0.23113209, g: 0.5811112, b: 1, a: 1}
+    - _Liquid_Color_B: {r: 0.014684939, g: 0.29074693, b: 0.6226415, a: 1}
+    - _Liquid_Speed: {r: 0.3, g: -2, b: 0, a: 0}
+    - _Liquid_Tiling: {r: 2, g: 2, b: 0, a: 0}
+    - _Noise_1_Speed: {r: -0.7, g: 0, b: 0, a: 0}
+    - _Noise_1_Tiling: {r: 0.5, g: 1, b: 0, a: 0}
+    - _Noise_2_Speed: {r: -1, g: 0, b: 0, a: 0}
+    - _Noise_2_Tiling: {r: 0.5, g: 1, b: 0, a: 0}
+    - _Noises_Remap: {r: 0.03, g: 1.15, b: 0, a: 0}
+    - _Polar_Center: {r: 0.3, g: 0.5, b: 0, a: 0}
+    - _Ramp_Gradient_Remap: {r: 1.25, g: 1.27, b: 0, a: 0}
+    - _Soft_Particle_Range: {r: 0, g: 1, b: 0, a: 0}
+    - _Vertex_Speed: {r: 0.3, g: -0.5, b: 0, a: 0}
+    - _Vertex_Tiling: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Water_Color_A: {r: 0.35377356, g: 0.8051816, b: 1, a: 1}
+    - _Water_Color_B: {r: 0, g: 0.42407918, b: 0.6037736, a: 1}
+    - _Water_Speed: {r: 0.3, g: 0.3, b: 0, a: 0}
+    - _Water_Tiling: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &6235993720279550043
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10

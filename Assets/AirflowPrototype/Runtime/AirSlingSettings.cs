@@ -299,6 +299,13 @@ namespace AirflowPrototype
         [Min(0.01f)]
         public float nodeImpactTimeStopRecovery = 0.16f;
 
+        [Header("Sling Impact Pose")]
+        [Tooltip(
+            "Unscaled-time hold after contact so the authored Sling Impact animation " +
+            "can read before the final forward/up launch.")]
+        [Min(0f)]
+        public float impactPoseHoldDuration = 0.16f;
+
         [Header("Final Launch Flip")]
         public bool enableFinalLaunchFlip = true;
 
@@ -396,6 +403,20 @@ namespace AirflowPrototype
             {
                 MigrateToCurvedSlingCameraV1811();
             }
+
+            if (settingsVersion < 1900)
+            {
+                MigrateToPlayerAnimationFoundationV1900();
+            }
+        }
+
+        private void MigrateToPlayerAnimationFoundationV1900()
+        {
+            // Only initialize the new authored impact-pose hold.
+            // Existing Sling movement/camera/combat tuning is preserved.
+            impactPoseHoldDuration = 0.16f;
+
+            settingsVersion = 1900;
         }
 
         private void MigrateToCurvedSlingCameraV1811()
@@ -712,6 +733,12 @@ namespace AirflowPrototype
                 Mathf.Max(
                     0.01f,
                     launchFovRecoveryResponse);
+
+
+            impactPoseHoldDuration =
+                Mathf.Max(
+                    0f,
+                    impactPoseHoldDuration);
         }
     }
 }

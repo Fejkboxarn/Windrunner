@@ -20,6 +20,35 @@ namespace AirflowPrototype
         [Header("Optional Custom Clips")]
         [SerializeField] private PlayerCustomAnimationDriver customAnimationDriver;
 
+        [Header("Legacy Procedural Animation Toggles")]
+        [Tooltip(
+            "Disables the older procedural presentation as a group. " +
+            "Authored Animator clips, dual-hand throwing, and gameplay are unaffected.")]
+        [SerializeField] private bool disableAllLegacyProceduralAnimation;
+
+        [Tooltip("Disables idle breathing scale/bob.")]
+        [SerializeField] private bool disableIdleBreathing;
+
+        [Tooltip("Disables procedural walk/run bob, side sway, pitch and contact squash.")]
+        [SerializeField] private bool disableWalkRunWobble;
+
+        [Tooltip("Disables procedural takeoff and landing squash/rebound.")]
+        [SerializeField] private bool disableTakeoffLandingSquash;
+
+        [Tooltip("Disables procedural rising/falling stretch and apex squash.")]
+        [SerializeField] private bool disableAirborneSquashStretch;
+
+        [Tooltip("Disables speed-driven forward lean and turn lean.")]
+        [SerializeField] private bool disableSpeedLean;
+
+        [Tooltip("Disables the visual banking applied while travelling on the curved Sling path.")]
+        [SerializeField] private bool disableSlingCurveBank;
+
+        [Tooltip(
+            "Disables rotation/scale of the procedural front-flip pivot. " +
+            "FlipStarted events still fire so authored animation systems can react.")]
+        [SerializeField] private bool disableProceduralFlip;
+
         private Vector3 _baseLocalPosition;
         private Vector3 _baseLocalScale;
         private bool _basePoseCaptured;
@@ -57,6 +86,37 @@ namespace AirflowPrototype
         public event Action JumpStarted;
         public event Action<float> Landed;
         public event Action<int, float> FlipStarted;
+
+        public bool LegacyProceduralAnimationEnabled =>
+            !disableAllLegacyProceduralAnimation;
+
+        public bool IdleBreathingEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableIdleBreathing;
+
+        public bool WalkRunWobbleEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableWalkRunWobble;
+
+        public bool TakeoffLandingSquashEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableTakeoffLandingSquash;
+
+        public bool AirborneSquashStretchEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableAirborneSquashStretch;
+
+        public bool SpeedLeanEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableSpeedLean;
+
+        public bool SlingCurveBankEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableSlingCurveBank;
+
+        public bool ProceduralFlipEnabled =>
+            LegacyProceduralAnimationEnabled &&
+            !disableProceduralFlip;
 
         public void Configure(
             PlayerMotor newMotor,
@@ -242,10 +302,15 @@ namespace AirflowPrototype
             float bankDt =
                 Time.unscaledDeltaTime;
 
+            float desiredTraversalBank =
+                SlingCurveBankEnabled
+                    ? _traversalBankTarget
+                    : 0f;
+
             _traversalBankCurrent =
                 Mathf.Lerp(
                     _traversalBankCurrent,
-                    _traversalBankTarget,
+                    desiredTraversalBank,
                     1f -
                     Mathf.Exp(
                         -_traversalBankResponse *
@@ -407,6 +472,41 @@ namespace AirflowPrototype
             float desiredRoll = 0f;
             float response;
 
+            if (!SpeedLeanEnabled)
+            {
+                desiredPitch = 0f;
+                desiredRoll = 0f;
+
+                response =
+                    feelSettings != null
+                        ? feelSettings.characterLeanResponse
+                        : settings.bodyLeanResponse;
+
+                float disabledT =
+                    1f -
+                    Mathf.Exp(
+                        -Mathf.Max(
+                            0.01f,
+                            response) *
+                        dt);
+
+                _smoothedLeanPitch =
+                    Mathf.Lerp(
+                        _smoothedLeanPitch,
+                        0f,
+                        disabledT);
+
+                _smoothedLeanRoll =
+                    Mathf.Lerp(
+                        _smoothedLeanRoll,
+                        0f,
+                        disabledT);
+
+                pitch = _smoothedLeanPitch;
+                roll = _smoothedLeanRoll;
+                return;
+            }
+
             if (feelSettings != null)
             {
                 float forwardLean01 =
@@ -546,7 +646,8 @@ namespace AirflowPrototype
 
             float idleWeight =
                 grounded &&
-                useProceduralIdle
+                useProceduralIdle &&
+                IdleBreathingEnabled
                     ? 1f -
                       Mathf.Clamp01(
                           speed /
@@ -639,8 +740,11 @@ namespace AirflowPrototype
                 customAnimationDriver == null ||
                 !customAnimationDriver.HasCustomLocomotion;
 
-            if (!useProceduralLocomotion)
+            if (!useProceduralLocomotion ||
+                !WalkRunWobbleEnabled)
+            {
                 return;
+            }
 
             float stride =
                 Mathf.Sin(
@@ -713,7 +817,8 @@ namespace AirflowPrototype
 
             if (_takeoffRemaining > 0f)
             {
-                if (!customJump)
+                if (!customJump &&
+                    TakeoffLandingSquashEnabled)
                 {
                     float duration =
                         Mathf.Max(
@@ -775,10 +880,12 @@ namespace AirflowPrototype
                         animationSettings.verticalSpeedForFullPose);
 
                 bool useRisingProcedural =
+                    AirborneSquashStretchEnabled &&
                     vertical >= 0f &&
                     !customJump;
 
                 bool useFallingProcedural =
+                    AirborneSquashStretchEnabled &&
                     vertical < 0f &&
                     !customFall;
 
@@ -853,7 +960,8 @@ namespace AirflowPrototype
                     _landingRemaining /
                     duration;
 
-                if (!customLand)
+                if (!customLand &&
+                    TakeoffLandingSquashEnabled)
                 {
                     float compression =
                         Mathf.Sin(
@@ -921,7 +1029,8 @@ namespace AirflowPrototype
                 customAnimationDriver != null &&
                 customAnimationDriver.HasCustomFlip(0);
 
-            if (!customFlip &&
+            if (ProceduralFlipEnabled &&
+                !customFlip &&
                 flipPivot != null &&
                 _flipPivotCaptured)
             {

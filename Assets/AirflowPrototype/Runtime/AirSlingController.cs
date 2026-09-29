@@ -14,7 +14,8 @@ namespace AirflowPrototype
             Idle,
             Charging,
             DelayBeforeDash,
-            DashingToNode
+            DashingToNode,
+            ImpactHold
         }
 
         [SerializeField] private PlayerMotor motor;
@@ -43,6 +44,9 @@ namespace AirflowPrototype
         private float _dashElapsed;
         private float _dashProgress;
         private float _dashPathDistance;
+
+        private float _impactHoldRemaining;
+        private Vector3 _impactRootPosition;
 
         private Vector3 _dashStartRootPosition;
         private Vector3 _dashLandingRootPosition;
@@ -149,6 +153,7 @@ namespace AirflowPrototype
             settings;
 
         public event Action<AirSlingNode> SlingStarted;
+        public event Action<AirSlingNode, float, bool> SlingCommitted;
         public event Action<AirSlingNode, float> InitialBoostDelivered;
         public event Action<AirSlingNode> NodeDashStarted;
         public event Action<AirSlingNode> NodeImpact;
@@ -321,6 +326,10 @@ namespace AirflowPrototype
                 case SlingState.DashingToNode:
                     UpdateDashToNode();
                     break;
+
+                case SlingState.ImpactHold:
+                    UpdateImpactHold();
+                    break;
             }
 
             FinishFrame();
@@ -427,6 +436,13 @@ namespace AirflowPrototype
                 perfect
                     ? perfectQuality
                     : 0f;
+
+            SlingCommitted?.Invoke(
+                _trackedTarget,
+                perfect
+                    ? perfectQuality
+                    : 0f,
+                perfect);
 
             if (settings.enableSlingFovProfile &&
                 speedFeedback != null)
@@ -774,10 +790,14 @@ namespace AirflowPrototype
                 desiredRoot -
                 transform.position);
 
+            _impactRootPosition =
+                transform.position;
+
             // Clean planted impact frame before the second reward.
             motor.StopForTraversalImpact();
 
-            // Generic particle + impact audio happen on every contact.
+            // Contact gameplay happens immediately. Only the final launch is delayed
+            // so the authored Sling Impact pose has time to read.
             target.PlayImpactVFX();
             target.PlayImpactAudio(
                 impactAudioLibrary);
@@ -816,6 +836,60 @@ namespace AirflowPrototype
                     settings.curveBankResponse);
             }
 
+            _impactHoldRemaining =
+                Mathf.Max(
+                    0f,
+                    settings.impactPoseHoldDuration);
+
+            if (_impactHoldRemaining <= 0f)
+            {
+                CompleteImpactLaunch();
+                return;
+            }
+
+            _state =
+                SlingState.ImpactHold;
+        }
+
+        private void UpdateImpactHold()
+        {
+            if (_trackedTarget == null)
+            {
+                CancelSling();
+                return;
+            }
+
+            // The PlayerMotor still updates normally, so counter its displacement
+            // and keep the character planted on the target during the impact pose.
+            controller.Move(
+                _impactRootPosition -
+                transform.position);
+
+            motor.StopForTraversalImpact();
+
+            _impactHoldRemaining -=
+                Time.unscaledDeltaTime;
+
+            if (_impactHoldRemaining <= 0f)
+            {
+                CompleteImpactLaunch();
+            }
+        }
+
+        private void CompleteImpactLaunch()
+        {
+            AirSlingNode target =
+                _trackedTarget;
+
+            if (target == null)
+            {
+                CancelSling();
+                return;
+            }
+
+            bool releaseWasPerfect =
+                _capturedPerfectQuality > 0f;
+
             if (settings.enableSlingFovProfile &&
                 speedFeedback != null)
             {
@@ -846,6 +920,7 @@ namespace AirflowPrototype
             _dashSpeed = 0f;
             _dashProgress = 0f;
             _delayRemaining = 0f;
+            _impactHoldRemaining = 0f;
 
             target.SetSelected(
                 false);
@@ -1467,6 +1542,9 @@ namespace AirflowPrototype
             _dashElapsed = 0f;
             _dashProgress = 0f;
             _dashPathDistance = 0f;
+
+            _impactHoldRemaining = 0f;
+            _impactRootPosition = Vector3.zero;
 
             _incomingForwardDirection =
                 Vector3.zero;
