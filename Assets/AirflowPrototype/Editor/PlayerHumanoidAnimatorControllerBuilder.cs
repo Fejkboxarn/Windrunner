@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -10,31 +12,28 @@ namespace AirflowPrototype.Editor
             "Assets/AirflowPrototype";
 
         public const string GeneratedFolder =
-            RootFolder +
-            "/Generated";
+            RootFolder + "/Generated";
 
         public const string ProfilePath =
-            GeneratedFolder +
-            "/Batch19_PlayerAnimationProfile.asset";
+            GeneratedFolder + "/Batch19_PlayerAnimationProfile.asset";
 
         public const string ControllerPath =
-            GeneratedFolder +
-            "/Batch19_PlayerHumanoid.controller";
+            GeneratedFolder + "/Batch19_PlayerHumanoid.controller";
 
         public static PlayerHumanoidAnimationProfile GetOrCreateProfile()
         {
-            EnsureFolder(
-                RootFolder);
-
-            EnsureFolder(
-                GeneratedFolder);
+            EnsureFolder(RootFolder);
+            EnsureFolder(GeneratedFolder);
 
             PlayerHumanoidAnimationProfile profile =
                 AssetDatabase.LoadAssetAtPath<PlayerHumanoidAnimationProfile>(
                     ProfilePath);
 
             if (profile != null)
+            {
+                profile.EnsureCurrentDefaults();
                 return profile;
+            }
 
             profile =
                 ScriptableObject.CreateInstance<PlayerHumanoidAnimationProfile>();
@@ -57,13 +56,10 @@ namespace AirflowPrototype.Editor
 
             profile.EnsureCurrentDefaults();
 
-            EnsureFolder(
-                RootFolder);
+            EnsureFolder(RootFolder);
+            EnsureFolder(GeneratedFolder);
 
-            EnsureFolder(
-                GeneratedFolder);
-
-            if (AssetDatabase.LoadAssetAtPath<Object>(
+            if (AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(
                     ControllerPath) != null)
             {
                 AssetDatabase.DeleteAsset(
@@ -77,19 +73,11 @@ namespace AirflowPrototype.Editor
             if (controller == null)
                 return null;
 
-            BuildParameters(
-                controller);
+            BuildParameters(controller);
+            BuildBaseLayer(controller, profile);
+            BuildSlingLayer(controller, profile);
 
-            BuildBaseLayer(
-                controller,
-                profile);
-
-            BuildSlingLayer(
-                controller,
-                profile);
-
-            EditorUtility.SetDirty(
-                controller);
+            EditorUtility.SetDirty(controller);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.ImportAsset(
@@ -98,7 +86,7 @@ namespace AirflowPrototype.Editor
             if (targetAnimator == null)
             {
                 PlayerMotor motor =
-                    Object.FindAnyObjectByType<PlayerMotor>();
+                    UnityEngine.Object.FindAnyObjectByType<PlayerMotor>();
 
                 if (motor != null)
                 {
@@ -122,25 +110,15 @@ namespace AirflowPrototype.Editor
 
                 EditorUtility.SetDirty(
                     targetAnimator);
-
-                if (targetAnimator.gameObject.scene.IsValid())
-                {
-                    UnityEditor.SceneManagement
-                        .EditorSceneManager
-                        .MarkSceneDirty(
-                            targetAnimator.gameObject.scene);
-                }
             }
 
             PlayerHumanoidAnimatorDriver driver =
-                Object.FindAnyObjectByType<PlayerHumanoidAnimatorDriver>();
+                UnityEngine.Object.FindAnyObjectByType<PlayerHumanoidAnimatorDriver>();
 
             if (driver != null)
             {
-                driver.SetDoubleJumpVariantCount(
-                    Mathf.Max(
-                        1,
-                        profile.DoubleJumpVariantCount));
+                driver.ApplyGeneratedProfileSettings(
+                    profile);
 
                 EditorUtility.SetDirty(
                     driver);
@@ -155,6 +133,103 @@ namespace AirflowPrototype.Editor
             }
 
             return controller;
+        }
+
+        public static bool AutoFillKnownCombatRunClips(
+            PlayerHumanoidAnimationProfile profile)
+        {
+            if (profile == null)
+                return false;
+
+            Dictionary<string, AnimationClip> clips =
+                FindAnimationClipsByName();
+
+            bool changed = false;
+
+            changed |= AssignIfEmpty(
+                ref profile.runForward,
+                clips,
+                "Run_Combat_Fast_Loop");
+
+            changed |= AssignIfEmpty(
+                ref profile.runForwardLeft45,
+                clips,
+                "Run_Combat_Fast_Loop_L_45");
+
+            changed |= AssignIfEmpty(
+                ref profile.runForwardRight45,
+                clips,
+                "Run_Combat_Fast_Loop_R_45");
+
+            changed |= AssignIfEmpty(
+                ref profile.runLeft90,
+                clips,
+                "Run_Combat_Fast_Loop_L_90");
+
+            changed |= AssignIfEmpty(
+                ref profile.runRight90,
+                clips,
+                "Run_Combat_Fast_Loop_R_90");
+
+            changed |= AssignIfEmpty(
+                ref profile.runLeanLeft,
+                clips,
+                "Run_Combat_Fast_Lean_L_Loop");
+
+            changed |= AssignIfEmpty(
+                ref profile.runLeanRight,
+                clips,
+                "Run_Combat_Fast_Lean_R_Loop");
+
+            changed |= AssignIfEmpty(
+                ref profile.runStartForward,
+                clips,
+                "Run_Combat_Fast_Start");
+
+            changed |= AssignIfEmpty(
+                ref profile.runStartBackLeft,
+                clips,
+                "Run_Combat_Fast_Start_B_L");
+
+            changed |= AssignIfEmpty(
+                ref profile.runStartBackRight,
+                clips,
+                "Run_Combat_Fast_Start_B_R");
+
+            changed |= AssignIfEmpty(
+                ref profile.runStartLeft,
+                clips,
+                "Run_Combat_Fast_Start_L");
+
+            changed |= AssignIfEmpty(
+                ref profile.runStartRight,
+                clips,
+                "Run_Combat_Fast_Start_R");
+
+            changed |= AssignIfEmpty(
+                ref profile.runStop,
+                clips,
+                "Run_Combat_Fast_Stop");
+
+            changed |= AssignIfEmpty(
+                ref profile.runTurnLeft,
+                clips,
+                "Run_Combat_Fast_Turn_L");
+
+            changed |= AssignIfEmpty(
+                ref profile.runTurnRight,
+                clips,
+                "Run_Combat_Fast_Turn_R");
+
+            if (changed)
+            {
+                EditorUtility.SetDirty(
+                    profile);
+
+                AssetDatabase.SaveAssets();
+            }
+
+            return changed;
         }
 
         public static Animator FindHumanoidAnimator(
@@ -187,43 +262,93 @@ namespace AirflowPrototype.Editor
         private static void BuildParameters(
             AnimatorController controller)
         {
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "Speed",
                 AnimatorControllerParameterType.Float);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "Grounded",
                 AnimatorControllerParameterType.Bool);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "VerticalSpeed",
                 AnimatorControllerParameterType.Float);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
+                "LocomotionDirection",
+                AnimatorControllerParameterType.Float);
+
+            AddParameter(
+                controller,
+                "HasMoveInput",
+                AnimatorControllerParameterType.Bool);
+
+            AddParameter(
+                controller,
+                "RunStart",
+                AnimatorControllerParameterType.Trigger);
+
+            AddParameter(
+                controller,
+                "RunStartDirection",
+                AnimatorControllerParameterType.Int);
+
+            AddParameter(
+                controller,
+                "RunStop",
+                AnimatorControllerParameterType.Trigger);
+
+            AddParameter(
+                controller,
+                "HardTurn",
+                AnimatorControllerParameterType.Trigger);
+
+            AddParameter(
+                controller,
+                "HardTurnDirection",
+                AnimatorControllerParameterType.Int);
+
+            AddParameter(
+                controller,
                 "Jump",
                 AnimatorControllerParameterType.Trigger);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "DoubleJump",
                 AnimatorControllerParameterType.Trigger);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "DoubleJumpVariant",
                 AnimatorControllerParameterType.Int);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
+                "DoubleJumpMirror",
+                AnimatorControllerParameterType.Bool);
+
+            AddParameter(
+                controller,
                 "Land",
                 AnimatorControllerParameterType.Trigger);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "SlingStart",
                 AnimatorControllerParameterType.Trigger);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "SlingAir",
                 AnimatorControllerParameterType.Bool);
 
-            controller.AddParameter(
+            AddParameter(
+                controller,
                 "SlingImpact",
                 AnimatorControllerParameterType.Trigger);
         }
@@ -232,238 +357,131 @@ namespace AirflowPrototype.Editor
             AnimatorController controller,
             PlayerHumanoidAnimationProfile profile)
         {
-            AnimatorControllerLayer[] layers =
-                controller.layers;
-
             AnimatorControllerLayer baseLayer =
-                layers[0];
+                controller.layers[0];
 
-            baseLayer.name =
-                "Base Layer";
+            baseLayer.name = "Base Layer";
 
-            AnimatorStateMachine stateMachine =
+            AnimatorStateMachine machine =
                 baseLayer.stateMachine;
 
-            stateMachine.name =
-                "Base Locomotion";
+            machine.name =
+                "Combat Locomotion";
 
             ClearStateMachine(
-                stateMachine);
-
-            AnimationClip idle =
-                MotionOrPlaceholder(
-                    controller,
-                    profile.idle,
-                    "Idle Placeholder");
-
-            AnimationClip walk =
-                MotionOrPlaceholder(
-                    controller,
-                    profile.walk,
-                    "Walk Placeholder");
-
-            AnimationClip run =
-                MotionOrPlaceholder(
-                    controller,
-                    profile.run,
-                    "Run Placeholder");
-
-            BlendTree locomotionTree =
-                new BlendTree
-                {
-                    name = "Locomotion Blend Tree",
-                    blendType =
-                        BlendTreeType.Simple1D,
-                    blendParameter =
-                        "Speed",
-                    useAutomaticThresholds =
-                        false
-                };
-
-            AssetDatabase.AddObjectToAsset(
-                locomotionTree,
-                controller);
-
-            locomotionTree.AddChild(
-                idle,
-                0f);
-
-            locomotionTree.AddChild(
-                walk,
-                profile.walkThreshold);
-
-            locomotionTree.AddChild(
-                run,
-                profile.runThreshold);
+                machine);
 
             AnimatorState locomotion =
-                stateMachine.AddState(
+                machine.AddState(
                     "Locomotion",
                     new Vector3(
-                        260f,
+                        300f,
                         220f,
                         0f));
 
             locomotion.motion =
-                locomotionTree;
-
-            AnimatorState jump =
-                stateMachine.AddState(
-                    "Jump",
-                    new Vector3(
-                        560f,
-                        90f,
-                        0f));
-
-            jump.motion =
-                MotionOrPlaceholder(
+                BuildCombatLocomotionBlendTree(
                     controller,
-                    profile.jump,
-                    "Jump Placeholder");
+                    profile);
 
-            int doubleJumpVariantCount =
-                Mathf.Max(
-                    1,
-                    profile.DoubleJumpVariantCount);
-
-            AnimatorState[] doubleJumpStates =
-                new AnimatorState[
-                    doubleJumpVariantCount];
-
-            for (int i = 0;
-                 i < doubleJumpVariantCount;
-                 i++)
-            {
-                string stateName =
-                    $"Double Jump {i + 1:00}";
-
-                AnimatorState doubleJumpState =
-                    stateMachine.AddState(
-                        stateName,
-                        new Vector3(
-                            650f + i * 70f,
-                            -70f - i * 45f,
-                            0f));
-
-                AnimationClip clip =
-                    profile.GetDoubleJumpVariant(
-                        i);
-
-                doubleJumpState.motion =
-                    MotionOrPlaceholder(
-                        controller,
-                        clip,
-                        $"{stateName} Placeholder");
-
-                doubleJumpStates[i] =
-                    doubleJumpState;
-            }
-
-            AnimatorState fall =
-                stateMachine.AddState(
-                    "Fall",
-                    new Vector3(
-                        820f,
-                        90f,
-                        0f));
-
-            fall.motion =
-                MotionOrPlaceholder(
-                    controller,
-                    profile.fall,
-                    "Fall Placeholder");
-
-            AnimatorState land =
-                stateMachine.AddState(
-                    "Land",
-                    new Vector3(
-                        820f,
-                        300f,
-                        0f));
-
-            land.motion =
-                MotionOrPlaceholder(
-                    controller,
-                    profile.land,
-                    "Land Placeholder");
-
-            stateMachine.defaultState =
+            machine.defaultState =
                 locomotion;
 
+            AnimatorState jump =
+                CreateState(
+                    controller,
+                    machine,
+                    "Jump",
+                    profile.jump,
+                    "Jump Placeholder",
+                    new Vector3(
+                        620f,
+                        20f,
+                        0f));
+
+            AnimatorState fall =
+                CreateState(
+                    controller,
+                    machine,
+                    "Fall",
+                    profile.fall,
+                    "Fall Placeholder",
+                    new Vector3(
+                        880f,
+                        20f,
+                        0f));
+
+            AnimatorState land =
+                CreateState(
+                    controller,
+                    machine,
+                    "Land",
+                    profile.land,
+                    "Land Placeholder",
+                    new Vector3(
+                        880f,
+                        250f,
+                        0f));
+
+            BuildGroundedOneShots(
+                controller,
+                machine,
+                locomotion,
+                profile);
+
+            BuildDoubleJumpStates(
+                controller,
+                machine,
+                profile,
+                jump,
+                fall,
+                locomotion,
+                false);
+
             AnimatorStateTransition jumpTrigger =
-                stateMachine.AddAnyStateTransition(
+                machine.AddAnyStateTransition(
                     jump);
 
             ConfigureImmediateTransition(
                 jumpTrigger,
                 profile.jumpTransitionDuration);
 
-            jumpTrigger.canTransitionToSelf =
-                false;
+            jumpTrigger.canTransitionToSelf = false;
 
             jumpTrigger.AddCondition(
                 AnimatorConditionMode.If,
                 0f,
                 "Jump");
 
-            for (int i = 0;
-                 i < doubleJumpStates.Length;
-                 i++)
-            {
-                AnimatorStateTransition doubleJumpTrigger =
-                    stateMachine.AddAnyStateTransition(
-                        doubleJumpStates[i]);
-
-                // Traversal reward and animation should read as one event.
-                // Zero transition duration prevents a visible boost-before-pose delay.
-                ConfigureImmediateTransition(
-                    doubleJumpTrigger,
-                    0f);
-
-                doubleJumpTrigger.canTransitionToSelf =
-                    true;
-
-                doubleJumpTrigger.AddCondition(
-                    AnimatorConditionMode.If,
-                    0f,
-                    "DoubleJump");
-
-                doubleJumpTrigger.AddCondition(
-                    AnimatorConditionMode.Equals,
-                    i,
-                    "DoubleJumpVariant");
-            }
-
             AnimatorStateTransition landTrigger =
-                stateMachine.AddAnyStateTransition(
+                machine.AddAnyStateTransition(
                     land);
 
             ConfigureImmediateTransition(
                 landTrigger,
                 profile.landTransitionDuration);
 
-            landTrigger.canTransitionToSelf =
-                false;
+            landTrigger.canTransitionToSelf = false;
 
             landTrigger.AddCondition(
                 AnimatorConditionMode.If,
                 0f,
                 "Land");
 
-            AnimatorStateTransition locomotionToRising =
+            AnimatorStateTransition locomotionToJump =
                 locomotion.AddTransition(
                     jump);
 
             ConfigureImmediateTransition(
-                locomotionToRising,
+                locomotionToJump,
                 profile.jumpTransitionDuration);
 
-            locomotionToRising.AddCondition(
+            locomotionToJump.AddCondition(
                 AnimatorConditionMode.IfNot,
                 0f,
                 "Grounded");
 
-            locomotionToRising.AddCondition(
+            locomotionToJump.AddCondition(
                 AnimatorConditionMode.Greater,
                 0.05f,
                 "VerticalSpeed");
@@ -504,127 +522,601 @@ namespace AirflowPrototype.Editor
                 -0.05f,
                 "VerticalSpeed");
 
-            AnimatorStateTransition fallToRising =
+            AnimatorStateTransition fallToJump =
                 fall.AddTransition(
                     jump);
 
             ConfigureImmediateTransition(
-                fallToRising,
+                fallToJump,
                 profile.jumpTransitionDuration);
 
-            fallToRising.AddCondition(
+            fallToJump.AddCondition(
                 AnimatorConditionMode.IfNot,
                 0f,
                 "Grounded");
 
-            fallToRising.AddCondition(
+            fallToJump.AddCondition(
                 AnimatorConditionMode.Greater,
                 0.05f,
                 "VerticalSpeed");
-
-            for (int i = 0;
-                 i < doubleJumpStates.Length;
-                 i++)
-            {
-                AnimatorState doubleJumpState =
-                    doubleJumpStates[i];
-
-                AnimatorStateTransition doubleJumpToJump =
-                    doubleJumpState.AddTransition(
-                        jump);
-
-                doubleJumpToJump.hasExitTime =
-                    true;
-
-                doubleJumpToJump.exitTime =
-                    profile.doubleJumpExitTime;
-
-                doubleJumpToJump.hasFixedDuration =
-                    true;
-
-                doubleJumpToJump.duration =
-                    profile.doubleJumpTransitionDuration;
-
-                doubleJumpToJump.AddCondition(
-                    AnimatorConditionMode.IfNot,
-                    0f,
-                    "Grounded");
-
-                doubleJumpToJump.AddCondition(
-                    AnimatorConditionMode.Greater,
-                    -0.05f,
-                    "VerticalSpeed");
-
-                AnimatorStateTransition doubleJumpToFall =
-                    doubleJumpState.AddTransition(
-                        fall);
-
-                doubleJumpToFall.hasExitTime =
-                    true;
-
-                doubleJumpToFall.exitTime =
-                    profile.doubleJumpExitTime;
-
-                doubleJumpToFall.hasFixedDuration =
-                    true;
-
-                doubleJumpToFall.duration =
-                    profile.doubleJumpTransitionDuration;
-
-                doubleJumpToFall.AddCondition(
-                    AnimatorConditionMode.IfNot,
-                    0f,
-                    "Grounded");
-
-                doubleJumpToFall.AddCondition(
-                    AnimatorConditionMode.Less,
-                    -0.05f,
-                    "VerticalSpeed");
-
-                AnimatorStateTransition doubleJumpToLocomotion =
-                    doubleJumpState.AddTransition(
-                        locomotion);
-
-                doubleJumpToLocomotion.hasExitTime =
-                    true;
-
-                doubleJumpToLocomotion.exitTime =
-                    profile.doubleJumpExitTime;
-
-                doubleJumpToLocomotion.hasFixedDuration =
-                    true;
-
-                doubleJumpToLocomotion.duration =
-                    profile.doubleJumpTransitionDuration;
-
-                doubleJumpToLocomotion.AddCondition(
-                    AnimatorConditionMode.If,
-                    0f,
-                    "Grounded");
-            }
 
             AnimatorStateTransition landToLocomotion =
                 land.AddTransition(
                     locomotion);
 
-            landToLocomotion.hasExitTime =
-                true;
-
+            landToLocomotion.hasExitTime = true;
             landToLocomotion.exitTime =
                 profile.landExitTime;
-
-            landToLocomotion.hasFixedDuration =
-                true;
-
+            landToLocomotion.hasFixedDuration = true;
             landToLocomotion.duration =
                 profile.locomotionTransitionDuration;
+        }
+
+        private static BlendTree BuildCombatLocomotionBlendTree(
+            AnimatorController controller,
+            PlayerHumanoidAnimationProfile profile)
+        {
+            BlendTree tree =
+                new BlendTree
+                {
+                    name =
+                        "Combat Directional Locomotion",
+                    blendType =
+                        BlendTreeType.FreeformCartesian2D,
+                    blendParameter =
+                        "LocomotionDirection",
+                    blendParameterY =
+                        "Speed",
+                    useAutomaticThresholds =
+                        false
+                };
+
+            AssetDatabase.AddObjectToAsset(
+                tree,
+                controller);
+
+            AnimationClip forward =
+                MotionOrPlaceholder(
+                    controller,
+                    profile.runForward,
+                    "Run Forward Placeholder");
+
+            AnimationClip l45 =
+                profile.runForwardLeft45 != null
+                    ? profile.runForwardLeft45
+                    : forward;
+
+            AnimationClip r45 =
+                profile.runForwardRight45 != null
+                    ? profile.runForwardRight45
+                    : forward;
+
+            AnimationClip l90 =
+                profile.runLeft90 != null
+                    ? profile.runLeft90
+                    : l45;
+
+            AnimationClip r90 =
+                profile.runRight90 != null
+                    ? profile.runRight90
+                    : r45;
+
+            AnimationClip leanL =
+                profile.runLeanLeft != null
+                    ? profile.runLeanLeft
+                    : l90;
+
+            AnimationClip leanR =
+                profile.runLeanRight != null
+                    ? profile.runLeanRight
+                    : r90;
+
+            AnimationClip idle =
+                MotionOrPlaceholder(
+                    controller,
+                    profile.idle,
+                    "Idle Placeholder");
+
+            tree.AddChild(
+                idle,
+                new Vector2(
+                    0f,
+                    0f));
+
+            if (profile.walk != null)
+            {
+                tree.AddChild(
+                    profile.walk,
+                    new Vector2(
+                        0f,
+                        profile.walkThreshold));
+            }
+
+            float runY =
+                profile.runThreshold;
+
+            tree.AddChild(
+                forward,
+                new Vector2(
+                    0f,
+                    runY));
+
+            tree.AddChild(
+                l45,
+                new Vector2(
+                    -0.5f,
+                    runY));
+
+            tree.AddChild(
+                r45,
+                new Vector2(
+                    0.5f,
+                    runY));
+
+            tree.AddChild(
+                l90,
+                new Vector2(
+                    -1f,
+                    runY));
+
+            tree.AddChild(
+                r90,
+                new Vector2(
+                    1f,
+                    runY));
+
+            tree.AddChild(
+                leanL,
+                new Vector2(
+                    -1f -
+                    profile.turnLeanBlendExtension,
+                    runY));
+
+            tree.AddChild(
+                leanR,
+                new Vector2(
+                    1f +
+                    profile.turnLeanBlendExtension,
+                    runY));
+
+            return tree;
+        }
+
+        private static void BuildGroundedOneShots(
+            AnimatorController controller,
+            AnimatorStateMachine machine,
+            AnimatorState locomotion,
+            PlayerHumanoidAnimationProfile profile)
+        {
+            AnimationClip startFallback =
+                profile.runStartForward;
+
+            AnimatorState[] starts =
+            {
+                CreateState(
+                    controller,
+                    machine,
+                    "Run Start Forward",
+                    profile.runStartForward,
+                    "Run Start Forward Placeholder",
+                    new Vector3(40f, 10f, 0f)),
+
+                CreateState(
+                    controller,
+                    machine,
+                    "Run Start Left",
+                    profile.runStartLeft != null
+                        ? profile.runStartLeft
+                        : startFallback,
+                    "Run Start Left Placeholder",
+                    new Vector3(40f, 90f, 0f)),
+
+                CreateState(
+                    controller,
+                    machine,
+                    "Run Start Right",
+                    profile.runStartRight != null
+                        ? profile.runStartRight
+                        : startFallback,
+                    "Run Start Right Placeholder",
+                    new Vector3(40f, 170f, 0f)),
+
+                CreateState(
+                    controller,
+                    machine,
+                    "Run Start Back Left",
+                    profile.runStartBackLeft != null
+                        ? profile.runStartBackLeft
+                        : profile.runStartLeft,
+                    "Run Start Back Left Placeholder",
+                    new Vector3(40f, 250f, 0f)),
+
+                CreateState(
+                    controller,
+                    machine,
+                    "Run Start Back Right",
+                    profile.runStartBackRight != null
+                        ? profile.runStartBackRight
+                        : profile.runStartRight,
+                    "Run Start Back Right Placeholder",
+                    new Vector3(40f, 330f, 0f))
+            };
+
+            for (int i = 0; i < starts.Length; i++)
+            {
+                AnimatorStateTransition enter =
+                    machine.AddAnyStateTransition(
+                        starts[i]);
+
+                ConfigureImmediateTransition(
+                    enter,
+                    profile.locomotionTransitionDuration);
+
+                enter.canTransitionToSelf = false;
+
+                enter.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "RunStart");
+
+                enter.AddCondition(
+                    AnimatorConditionMode.Equals,
+                    i,
+                    "RunStartDirection");
+
+                enter.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "Grounded");
+
+                AnimatorStateTransition exit =
+                    starts[i].AddTransition(
+                        locomotion);
+
+                exit.hasExitTime = true;
+                exit.exitTime =
+                    profile.runStartExitTime;
+                exit.hasFixedDuration = true;
+                exit.duration =
+                    profile.locomotionTransitionDuration;
+            }
+
+            AnimatorState stop =
+                CreateState(
+                    controller,
+                    machine,
+                    "Run Stop",
+                    profile.runStop,
+                    "Run Stop Placeholder",
+                    new Vector3(
+                        300f,
+                        420f,
+                        0f));
+
+            AnimatorStateTransition stopEnter =
+                machine.AddAnyStateTransition(
+                    stop);
+
+            ConfigureImmediateTransition(
+                stopEnter,
+                profile.locomotionTransitionDuration);
+
+            stopEnter.canTransitionToSelf = false;
+
+            stopEnter.AddCondition(
+                AnimatorConditionMode.If,
+                0f,
+                "RunStop");
+
+            stopEnter.AddCondition(
+                AnimatorConditionMode.If,
+                0f,
+                "Grounded");
+
+            AnimatorStateTransition stopExit =
+                stop.AddTransition(
+                    locomotion);
+
+            stopExit.hasExitTime = true;
+            stopExit.exitTime =
+                profile.runStopExitTime;
+            stopExit.hasFixedDuration = true;
+            stopExit.duration =
+                profile.locomotionTransitionDuration;
+
+            AnimatorStateTransition stopInterrupted =
+                stop.AddTransition(
+                    locomotion);
+
+            ConfigureImmediateTransition(
+                stopInterrupted,
+                profile.locomotionTransitionDuration);
+
+            stopInterrupted.AddCondition(
+                AnimatorConditionMode.If,
+                0f,
+                "HasMoveInput");
+
+            AnimatorState turnLeft =
+                CreateState(
+                    controller,
+                    machine,
+                    "Hard Turn Left",
+                    profile.runTurnLeft,
+                    "Hard Turn Left Placeholder",
+                    new Vector3(
+                        520f,
+                        420f,
+                        0f));
+
+            AnimatorState turnRight =
+                CreateState(
+                    controller,
+                    machine,
+                    "Hard Turn Right",
+                    profile.runTurnRight,
+                    "Hard Turn Right Placeholder",
+                    new Vector3(
+                        720f,
+                        420f,
+                        0f));
+
+            AnimatorState[] turns =
+            {
+                turnLeft,
+                turnRight
+            };
+
+            for (int i = 0; i < turns.Length; i++)
+            {
+                AnimatorStateTransition enter =
+                    machine.AddAnyStateTransition(
+                        turns[i]);
+
+                ConfigureImmediateTransition(
+                    enter,
+                    profile.locomotionTransitionDuration);
+
+                enter.canTransitionToSelf = false;
+
+                enter.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "HardTurn");
+
+                enter.AddCondition(
+                    AnimatorConditionMode.Equals,
+                    i,
+                    "HardTurnDirection");
+
+                enter.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "Grounded");
+
+                AnimatorStateTransition exit =
+                    turns[i].AddTransition(
+                        locomotion);
+
+                exit.hasExitTime = true;
+                exit.exitTime =
+                    profile.runTurnExitTime;
+                exit.hasFixedDuration = true;
+                exit.duration =
+                    profile.locomotionTransitionDuration;
+            }
+        }
+
+        private static void BuildDoubleJumpStates(
+            AnimatorController controller,
+            AnimatorStateMachine machine,
+            PlayerHumanoidAnimationProfile profile,
+            AnimatorState jump,
+            AnimatorState fall,
+            AnimatorState groundedReturn,
+            bool slingLayer)
+        {
+            int count =
+                Mathf.Max(
+                    1,
+                    profile.DoubleJumpVariantCount);
+
+            for (int i = 0; i < count; i++)
+            {
+                AnimationClip clip =
+                    profile.GetDoubleJumpVariant(
+                        i);
+
+                AnimatorState normal =
+                    CreateState(
+                        controller,
+                        machine,
+                        slingLayer
+                            ? $"Sling Double Jump {i + 1:00}"
+                            : $"Double Jump {i + 1:00}",
+                        clip,
+                        $"Double Jump {i + 1:00} Placeholder",
+                        new Vector3(
+                            650f + i * 75f,
+                            slingLayer
+                                ? 300f + i * 40f
+                                : -120f - i * 40f,
+                            0f));
+
+                AnimatorState mirrored =
+                    CreateState(
+                        controller,
+                        machine,
+                        slingLayer
+                            ? $"Sling Double Jump {i + 1:00} Mirrored"
+                            : $"Double Jump {i + 1:00} Mirrored",
+                        clip,
+                        $"Double Jump {i + 1:00} Mirrored Placeholder",
+                        new Vector3(
+                            650f + i * 75f,
+                            slingLayer
+                                ? 500f + i * 40f
+                                : -300f - i * 40f,
+                            0f));
+
+                mirrored.mirror = true;
+
+                if (slingLayer)
+                {
+                    normal.tag = "SlingDoubleJump";
+                    mirrored.tag = "SlingDoubleJump";
+                }
+
+                AddDoubleJumpEnterTransition(
+                    machine,
+                    normal,
+                    i,
+                    false);
+
+                AddDoubleJumpEnterTransition(
+                    machine,
+                    mirrored,
+                    i,
+                    true);
+
+                if (slingLayer)
+                {
+                    AddExitTimeTransition(
+                        normal,
+                        groundedReturn,
+                        profile.doubleJumpExitTime,
+                        profile.doubleJumpTransitionDuration);
+
+                    AddExitTimeTransition(
+                        mirrored,
+                        groundedReturn,
+                        profile.doubleJumpExitTime,
+                        profile.doubleJumpTransitionDuration);
+
+                    continue;
+                }
+
+                AddAirborneDoubleJumpExits(
+                    normal,
+                    jump,
+                    fall,
+                    groundedReturn,
+                    profile);
+
+                AddAirborneDoubleJumpExits(
+                    mirrored,
+                    jump,
+                    fall,
+                    groundedReturn,
+                    profile);
+            }
+        }
+
+        private static void AddDoubleJumpEnterTransition(
+            AnimatorStateMachine machine,
+            AnimatorState state,
+            int variant,
+            bool mirrored)
+        {
+            AnimatorStateTransition enter =
+                machine.AddAnyStateTransition(
+                    state);
+
+            ConfigureImmediateTransition(
+                enter,
+                0f);
+
+            enter.canTransitionToSelf = true;
+
+            enter.AddCondition(
+                AnimatorConditionMode.If,
+                0f,
+                "DoubleJump");
+
+            enter.AddCondition(
+                AnimatorConditionMode.Equals,
+                variant,
+                "DoubleJumpVariant");
+
+            enter.AddCondition(
+                mirrored
+                    ? AnimatorConditionMode.If
+                    : AnimatorConditionMode.IfNot,
+                0f,
+                "DoubleJumpMirror");
+        }
+
+        private static void AddAirborneDoubleJumpExits(
+            AnimatorState state,
+            AnimatorState jump,
+            AnimatorState fall,
+            AnimatorState locomotion,
+            PlayerHumanoidAnimationProfile profile)
+        {
+            AnimatorStateTransition toJump =
+                state.AddTransition(
+                    jump);
+
+            toJump.hasExitTime = true;
+            toJump.exitTime =
+                profile.doubleJumpExitTime;
+            toJump.hasFixedDuration = true;
+            toJump.duration =
+                profile.doubleJumpTransitionDuration;
+
+            toJump.AddCondition(
+                AnimatorConditionMode.IfNot,
+                0f,
+                "Grounded");
+
+            toJump.AddCondition(
+                AnimatorConditionMode.Greater,
+                -0.05f,
+                "VerticalSpeed");
+
+            AnimatorStateTransition toFall =
+                state.AddTransition(
+                    fall);
+
+            toFall.hasExitTime = true;
+            toFall.exitTime =
+                profile.doubleJumpExitTime;
+            toFall.hasFixedDuration = true;
+            toFall.duration =
+                profile.doubleJumpTransitionDuration;
+
+            toFall.AddCondition(
+                AnimatorConditionMode.IfNot,
+                0f,
+                "Grounded");
+
+            toFall.AddCondition(
+                AnimatorConditionMode.Less,
+                -0.05f,
+                "VerticalSpeed");
+
+            AnimatorStateTransition toGround =
+                state.AddTransition(
+                    locomotion);
+
+            toGround.hasExitTime = true;
+            toGround.exitTime =
+                profile.doubleJumpExitTime;
+            toGround.hasFixedDuration = true;
+            toGround.duration =
+                profile.doubleJumpTransitionDuration;
+
+            toGround.AddCondition(
+                AnimatorConditionMode.If,
+                0f,
+                "Grounded");
         }
 
         private static void BuildSlingLayer(
             AnimatorController controller,
             PlayerHumanoidAnimationProfile profile)
         {
-            AnimatorStateMachine stateMachine =
+            AnimatorStateMachine machine =
                 new AnimatorStateMachine
                 {
                     name =
@@ -632,7 +1124,7 @@ namespace AirflowPrototype.Editor
                 };
 
             AssetDatabase.AddObjectToAsset(
-                stateMachine,
+                machine,
                 controller);
 
             AnimatorControllerLayer layer =
@@ -643,119 +1135,60 @@ namespace AirflowPrototype.Editor
                     blendingMode =
                         AnimatorLayerBlendingMode.Override,
                     stateMachine =
-                        stateMachine
+                        machine
                 };
 
             controller.AddLayer(
                 layer);
 
             AnimatorState empty =
-                stateMachine.AddState(
-                    "Sling Empty",
-                    new Vector3(
-                        120f,
-                        260f,
-                        0f));
-
-            empty.motion =
-                MotionOrPlaceholder(
+                CreateState(
                     controller,
+                    machine,
+                    "Sling Empty",
                     null,
-                    "Sling Empty Placeholder");
+                    "Sling Empty Placeholder",
+                    new Vector3(100f, 200f, 0f));
 
             AnimatorState start =
-                stateMachine.AddState(
-                    "Sling Start",
-                    new Vector3(
-                        360f,
-                        100f,
-                        0f));
-
-            start.motion =
-                MotionOrPlaceholder(
+                CreateState(
                     controller,
+                    machine,
+                    "Sling Start",
                     profile.slingStart,
-                    "Sling Start Placeholder");
+                    "Sling Start Placeholder",
+                    new Vector3(350f, 80f, 0f));
 
             AnimatorState air =
-                stateMachine.AddState(
-                    "Sling Air",
-                    new Vector3(
-                        620f,
-                        100f,
-                        0f));
-
-            air.motion =
-                MotionOrPlaceholder(
+                CreateState(
                     controller,
+                    machine,
+                    "Sling Air",
                     profile.slingAir,
-                    "Sling Air Placeholder");
+                    "Sling Air Placeholder",
+                    new Vector3(600f, 80f, 0f));
 
             AnimatorState impact =
-                stateMachine.AddState(
-                    "Sling Impact",
-                    new Vector3(
-                        880f,
-                        100f,
-                        0f));
-
-            impact.motion =
-                MotionOrPlaceholder(
+                CreateState(
                     controller,
+                    machine,
+                    "Sling Impact",
                     profile.slingImpact,
-                    "Sling Impact Placeholder");
+                    "Sling Impact Placeholder",
+                    new Vector3(850f, 80f, 0f));
 
-            int doubleJumpVariantCount =
-                Mathf.Max(
-                    1,
-                    profile.DoubleJumpVariantCount);
-
-            AnimatorState[] slingDoubleJumpStates =
-                new AnimatorState[
-                    doubleJumpVariantCount];
-
-            for (int i = 0;
-                 i < doubleJumpVariantCount;
-                 i++)
-            {
-                string stateName =
-                    $"Sling Double Jump {i + 1:00}";
-
-                AnimatorState doubleJumpState =
-                    stateMachine.AddState(
-                        stateName,
-                        new Vector3(
-                            880f + i * 70f,
-                            280f + i * 45f,
-                            0f));
-
-                doubleJumpState.motion =
-                    MotionOrPlaceholder(
-                        controller,
-                        profile.GetDoubleJumpVariant(
-                            i),
-                        $"{stateName} Placeholder");
-
-                doubleJumpState.tag =
-                    "SlingDoubleJump";
-
-                slingDoubleJumpStates[i] =
-                    doubleJumpState;
-            }
-
-            stateMachine.defaultState =
+            machine.defaultState =
                 empty;
 
             AnimatorStateTransition startTrigger =
-                stateMachine.AddAnyStateTransition(
+                machine.AddAnyStateTransition(
                     start);
 
             ConfigureImmediateTransition(
                 startTrigger,
                 profile.slingTransitionDuration);
 
-            startTrigger.canTransitionToSelf =
-                true;
+            startTrigger.canTransitionToSelf = true;
 
             startTrigger.AddCondition(
                 AnimatorConditionMode.If,
@@ -776,97 +1209,61 @@ namespace AirflowPrototype.Editor
                 "SlingAir");
 
             AnimatorStateTransition impactTrigger =
-                stateMachine.AddAnyStateTransition(
+                machine.AddAnyStateTransition(
                     impact);
 
             ConfigureImmediateTransition(
                 impactTrigger,
                 profile.slingTransitionDuration);
 
-            impactTrigger.canTransitionToSelf =
-                true;
+            impactTrigger.canTransitionToSelf = true;
 
             impactTrigger.AddCondition(
                 AnimatorConditionMode.If,
                 0f,
                 "SlingImpact");
 
-            for (int i = 0;
-                 i < slingDoubleJumpStates.Length;
-                 i++)
-            {
-                AnimatorStateTransition doubleJumpTrigger =
-                    stateMachine.AddAnyStateTransition(
-                        slingDoubleJumpStates[i]);
-
-                ConfigureImmediateTransition(
-                    doubleJumpTrigger,
-                    0f);
-
-                doubleJumpTrigger.canTransitionToSelf =
-                    true;
-
-                doubleJumpTrigger.AddCondition(
-                    AnimatorConditionMode.If,
-                    0f,
-                    "DoubleJump");
-
-                doubleJumpTrigger.AddCondition(
-                    AnimatorConditionMode.Equals,
-                    i,
-                    "DoubleJumpVariant");
-
-                AnimatorStateTransition doubleJumpToEmpty =
-                    slingDoubleJumpStates[i]
-                        .AddTransition(
-                            empty);
-
-                doubleJumpToEmpty.hasExitTime =
-                    true;
-
-                doubleJumpToEmpty.exitTime =
-                    profile.doubleJumpExitTime;
-
-                doubleJumpToEmpty.hasFixedDuration =
-                    true;
-
-                doubleJumpToEmpty.duration =
-                    profile.doubleJumpTransitionDuration;
-            }
-
             AnimatorStateTransition impactToEmpty =
                 impact.AddTransition(
                     empty);
 
-            impactToEmpty.hasExitTime =
-                true;
-
+            impactToEmpty.hasExitTime = true;
             impactToEmpty.exitTime =
                 profile.slingImpactExitTime;
-
-            impactToEmpty.hasFixedDuration =
-                true;
-
+            impactToEmpty.hasFixedDuration = true;
             impactToEmpty.duration =
                 profile.slingTransitionDuration;
+
+            BuildDoubleJumpStates(
+                controller,
+                machine,
+                profile,
+                null,
+                null,
+                empty,
+                true);
         }
 
-        private static void ConfigureImmediateTransition(
-            AnimatorStateTransition transition,
-            float duration)
+        private static AnimatorState CreateState(
+            AnimatorController controller,
+            AnimatorStateMachine machine,
+            string name,
+            AnimationClip clip,
+            string placeholderName,
+            Vector3 position)
         {
-            transition.hasExitTime =
-                false;
+            AnimatorState state =
+                machine.AddState(
+                    name,
+                    position);
 
-            transition.hasFixedDuration =
-                true;
+            state.motion =
+                MotionOrPlaceholder(
+                    controller,
+                    clip,
+                    placeholderName);
 
-            transition.duration =
-                Mathf.Max(
-                    0f,
-                    duration);
-
-            transition.offset = 0f;
+            return state;
         }
 
         private static AnimationClip MotionOrPlaceholder(
@@ -891,11 +1288,171 @@ namespace AirflowPrototype.Editor
             return placeholder;
         }
 
+        private static void AddExitTimeTransition(
+            AnimatorState from,
+            AnimatorState to,
+            float exitTime,
+            float duration)
+        {
+            AnimatorStateTransition transition =
+                from.AddTransition(
+                    to);
+
+            transition.hasExitTime = true;
+            transition.exitTime =
+                exitTime;
+            transition.hasFixedDuration = true;
+            transition.duration =
+                duration;
+        }
+
+        private static void ConfigureImmediateTransition(
+            AnimatorStateTransition transition,
+            float duration)
+        {
+            transition.hasExitTime = false;
+            transition.hasFixedDuration = true;
+            transition.duration =
+                Mathf.Max(
+                    0f,
+                    duration);
+            transition.offset = 0f;
+        }
+
+        private static void AddParameter(
+            AnimatorController controller,
+            string name,
+            AnimatorControllerParameterType type)
+        {
+            controller.AddParameter(
+                name,
+                type);
+        }
+
+        private static Dictionary<string, AnimationClip>
+            FindAnimationClipsByName()
+        {
+            Dictionary<string, AnimationClip> result =
+                new Dictionary<string, AnimationClip>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            string[] guids =
+                AssetDatabase.FindAssets(
+                    "t:AnimationClip");
+
+            for (int i = 0;
+                 i < guids.Length;
+                 i++)
+            {
+                string path =
+                    AssetDatabase.GUIDToAssetPath(
+                        guids[i]);
+
+                // Ignore source-import folders named exactly "FBX".
+                // The user keeps humanoid-converted animation assets elsewhere,
+                // and auto-fill should never grab the raw FBX versions.
+                if (HasParentFolderNamed(
+                        path,
+                        "FBX"))
+                {
+                    continue;
+                }
+
+                UnityEngine.Object[] assets =
+                    AssetDatabase.LoadAllAssetsAtPath(
+                        path);
+
+                for (int j = 0;
+                     j < assets.Length;
+                     j++)
+                {
+                    if (assets[j] is AnimationClip clip &&
+                        !result.ContainsKey(
+                            clip.name))
+                    {
+                        result.Add(
+                            clip.name,
+                            clip);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static bool HasParentFolderNamed(
+            string assetPath,
+            string folderName)
+        {
+            if (string.IsNullOrWhiteSpace(
+                    assetPath) ||
+                string.IsNullOrWhiteSpace(
+                    folderName))
+            {
+                return false;
+            }
+
+            string normalized =
+                assetPath.Replace(
+                    "\\",
+                    "/");
+
+            int lastSlash =
+                normalized.LastIndexOf(
+                    '/');
+
+            if (lastSlash <= 0)
+                return false;
+
+            string parentPath =
+                normalized.Substring(
+                    0,
+                    lastSlash);
+
+            string[] segments =
+                parentPath.Split(
+                    '/');
+
+            for (int i = 0;
+                 i < segments.Length;
+                 i++)
+            {
+                if (string.Equals(
+                        segments[i],
+                        folderName,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool AssignIfEmpty(
+            ref AnimationClip field,
+            Dictionary<string, AnimationClip> clips,
+            string clipName)
+        {
+            if (field != null)
+                return false;
+
+            if (!clips.TryGetValue(
+                    clipName,
+                    out AnimationClip clip))
+            {
+                return false;
+            }
+
+            field = clip;
+            return true;
+        }
+
         private static void ClearStateMachine(
-            AnimatorStateMachine stateMachine)
+            AnimatorStateMachine machine)
         {
             ChildAnimatorState[] states =
-                stateMachine.states;
+                machine.states;
 
             for (int i =
                      states.Length - 1;
@@ -904,13 +1461,13 @@ namespace AirflowPrototype.Editor
             {
                 if (states[i].state != null)
                 {
-                    stateMachine.RemoveState(
+                    machine.RemoveState(
                         states[i].state);
                 }
             }
 
             ChildAnimatorStateMachine[] childMachines =
-                stateMachine.stateMachines;
+                machine.stateMachines;
 
             for (int i =
                      childMachines.Length - 1;
@@ -919,7 +1476,7 @@ namespace AirflowPrototype.Editor
             {
                 if (childMachines[i].stateMachine != null)
                 {
-                    stateMachine.RemoveStateMachine(
+                    machine.RemoveStateMachine(
                         childMachines[i].stateMachine);
                 }
             }
@@ -945,19 +1502,15 @@ namespace AirflowPrototype.Editor
                 System.IO.Path.GetFileName(
                     path);
 
-            if (string.IsNullOrEmpty(
-                    parent) ||
-                string.IsNullOrEmpty(
-                    name))
+            if (string.IsNullOrEmpty(parent) ||
+                string.IsNullOrEmpty(name))
             {
                 return;
             }
 
-            EnsureFolder(
-                parent);
+            EnsureFolder(parent);
 
-            if (!AssetDatabase.IsValidFolder(
-                    path))
+            if (!AssetDatabase.IsValidFolder(path))
             {
                 AssetDatabase.CreateFolder(
                     parent,

@@ -12,21 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99359c5c4feb4f041b341d1e378228e4, type: 3}
   m_Name: Batch19_PlayerAnimationProfile
   m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerHumanoidAnimationProfile
-  idle: {fileID: 7400000, guid: 6e2a16a2d2ff48f4c8e1ac679382aecb, type: 2}
+  idle: {fileID: 7400000, guid: c9b19a997ba8dbc47adb552f20fe17a6, type: 2}
   walk: {fileID: 7400000, guid: e20f9eabacb4a424b9fd6f3c1f5ae2a7, type: 2}
-  run: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
+  runForward: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
+  runForwardLeft45: {fileID: 7400000, guid: 3d1f9189232de034eaae77b97ae2a601, type: 2}
+  runForwardRight45: {fileID: 7400000, guid: 71ba40dc5d5dea8429c3608d5b5b9872, type: 2}
+  runLeft90: {fileID: 7400000, guid: aab6444da20457a4a948e90367463ead, type: 2}
+  runRight90: {fileID: 7400000, guid: 118291a88d312334ba82114de8a44eb5, type: 2}
+  runLeanLeft: {fileID: 7400000, guid: d2d69f2ad5b13b246bcea2f21a44ae77, type: 2}
+  runLeanRight: {fileID: 7400000, guid: 30371f4a319de9c4badd3afd0776eb4e, type: 2}
+  runStartForward: {fileID: 7400000, guid: 1a90023c06ede874e952a3c7b225a877, type: 2}
+  runStartLeft: {fileID: 7400000, guid: 5f56157a47818f346be1a8cd8f46899a, type: 2}
+  runStartRight: {fileID: 7400000, guid: b9d6a9c4e5606e445b44d08381aa5870, type: 2}
+  runStartBackLeft: {fileID: 7400000, guid: 5003d20829c2a2e419df168cbc2caa63, type: 2}
+  runStartBackRight: {fileID: 7400000, guid: 6a106be8cbfbf39469a4c5df0f6db06e, type: 2}
+  runStop: {fileID: 7400000, guid: e55e01369be72f7438d363b2d6fc3773, type: 2}
+  runTurnLeft: {fileID: 7400000, guid: 6be417ef858cfca4984c5554091f3986, type: 2}
+  runTurnRight: {fileID: 7400000, guid: a5f2d7a106289da4baeb3ced70113396, type: 2}
   jump: {fileID: 7400000, guid: 58dbac6cff2a89b49b00780f529665d0, type: 2}
   doubleJumps:
   - {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
   doubleJump: {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
+  doubleJumpMirrorChancePercent: 0
   fall: {fileID: 7400000, guid: fae80757d6e3e2c4fa5e5000a0dc1e5a, type: 2}
   land: {fileID: 7400000, guid: 67a33a2badba34a4f8b4784d88f72b7f, type: 2}
   slingStart: {fileID: 0}
   slingAir: {fileID: 7400000, guid: 1005921774b245f4bb59b1a34983a4b2, type: 2}
   slingImpact: {fileID: 7400000, guid: 27997fec0f45f0d4f9043f1c8215f191, type: 2}
-  walkThreshold: 0.35
+  walkThreshold: 0.116
   runThreshold: 1
-  locomotionTransitionDuration: 0.08
+  turnLeanBlendExtension: 0.157
+  turnRateForFullLean: 240
+  moveInputDeadzone: 0.12
+  startMaximumSpeed: 3
+  stopMinimumSpeed: 2.2
+  hardTurnAngle: 112
+  hardTurnMinimumSpeed: 4
+  hardTurnCooldown: 0.45
+  forwardStartHalfAngle: 32
+  backwardStartAngle: 112
+  runStartExitTime: 0.72
+  runStopExitTime: 0.62
+  runTurnExitTime: 0.72
+  locomotionTransitionDuration: 0.239
   jumpTransitionDuration: 0.05
   fallTransitionDuration: 0.08
   doubleJumpTransitionDuration: 0
@@ -35,4 +63,5 @@ MonoBehaviour:
   doubleJumpExitTime: 0.86
   landExitTime: 0.82
   slingImpactExitTime: 1
-  profileVersion: 194
+  run: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
+  profileVersion: 196

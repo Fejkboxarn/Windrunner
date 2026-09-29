@@ -9,12 +9,37 @@ namespace AirflowPrototype.Editor
     {
         public override void OnInspectorGUI()
         {
+            PlayerHumanoidAnimationProfile profile =
+                target as PlayerHumanoidAnimationProfile;
+
             EditorGUILayout.HelpBox(
-                "Drag animation clips into the slots below. Expand Double Jumps and set " +
-                "the list size to however many random aerial flourish clips you want. " +
-                "The generated player Animator Controller rebuilds automatically. " +
-                "Do not hand-edit the generated controller; use this profile as the source of truth.",
+                "This profile is the source of truth for the generated player Animator. " +
+                "Assign clips here rather than hand-editing the generated controller.",
                 MessageType.Info);
+
+            if (GUILayout.Button(
+                    "Auto-Fill Combat Run Clips By Name"))
+            {
+                bool changed =
+                    PlayerHumanoidAnimatorControllerBuilder
+                        .AutoFillKnownCombatRunClips(
+                            profile);
+
+                if (changed)
+                {
+                    PlayerHumanoidAnimatorControllerBuilder
+                        .Rebuild(
+                            profile);
+                }
+
+                Debug.Log(
+                    changed
+                        ? "Filled empty combat-run animation slots from the known Run_Combat_Fast clip names."
+                        : "No empty known combat-run slots could be filled. Make sure the clips are imported into this Unity project.",
+                    profile);
+            }
+
+            EditorGUILayout.Space();
 
             EditorGUI.BeginChangeCheck();
 
@@ -22,10 +47,6 @@ namespace AirflowPrototype.Editor
 
             if (EditorGUI.EndChangeCheck())
             {
-                PlayerHumanoidAnimationProfile profile =
-                    target
-                        as PlayerHumanoidAnimationProfile;
-
                 if (profile != null)
                 {
                     EditorApplication.delayCall +=
@@ -46,10 +67,6 @@ namespace AirflowPrototype.Editor
             if (GUILayout.Button(
                     "Rebuild Generated Animator Now"))
             {
-                PlayerHumanoidAnimationProfile profile =
-                    target
-                        as PlayerHumanoidAnimationProfile;
-
                 PlayerHumanoidAnimatorControllerBuilder
                     .Rebuild(
                         profile);
@@ -58,9 +75,13 @@ namespace AirflowPrototype.Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.HelpBox(
-                "Recommended import setup: Idle/Walk/Run/Fall/Sling Air should generally loop. " +
-                "Jump/Double Jump/Land/Sling Start/Sling Impact should generally be non-looping. " +
-                "Root Motion should stay off because PlayerMotor owns movement.",
+                "Combat run mapping: Forward / L45 / R45 / L90 / R90 blend by actual travel direction. " +
+                "Lean L/R are used at the extreme ends during sharper curved turning. " +
+                "Starts, Stop and Hard Turn L/R are authored one-shot states.\n\n" +
+                "Double Jumps: add any number of clips to the list and set Double Jump Mirror Chance Percent. " +
+                "The chosen clip is randomly mirrored at that percentage.\n\n" +
+                "Recommended import setup: run loops and Sling Air loop; starts, stop, turns, jump, double jumps, " +
+                "land, Sling Start and Sling Impact should generally be non-looping. Root Motion stays off.",
                 MessageType.None);
         }
     }

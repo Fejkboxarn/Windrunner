@@ -8,28 +8,53 @@ namespace AirflowPrototype
     {
         [Header("References")]
         [SerializeField] private PlayerMotor motor;
+        [SerializeField] private PlayerInputReader input;
         [SerializeField] private PlayerMovementVisuals movementVisuals;
         [SerializeField] private AirSlingController slingController;
         [SerializeField] private Animator animator;
+        [SerializeField] private Camera movementCamera;
 
-        [Header("Base Locomotion Parameters")]
+        [Header("Animator Parameters")]
         [SerializeField] private string speedFloatParameter = "Speed";
         [SerializeField] private string groundedBoolParameter = "Grounded";
         [SerializeField] private string verticalSpeedFloatParameter = "VerticalSpeed";
+        [SerializeField] private string locomotionDirectionFloatParameter = "LocomotionDirection";
+        [SerializeField] private string hasMoveInputBoolParameter = "HasMoveInput";
+
+        [SerializeField] private string runStartTriggerParameter = "RunStart";
+        [SerializeField] private string runStartDirectionIntParameter = "RunStartDirection";
+        [SerializeField] private string runStopTriggerParameter = "RunStop";
+        [SerializeField] private string hardTurnTriggerParameter = "HardTurn";
+        [SerializeField] private string hardTurnDirectionIntParameter = "HardTurnDirection";
+
         [SerializeField] private string jumpTriggerParameter = "Jump";
         [SerializeField] private string doubleJumpTriggerParameter = "DoubleJump";
         [SerializeField] private string doubleJumpVariantIntParameter = "DoubleJumpVariant";
+        [SerializeField] private string doubleJumpMirrorBoolParameter = "DoubleJumpMirror";
         [SerializeField] private string landTriggerParameter = "Land";
 
-        [Tooltip(
-            "Player horizontal speed that writes 1.0 into the Speed parameter.")]
+        [Header("Speed Normalization")]
         [Min(0.1f)]
         [SerializeField] private float speedForFullRun = 8.5f;
 
-        [Tooltip(
-            "Allows values above 1 so a controller can optionally react to dash speed.")]
         [Min(1f)]
         [SerializeField] private float maximumNormalizedSpeed = 1.35f;
+
+        [Header("Generated Locomotion Tuning")]
+        [SerializeField, HideInInspector] private float moveInputDeadzone = 0.12f;
+        [SerializeField, HideInInspector] private float startMaximumSpeed = 3f;
+        [SerializeField, HideInInspector] private float stopMinimumSpeed = 2.2f;
+        [SerializeField, HideInInspector] private float hardTurnAngle = 112f;
+        [SerializeField, HideInInspector] private float hardTurnMinimumSpeed = 4f;
+        [SerializeField, HideInInspector] private float hardTurnCooldown = 0.45f;
+        [SerializeField, HideInInspector] private float forwardStartHalfAngle = 32f;
+        [SerializeField, HideInInspector] private float backwardStartAngle = 112f;
+        [SerializeField, HideInInspector] private float turnLeanBlendExtension = 0.5f;
+        [SerializeField, HideInInspector] private float turnRateForFullLean = 240f;
+
+        [Header("Generated Double Jump Tuning")]
+        [SerializeField, HideInInspector] private int doubleJumpVariantCount = 1;
+        [SerializeField, HideInInspector] private float doubleJumpMirrorChancePercent = 35f;
 
         [Header("Sling Parameters")]
         [SerializeField] private string slingStartTriggerParameter = "SlingStart";
@@ -47,15 +72,11 @@ namespace AirflowPrototype
         [SerializeField] private float slingLayerBlendOutResponse = 12f;
 
         [Header("Sling Impact Visibility")]
-        [Tooltip(
-            "Safety timeout only. Normally the Sling layer remains fully weighted " +
-            "until the generated Sling Impact state actually exits.")]
         [Min(0.2f)]
         [SerializeField] private float slingImpactLayerFailSafeDuration = 1.5f;
 
         private static readonly int SlingImpactStateHash =
-            Animator.StringToHash(
-                "Sling Impact");
+            Animator.StringToHash("Sling Impact");
 
         private readonly HashSet<int> _floatParameters =
             new HashSet<int>();
@@ -72,10 +93,12 @@ namespace AirflowPrototype
         private int _slingLayerIndex = -1;
         private float _slingLayerTargetWeight;
 
-        [SerializeField, HideInInspector]
-        private int doubleJumpVariantCount = 1;
-
         private int _lastDoubleJumpVariant = -1;
+
+        private bool _hadMoveInput;
+        private float _hardTurnCooldownRemaining;
+        private Vector3 _lastAnimatorForward;
+        private bool _hasLastAnimatorForward;
 
         private bool _waitingForSlingImpactLayerRelease;
         private bool _slingImpactStateObserved;
@@ -83,8 +106,7 @@ namespace AirflowPrototype
 
         private bool _subscribed;
 
-        public Animator Animator =>
-            animator;
+        public Animator Animator => animator;
 
         public bool HasAuthoredDoubleJump
         {
@@ -97,13 +119,65 @@ namespace AirflowPrototype
                     return false;
                 }
 
-                int hash =
+                return _triggerParameters.Contains(
                     Animator.StringToHash(
-                        doubleJumpTriggerParameter);
+                        doubleJumpTriggerParameter));
+            }
+        }
 
-                return
-                    _triggerParameters.Contains(
-                        hash);
+        public void ApplyGeneratedProfileSettings(
+            PlayerHumanoidAnimationProfile profile)
+        {
+            if (profile == null)
+                return;
+
+            profile.EnsureCurrentDefaults();
+
+            doubleJumpVariantCount =
+                Mathf.Max(
+                    1,
+                    profile.DoubleJumpVariantCount);
+
+            doubleJumpMirrorChancePercent =
+                Mathf.Clamp(
+                    profile.doubleJumpMirrorChancePercent,
+                    0f,
+                    100f);
+
+            moveInputDeadzone =
+                profile.moveInputDeadzone;
+
+            startMaximumSpeed =
+                profile.startMaximumSpeed;
+
+            stopMinimumSpeed =
+                profile.stopMinimumSpeed;
+
+            hardTurnAngle =
+                profile.hardTurnAngle;
+
+            hardTurnMinimumSpeed =
+                profile.hardTurnMinimumSpeed;
+
+            hardTurnCooldown =
+                profile.hardTurnCooldown;
+
+            forwardStartHalfAngle =
+                profile.forwardStartHalfAngle;
+
+            backwardStartAngle =
+                profile.backwardStartAngle;
+
+            turnLeanBlendExtension =
+                profile.turnLeanBlendExtension;
+
+            turnRateForFullLean =
+                profile.turnRateForFullLean;
+
+            if (_lastDoubleJumpVariant >=
+                doubleJumpVariantCount)
+            {
+                _lastDoubleJumpVariant = -1;
             }
         }
 
@@ -135,6 +209,7 @@ namespace AirflowPrototype
             slingController = newSlingController;
             animator = newAnimator;
 
+            ResolveReferences();
             RefreshAnimatorCache();
 
             if (isActiveAndEnabled)
@@ -145,12 +220,14 @@ namespace AirflowPrototype
         {
             ResolveReferences();
             RefreshAnimatorCache();
+            CaptureAnimatorForward();
         }
 
         private void OnEnable()
         {
             ResolveReferences();
             RefreshAnimatorCache();
+            CaptureAnimatorForward();
             Subscribe();
         }
 
@@ -167,6 +244,10 @@ namespace AirflowPrototype
             _waitingForSlingImpactLayerRelease = false;
             _slingImpactStateObserved = false;
             _slingImpactLayerHoldElapsed = 0f;
+
+            _hadMoveInput = false;
+            _hardTurnCooldownRemaining = 0f;
+            _hasLastAnimatorForward = false;
 
             if (animator != null &&
                 _slingLayerIndex >= 0)
@@ -191,6 +272,19 @@ namespace AirflowPrototype
                 }
             }
 
+            float dt =
+                Mathf.Max(
+                    0.0001f,
+                    Time.deltaTime);
+
+            if (_hardTurnCooldownRemaining > 0f)
+            {
+                _hardTurnCooldownRemaining =
+                    Mathf.Max(
+                        0f,
+                        _hardTurnCooldownRemaining - dt);
+            }
+
             float normalizedSpeed =
                 Mathf.Clamp(
                     motor.HorizontalSpeed /
@@ -200,26 +294,353 @@ namespace AirflowPrototype
                     0f,
                     maximumNormalizedSpeed);
 
+            bool grounded =
+                motor.IsGrounded;
+
+            Vector2 moveInput =
+                input != null
+                    ? input.Move
+                    : Vector2.zero;
+
+            bool hasMoveInput =
+                moveInput.sqrMagnitude >=
+                moveInputDeadzone *
+                moveInputDeadzone;
+
             SetFloatIfPresent(
                 speedFloatParameter,
                 normalizedSpeed);
 
             SetBoolIfPresent(
                 groundedBoolParameter,
-                motor.IsGrounded);
+                grounded);
 
             SetFloatIfPresent(
                 verticalSpeedFloatParameter,
                 motor.VerticalSpeed);
 
+            SetBoolIfPresent(
+                hasMoveInputBoolParameter,
+                hasMoveInput);
+
+            UpdateLocomotionDirection(
+                dt);
+
+            UpdateGroundedOneShots(
+                moveInput,
+                hasMoveInput,
+                grounded);
+
+            _hadMoveInput =
+                hasMoveInput;
+
             UpdateSlingImpactLayerRelease();
             UpdateSlingLayerWeight();
+        }
+
+        private void UpdateLocomotionDirection(
+            float dt)
+        {
+            if (animator == null ||
+                motor == null)
+            {
+                return;
+            }
+
+            Vector3 forward =
+                animator.transform.forward;
+
+            forward.y = 0f;
+
+            if (forward.sqrMagnitude < 0.0001f)
+                forward = transform.forward;
+
+            forward.Normalize();
+
+            Vector3 planarVelocity =
+                motor.PlanarVelocity;
+
+            planarVelocity.y = 0f;
+
+            float directionBlend = 0f;
+
+            if (planarVelocity.sqrMagnitude > 0.01f)
+            {
+                Vector3 travel =
+                    planarVelocity.normalized;
+
+                float movementAngle =
+                    Vector3.SignedAngle(
+                        forward,
+                        travel,
+                        Vector3.up);
+
+                movementAngle =
+                    Mathf.Clamp(
+                        movementAngle,
+                        -90f,
+                        90f);
+
+                directionBlend =
+                    movementAngle /
+                    90f;
+            }
+
+            if (_hasLastAnimatorForward)
+            {
+                Vector3 lastForward =
+                    _lastAnimatorForward;
+
+                lastForward.y = 0f;
+
+                if (lastForward.sqrMagnitude > 0.0001f)
+                {
+                    lastForward.Normalize();
+
+                    float yawDelta =
+                        Vector3.SignedAngle(
+                            lastForward,
+                            forward,
+                            Vector3.up);
+
+                    float turnRate =
+                        yawDelta /
+                        Mathf.Max(
+                            0.0001f,
+                            dt);
+
+                    float turn01 =
+                        Mathf.Clamp(
+                            turnRate /
+                            Mathf.Max(
+                                30f,
+                                turnRateForFullLean),
+                            -1f,
+                            1f);
+
+                    directionBlend +=
+                        turn01 *
+                        turnLeanBlendExtension;
+                }
+            }
+
+            directionBlend =
+                Mathf.Clamp(
+                    directionBlend,
+                    -1f - turnLeanBlendExtension,
+                    1f + turnLeanBlendExtension);
+
+            SetFloatIfPresent(
+                locomotionDirectionFloatParameter,
+                directionBlend);
+
+            _lastAnimatorForward =
+                forward;
+
+            _hasLastAnimatorForward =
+                true;
+        }
+
+        private void UpdateGroundedOneShots(
+            Vector2 moveInput,
+            bool hasMoveInput,
+            bool grounded)
+        {
+            if (!grounded ||
+                IsSlingTakingControl())
+            {
+                return;
+            }
+
+            Vector3 desiredDirection =
+                BuildDesiredMoveDirection(
+                    moveInput);
+
+            if (hasMoveInput &&
+                !_hadMoveInput &&
+                motor.HorizontalSpeed <=
+                startMaximumSpeed &&
+                desiredDirection.sqrMagnitude >
+                0.001f)
+            {
+                int startDirection =
+                    EvaluateStartDirection(
+                        desiredDirection);
+
+                SetIntIfPresent(
+                    runStartDirectionIntParameter,
+                    startDirection);
+
+                TriggerIfPresent(
+                    runStartTriggerParameter);
+            }
+
+            if (!hasMoveInput &&
+                _hadMoveInput &&
+                motor.HorizontalSpeed >=
+                stopMinimumSpeed)
+            {
+                TriggerIfPresent(
+                    runStopTriggerParameter);
+            }
+
+            if (!hasMoveInput ||
+                desiredDirection.sqrMagnitude <
+                0.001f ||
+                motor.HorizontalSpeed <
+                hardTurnMinimumSpeed ||
+                _hardTurnCooldownRemaining > 0f)
+            {
+                return;
+            }
+
+            Vector3 travel =
+                motor.PlanarVelocity;
+
+            travel.y = 0f;
+
+            if (travel.sqrMagnitude < 0.01f)
+                return;
+
+            float turnAngle =
+                Vector3.SignedAngle(
+                    travel.normalized,
+                    desiredDirection.normalized,
+                    Vector3.up);
+
+            if (Mathf.Abs(turnAngle) <
+                hardTurnAngle)
+            {
+                return;
+            }
+
+            int turnDirection =
+                turnAngle < 0f
+                    ? 0
+                    : 1;
+
+            SetIntIfPresent(
+                hardTurnDirectionIntParameter,
+                turnDirection);
+
+            TriggerIfPresent(
+                hardTurnTriggerParameter);
+
+            _hardTurnCooldownRemaining =
+                hardTurnCooldown;
+        }
+
+        private Vector3 BuildDesiredMoveDirection(
+            Vector2 moveInput)
+        {
+            if (moveInput.sqrMagnitude <
+                moveInputDeadzone *
+                moveInputDeadzone)
+            {
+                return Vector3.zero;
+            }
+
+            Transform reference =
+                movementCamera != null
+                    ? movementCamera.transform
+                    : animator != null
+                        ? animator.transform
+                        : transform;
+
+            Vector3 forward =
+                reference.forward;
+
+            Vector3 right =
+                reference.right;
+
+            forward.y = 0f;
+            right.y = 0f;
+
+            if (forward.sqrMagnitude < 0.0001f)
+                forward = transform.forward;
+
+            if (right.sqrMagnitude < 0.0001f)
+                right = transform.right;
+
+            forward.Normalize();
+            right.Normalize();
+
+            Vector3 desired =
+                right *
+                moveInput.x +
+                forward *
+                moveInput.y;
+
+            desired.y = 0f;
+
+            if (desired.sqrMagnitude > 1f)
+                desired.Normalize();
+
+            return desired;
+        }
+
+        private int EvaluateStartDirection(
+            Vector3 desiredDirection)
+        {
+            Vector3 forward =
+                animator != null
+                    ? animator.transform.forward
+                    : transform.forward;
+
+            forward.y = 0f;
+            desiredDirection.y = 0f;
+
+            if (forward.sqrMagnitude < 0.0001f ||
+                desiredDirection.sqrMagnitude < 0.0001f)
+            {
+                return 0;
+            }
+
+            float angle =
+                Vector3.SignedAngle(
+                    forward.normalized,
+                    desiredDirection.normalized,
+                    Vector3.up);
+
+            float abs =
+                Mathf.Abs(
+                    angle);
+
+            if (abs <=
+                forwardStartHalfAngle)
+            {
+                return 0;
+            }
+
+            if (abs >=
+                backwardStartAngle)
+            {
+                return
+                    angle < 0f
+                        ? 3
+                        : 4;
+            }
+
+            return
+                angle < 0f
+                    ? 1
+                    : 2;
+        }
+
+        private bool IsSlingTakingControl()
+        {
+            return
+                slingController != null &&
+                slingController.IsSlinging;
         }
 
         private void ResolveReferences()
         {
             if (motor == null)
                 motor = GetComponent<PlayerMotor>();
+
+            if (input == null)
+                input = GetComponent<PlayerInputReader>();
 
             if (movementVisuals == null)
             {
@@ -232,6 +653,9 @@ namespace AirflowPrototype
                 slingController =
                     GetComponent<AirSlingController>();
             }
+
+            if (movementCamera == null)
+                movementCamera = Camera.main;
 
             if (animator == null)
             {
@@ -256,6 +680,21 @@ namespace AirflowPrototype
 
             if (animator != null)
                 animator.applyRootMotion = false;
+        }
+
+        private void CaptureAnimatorForward()
+        {
+            if (animator == null)
+                return;
+
+            _lastAnimatorForward =
+                animator.transform.forward;
+
+            _lastAnimatorForward.y = 0f;
+
+            _hasLastAnimatorForward =
+                _lastAnimatorForward.sqrMagnitude >
+                0.0001f;
         }
 
         private void RefreshAnimatorCache()
@@ -431,14 +870,19 @@ namespace AirflowPrototype
             _lastDoubleJumpVariant =
                 selected;
 
+            bool mirrored =
+                UnityEngine.Random.value *
+                100f <
+                doubleJumpMirrorChancePercent;
+
             SetIntIfPresent(
                 doubleJumpVariantIntParameter,
                 selected);
 
-            // Let the generated Animator Controller resolve the chosen
-            // variant through its zero-duration Any State transitions.
-            // This avoids brittle generated state-path lookups while keeping
-            // the animation synchronized to the traversal reward event.
+            SetBoolIfPresent(
+                doubleJumpMirrorBoolParameter,
+                mirrored);
+
             TriggerIfPresent(
                 doubleJumpTriggerParameter);
         }
@@ -486,7 +930,6 @@ namespace AirflowPrototype
             _slingImpactStateObserved = false;
             _slingImpactLayerHoldElapsed = 0f;
 
-            // Keep full layer ownership while the authored impact clip plays.
             _slingLayerTargetWeight = 1f;
         }
 
@@ -499,8 +942,6 @@ namespace AirflowPrototype
                 slingAirBoolParameter,
                 false);
 
-            // The character may already be physically launching away, but keep
-            // the authored impact pose visible until the Animator exits it.
             if (!_waitingForSlingImpactLayerRelease)
             {
                 _slingLayerTargetWeight = 0f;
@@ -627,15 +1068,12 @@ namespace AirflowPrototype
                         response) *
                     Time.unscaledDeltaTime);
 
-            float next =
+            animator.SetLayerWeight(
+                _slingLayerIndex,
                 Mathf.Lerp(
                     current,
                     _slingLayerTargetWeight,
-                    t);
-
-            animator.SetLayerWeight(
-                _slingLayerIndex,
-                next);
+                    t));
         }
 
         private void SetFloatIfPresent(
@@ -643,8 +1081,7 @@ namespace AirflowPrototype
             float value)
         {
             if (animator == null ||
-                string.IsNullOrWhiteSpace(
-                    parameterName))
+                string.IsNullOrWhiteSpace(parameterName))
             {
                 return;
             }
@@ -653,8 +1090,7 @@ namespace AirflowPrototype
                 Animator.StringToHash(
                     parameterName);
 
-            if (_floatParameters.Contains(
-                    hash))
+            if (_floatParameters.Contains(hash))
             {
                 animator.SetFloat(
                     hash,
@@ -667,8 +1103,7 @@ namespace AirflowPrototype
             bool value)
         {
             if (animator == null ||
-                string.IsNullOrWhiteSpace(
-                    parameterName))
+                string.IsNullOrWhiteSpace(parameterName))
             {
                 return;
             }
@@ -677,8 +1112,7 @@ namespace AirflowPrototype
                 Animator.StringToHash(
                     parameterName);
 
-            if (_boolParameters.Contains(
-                    hash))
+            if (_boolParameters.Contains(hash))
             {
                 animator.SetBool(
                     hash,
@@ -691,8 +1125,7 @@ namespace AirflowPrototype
             int value)
         {
             if (animator == null ||
-                string.IsNullOrWhiteSpace(
-                    parameterName))
+                string.IsNullOrWhiteSpace(parameterName))
             {
                 return;
             }
@@ -701,8 +1134,7 @@ namespace AirflowPrototype
                 Animator.StringToHash(
                     parameterName);
 
-            if (_intParameters.Contains(
-                    hash))
+            if (_intParameters.Contains(hash))
             {
                 animator.SetInteger(
                     hash,
@@ -714,8 +1146,7 @@ namespace AirflowPrototype
             string parameterName)
         {
             if (animator == null ||
-                string.IsNullOrWhiteSpace(
-                    parameterName))
+                string.IsNullOrWhiteSpace(parameterName))
             {
                 return;
             }
@@ -724,8 +1155,7 @@ namespace AirflowPrototype
                 Animator.StringToHash(
                     parameterName);
 
-            if (_triggerParameters.Contains(
-                    hash))
+            if (_triggerParameters.Contains(hash))
             {
                 animator.SetTrigger(
                     hash);
@@ -744,6 +1174,54 @@ namespace AirflowPrototype
                     1f,
                     maximumNormalizedSpeed);
 
+            moveInputDeadzone =
+                Mathf.Clamp(
+                    moveInputDeadzone,
+                    0.01f,
+                    0.75f);
+
+            startMaximumSpeed =
+                Mathf.Max(
+                    0f,
+                    startMaximumSpeed);
+
+            stopMinimumSpeed =
+                Mathf.Max(
+                    0f,
+                    stopMinimumSpeed);
+
+            hardTurnAngle =
+                Mathf.Clamp(
+                    hardTurnAngle,
+                    60f,
+                    175f);
+
+            hardTurnMinimumSpeed =
+                Mathf.Max(
+                    0f,
+                    hardTurnMinimumSpeed);
+
+            hardTurnCooldown =
+                Mathf.Max(
+                    0.05f,
+                    hardTurnCooldown);
+
+            turnRateForFullLean =
+                Mathf.Max(
+                    30f,
+                    turnRateForFullLean);
+
+            doubleJumpVariantCount =
+                Mathf.Max(
+                    1,
+                    doubleJumpVariantCount);
+
+            doubleJumpMirrorChancePercent =
+                Mathf.Clamp(
+                    doubleJumpMirrorChancePercent,
+                    0f,
+                    100f);
+
             slingLayerBlendInResponse =
                 Mathf.Max(
                     0.01f,
@@ -758,11 +1236,6 @@ namespace AirflowPrototype
                 Mathf.Max(
                     0.2f,
                     slingImpactLayerFailSafeDuration);
-
-            doubleJumpVariantCount =
-                Mathf.Max(
-                    1,
-                    doubleJumpVariantCount);
         }
     }
 }
