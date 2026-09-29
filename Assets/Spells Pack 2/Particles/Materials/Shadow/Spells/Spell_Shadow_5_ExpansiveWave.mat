@@ -68,12 +68,14 @@ Material:
     - _Distortion_Speed: -0.5
     - _Distortion_Strength: 0.05
     - _DstBlend: 10
+    - _DstBlendAlpha: 10
     - _Float: 0.64
     - _Manual_Mode: 0
     - _Offset: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
     - _Surface: 1
     - _VFXGraph_Mode: 0
     - _VFXGraph_Speed: 1
@@ -81,6 +83,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
+    - _Alpha_Edges: {r: 0.52, g: 1, b: 0, a: 0}
     - _Color: {r: 5.992157, g: 5.992157, b: 5.992157, a: 1}
     - _Soft_Particle_Range: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

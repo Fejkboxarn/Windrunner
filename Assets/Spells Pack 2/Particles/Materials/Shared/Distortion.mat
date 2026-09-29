@@ -74,6 +74,7 @@ Material:
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
     - _DstBlend2: 10
+    - _DstBlendAlpha: 10
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 0
     - _ExcludeFromTUAndAA: 0
@@ -83,6 +84,7 @@ Material:
     - _QueueOffset: 0
     - _RenderQueueType: 3
     - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
     - _StencilRef: 0
     - _StencilRefDepth: 1
     - _StencilRefDistortionVec: 4
@@ -101,6 +103,7 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
+    - _UV_MOVEMENT: 0
     - _UseShadowThreshold: 0
     - _Uv_Movement: 0
     - _ZTest: 4

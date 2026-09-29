@@ -19,6 +19,7 @@ namespace AirflowPrototype
 
         [Header("Optional Custom Clips")]
         [SerializeField] private PlayerCustomAnimationDriver customAnimationDriver;
+        [SerializeField] private PlayerHumanoidAnimatorDriver humanoidAnimatorDriver;
 
         [Header("Legacy Procedural Animation Toggles")]
         [Tooltip(
@@ -201,6 +202,12 @@ namespace AirflowPrototype
 
             if (customAnimationDriver == null)
                 customAnimationDriver = GetComponent<PlayerCustomAnimationDriver>();
+
+            if (humanoidAnimatorDriver == null)
+            {
+                humanoidAnimatorDriver =
+                    GetComponent<PlayerHumanoidAnimatorDriver>();
+            }
 
             CaptureBasePose();
             CaptureFlipPivot();
@@ -1029,8 +1036,13 @@ namespace AirflowPrototype
                 customAnimationDriver != null &&
                 customAnimationDriver.HasCustomFlip(0);
 
+            bool authoredDoubleJump =
+                humanoidAnimatorDriver != null &&
+                humanoidAnimatorDriver.HasAuthoredDoubleJump;
+
             if (ProceduralFlipEnabled &&
                 !customFlip &&
+                !authoredDoubleJump &&
                 flipPivot != null &&
                 _flipPivotCaptured)
             {

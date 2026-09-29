@@ -12,16 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e71c1a73d27b81428b7c0c608890d33, type: 3}
   m_Name: Batch14_AutumnLookSettings
   m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AutumnLookSettings
-  temperature: 32.2
-  tint: 4
-  postExposure: 0.05
+  temperature: 44.2
+  tint: 12.5
+  postExposure: 1.02
   contrast: 10
+  hueShift: 52
   saturation: 8
   colorFilter: {r: 1, g: 0.93, b: 0.84, a: 1}
+  bloomEnabled: 1
   bloomIntensity: 0.08
   bloomThreshold: 1.05
   bloomScatter: 0.68
   bloomTint: {r: 0.56470275, g: 0.8329611, b: 0.8490566, a: 1}
+  vignetteEnabled: 1
   vignetteIntensity: 0.16
   vignetteSmoothness: 0.42
   vignetteColor: {r: 0.12, g: 0.07, b: 0.035, a: 1}
+  filmGrainEnabled: 1
+  filmGrainIntensity: 0.1
+  filmGrainResponse: 0.72
+  chromaticAberrationEnabled: 1
+  chromaticAberration: 0.035
+  lensDistortionEnabled: 1
+  lensDistortion: -0.035
+  lensDistortionX: 1
+  lensDistortionY: 1
+  lensScale: 1.015
+  useACES: 1

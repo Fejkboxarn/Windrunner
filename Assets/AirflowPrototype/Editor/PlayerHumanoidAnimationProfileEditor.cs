@@ -10,7 +10,8 @@ namespace AirflowPrototype.Editor
         public override void OnInspectorGUI()
         {
             EditorGUILayout.HelpBox(
-                "Drag animation clips into the slots below. " +
+                "Drag animation clips into the slots below. Expand Double Jumps and set " +
+                "the list size to however many random aerial flourish clips you want. " +
                 "The generated player Animator Controller rebuilds automatically. " +
                 "Do not hand-edit the generated controller; use this profile as the source of truth.",
                 MessageType.Info);
@@ -58,7 +59,7 @@ namespace AirflowPrototype.Editor
 
             EditorGUILayout.HelpBox(
                 "Recommended import setup: Idle/Walk/Run/Fall/Sling Air should generally loop. " +
-                "Jump/Land/Sling Start/Sling Impact should generally be non-looping. " +
+                "Jump/Double Jump/Land/Sling Start/Sling Impact should generally be non-looping. " +
                 "Root Motion should stay off because PlayerMotor owns movement.",
                 MessageType.None);
         }

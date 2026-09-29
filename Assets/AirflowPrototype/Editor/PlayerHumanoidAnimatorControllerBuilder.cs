@@ -55,6 +55,8 @@ namespace AirflowPrototype.Editor
             if (profile == null)
                 return null;
 
+            profile.EnsureCurrentDefaults();
+
             EnsureFolder(
                 RootFolder);
 
@@ -130,6 +132,28 @@ namespace AirflowPrototype.Editor
                 }
             }
 
+            PlayerHumanoidAnimatorDriver driver =
+                Object.FindAnyObjectByType<PlayerHumanoidAnimatorDriver>();
+
+            if (driver != null)
+            {
+                driver.SetDoubleJumpVariantCount(
+                    Mathf.Max(
+                        1,
+                        profile.DoubleJumpVariantCount));
+
+                EditorUtility.SetDirty(
+                    driver);
+
+                if (driver.gameObject.scene.IsValid())
+                {
+                    UnityEditor.SceneManagement
+                        .EditorSceneManager
+                        .MarkSceneDirty(
+                            driver.gameObject.scene);
+                }
+            }
+
             return controller;
         }
 
@@ -178,6 +202,14 @@ namespace AirflowPrototype.Editor
             controller.AddParameter(
                 "Jump",
                 AnimatorControllerParameterType.Trigger);
+
+            controller.AddParameter(
+                "DoubleJump",
+                AnimatorControllerParameterType.Trigger);
+
+            controller.AddParameter(
+                "DoubleJumpVariant",
+                AnimatorControllerParameterType.Int);
 
             controller.AddParameter(
                 "Land",
@@ -289,6 +321,44 @@ namespace AirflowPrototype.Editor
                     profile.jump,
                     "Jump Placeholder");
 
+            int doubleJumpVariantCount =
+                Mathf.Max(
+                    1,
+                    profile.DoubleJumpVariantCount);
+
+            AnimatorState[] doubleJumpStates =
+                new AnimatorState[
+                    doubleJumpVariantCount];
+
+            for (int i = 0;
+                 i < doubleJumpVariantCount;
+                 i++)
+            {
+                string stateName =
+                    $"Double Jump {i + 1:00}";
+
+                AnimatorState doubleJumpState =
+                    stateMachine.AddState(
+                        stateName,
+                        new Vector3(
+                            650f + i * 70f,
+                            -70f - i * 45f,
+                            0f));
+
+                AnimationClip clip =
+                    profile.GetDoubleJumpVariant(
+                        i);
+
+                doubleJumpState.motion =
+                    MotionOrPlaceholder(
+                        controller,
+                        clip,
+                        $"{stateName} Placeholder");
+
+                doubleJumpStates[i] =
+                    doubleJumpState;
+            }
+
             AnimatorState fall =
                 stateMachine.AddState(
                     "Fall",
@@ -335,6 +405,34 @@ namespace AirflowPrototype.Editor
                 AnimatorConditionMode.If,
                 0f,
                 "Jump");
+
+            for (int i = 0;
+                 i < doubleJumpStates.Length;
+                 i++)
+            {
+                AnimatorStateTransition doubleJumpTrigger =
+                    stateMachine.AddAnyStateTransition(
+                        doubleJumpStates[i]);
+
+                // Traversal reward and animation should read as one event.
+                // Zero transition duration prevents a visible boost-before-pose delay.
+                ConfigureImmediateTransition(
+                    doubleJumpTrigger,
+                    0f);
+
+                doubleJumpTrigger.canTransitionToSelf =
+                    true;
+
+                doubleJumpTrigger.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "DoubleJump");
+
+                doubleJumpTrigger.AddCondition(
+                    AnimatorConditionMode.Equals,
+                    i,
+                    "DoubleJumpVariant");
+            }
 
             AnimatorStateTransition landTrigger =
                 stateMachine.AddAnyStateTransition(
@@ -423,6 +521,87 @@ namespace AirflowPrototype.Editor
                 AnimatorConditionMode.Greater,
                 0.05f,
                 "VerticalSpeed");
+
+            for (int i = 0;
+                 i < doubleJumpStates.Length;
+                 i++)
+            {
+                AnimatorState doubleJumpState =
+                    doubleJumpStates[i];
+
+                AnimatorStateTransition doubleJumpToJump =
+                    doubleJumpState.AddTransition(
+                        jump);
+
+                doubleJumpToJump.hasExitTime =
+                    true;
+
+                doubleJumpToJump.exitTime =
+                    profile.doubleJumpExitTime;
+
+                doubleJumpToJump.hasFixedDuration =
+                    true;
+
+                doubleJumpToJump.duration =
+                    profile.doubleJumpTransitionDuration;
+
+                doubleJumpToJump.AddCondition(
+                    AnimatorConditionMode.IfNot,
+                    0f,
+                    "Grounded");
+
+                doubleJumpToJump.AddCondition(
+                    AnimatorConditionMode.Greater,
+                    -0.05f,
+                    "VerticalSpeed");
+
+                AnimatorStateTransition doubleJumpToFall =
+                    doubleJumpState.AddTransition(
+                        fall);
+
+                doubleJumpToFall.hasExitTime =
+                    true;
+
+                doubleJumpToFall.exitTime =
+                    profile.doubleJumpExitTime;
+
+                doubleJumpToFall.hasFixedDuration =
+                    true;
+
+                doubleJumpToFall.duration =
+                    profile.doubleJumpTransitionDuration;
+
+                doubleJumpToFall.AddCondition(
+                    AnimatorConditionMode.IfNot,
+                    0f,
+                    "Grounded");
+
+                doubleJumpToFall.AddCondition(
+                    AnimatorConditionMode.Less,
+                    -0.05f,
+                    "VerticalSpeed");
+
+                AnimatorStateTransition doubleJumpToLocomotion =
+                    doubleJumpState.AddTransition(
+                        locomotion);
+
+                doubleJumpToLocomotion.hasExitTime =
+                    true;
+
+                doubleJumpToLocomotion.exitTime =
+                    profile.doubleJumpExitTime;
+
+                doubleJumpToLocomotion.hasFixedDuration =
+                    true;
+
+                doubleJumpToLocomotion.duration =
+                    profile.doubleJumpTransitionDuration;
+
+                doubleJumpToLocomotion.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "Grounded");
+            }
 
             AnimatorStateTransition landToLocomotion =
                 land.AddTransition(
@@ -526,6 +705,44 @@ namespace AirflowPrototype.Editor
                     profile.slingImpact,
                     "Sling Impact Placeholder");
 
+            int doubleJumpVariantCount =
+                Mathf.Max(
+                    1,
+                    profile.DoubleJumpVariantCount);
+
+            AnimatorState[] slingDoubleJumpStates =
+                new AnimatorState[
+                    doubleJumpVariantCount];
+
+            for (int i = 0;
+                 i < doubleJumpVariantCount;
+                 i++)
+            {
+                string stateName =
+                    $"Sling Double Jump {i + 1:00}";
+
+                AnimatorState doubleJumpState =
+                    stateMachine.AddState(
+                        stateName,
+                        new Vector3(
+                            880f + i * 70f,
+                            280f + i * 45f,
+                            0f));
+
+                doubleJumpState.motion =
+                    MotionOrPlaceholder(
+                        controller,
+                        profile.GetDoubleJumpVariant(
+                            i),
+                        $"{stateName} Placeholder");
+
+                doubleJumpState.tag =
+                    "SlingDoubleJump";
+
+                slingDoubleJumpStates[i] =
+                    doubleJumpState;
+            }
+
             stateMachine.defaultState =
                 empty;
 
@@ -573,6 +790,49 @@ namespace AirflowPrototype.Editor
                 AnimatorConditionMode.If,
                 0f,
                 "SlingImpact");
+
+            for (int i = 0;
+                 i < slingDoubleJumpStates.Length;
+                 i++)
+            {
+                AnimatorStateTransition doubleJumpTrigger =
+                    stateMachine.AddAnyStateTransition(
+                        slingDoubleJumpStates[i]);
+
+                ConfigureImmediateTransition(
+                    doubleJumpTrigger,
+                    0f);
+
+                doubleJumpTrigger.canTransitionToSelf =
+                    true;
+
+                doubleJumpTrigger.AddCondition(
+                    AnimatorConditionMode.If,
+                    0f,
+                    "DoubleJump");
+
+                doubleJumpTrigger.AddCondition(
+                    AnimatorConditionMode.Equals,
+                    i,
+                    "DoubleJumpVariant");
+
+                AnimatorStateTransition doubleJumpToEmpty =
+                    slingDoubleJumpStates[i]
+                        .AddTransition(
+                            empty);
+
+                doubleJumpToEmpty.hasExitTime =
+                    true;
+
+                doubleJumpToEmpty.exitTime =
+                    profile.doubleJumpExitTime;
+
+                doubleJumpToEmpty.hasFixedDuration =
+                    true;
+
+                doubleJumpToEmpty.duration =
+                    profile.doubleJumpTransitionDuration;
+            }
 
             AnimatorStateTransition impactToEmpty =
                 impact.AddTransition(

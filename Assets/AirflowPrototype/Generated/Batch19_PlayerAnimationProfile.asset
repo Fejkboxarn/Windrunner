@@ -15,18 +15,24 @@ MonoBehaviour:
   idle: {fileID: 7400000, guid: 6e2a16a2d2ff48f4c8e1ac679382aecb, type: 2}
   walk: {fileID: 7400000, guid: e20f9eabacb4a424b9fd6f3c1f5ae2a7, type: 2}
   run: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
-  jump: {fileID: 0}
-  fall: {fileID: 0}
-  land: {fileID: 0}
+  jump: {fileID: 7400000, guid: 58dbac6cff2a89b49b00780f529665d0, type: 2}
+  doubleJumps:
+  - {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
+  doubleJump: {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
+  fall: {fileID: 7400000, guid: fae80757d6e3e2c4fa5e5000a0dc1e5a, type: 2}
+  land: {fileID: 7400000, guid: 67a33a2badba34a4f8b4784d88f72b7f, type: 2}
   slingStart: {fileID: 0}
-  slingAir: {fileID: 0}
-  slingImpact: {fileID: 0}
+  slingAir: {fileID: 7400000, guid: 1005921774b245f4bb59b1a34983a4b2, type: 2}
+  slingImpact: {fileID: 7400000, guid: 27997fec0f45f0d4f9043f1c8215f191, type: 2}
   walkThreshold: 0.35
   runThreshold: 1
   locomotionTransitionDuration: 0.08
   jumpTransitionDuration: 0.05
   fallTransitionDuration: 0.08
-  landTransitionDuration: 0.04
+  doubleJumpTransitionDuration: 0
+  landTransitionDuration: 0.205
   slingTransitionDuration: 0.04
+  doubleJumpExitTime: 0.86
   landExitTime: 0.82
-  slingImpactExitTime: 0.88
+  slingImpactExitTime: 1
+  profileVersion: 194

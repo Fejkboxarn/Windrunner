@@ -17,6 +17,8 @@ namespace AirflowPrototype
         [SerializeField] private string groundedBoolParameter = "Grounded";
         [SerializeField] private string verticalSpeedFloatParameter = "VerticalSpeed";
         [SerializeField] private string jumpTriggerParameter = "Jump";
+        [SerializeField] private string doubleJumpTriggerParameter = "DoubleJump";
+        [SerializeField] private string doubleJumpVariantIntParameter = "DoubleJumpVariant";
         [SerializeField] private string landTriggerParameter = "Land";
 
         [Tooltip(
@@ -44,10 +46,24 @@ namespace AirflowPrototype
         [Min(0.01f)]
         [SerializeField] private float slingLayerBlendOutResponse = 12f;
 
+        [Header("Sling Impact Visibility")]
+        [Tooltip(
+            "Safety timeout only. Normally the Sling layer remains fully weighted " +
+            "until the generated Sling Impact state actually exits.")]
+        [Min(0.2f)]
+        [SerializeField] private float slingImpactLayerFailSafeDuration = 1.5f;
+
+        private static readonly int SlingImpactStateHash =
+            Animator.StringToHash(
+                "Sling Impact");
+
         private readonly HashSet<int> _floatParameters =
             new HashSet<int>();
 
         private readonly HashSet<int> _boolParameters =
+            new HashSet<int>();
+
+        private readonly HashSet<int> _intParameters =
             new HashSet<int>();
 
         private readonly HashSet<int> _triggerParameters =
@@ -55,10 +71,56 @@ namespace AirflowPrototype
 
         private int _slingLayerIndex = -1;
         private float _slingLayerTargetWeight;
+
+        [SerializeField, HideInInspector]
+        private int doubleJumpVariantCount = 1;
+
+        private int _lastDoubleJumpVariant = -1;
+
+        private bool _waitingForSlingImpactLayerRelease;
+        private bool _slingImpactStateObserved;
+        private float _slingImpactLayerHoldElapsed;
+
         private bool _subscribed;
 
         public Animator Animator =>
             animator;
+
+        public bool HasAuthoredDoubleJump
+        {
+            get
+            {
+                if (animator == null ||
+                    string.IsNullOrWhiteSpace(
+                        doubleJumpTriggerParameter))
+                {
+                    return false;
+                }
+
+                int hash =
+                    Animator.StringToHash(
+                        doubleJumpTriggerParameter);
+
+                return
+                    _triggerParameters.Contains(
+                        hash);
+            }
+        }
+
+        public void SetDoubleJumpVariantCount(
+            int count)
+        {
+            doubleJumpVariantCount =
+                Mathf.Max(
+                    1,
+                    count);
+
+            if (_lastDoubleJumpVariant >=
+                doubleJumpVariantCount)
+            {
+                _lastDoubleJumpVariant = -1;
+            }
+        }
 
         public void Configure(
             PlayerMotor newMotor,
@@ -101,6 +163,10 @@ namespace AirflowPrototype
                 false);
 
             _slingLayerTargetWeight = 0f;
+
+            _waitingForSlingImpactLayerRelease = false;
+            _slingImpactStateObserved = false;
+            _slingImpactLayerHoldElapsed = 0f;
 
             if (animator != null &&
                 _slingLayerIndex >= 0)
@@ -146,6 +212,7 @@ namespace AirflowPrototype
                 verticalSpeedFloatParameter,
                 motor.VerticalSpeed);
 
+            UpdateSlingImpactLayerRelease();
             UpdateSlingLayerWeight();
         }
 
@@ -195,6 +262,7 @@ namespace AirflowPrototype
         {
             _floatParameters.Clear();
             _boolParameters.Clear();
+            _intParameters.Clear();
             _triggerParameters.Clear();
 
             _slingLayerIndex = -1;
@@ -221,6 +289,11 @@ namespace AirflowPrototype
 
                     case AnimatorControllerParameterType.Bool:
                         _boolParameters.Add(
+                            parameter.nameHash);
+                        break;
+
+                    case AnimatorControllerParameterType.Int:
+                        _intParameters.Add(
                             parameter.nameHash);
                         break;
 
@@ -252,6 +325,9 @@ namespace AirflowPrototype
 
                 movementVisuals.Landed +=
                     OnLanded;
+
+                movementVisuals.FlipStarted +=
+                    OnFlipStarted;
             }
 
             if (slingController != null)
@@ -287,6 +363,9 @@ namespace AirflowPrototype
 
                 movementVisuals.Landed -=
                     OnLanded;
+
+                movementVisuals.FlipStarted -=
+                    OnFlipStarted;
             }
 
             if (slingController != null)
@@ -323,11 +402,56 @@ namespace AirflowPrototype
                 landTriggerParameter);
         }
 
+        private void OnFlipStarted(
+            int variant,
+            float intensity)
+        {
+            int count =
+                Mathf.Max(
+                    1,
+                    doubleJumpVariantCount);
+
+            int selected =
+                UnityEngine.Random.Range(
+                    0,
+                    count);
+
+            if (count > 1 &&
+                selected ==
+                _lastDoubleJumpVariant)
+            {
+                selected =
+                    (selected +
+                     UnityEngine.Random.Range(
+                         1,
+                         count)) %
+                    count;
+            }
+
+            _lastDoubleJumpVariant =
+                selected;
+
+            SetIntIfPresent(
+                doubleJumpVariantIntParameter,
+                selected);
+
+            // Let the generated Animator Controller resolve the chosen
+            // variant through its zero-duration Any State transitions.
+            // This avoids brittle generated state-path lookups while keeping
+            // the animation synchronized to the traversal reward event.
+            TriggerIfPresent(
+                doubleJumpTriggerParameter);
+        }
+
         private void OnSlingCommitted(
             AirSlingNode node,
             float quality,
             bool perfect)
         {
+            _waitingForSlingImpactLayerRelease = false;
+            _slingImpactStateObserved = false;
+            _slingImpactLayerHoldElapsed = 0f;
+
             SetBoolIfPresent(
                 slingAirBoolParameter,
                 false);
@@ -358,6 +482,11 @@ namespace AirflowPrototype
             TriggerIfPresent(
                 slingImpactTriggerParameter);
 
+            _waitingForSlingImpactLayerRelease = true;
+            _slingImpactStateObserved = false;
+            _slingImpactLayerHoldElapsed = 0f;
+
+            // Keep full layer ownership while the authored impact clip plays.
             _slingLayerTargetWeight = 1f;
         }
 
@@ -370,7 +499,12 @@ namespace AirflowPrototype
                 slingAirBoolParameter,
                 false);
 
-            _slingLayerTargetWeight = 0f;
+            // The character may already be physically launching away, but keep
+            // the authored impact pose visible until the Animator exits it.
+            if (!_waitingForSlingImpactLayerRelease)
+            {
+                _slingLayerTargetWeight = 0f;
+            }
         }
 
         private void OnSlingCanceled()
@@ -378,6 +512,90 @@ namespace AirflowPrototype
             SetBoolIfPresent(
                 slingAirBoolParameter,
                 false);
+
+            _waitingForSlingImpactLayerRelease = false;
+            _slingImpactStateObserved = false;
+            _slingImpactLayerHoldElapsed = 0f;
+
+            _slingLayerTargetWeight = 0f;
+        }
+
+        private void UpdateSlingImpactLayerRelease()
+        {
+            if (!_waitingForSlingImpactLayerRelease ||
+                animator == null ||
+                _slingLayerIndex < 0)
+            {
+                return;
+            }
+
+            _slingImpactLayerHoldElapsed +=
+                Time.unscaledDeltaTime;
+
+            AnimatorStateInfo current =
+                animator.GetCurrentAnimatorStateInfo(
+                    _slingLayerIndex);
+
+            bool inTransition =
+                animator.IsInTransition(
+                    _slingLayerIndex);
+
+            AnimatorStateInfo next =
+                inTransition
+                    ? animator.GetNextAnimatorStateInfo(
+                        _slingLayerIndex)
+                    : default;
+
+            bool currentIsImpact =
+                current.shortNameHash ==
+                SlingImpactStateHash;
+
+            bool nextIsImpact =
+                inTransition &&
+                next.shortNameHash ==
+                SlingImpactStateHash;
+
+            bool currentIsDoubleJump =
+                current.IsTag(
+                    "SlingDoubleJump");
+
+            bool nextIsDoubleJump =
+                inTransition &&
+                next.IsTag(
+                    "SlingDoubleJump");
+
+            if (currentIsImpact ||
+                nextIsImpact)
+            {
+                _slingImpactStateObserved = true;
+            }
+
+            bool stillShowingAuthoredSequence =
+                currentIsImpact ||
+                nextIsImpact ||
+                currentIsDoubleJump ||
+                nextIsDoubleJump;
+
+            bool impactFinished =
+                _slingImpactStateObserved &&
+                !stillShowingAuthoredSequence;
+
+            bool failSafeExpired =
+                _slingImpactLayerHoldElapsed >=
+                Mathf.Max(
+                    0.2f,
+                    slingImpactLayerFailSafeDuration);
+
+            if (!impactFinished &&
+                !failSafeExpired)
+            {
+                _slingLayerTargetWeight = 1f;
+                return;
+            }
+
+            _waitingForSlingImpactLayerRelease = false;
+            _slingImpactStateObserved = false;
+            _slingImpactLayerHoldElapsed = 0f;
 
             _slingLayerTargetWeight = 0f;
         }
@@ -468,6 +686,30 @@ namespace AirflowPrototype
             }
         }
 
+        private void SetIntIfPresent(
+            string parameterName,
+            int value)
+        {
+            if (animator == null ||
+                string.IsNullOrWhiteSpace(
+                    parameterName))
+            {
+                return;
+            }
+
+            int hash =
+                Animator.StringToHash(
+                    parameterName);
+
+            if (_intParameters.Contains(
+                    hash))
+            {
+                animator.SetInteger(
+                    hash,
+                    value);
+            }
+        }
+
         private void TriggerIfPresent(
             string parameterName)
         {
@@ -511,6 +753,16 @@ namespace AirflowPrototype
                 Mathf.Max(
                     0.01f,
                     slingLayerBlendOutResponse);
+
+            slingImpactLayerFailSafeDuration =
+                Mathf.Max(
+                    0.2f,
+                    slingImpactLayerFailSafeDuration);
+
+            doubleJumpVariantCount =
+                Mathf.Max(
+                    1,
+                    doubleJumpVariantCount);
         }
     }
 }
