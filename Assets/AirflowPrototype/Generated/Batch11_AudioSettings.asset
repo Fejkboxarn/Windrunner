@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 531d0c49b563e4e46af7497947aea941, type: 3}
+  m_Name: Batch11_AudioSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirAudioSettings
+  audioTuningVersion: 2
+  audioEnabled: 1
+  footstepEnabled: 1
+  jumpEnabled: 1
+  landingEnabled: 1
+  flipWhooshEnabled: 1
+  dashStartEnabled: 1
+  dashWindLoopEnabled: 0
+  chargeLoopEnabled: 1
+  targetReadyEnabled: 1
+  castReleaseEnabled: 1
+  nodeHitEnabled: 1
+  returnLaunchEnabled: 1
+  rewardArrivalEnabled: 1
+  airPowerDepletedEnabled: 1
+  ambienceEnabled: 1
+  musicEnabled: 1
+  footstep: {fileID: 8300000, guid: 990dff347c1649a4caf28e53553d3ed3, type: 3}
+  jump: {fileID: 8300000, guid: 703698c0d48a53f49a9722bfa19134bc, type: 3}
+  landing: {fileID: 8300000, guid: 02a8f7fd149c5d14b81c81a63ce6f6ab, type: 3}
+  flipWhoosh: {fileID: 8300000, guid: 1b89acd0ea603ad4f85152a1900db08c, type: 3}
+  dashStart: {fileID: 8300000, guid: 93224ecd21378df4aaaa879c136c76c1, type: 3}
+  dashWindLoop: {fileID: 8300000, guid: 5694b57b30ec65d458c043baa5658823, type: 3}
+  chargeLoop: {fileID: 0}
+  targetReady: {fileID: 0}
+  castRelease: {fileID: 0}
+  nodeHit: {fileID: 0}
+  returnLaunch: {fileID: 0}
+  rewardArrival: {fileID: 8300000, guid: 3f7cb1d0012ccf741ad3fef0de1db4bd, type: 3}
+  airPowerDepleted: {fileID: 0}
+  ambienceLoop: {fileID: 8300000, guid: 36432d3a22c48e34b98bc6d394eafbe7, type: 3}
+  musicLoop: {fileID: 8300000, guid: 80e44531db8d3944baa411fc2bdc8ab5, type: 3}
+  useProceduralFallbacks: 1
+  masterVolume: 0.725
+  movementVolume: 0.103
+  abilityVolume: 0.047
+  ambienceVolume: 0.004
+  musicVolume: 0.002
+  footstepVolume: 0.108
+  footstepPitchMin: 1
+  footstepPitchMax: 1.5
+  jumpVolume: 0.246
+  jumpPitchMin: 1
+  jumpPitchMax: 1.5
+  landingVolume: 0.108
+  landingPitchMin: 1
+  landingPitchMax: 1.5
+  flipWhooshVolume: 0.453
+  flipWhooshPitchMin: 1
+  flipWhooshPitchMax: 1
+  dashStartVolume: 1
+  dashStartPitchMin: 1
+  dashStartPitchMax: 1
+  targetReadyVolume: 1
+  targetReadyPitchMin: 1
+  targetReadyPitchMax: 1
+  castReleaseVolume: 1
+  castReleasePitchMin: 1
+  castReleasePitchMax: 1
+  nodeHitVolume: 1
+  nodeHitPitchMin: 1
+  nodeHitPitchMax: 1
+  returnLaunchVolume: 1
+  returnLaunchPitchMin: 1
+  returnLaunchPitchMax: 1
+  rewardArrivalVolume: 0.148
+  rewardArrivalPitchMin: 1
+  rewardArrivalPitchMax: 1.2
+  airPowerDepletedVolume: 1
+  airPowerDepletedPitchMin: 1
+  airPowerDepletedPitchMax: 1
+  windStartSpeed: 17.4
+  windFullSpeed: 19
+  windMaxVolume: 0.082
+  windMinPitch: 0.82
+  windMaxPitch: 1.22
+  chargeMaxVolume: 0.48
+  chargeStartPitch: 0.78
+  chargeReadyPitch: 1.22
+  ambiencePitch: 1
+  musicPitch: 1
+  pitchVariation: 0.07

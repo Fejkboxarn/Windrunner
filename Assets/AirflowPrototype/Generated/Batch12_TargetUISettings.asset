@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b0dd66eeccaada489b7da69e8167943, type: 3}
+  m_Name: Batch12_TargetUISettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirTargetUISettings
+  idleSize: 108
+  chargingSize: 132
+  perfectBloomScale: 1.34
+  sizeResponse: 13
+  outerArcCount: 3
+  outerArcDegrees: 38.7
+  outerArcThickness: 4.11
+  sweetSpotThickness: 4.6
+  compressionMinRadius01: 0.236
+  compressionMaxRadius01: 0.815
+  compressionThickness: 6.87
+  idleRotationSpeed: 47.9
+  chargingRotationSpeed: 0
+  appearResponse: 14
+  disappearResponse: 18
+  perfectFlashDuration: 0.24
+  perfectFlashResponse: 18
+  perfectTimeScale: 0.24
+  perfectSlowHoldDuration: 0.35
+  perfectSlowRecoveryDuration: 0.16
+  idleColor: {r: 1, g: 1, b: 1, a: 0.72}
+  chargeColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 0.95}
+  sweetSpotColor: {r: 1, g: 1, b: 1, a: 0.56}
+  perfectColor: {r: 0.9245283, g: 0.004360993, b: 0.004360993, a: 1}

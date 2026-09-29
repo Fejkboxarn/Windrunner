@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55ac4021b462ab747855b3581e6724e8, type: 3}
+  m_Name: Batch1_MovementSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirflowMovementSettings
+  maxGroundSpeed: 7.5
+  groundAcceleration: 42
+  groundDeceleration: 16.6
+  turnSharpness: 9.6
+  airAcceleration: 12
+  airNoInputRetention: 1
+  jumpHeight: 2.25
+  gravity: 30
+  fallGravityMultiplier: 1.25
+  groundedStickForce: 9.11
+  coyoteTime: 0.12
+  jumpBufferTime: 0.14
+  dashMaxSpeed: 15
+  dashAcceleration: 24
+  dashAirAcceleration: 13
+  dashReleaseDeceleration: 7
+  dashBrakeDeceleration: 34
+  dashReverseBrakeDeceleration: 42
+  airborneMomentumDecay: 1.5
+  dashSteeringSharpness: 2.6
+  minimumMoveInputToDash: 0.12
+  maxAirPower: 100
+  dashDrainPerSecond: 10
+  enablePassiveRecovery: 0
+  passiveRecoveryPerSecond: 28
+  passiveRecoveryDelay: 0.55
+  dashRestartFraction: 0.16
+  cameraDistance: 6
+  cameraPivotHeight: 1.45
+  cameraPositionSmoothTime: 0.012
+  mouseSensitivity: 0.1
+  gamepadLookDegreesPerSecond: 150
+  minCameraPitch: -28
+  maxCameraPitch: 68
+  cameraCollisionRadius: 0.22
+  cameraCollisionPadding: 0.08
+  baseFov: 65
+  fastFov: 85
+  speedForMaxFov: 20
+  fovResponse: 7
+  dashBodyLeanDegrees: 18
+  bodyLeanResponse: 77.9

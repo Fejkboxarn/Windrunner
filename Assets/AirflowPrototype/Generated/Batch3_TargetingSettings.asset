@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c74acd6eed9fa48a03ff2664337417, type: 3}
+  m_Name: Batch3_TargetingSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirTargetingSettings
+  maxTargetDistance: 42
+  maxCameraAngle: 64
+  minimumScore: 0.22
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 1
+  screenCenterWeight: 0.42
+  movementDirectionWeight: 0.3
+  distanceWeight: 0.16
+  cameraForwardWeight: 0.12
+  switchScoreAdvantage: 0.12
+  currentTargetScoreGrace: 0.06
+  aimTakeoverScreenAdvantage: 0.035
+  aimTakeoverAllowedScoreDeficit: 0.1
+  movementDirectionMinSpeed: 1
+  aerialContinuationWeight: 0.24
+  aerialLeadDistanceWeight: 0.14
+  preferredAerialLeadDistance: 14
+  fallingHeightRecoveryWeight: 0.18
+  aerialHeightRange: 10
+  fallSpeedForMaxHeightBias: 5
+  drawSceneGizmos: 1
+  debugCandidateCount: 8

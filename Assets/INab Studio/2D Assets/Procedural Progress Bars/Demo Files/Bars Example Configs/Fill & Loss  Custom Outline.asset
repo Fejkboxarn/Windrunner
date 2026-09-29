@@ -1,0 +1,283 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af669ecfd3e5ff44f9f56218a7ea1eaf, type: 3}
+  m_Name: Fill & Loss  Custom Outline
+  m_EditorClassIdentifier: 
+  DefaultFillTime: 0.1
+  FillCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DefaultLossTime: 0.1
+  LossCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  UseAutoEndLine: 0
+  EndLineVisibility: 1
+  TurnOffTime: 1
+  TurnOnTime: 1
+  FillAmountThreshold: 0.95
+  UseSecondBarFill: 0
+  UseSecondBarLoss: 0
+  OverrideFillSecondBarColor: 1
+  FillSecondBarColor: {r: 0.25160396, g: 0.773, b: 0.25160396, a: 1}
+  FillUseTimeDelay: 1
+  FillDelayTime: 0.2
+  FillCatchUpTime: 0.8
+  BlendToMainBar: 0
+  BlendToMainBarCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.30668584
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FillAmountCatchUp: 1
+  FillAmountCatchUpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  OverrideLossSecondBarColor: 1
+  LossSecondBarColor: {r: 0.496, g: 0.056048017, b: 0.056048017, a: 1}
+  LossUseTimeDelay: 1
+  LossDelayTime: 0.2
+  LossCatchUpTime: 0.2
+  BlendToInvisible: 1
+  BlendToInvisibleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  LossAmountCatchUp: 0
+  LossAmountCatchUpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  UseFillImpulse: 1
+  ImpulseCurveFill:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0033111572
+      value: 0.72106934
+      inSlope: 3.1763623
+      outSlope: 3.1763623
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16612239
+    - serializedVersion: 3
+      time: 0.19900513
+      value: 1
+      inSlope: -0.018339884
+      outSlope: -0.018339884
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2168067
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 0
+      inSlope: -12.63721
+      outSlope: -12.63721
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.034913726
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ImpulseDurationFill: 1
+  UseCustomOutlineFill: 1
+  StrengthMinFill: 0
+  StrengthMaxFill: 1
+  PowerMinFill: 4
+  PowerMaxFill: 3
+  OverrideFillCustomOutlineColor: 1
+  FillCustomOutlineColor: {r: 0.07191601, g: 0.922, b: 0.07191601, a: 1}
+  UseFillShadowFill: 0
+  ShadowPowerMinFill: 0
+  ShadowPowerMaxFill: 0.6
+  UseOverlayFill: 0
+  OverlayStrengthMinFill: 0
+  OverlayStrengthMaxFill: 1
+  OverrideFillOverlayColor: 1
+  FillOverlayColor: {r: 0, g: 1, b: 0, a: 1}
+  FillOverlayBackgroundColor: {r: 0, g: 1, b: 0, a: 1}
+  UseLossImpulse: 1
+  ImpulseCurveLoss:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0033111572
+      value: 0.7776947
+      inSlope: 3.3730633
+      outSlope: 3.3730633
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14951015
+    - serializedVersion: 3
+      time: 0.19900513
+      value: 1
+      inSlope: -0.018339884
+      outSlope: -0.018339884
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2168067
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 0
+      inSlope: -12.63721
+      outSlope: -12.63721
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.034913726
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ImpulseDurationLoss: 1
+  UseCustomOutlineLoss: 1
+  StrengthMinLoss: 0
+  StrengthMaxLoss: 1
+  PowerMinLoss: 4
+  PowerMaxLoss: 3
+  OverrideLossCustomOutlineColor: 1
+  LossCustomOutlineColor: {r: 1, g: 0.06480328, b: 0.06480328, a: 1}
+  UseFillShadowLoss: 0
+  ShadowPowerMinLoss: 0
+  ShadowPowerMaxLoss: 0.6
+  UseOverlayLoss: 0
+  OverlayStrengthMinLoss: 0
+  OverlayStrengthMaxLoss: 1
+  OverrideLossOverlayColor: 1
+  LossOverlayColor: {r: 1, g: 0, b: 0, a: 1}
+  LossOverlayBackgroundColor: {r: 1, g: 0, b: 0, a: 1}

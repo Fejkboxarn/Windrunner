@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6433d712ed9354b46bbdf9bf1998ce57, type: 3}
+  m_Name: Batch16_WaterSwimSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.WaterSwimSettings
+  enterSurfaceAllowance: 0.348
+  maximumDetectionDepth: 29.9
+  floatDepth: 0.72
+  buoyancyStrength: 7.5
+  maximumBuoyancySpeed: 7
+  fallingMotionCancellation: 1
+  entryLift: 0.55
+  applyHorizontalDrag: 1
+  horizontalMovementMultiplier: 0.388
+  allowSwimUpInput: 1
+  swimUpSpeed: 6.28
+  allowSwimDownInput: 1
+  swimDownSpeed: 4.74
+  surfaceDeadZone: 0.045
+  exitGraceTime: 0.1

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75acebc99a49834dbeafd138837f3a0, type: 3}
+  m_Name: Batch14_v14.1_SpeedPostProcessSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.SpeedPostProcessSettings
+  enabled: 1
+  startSpeed: 8.5
+  fullSpeed: 18
+  response: 6.5
+  motionBlurEnabled: 1
+  motionBlurIntensity: 0.592
+  motionBlurClamp: 0.055
+  speedVignetteEnabled: 1
+  additionalVignette: 0.15
+  speedVignetteSmoothness: 0.58
+  speedLensDistortionEnabled: 1
+  additionalLensDistortion: -0.11
+  additionalLensScale: 0.025
+  speedChromaticAberrationEnabled: 1
+  additionalChromaticAberration: 0.174
+  speedBloomEnabled: 1
+  additionalBloom: 0.064
+  previewAtFullStrength: 0

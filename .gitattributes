@@ -1,0 +1,75 @@
+# -----------------------------
+# Git LFS - 3D / Source Art
+# -----------------------------
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+*.mb filter=lfs diff=lfs merge=lfs -text
+*.ma filter=lfs diff=lfs merge=lfs -text
+*.max filter=lfs diff=lfs merge=lfs -text
+*.ztl filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------
+# Git LFS - Textures / Images
+# -----------------------------
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.psb filter=lfs diff=lfs merge=lfs -text
+*.tga filter=lfs diff=lfs merge=lfs -text
+*.tif filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
+*.hdr filter=lfs diff=lfs merge=lfs -text
+
+# Uncomment these if most PNG/JPG files are large game assets.
+# *.png filter=lfs diff=lfs merge=lfs -text
+# *.jpg filter=lfs diff=lfs merge=lfs -text
+# *.jpeg filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------
+# Git LFS - Audio
+# -----------------------------
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+*.flac filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------
+# Git LFS - Video
+# -----------------------------
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.avi filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------
+# Git LFS - Archives / Packages
+# -----------------------------
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+*.unitypackage filter=lfs diff=lfs merge=lfs -text
+
+# -----------------------------
+# Unity text files
+# Keep these OUT of Git LFS.
+# -----------------------------
+*.meta text
+*.unity text
+*.prefab text
+*.mat text
+*.anim text
+*.controller text
+*.asset text
+*.asmdef text
+*.asmref text
+*.shader text
+*.compute text
+*.cginc text
+*.hlsl text
+*.json text
+*.xml text
+*.txt text
+*.cs text
+
+# Normalize text line endings in the repository.
+* text=auto

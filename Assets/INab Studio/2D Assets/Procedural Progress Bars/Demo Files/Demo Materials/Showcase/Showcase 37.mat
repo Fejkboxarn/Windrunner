@@ -1,0 +1,533 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Showcase 37
+  m_Shader: {fileID: -6465566751694194690, guid: 921471242514c1246bbd85a0a8de3889, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _FILL_OVERLAY_USE_GUIDES
+  - _FILL_SEGMENTS_ENABLE
+  m_InvalidKeywords:
+  - _BUILTIN_SURFACE_TYPE_TRANSPARENT
+  - _SURFACE_TYPE_TRANSPARENT
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Layer_3C20EED6:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Layer_977754CA:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Custom_Outline_Noise_Guide_1:
+        m_Texture: {fileID: 2800000, guid: 7f638561451144849b787c4da84ee333, type: 3}
+        m_Scale: {x: 6, y: 6}
+        m_Offset: {x: 0, y: 0}
+    - _Custom_Outline_Noise_Guide_2:
+        m_Texture: {fileID: 2800000, guid: 7f638561451144849b787c4da84ee333, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Custom_Outline_Tex_1:
+        m_Texture: {fileID: 2800000, guid: a4163ca9800edde4ea10dca7e7d65471, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Custom_Outline_Tex_2:
+        m_Texture: {fileID: 2800000, guid: b45b61d8037a0c343a999ff240bb7e79, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Custom_Shape_Noise_Guide_1:
+        m_Texture: {fileID: 2800000, guid: 0f483ed4ae04dad44ab55b9d28034051, type: 3}
+        m_Scale: {x: 2.37, y: 1.81}
+        m_Offset: {x: 0, y: 1.73}
+    - _Custom_Shape_Noise_Guide_1_1:
+        m_Texture: {fileID: 2800000, guid: e42ca4c7114c773489818ae3a6dd3e40, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0.25, y: 0}
+    - _Custom_Shape_Noise_Guide_2:
+        m_Texture: {fileID: 2800000, guid: c47049f9cdd87d64ebbd8754efb46380, type: 3}
+        m_Scale: {x: 5, y: -0.35}
+        m_Offset: {x: 0.79, y: 1.05}
+    - _Custom_Shape_Noise_Guide_2_1:
+        m_Texture: {fileID: 2800000, guid: 4dcc2dc049c75684aa5235fe34319a48, type: 3}
+        m_Scale: {x: 2, y: 2.8}
+        m_Offset: {x: 0.93, y: 1.25}
+    - _Custom_Shape_Texture_Guide:
+        m_Texture: {fileID: 2800000, guid: 4b32c28b01b394a4681c97e76fc595aa, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0.75}
+    - _Edge_Guide_Texture:
+        m_Texture: {fileID: 2800000, guid: 0f483ed4ae04dad44ab55b9d28034051, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Edge_Texture:
+        m_Texture: {fileID: 2800000, guid: fadf2db8baabd9242a1043a2fe648a16, type: 3}
+        m_Scale: {x: -6, y: 6}
+        m_Offset: {x: 0, y: 0}
+    - _Fill_Overlay_Noise_Guide_1:
+        m_Texture: {fileID: 2800000, guid: 0f483ed4ae04dad44ab55b9d28034051, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Fill_Overlay_Noise_Guide_2:
+        m_Texture: {fileID: 2800000, guid: d346299f162b4ff4089a40a54931a88b, type: 3}
+        m_Scale: {x: 6, y: 6}
+        m_Offset: {x: 0, y: 0}
+    - _Fill_Shadow_Texture:
+        m_Texture: {fileID: 2800000, guid: 7f638561451144849b787c4da84ee333, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _Fill_Shadow_Texture_Guide:
+        m_Texture: {fileID: 2800000, guid: 4b32c28b01b394a4681c97e76fc595aa, type: 3}
+        m_Scale: {x: 2.17, y: 2.95}
+        m_Offset: {x: 0, y: 0}
+    - _Fill_Texture_Guide:
+        m_Texture: {fileID: 2800000, guid: 125d8cca0cca22b4894c2958fac429e5, type: 3}
+        m_Scale: {x: 7, y: 7}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Guide_1:
+        m_Texture: {fileID: 2800000, guid: b45b61d8037a0c343a999ff240bb7e79, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Guide_2:
+        m_Texture: {fileID: 2800000, guid: 0f483ed4ae04dad44ab55b9d28034051, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Shadow_Texture_Guide:
+        m_Texture: {fileID: 2800000, guid: 7f638561451144849b787c4da84ee333, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Shape_Texture:
+        m_Texture: {fileID: 2800000, guid: 51b53ec22acb49e4ba287f550b070a09, type: 3}
+        m_Scale: {x: 1.76, y: 8.23}
+        m_Offset: {x: 3.34, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 858863288511463148, guid: 49a367f569c3d624d816ae0482d6b944, type: 2}
+        m_Scale: {x: 2.2, y: 5}
+        m_Offset: {x: 1.05, y: 0}
+    - _Vertical_Gradient:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _var2DBox_ff216b7bdae54bc3a8807758a4bfda43_ShapeTexture_2896350354_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _BOOLEAN: 0
+    - _BUILTIN_AlphaClip: 0
+    - _BUILTIN_Blend: 0
+    - _BUILTIN_CullMode: 2
+    - _BUILTIN_DstBlend: 10
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 5
+    - _BUILTIN_Surface: 1
+    - _BUILTIN_ZTest: 8
+    - _BUILTIN_ZWrite: 0
+    - _BUILTIN_ZWriteControl: 0
+    - _Blend: 0
+    - _BlendMode: 0
+    - _CUSTOM_OUTLINE_ENABLE: 0
+    - _CUSTOM_SHAPE_ENABLE: 0
+    - _CUSTOM_SHAPE_USE_SECOND_TEXTURE: 0
+    - _CastShadows: 1
+    - _ConservativeDepthOffsetEnable: 0
+    - _Cull: 2
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _Custom_Outline_Depends_On_Fill_Amount: 0
+    - _Custom_Outline_Noise_Guide_1_Strength: 0.5
+    - _Custom_Outline_Noise_Guide_2_Strength: -0.114
+    - _Custom_Outline_Offset: 0
+    - _Custom_Outline_Power: 2.7
+    - _Custom_Outline_Power_1: 2
+    - _Custom_Outline_Size: 0.9927
+    - _Custom_Outline_Size_1: 1
+    - _Custom_Outline_Smoothness: 0.0063
+    - _Custom_Outline_Smoothness_1: 0.02
+    - _Custom_Outline_Strength: 1
+    - _Custom_Outline_Strength_1: 1
+    - _Custom_Outline_Tex_1_Strength: 0.022
+    - _Custom_Outline_Tex_2_Strength: 0.471
+    - _Custom_Outline_Use_Noise_Guides: 1
+    - _Custom_Shape_Enable: 1
+    - _Custom_Shape_Guide_Strength: 0.0189
+    - _Custom_Shape_Noise_Guide_1_Strength: -0.012
+    - _Custom_Shape_Noise_Guide_1_Strength_1: 1
+    - _Custom_Shape_Noise_Guide_2_Strength: 0.199
+    - _Custom_Shape_Noise_Guide_2_Strength_1: 0
+    - _Custom_Shape_Use_Second_Texture: 0
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedGIMode: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 10
+    - _END_LINE_ENABLE: 0
+    - _Edge_Guide_Flow_Speed: 0
+    - _Edge_Guide_Strength: 0.159
+    - _Edge_Texture_Flow_Speed: 0.018
+    - _Edge_Texture_Strength: 0.705
+    - _EnableBlendModePreserveSpecularLighting: 0
+    - _EnableFogOnTransparent: 1
+    - _End_Line_Multiplier: 2
+    - _End_Line_Multiply_With_Fill_Shadow: 1
+    - _End_Line_Mutliplier_To_Disable_it_after_the_bar_is_full: 1
+    - _End_Line_Offset: -0
+    - _End_Line_Power: 18.49
+    - _End_Line_Shadow_Multiplier: 1.2
+    - _End_Line_Shadow_Power: 3.4
+    - _End_Line_Smooth_1: 0
+    - _End_Line_Smooth_1_1: 0.007
+    - _End_Line_Smoothness_Left: 0.225
+    - _End_Line_Smoothness_Right: 0
+    - _End_Line_Visibility: 1
+    - _End_Line_Width: -0.074
+    - _End_Line_Width_1: 0.038
+    - _End_Line_Width_Left: 0.0053
+    - _End_Line_Width_Right: 0.0388
+    - _End_Line_mult: 2.44
+    - _End_Line_power: 5.46
+    - _ExcludeFromTUAndAA: 0
+    - _FILL_OVERLAY_ENABLE: 0
+    - _FILL_OVERLAY_USE_GUIDES: 1
+    - _FILL_SEGMENTS_ENABLE: 1
+    - _Fil_Second_Bar_Enable: 0
+    - _Fil_Second_Bar_Use_Only_Alpha: 0
+    - _Fill_Amount: 0.725
+    - _Fill_Enable_Edge_Guide: 0
+    - _Fill_Enable_Smooth_Edge: 1
+    - _Fill_Flip_Guide_Texture: 0
+    - _Fill_Flip_Guide_Texture_90_degrees_rotation: 0
+    - _Fill_Flip_Guide_Texture_Value: 0
+    - _Fill_Guide_Strength: 0.029
+    - _Fill_Overlay_Background_Alpha_Impact: 1
+    - _Fill_Overlay_Background_Color_Impact: 1
+    - _Fill_Overlay_Fill_Alpha_Impact: 0
+    - _Fill_Overlay_Fill_Color_Impact: 1
+    - _Fill_Overlay_Guide_Rotation: 0
+    - _Fill_Overlay_Inverse_Overlay: 0
+    - _Fill_Overlay_Noise_Guide_1_Strength: 1
+    - _Fill_Overlay_Noise_Guide_2_Strength: 0.599
+    - _Fill_Overlay_Step_Offset: 0.321
+    - _Fill_Overlay_Step_Smoothness: 0.25
+    - _Fill_Overlay_Strength: 1
+    - _Fill_Scroll_speed: 0
+    - _Fill_Scroll_speed_todelete: 0
+    - _Fill_Second_Bar_Enable: 0
+    - _Fill_Segments_Add_Alpha_To_1: 0
+    - _Fill_Segments_Background_Color_Alpha_Subtract: 1
+    - _Fill_Segments_Custom_Shape_Strength: 0
+    - _Fill_Segments_Edge_Smoothness: 0.0355
+    - _Fill_Segments_Fill_Color_Alpha_Subtract: 1
+    - _Fill_Segments_Multiply_Alpha_To_0: 0
+    - _Fill_Segments_Multiply_With_Alpha: 1
+    - _Fill_Segments_Segments_Number: 7
+    - _Fill_Segments_Skew: 0
+    - _Fill_Segments_Strength_On_Alpha: 1
+    - _Fill_Segments_Strength_On_Color: 1
+    - _Fill_Segments_Top_Offset: 0
+    - _Fill_Segments_Top_Smoothness: 0
+    - _Fill_Segments_Top_Strength: 1
+    - _Fill_Segments_Top_Strength_1: 0.0208
+    - _Fill_Segments_Use_Edge_Step: 1
+    - _Fill_Segments_Width: 0.0213
+    - _Fill_Segments_edge_size: 0.0169
+    - _Fill_Segments_edge_smooth: 0.0183
+    - _Fill_Shadow_Enable: 1
+    - _Fill_Shadow_Flip_Guide_Texture: 0
+    - _Fill_Shadow_Guide_Strength: 2
+    - _Fill_Shadow_Multiplier: 276.8
+    - _Fill_Shadow_Multiplier_Shadow_Amount: 4.88
+    - _Fill_Shadow_Power: 32.3
+    - _Fill_Shadow_Power_Hardness: 0.99
+    - _Fill_Shadow_Scroll_Speed: -0.085
+    - _Fill_Shadow_Scroll_Speed_todelete: 0
+    - _Fill_Shadow_Texture_Flow_Speed: 0.144
+    - _Fill_Shadow_Texture_Strength: 1.531
+    - _Fill_Shadow_Use_Hard_Step: 0
+    - _Fill_Shadow_Use_On_Background: 0
+    - _Fill_Shadow_Use_Only_Background_Color_Alpha: 0
+    - _Fill_Shadow_Use_Only_Color_Alpha: 0
+    - _Fill_Shadow_Use_Texture_Guide: 0
+    - _Fill_Skew: 0
+    - _Fill_Smooth_Edge_Value: 0.004
+    - _Fill_Use_Horizontal_Gradient: 1
+    - _Fill_Use_Only_Background_Alpha: 0
+    - _Fill_Use_Segments: 0
+    - _Fill_Vertical_Darken_Amount: 0.296
+    - _Fill_Vertical_Darken_Enable: 0
+    - _Fill_Vertical_Darken_Flip: 0
+    - _Fill_Vertical_Darken_Power: 20
+    - _Fill_Vertical_Darken_Use_Flat: 0
+    - _Flip_Edge_Texture: 0
+    - _Flip_Edge_Texture_Value: 0
+    - _Flip_Fill_Shadow_Texture: 0
+    - _Flip_Guide_Texture: 0
+    - _Flip_Guide_Texture_Value: 0
+    - _Flip_Shadow_Guide: 0
+    - _Float: 6
+    - _Float_1: 0.0035
+    - _Float_2: 0
+    - _General_Roundness: 0
+    - _General_Shape_Height: 0.0236
+    - _General_Shape_Roudness_Bottom_Left: 0
+    - _General_Shape_Roudness_Bottom_Right: 0
+    - _General_Shape_Roudness_Top_Left: 0
+    - _General_Shape_Roudness_Top_Right: 0
+    - _General_Shape_Roundness: 0.0102
+    - _General_Shape_Skew_Left_Bottom: 0
+    - _General_Shape_Skew_Left_Edge_Place: 0
+    - _General_Shape_Skew_Left_Invert: 1
+    - _General_Shape_Skew_Left_Top: 0
+    - _General_Shape_Skew_Right_Bottom: 0
+    - _General_Shape_Skew_Right_Edge_Place: 0
+    - _General_Shape_Skew_Right_Invert: 1
+    - _General_Shape_Skew_Right_Top: 0
+    - _Height: 0.0881
+    - _Main_Bar_Fill_Amount: 1
+    - _Mix_Color_Horizontal: 0
+    - _Multiple_End_Line_With_Shadow_if_fill_shadow_enabled: 1
+    - _Noise_Guide_1_Strength: 0.138
+    - _Noise_Guide_2_Strength: 0.2
+    - _OpaqueCullMode: 2
+    - _Outline_Thickness: 0.0099
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _RenderQueueType: 4
+    - _Rotation_of_texture: 0
+    - _Roudness: 0
+    - _Roudness_Bottom_Left: 0
+    - _Roudness_Bottom_Left_3: 0
+    - _Roudness_Bottom_Right: 0
+    - _Roudness_Bottom_Tight: 0
+    - _Roudness_Top_Left: 0
+    - _Roudness_Top_Right: 0
+    - _Roundness: 0.1
+    - _Second_Bar_Blend_To_Invisible: 0.5
+    - _Second_Bar_Blend_To_Main_Bar: 0.5
+    - _Second_Bar_Color_Lerp_Amount: 1
+    - _Second_Bar_Fill_Amount: 1
+    - _Second_Bar_Fill_Amount_percent_of_main_bar: 0.471
+    - _Second_Bar_Invisible_Blend: 0
+    - _Second_Bar_Main_Blend: 0
+    - _Second_Bar_Visibility: 0
+    - _Shadow_Enable: 0
+    - _Shadow_Guide_Flow_Speed: 0
+    - _Shadow_Guide_Strength: 0.1
+    - _Shadow_Power: 3.09
+    - _Shadow_Size: 0.9833
+    - _Shadow_Smoothness: 0.0353
+    - _Shadow_Strength: 1
+    - _Shape_Texture_Strength: -0.0508
+    - _Simple_Outline_Blends_To_0_Alpha: 0
+    - _Simple_Outline_Thickness: 0.0074
+    - _Simple_Outline_Use_Color_Alpha_For_Color_Blending: 0
+    - _Size: 0.9899
+    - _Skew: 0
+    - _Skew_Left: -1
+    - _Skew_Left_Bottom: 0
+    - _Skew_Left_Edge_Place: 0
+    - _Skew_Left_Invert: 0
+    - _Skew_Left_Top: 0
+    - _Skew_Right: 0.69
+    - _Skew_Right_Bottom: 0
+    - _Skew_Right_Edge_Place: 0
+    - _Skew_Right_Invert: 0
+    - _Skew_Right_Top: 0
+    - _Smooth_1: 0.019
+    - _Smooth_1_1: 0
+    - _Smooth_Edge_Value: 0.116
+    - _Smoothness: 0.0032
+    - _SrcBlend: 5
+    - _StencilRef: 0
+    - _StencilRefDepth: 1
+    - _StencilRefDistortionVec: 4
+    - _StencilRefMV: 33
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 9
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskMV: 43
+    - _Surface: 1
+    - _SurfaceType: 1
+    - _TODO: 1
+    - _TODO_shadow_color_alpha_0_color_invisible: 0
+    - _Texture_Flow_Speed: 0.055
+    - _Texture_Strength: 1
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 1
+    - _USE_CUSTOM_OUTLINE: 0
+    - _UseShadowThreshold: 0
+    - _Use_Color_Instead: 0
+    - _Use_Fill_Shadow: 1
+    - _Use_Fill_Shadow_with_end_line: 1
+    - _Use_Gradient: 0
+    - _Use_Gradients_Horziontal_Vertical: 1
+    - _Use_Only_With_Fill: 0
+    - _Use_Shadow_Texture_Guide: 0
+    - _Use_Shape_Texture: 0
+    - _Use_Smooth_Edge: 1
+    - _Use_Texture: 1
+    - _Use_Texture_Edge: 0
+    - _Use_Texture_Fill_Shadow: 0
+    - _Use_Texture_Guide: 0
+    - _Use_Texture_On_Edge: 0
+    - _Use_Texture_On_Whole_Fill: 1
+    - _Use_Texture_Overlay: 0
+    - _Width: -0.024
+    - _Width_1: 0
+    - _ZTest: 4
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    - _aaa: 1
+    - _add: 0.943
+    - _edge: 0.204
+    - _edge_1: 0
+    - _edge_size: 0.1
+    - _edge_smooth: 0.1
+    - _fds: 2.36
+    - _mult: -0.129
+    - _overwrite_background_alpha_1: 0
+    - _overwrite_background_color_1: 0
+    - _overwrite_fill_alpha: 0
+    - _overwrite_fill_color: 0.362
+    - _pow_1: 165.7
+    - _pow_2: 48.9
+    - _power: 4.2
+    - _seg: 9
+    - _sine: 6.285714
+    - _smooth: 0.001
+    - _strenght: 0.073
+    - _use_ustom_outline: 1
+    m_Colors:
+    - _Backgroudn_color: {r: 1, g: 0.26435083, b: 0, a: 1}
+    - _Background_Color_Overlay: {r: 0.20754719, g: 0.053844795, b: 0.053844795, a: 1}
+    - _Background_color: {r: 0, g: 0.96317214, b: 1, a: 0.043137256}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color_1: {r: 0.18198854, g: 0.1568627, b: 0.85882354, a: 0}
+    - _Color_Left: {r: 0.85882354, g: 0.1568627, b: 0.20857209, a: 0}
+    - _Color_No_Gradient: {r: 0, g: 1, b: 0.6875515, a: 1}
+    - _Color_No_Mix: {r: 0.4793966, g: 0.5106501, b: 0.764151, a: 1}
+    - _Color_Right: {r: 0.16857088, g: 0.15294118, b: 0.8392157, a: 0}
+    - _Custom_Outline_Color: {r: 0.092, g: 0.069469385, b: 0.03755102, a: 1}
+    - _Custom_Outline_Color_1: {r: 0.45794803, g: 1.9496276, b: 0.40419105, a: 1}
+    - _Custom_Outline_Noise_Guide_1_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _Custom_Outline_Noise_Guide_1_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Custom_Outline_Noise_Guide_2_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _Custom_Outline_Noise_Guide_2_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Custom_Outline_Tex_1_Scale: {r: 3, g: 5, b: 0, a: 0}
+    - _Custom_Outline_Tex_2_Scale: {r: 4.21, g: 3, b: 0, a: 0}
+    - _Custom_Shape_Noise_Guide_1_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Custom_Shape_Noise_Guide_1_Scroll_Speed_1: {r: 0, g: 0.02, b: 0, a: 0}
+    - _Custom_Shape_Noise_Guide_2_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Custom_Shape_Noise_Guide_2_Scroll_Speed_1: {r: 0.15, g: 0, b: 0, a: 0}
+    - _Custom_Shape_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _End_Line_Color: {r: 1.741101, g: 1.741101, b: 1.741101, a: 1}
+    - _Fil_Second_Bar_Color: {r: 0.1963765, g: 0.2669933, b: 0.8392157, a: 0.54509807}
+    - _Fill_Background_color: {r: 0.156, g: 0.156, b: 0.156, a: 1}
+    - _Fill_Color_No_Gradient: {r: 0.000303527, g: 0.38642952, b: 0.0018211621, a: 1}
+    - _Fill_Color_Overlay: {r: 0.028783772, g: 0.071, b: 0.010554052, a: 1}
+    - _Fill_Gradient_Color_Left: {r: 0.066666655, g: 0.27450982, b: 0.10413067, a: 1}
+    - _Fill_Gradient_Color_Right: {r: 0.31372547, g: 1, b: 0.4395425, a: 1}
+    - _Fill_Overlay_Background_Color: {r: 0.14778392, g: 0.25835332, b: 0.38679248, a: 0.31764707}
+    - _Fill_Overlay_Fill_Color: {r: 0.0661111, g: 0.17, b: 0.028333327, a: 1}
+    - _Fill_Overlay_Noise_Guide_1_Scroll_Speed: {r: 0, g: 0.005, b: 0, a: 0}
+    - _Fill_Overlay_Noise_Guide_2_Scroll_Speed: {r: 0, g: 0.02, b: 0, a: 0}
+    - _Fill_Scroll_speed_XY: {r: 0, g: 0, b: 0, a: 0}
+    - _Fill_Second_Bar_Color: {r: 0.6239606, g: 0.1412633, b: 0.1412633, a: 1}
+    - _Fill_Second_Bar_Color_No_Gradient: {r: 0.15438882, g: 0.40399998, b: 0.060195975, a: 0.6392157}
+    - _Fill_Segments_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Fill_Shadow_Background_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Fill_Shadow_Color: {r: 0.10616667, g: 0.53900003, b: 0.114333354, a: 1}
+    - _Fill_Shadow_Scroll_Speed_XY: {r: 0, g: 0, b: 0, a: 0}
+    - _Fill_Vertical_Darken_Color: {r: 0.087791994, g: 0.496, b: 0.087791994, a: 1}
+    - _General_Shape_Size_Offset: {r: 0.02, g: 0, b: 0, a: 0}
+    - _Gradient_Color_Left: {r: 0, g: 0, b: 0, a: 1}
+    - _Gradient_Color_Right: {r: 0.7490196, g: 0.26397216, b: 0.07058824, a: 1}
+    - _Height_Offset: {r: 0.1, g: 0, b: 0, a: 0}
+    - _Noise_Guide_1_Scale: {r: 5, g: 5, b: 0, a: 0}
+    - _Noise_Guide_2_Scale: {r: 5, g: 5, b: 0, a: 0}
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Overlay_Backgound_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Overlay_Fill_Color: {r: 0.028783772, g: 0.071, b: 0.010554052, a: 1}
+    - _Shadow_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Shadow_Color_Backgroubnd: {r: 0.5812483, g: 0.054957267, b: 0.6132076, a: 1}
+    - _Shadow_Color_Fill: {r: 1, g: 0.25943398, b: 0.25943398, a: 0}
+    - _Shape_Texture_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Shape_Texture_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Shape_Texture_Tiling: {r: 3, g: 5, b: 0, a: 0}
+    - _Simple_Outline_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Size_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Vector2: {r: 1.6, g: 5.99, b: 0, a: 0}
+    - _Vector4: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &772688676628620349
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10
+--- !u!114 &7652804919239340487
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0

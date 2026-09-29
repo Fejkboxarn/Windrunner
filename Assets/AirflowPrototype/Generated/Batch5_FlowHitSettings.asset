@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c44a4485ee9e54b9dcafadfb3376e6, type: 3}
+  m_Name: Batch5_FlowHitSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirFlowHitSettings
+  airPowerRestore: 28
+  planarBoostImpulse: 4.4
+  maxBoostedSpeed: 20
+  boostHoldDuration: 2.11
+  boostSpeedDecayPerSecond: 4.5
+  minimumChargeRewardMultiplier: 1
+  minimumTravelSpeedForDirection: 0
+  risingLift: 25
+  fallingLift: 35
+  fallingVelocityCancelFraction: 1
+  maxRewardUpwardSpeed: 12
+  aerialFlowGravityScale: 0.48
+  aerialFlowGravityDuration: 0.32
+  aerialFlowSteeringMultiplier: 1.65
+  aerialFlowSteeringDuration: 0.48
+  nodeTargetingCooldown: 0.9
+  returnStreamDuration: 0.16
+  fovPunchDegrees: 24.75
+  fovPunchDecayPerSecond: 18
+  rewardCameraKickBack: 0.16
+  rewardCameraKickUp: 0.035
+  rewardCameraRollKick: 1.4
+  rewardCameraKickRecovery: 16
+  returnTrailTime: 0.13
+  returnTrailStartWidth: 0.12
+  returnTrailEndWidth: 0.02
+  lowFrequencyRumble: 0.28
+  highFrequencyRumble: 0.62
+  rumbleDuration: 0.1

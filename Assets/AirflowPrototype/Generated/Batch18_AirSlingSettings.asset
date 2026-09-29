@@ -1,0 +1,182 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7a1d121a2720649ba1dab3d83b2581, type: 3}
+  m_Name: Batch18_AirSlingSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirSlingSettings
+  settingsVersion: 1811
+  maxTargetDistance: 42.1
+  maxCameraAngle: 55.4
+  minimumScore: 0.2
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 1
+  screenCenterWeight: 0.54
+  movementDirectionWeight: 0.18
+  distanceWeight: 0.14
+  cameraForwardWeight: 0.14
+  requirePerfectReleaseForSequence: 0
+  perfectTime: 0.3
+  fullTimingTime: 0.6
+  perfectLeeway: 0.099
+  initialPerfectRewardMultiplier: 1
+  initialPlanarBoostImpulse: 4.4
+  initialMaxBoostedSpeed: 20
+  initialBoostHoldDuration: 0.45
+  initialBoostDecayPerSecond: 4.5
+  initialRisingLift: 1.5
+  initialFallingLift: 3.4
+  initialFallingCancelFraction: 1
+  initialMaxUpwardSpeed: 7.5
+  initialGravityScale: 0.48
+  initialGravityDuration: 0.32
+  initialSteeringMultiplier: 1.65
+  initialSteeringDuration: 0.48
+  delayBeforeNodeDash: 0.32
+  dashStartSpeed: 24
+  dashMaximumSpeed: 48
+  dashAcceleration: 125
+  landingTolerance: 0.08
+  maximumDashDuration: 1.6
+  overrideNormalMovementDuringDash: 1
+  finalPlanarBoostImpulse: 18
+  finalMaxBoostedSpeed: 34
+  finalBoostHoldDuration: 0.9
+  finalBoostDecayPerSecond: 4
+  finalRisingLift: 24.4
+  finalFallingLift: 40.1
+  finalFallingCancelFraction: 1
+  finalMaxUpwardSpeed: 18.4
+  finalGravityScale: 0.4
+  finalGravityDuration: 0.45
+  finalSteeringMultiplier: 4.44
+  finalSteeringDuration: 2.43
+  finalCameraInfluence: 0.12
+  minimumForwardDot: 0.65
+  dashInitialKickSpeed: 8
+  dashArcHeight: 1.15
+  dashArrivalAccelerationStart: 0.72
+  dashArrivalAccelerationMultiplier: 1.65
+  startMomentumInfluence: 1.01
+  startTangentDistance: 0.14
+  approachTangentDistance: 2.7
+  bezierVerticalLift: 1.45
+  bezierLateralOffset: 0.85
+  dashSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.08
+      value: 0.95
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.35
+      value: 0.85
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.65
+      value: 0.9
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.82
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1.15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bezierLengthSamples: 8
+  enablePlayerCurveBank: 1
+  maximumPlayerCurveBankDegrees: 16
+  curveBankPreview: 0.35
+  curveAngleForMaximumBank: 18
+  curveBankResponse: 15
+  makeNodeVisualFacePlayerDuringSling: 1
+  nodeVisualTurnSpeedDegreesPerSecond: 420
+  enableSlingFovProfile: 0
+  releaseFov: 70
+  releaseFovResponse: 24
+  releaseFovHoldDuration: 0.1
+  releaseFovRecoveryResponse: 10
+  dashFov: 90
+  dashFovResponse: 10
+  impactFovCompressionStart: 0.5
+  impactCompressionFov: 120
+  impactCompressionFovResponse: 96.9
+  launchFov: 120
+  launchFovResponse: 34
+  launchFovHoldDuration: 0.11
+  launchFovRecoveryResponse: 7
+  enableDashStartCameraKick: 0
+  dashCameraKickBack: 0.34
+  dashCameraKickUp: 0.07
+  dashCameraKickRoll: 0.65
+  dashCameraKickRecovery: 14
+  enablePerfectReleaseTimeStop: 1
+  perfectReleaseTimeScale: 0.24
+  perfectReleaseTimeStopDuration: 0.055
+  perfectReleaseTimeStopRecovery: 0.16
+  enableNodeImpactTimeStop: 1
+  nodeImpactTimeScale: 0.24
+  nodeImpactTimeStopDuration: 0.49
+  nodeImpactTimeStopRecovery: 0.25
+  enableFinalLaunchFlip: 1
+  finalLaunchFlipIntensity: 1
+  defaultNodeVisualPrefab: {fileID: 5484185280237991187, guid: ddcb75a6297b17f48b2b10e312809438, type: 3}
+  defaultVisualLocalPosition: {x: 0, y: -1.72, z: 0}
+  defaultVisualLocalEulerAngles: {x: 0, y: 0, z: 0}
+  defaultVisualLocalScale: {x: 1.65, y: 1.65, z: 1.65}
+  impactSplashPrefab: {fileID: 8680743643424120080, guid: e77ebf56c458c074a8d0b248eb64a289, type: 3}
+  normalReleaseDamage: 1
+  perfectReleaseDamage: 2
+  useAirPower: 1
+  airPowerCost: 5
+  requireEnoughAirPower: 1
+  slingReticleTint: {r: 1, g: 0.18, b: 0.12, a: 1}
+  reticlePerfectCenter01: 0.5
+  reticlePerfectHalfWidth01: 0.15

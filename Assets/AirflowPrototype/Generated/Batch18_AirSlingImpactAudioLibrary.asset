@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d56efa03c49ffea47bc909f37f483312, type: 3}
+  m_Name: Batch18_AirSlingImpactAudioLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirSlingImpactAudioLibrary
+  standardBloodSplash: {fileID: 8300000, guid: 7e1d49fba0d80a3499f76436a0a2221b, type: 3}
+  standardBloodSplashVolume: 0.142
+  standardMinimumPitch: 0.94
+  standardMaximumPitch: 1.06
+  entries:
+  - id: 1
+    label: 
+    clip: {fileID: 8300000, guid: 1a730a0b151162c4f876ca601eb2acbc, type: 3}
+    volume: 0.101
+    minimumPitch: 0.94
+    maximumPitch: 1.06

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e71c1a73d27b81428b7c0c608890d33, type: 3}
+  m_Name: Batch14_v14.1_BoldAutumnLookSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AutumnLookSettings
+  temperature: 32
+  tint: 7
+  postExposure: 0.08
+  contrast: 18
+  hueShift: -4
+  saturation: 14
+  colorFilter: {r: 1, g: 0.88, b: 0.74, a: 1}
+  bloomEnabled: 1
+  bloomIntensity: 0.14
+  bloomThreshold: 0.54
+  bloomScatter: 0.72
+  bloomTint: {r: 0.6018156, g: 0.8679245, b: 0.86539686, a: 1}
+  vignetteEnabled: 1
+  vignetteIntensity: 0.22
+  vignetteSmoothness: 0.48
+  vignetteColor: {r: 0.11, g: 0.045, b: 0.018, a: 1}
+  filmGrainEnabled: 1
+  filmGrainIntensity: 0.1
+  filmGrainResponse: 0.72
+  chromaticAberrationEnabled: 1
+  chromaticAberration: 0.035
+  lensDistortionEnabled: 1
+  lensDistortion: -0.035
+  lensDistortionX: 1
+  lensDistortionY: 1
+  lensScale: 1.015
+  useACES: 1

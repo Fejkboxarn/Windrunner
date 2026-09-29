@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb43fa253c8832478ac3ff40982901a, type: 3}
+  m_Name: Batch11_CapsuleAnimationSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.CapsuleAnimationSettings
+  breathingCyclesPerSecond: 0.32
+  breathingScale: 0.018
+  breathingBob: 0.012
+  locomotionStartSpeed: 0.45
+  fullRunAnimationSpeed: 18
+  walkCyclesPerSecond: 1.45
+  runCyclesPerSecond: 3.15
+  walkRunBob: 0.075
+  walkRunSideSwayDegrees: 4.5
+  walkRunContactSquash: 0.035
+  takeoffSquashDuration: 0.12
+  takeoffSquash: 0.1
+  risingStretch: 0.055
+  risingPitchDegrees: 5.5
+  apexSquash: 0.035
+  fallingStretch: 0.045
+  fallingPitchDegrees: 5
+  verticalSpeedForFullPose: 7
+  landingSquashDuration: 0.15
+  landingSquash: 0.13
+  flipDuration: 0.58
+  corkRollDegrees: 105
+  flipTuckSquash: 0.055
+  minimumFlipRewardIntensity: 0.55
+  earliestFlipRestartNormalizedTime: 0.58
+  positionResponse: 18
+  scaleResponse: 18

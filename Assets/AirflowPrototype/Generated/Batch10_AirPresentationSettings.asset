@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86472fe2e0add504ea8f329ea2085550, type: 3}
+  m_Name: Batch10_AirPresentationSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirPresentationSettings
+  chargeStreakCount: 10
+  chargeStreakRadius: 0.85
+  chargeStreakLength: 0.28
+  chargeOrbitSpeed: 90
+  chargeStreakWidth: 0.012
+  chargeRingStartRadius: 0.62
+  chargeRingReadyRadius: 0.17
+  chargeRingWidth: 0.022
+  releaseRingCount: 3
+  releaseStartRadius: 0.16
+  releaseEndRadius: 1.15
+  releaseDuration: 0.16
+  releaseRingWidth: 0.028
+  nodeImpactRingCount: 3
+  nodeImpactStartRadius: 0.18
+  nodeImpactEndRadius: 1.35
+  nodeImpactDuration: 0.2
+  nodeImpactRingWidth: 0.024
+  rewardRingCount: 3
+  rewardStartRadius: 0.24
+  rewardEndRadius: 1.55
+  rewardDuration: 0.22
+  rewardRingWidth: 0.032
+  returnCurveSide: 1.15
+  returnCurveUp: 0.75
+  returnEasePower: 2.4
+  softAirColor: {r: 0.66, g: 0.88, b: 1, a: 0.55}
+  brightAirColor: {r: 0.9, g: 0.99, b: 1, a: 0.95}

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58685ea31258df4ebdeb24f44b3d3ab, type: 3}
+  m_Name: Batch7_AirFeelSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirFeelSettings
+  maxFeedbackSpeed: 20
+  lookAheadStartSpeed: 6
+  lookAheadDistanceAtMaxSpeed: 1.15
+  lookAheadResponse: 6.5
+  cameraPullbackAtMaxSpeed: 0.45
+  cameraPullbackResponse: 7
+  maxCameraTurnRoll: 3.25
+  turnRateForMaxCameraRoll: 170
+  cameraTurnRollResponse: 10
+  forwardLeanAtMaxSpeed: 10
+  maxCharacterTurnLean: 9
+  turnRateForMaxCharacterLean: 170
+  characterLeanResponse: 11
+  windStartSpeed: 9
+  windFullSpeed: 18
+  maxWindStreaks: 22
+  windTravelSpeed: 25
+  windSpawnDistance: 8
+  windSpreadX: 7
+  windSpreadY: 4.5
+  minWindLength: 0.15
+  maxWindLength: 1.35
+  minWindWidth: 0.008
+  maxWindWidth: 0.022
+  windColor: {r: 0.82, g: 0.95, b: 1, a: 0.55}

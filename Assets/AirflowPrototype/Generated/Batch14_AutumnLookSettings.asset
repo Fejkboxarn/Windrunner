@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e71c1a73d27b81428b7c0c608890d33, type: 3}
+  m_Name: Batch14_AutumnLookSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AutumnLookSettings
+  temperature: 32.2
+  tint: 4
+  postExposure: 0.05
+  contrast: 10
+  saturation: 8
+  colorFilter: {r: 1, g: 0.93, b: 0.84, a: 1}
+  bloomIntensity: 0.08
+  bloomThreshold: 1.05
+  bloomScatter: 0.68
+  bloomTint: {r: 0.56470275, g: 0.8329611, b: 0.8490566, a: 1}
+  vignetteIntensity: 0.16
+  vignetteSmoothness: 0.42
+  vignetteColor: {r: 0.12, g: 0.07, b: 0.035, a: 1}

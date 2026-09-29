@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6efc5d6257c2c14498f81d18fecd8e80, type: 3}
+  m_Name: Batch11_DustSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerDustSettings
+  movementDustStartSpeed: 2.2
+  walkEmissionInterval: 0.24
+  sprintEmissionInterval: 0.075
+  movementBurstCount: 2
+  movementParticleSize: 0.12
+  movementParticleSpeed: 0.85
+  landingMinCount: 5
+  landingMaxCount: 18
+  landingParticleSize: 0.13
+  landingParticleSpeed: 2.1
+  lifetime: 0.62
+  gravityModifier: -0.08
+  drag: 1.15
+  groundOffset: 0.06
+  spawnRadius: 0.32
+  dustColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}

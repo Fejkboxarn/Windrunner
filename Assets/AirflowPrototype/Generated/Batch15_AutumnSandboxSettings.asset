@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7723118f70ec0846a2a922e586e9e79, type: 3}
+  m_Name: Batch15_AutumnSandboxSettings
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AutumnSandboxSettings
+  settingsVersion: 154
+  terrainLayerOverrides:
+  - {fileID: 8574412962073106934, guid: 6521eb341a7e3734b828f9ebb5217003, type: 2}
+  - {fileID: 8574412962073106934, guid: 530997a50cfacfc4398b8df8465bd147, type: 2}
+  - {fileID: 8574412962073106934, guid: 56a8d7a490d172b4c8f424711a9801a8, type: 2}
+  waterMaterialOverride: {fileID: 0}
+  terrainSize: 2000
+  terrainHeight: 340
+  heightmapResolution: 1025
+  alphamapResolution: 512
+  baseHeight: 34
+  largeNoiseAmplitude: 88
+  mediumNoiseAmplitude: 34
+  smallNoiseAmplitude: 9
+  ridgeAmplitude: 22
+  edgeLift: 24
+  largeNoiseScale: 720
+  mediumNoiseScale: 260
+  smallNoiseScale: 72
+  ridgeNoiseScale: 390
+  generateWater: 1
+  riverWidth: 34
+  riverBedDepth: 4
+  lakeBedDepth: 6.5
+  waterBedProfilePower: 2.2
+  waterSurfaceOffset: -0.01
+  riverLengthSamples: 128
+  riverCrossSegments: 8
+  lakeRadialRings: 16
+  lakeAngularSegments: 96
+  randomSeed: 84621
+  replaceExistingSandbox: 1
