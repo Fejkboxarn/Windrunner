@@ -35,6 +35,9 @@ MonoBehaviour:
   doubleJump: {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
   doubleJumpMirrorChancePercent: 0
   fall: {fileID: 7400000, guid: fae80757d6e3e2c4fa5e5000a0dc1e5a, type: 2}
+  landIdle: {fileID: 7400000, guid: 545c6134690db614495f8dd4f5ac82e6, type: 2}
+  landRunning: {fileID: 7400000, guid: 67a33a2badba34a4f8b4784d88f72b7f, type: 2}
+  runningLandingSpeedThreshold: 3.25
   land: {fileID: 7400000, guid: 67a33a2badba34a4f8b4784d88f72b7f, type: 2}
   slingStart: {fileID: 0}
   slingAir: {fileID: 7400000, guid: 1005921774b245f4bb59b1a34983a4b2, type: 2}
@@ -43,12 +46,18 @@ MonoBehaviour:
   runThreshold: 1
   turnLeanBlendExtension: 0.157
   turnRateForFullLean: 240
+  locomotionDirectionResponse: 8
+  alignFacingBeforeDirectionalBlend: 1
+  maximumFacingErrorForAuthoredStart: 38
+  startFacingAlignmentReleaseAngle: 20
+  startFacingAlignmentMaxDuration: 0.32
   moveInputDeadzone: 0.12
   startMaximumSpeed: 3
   stopMinimumSpeed: 2.2
   hardTurnAngle: 112
   hardTurnMinimumSpeed: 4
   hardTurnCooldown: 0.45
+  enableAuthoredHardTurns: 0
   forwardStartHalfAngle: 32
   backwardStartAngle: 112
   runStartExitTime: 0.72
@@ -64,4 +73,4 @@ MonoBehaviour:
   landExitTime: 0.82
   slingImpactExitTime: 1
   run: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
-  profileVersion: 196
+  profileVersion: 199

@@ -32,6 +32,7 @@ namespace AirflowPrototype
         [SerializeField] private string doubleJumpVariantIntParameter = "DoubleJumpVariant";
         [SerializeField] private string doubleJumpMirrorBoolParameter = "DoubleJumpMirror";
         [SerializeField] private string landTriggerParameter = "Land";
+        [SerializeField] private string landVariantIntParameter = "LandVariant";
 
         [Header("Speed Normalization")]
         [Min(0.1f)]
@@ -51,6 +52,16 @@ namespace AirflowPrototype
         [SerializeField, HideInInspector] private float backwardStartAngle = 112f;
         [SerializeField, HideInInspector] private float turnLeanBlendExtension = 0.5f;
         [SerializeField, HideInInspector] private float turnRateForFullLean = 240f;
+        [SerializeField, HideInInspector] private float locomotionDirectionResponse = 8f;
+        [SerializeField, HideInInspector] private bool enableAuthoredHardTurns = false;
+
+        [SerializeField, HideInInspector] private bool alignFacingBeforeDirectionalBlend = true;
+        [SerializeField, HideInInspector] private float maximumFacingErrorForAuthoredStart = 38f;
+        [SerializeField, HideInInspector] private float startFacingAlignmentReleaseAngle = 20f;
+        [SerializeField, HideInInspector] private float startFacingAlignmentMaxDuration = 0.32f;
+
+        [Header("Generated Landing Tuning")]
+        [SerializeField, HideInInspector] private float runningLandingSpeedThreshold = 3.25f;
 
         [Header("Generated Double Jump Tuning")]
         [SerializeField, HideInInspector] private int doubleJumpVariantCount = 1;
@@ -100,6 +111,12 @@ namespace AirflowPrototype
         private Vector3 _lastAnimatorForward;
         private bool _hasLastAnimatorForward;
 
+        private float _smoothedLocomotionDirection;
+        private bool _hasSmoothedLocomotionDirection;
+
+        private bool _startFacingAlignmentActive;
+        private float _startFacingAlignmentRemaining;
+
         private bool _waitingForSlingImpactLayerRelease;
         private bool _slingImpactStateObserved;
         private float _slingImpactLayerHoldElapsed;
@@ -132,6 +149,11 @@ namespace AirflowPrototype
                 return;
 
             profile.EnsureCurrentDefaults();
+
+            runningLandingSpeedThreshold =
+                Mathf.Max(
+                    0f,
+                    profile.runningLandingSpeedThreshold);
 
             doubleJumpVariantCount =
                 Mathf.Max(
@@ -173,6 +195,24 @@ namespace AirflowPrototype
 
             turnRateForFullLean =
                 profile.turnRateForFullLean;
+
+            locomotionDirectionResponse =
+                profile.locomotionDirectionResponse;
+
+            enableAuthoredHardTurns =
+                profile.enableAuthoredHardTurns;
+
+            alignFacingBeforeDirectionalBlend =
+                profile.alignFacingBeforeDirectionalBlend;
+
+            maximumFacingErrorForAuthoredStart =
+                profile.maximumFacingErrorForAuthoredStart;
+
+            startFacingAlignmentReleaseAngle =
+                profile.startFacingAlignmentReleaseAngle;
+
+            startFacingAlignmentMaxDuration =
+                profile.startFacingAlignmentMaxDuration;
 
             if (_lastDoubleJumpVariant >=
                 doubleJumpVariantCount)
@@ -248,6 +288,11 @@ namespace AirflowPrototype
             _hadMoveInput = false;
             _hardTurnCooldownRemaining = 0f;
             _hasLastAnimatorForward = false;
+            _smoothedLocomotionDirection = 0f;
+            _hasSmoothedLocomotionDirection = false;
+
+            _startFacingAlignmentActive = false;
+            _startFacingAlignmentRemaining = 0f;
 
             if (animator != null &&
                 _slingLayerIndex >= 0)
@@ -323,10 +368,13 @@ namespace AirflowPrototype
                 hasMoveInputBoolParameter,
                 hasMoveInput);
 
-            UpdateLocomotionDirection(
-                dt);
-
             UpdateGroundedOneShots(
+                moveInput,
+                hasMoveInput,
+                grounded);
+
+            UpdateLocomotionDirection(
+                dt,
                 moveInput,
                 hasMoveInput,
                 grounded);
@@ -339,7 +387,10 @@ namespace AirflowPrototype
         }
 
         private void UpdateLocomotionDirection(
-            float dt)
+            float dt,
+            Vector2 moveInput,
+            bool hasMoveInput,
+            bool grounded)
         {
             if (animator == null ||
                 motor == null)
@@ -430,9 +481,78 @@ namespace AirflowPrototype
                     -1f - turnLeanBlendExtension,
                     1f + turnLeanBlendExtension);
 
+            if (_startFacingAlignmentActive)
+            {
+                _startFacingAlignmentRemaining =
+                    Mathf.Max(
+                        0f,
+                        _startFacingAlignmentRemaining - dt);
+
+                Vector3 desiredDirection =
+                    BuildDesiredMoveDirection(
+                        moveInput);
+
+                float facingError =
+                    EvaluateFacingErrorDegrees(
+                        desiredDirection);
+
+                bool releaseAlignment =
+                    !alignFacingBeforeDirectionalBlend ||
+                    !grounded ||
+                    !hasMoveInput ||
+                    desiredDirection.sqrMagnitude < 0.001f ||
+                    facingError <=
+                    startFacingAlignmentReleaseAngle ||
+                    _startFacingAlignmentRemaining <= 0f;
+
+                if (releaseAlignment)
+                {
+                    _startFacingAlignmentActive = false;
+                    _startFacingAlignmentRemaining = 0f;
+                }
+                else
+                {
+                    // While the gameplay-facing is catching up from rest, keep
+                    // the authored body in forward locomotion. This prevents
+                    // the L90/R90 clips from visually "running backwards"
+                    // against the old idle facing.
+                    directionBlend = 0f;
+                }
+            }
+
+            if (!_hasSmoothedLocomotionDirection)
+            {
+                _smoothedLocomotionDirection =
+                    directionBlend;
+
+                _hasSmoothedLocomotionDirection =
+                    true;
+            }
+            else
+            {
+                float response =
+                    Mathf.Max(
+                        0.1f,
+                        locomotionDirectionResponse);
+
+                float blendT =
+                    1f -
+                    Mathf.Exp(
+                        -response *
+                        Mathf.Max(
+                            0.0001f,
+                            dt));
+
+                _smoothedLocomotionDirection =
+                    Mathf.Lerp(
+                        _smoothedLocomotionDirection,
+                        directionBlend,
+                        blendT);
+            }
+
             SetFloatIfPresent(
                 locomotionDirectionFloatParameter,
-                directionBlend);
+                _smoothedLocomotionDirection);
 
             _lastAnimatorForward =
                 forward;
@@ -463,16 +583,47 @@ namespace AirflowPrototype
                 desiredDirection.sqrMagnitude >
                 0.001f)
             {
-                int startDirection =
-                    EvaluateStartDirection(
+                float facingError =
+                    EvaluateFacingErrorDegrees(
                         desiredDirection);
 
-                SetIntIfPresent(
-                    runStartDirectionIntParameter,
-                    startDirection);
+                bool useAuthoredStart =
+                    !alignFacingBeforeDirectionalBlend ||
+                    facingError <=
+                    maximumFacingErrorForAuthoredStart;
 
-                TriggerIfPresent(
-                    runStartTriggerParameter);
+                if (useAuthoredStart)
+                {
+                    int startDirection =
+                        EvaluateStartDirection(
+                            desiredDirection);
+
+                    SetIntIfPresent(
+                        runStartDirectionIntParameter,
+                        startDirection);
+
+                    TriggerIfPresent(
+                        runStartTriggerParameter);
+                }
+                else
+                {
+                    // For large from-rest turns, gameplay rotation owns the
+                    // orientation change. The authored directional start clips
+                    // are skipped because they contain their own turn, which
+                    // otherwise doubles the rotation visually.
+                    _startFacingAlignmentActive = true;
+                    _startFacingAlignmentRemaining =
+                        startFacingAlignmentMaxDuration;
+
+                    _smoothedLocomotionDirection = 0f;
+                    _hasSmoothedLocomotionDirection = true;
+                }
+            }
+
+            if (!hasMoveInput)
+            {
+                _startFacingAlignmentActive = false;
+                _startFacingAlignmentRemaining = 0f;
             }
 
             if (!hasMoveInput &&
@@ -484,7 +635,8 @@ namespace AirflowPrototype
                     runStopTriggerParameter);
             }
 
-            if (!hasMoveInput ||
+            if (!enableAuthoredHardTurns ||
+                !hasMoveInput ||
                 desiredDirection.sqrMagnitude <
                 0.001f ||
                 motor.HorizontalSpeed <
@@ -577,6 +729,38 @@ namespace AirflowPrototype
                 desired.Normalize();
 
             return desired;
+        }
+
+        private float EvaluateFacingErrorDegrees(
+            Vector3 desiredDirection)
+        {
+            if (desiredDirection.sqrMagnitude <
+                0.001f)
+            {
+                return 0f;
+            }
+
+            Vector3 forward =
+                animator != null
+                    ? animator.transform.forward
+                    : transform.forward;
+
+            forward.y = 0f;
+            desiredDirection.y = 0f;
+
+            if (forward.sqrMagnitude <
+                    0.0001f ||
+                desiredDirection.sqrMagnitude <
+                    0.0001f)
+            {
+                return 0f;
+            }
+
+            return Mathf.Abs(
+                Vector3.SignedAngle(
+                    forward.normalized,
+                    desiredDirection.normalized,
+                    Vector3.up));
         }
 
         private int EvaluateStartDirection(
@@ -837,6 +1021,17 @@ namespace AirflowPrototype
         private void OnLanded(
             float intensity)
         {
+            int landVariant =
+                motor != null &&
+                motor.HorizontalSpeed >=
+                runningLandingSpeedThreshold
+                    ? 1
+                    : 0;
+
+            SetIntIfPresent(
+                landVariantIntParameter,
+                landVariant);
+
             TriggerIfPresent(
                 landTriggerParameter);
         }
@@ -1210,6 +1405,33 @@ namespace AirflowPrototype
                 Mathf.Max(
                     30f,
                     turnRateForFullLean);
+
+            locomotionDirectionResponse =
+                Mathf.Max(
+                    0.1f,
+                    locomotionDirectionResponse);
+
+            maximumFacingErrorForAuthoredStart =
+                Mathf.Clamp(
+                    maximumFacingErrorForAuthoredStart,
+                    5f,
+                    120f);
+
+            startFacingAlignmentReleaseAngle =
+                Mathf.Clamp(
+                    startFacingAlignmentReleaseAngle,
+                    1f,
+                    90f);
+
+            startFacingAlignmentMaxDuration =
+                Mathf.Max(
+                    0.05f,
+                    startFacingAlignmentMaxDuration);
+
+            runningLandingSpeedThreshold =
+                Mathf.Max(
+                    0f,
+                    runningLandingSpeedThreshold);
 
             doubleJumpVariantCount =
                 Mathf.Max(

@@ -51,7 +51,20 @@ namespace AirflowPrototype
         public float doubleJumpMirrorChancePercent = 35f;
 
         public AnimationClip fall;
-        public AnimationClip land;
+
+        [Header("Landing")]
+        [Tooltip("Landing animation used when horizontal speed is below the running threshold.")]
+        public AnimationClip landIdle;
+
+        [Tooltip("Landing animation used when horizontal speed is at or above the running threshold.")]
+        public AnimationClip landRunning;
+
+        [Tooltip("Horizontal speed at landing that selects Land Running instead of Land Idle.")]
+        [Min(0f)]
+        public float runningLandingSpeedThreshold = 3.25f;
+
+        [SerializeField, HideInInspector]
+        private AnimationClip land;
 
         [Header("Sling / Death From Above")]
         public AnimationClip slingStart;
@@ -73,6 +86,34 @@ namespace AirflowPrototype
         [Min(30f)]
         public float turnRateForFullLean = 240f;
 
+        [Tooltip(
+            "How quickly the directional run pose catches up when travel direction changes. " +
+            "Lower values are softer/smoother; higher values react faster.")]
+        [Min(0.1f)]
+        public float locomotionDirectionResponse = 8f;
+
+        [Header("Idle Start Facing Alignment")]
+        [Tooltip(
+            "When starting from rest while facing away from the requested movement direction, " +
+            "temporarily treat the locomotion pose as forward while gameplay rotates the character.")]
+        public bool alignFacingBeforeDirectionalBlend = true;
+
+        [Tooltip(
+            "If the requested movement direction is farther from the current facing than this angle, " +
+            "the directional start clip is skipped and facing-alignment mode is used instead.")]
+        [Range(5f, 120f)]
+        public float maximumFacingErrorForAuthoredStart = 38f;
+
+        [Tooltip(
+            "Facing error below this angle releases the temporary forward-only start alignment.")]
+        [Range(1f, 90f)]
+        public float startFacingAlignmentReleaseAngle = 20f;
+
+        [Tooltip(
+            "Safety duration for facing-alignment mode if the character takes longer to rotate.")]
+        [Min(0.05f)]
+        public float startFacingAlignmentMaxDuration = 0.32f;
+
         [Header("Start / Stop / Turn Detection")]
         [Range(0.01f, 0.75f)]
         public float moveInputDeadzone = 0.12f;
@@ -91,6 +132,12 @@ namespace AirflowPrototype
 
         [Min(0.05f)]
         public float hardTurnCooldown = 0.45f;
+
+        [Tooltip(
+            "Uses the authored Turn L/R one-shot clips for very large direction changes. " +
+            "Disabled by default because these clips rotate the visual character while gameplay " +
+            "already rotates it, which can create a double-turn/backwards-running result.")]
+        public bool enableAuthoredHardTurns = false;
 
         [Tooltip(
             "Forward sector used to choose Run Start Forward. Larger side angles use L/R, " +
@@ -144,7 +191,7 @@ namespace AirflowPrototype
         private AnimationClip run;
 
         [SerializeField, HideInInspector]
-        private int profileVersion = 196;
+        private int profileVersion = 199;
 
         private void OnEnable()
         {
@@ -203,6 +250,38 @@ namespace AirflowPrototype
                 locomotionTransitionDuration = 0.06f;
 
                 profileVersion = 196;
+            }
+
+            if (profileVersion < 197)
+            {
+                // New v19.7 presentation-only defaults. Existing animation
+                // assignments and all earlier tuning remain untouched.
+                locomotionDirectionResponse = 8f;
+                enableAuthoredHardTurns = false;
+
+                profileVersion = 197;
+            }
+
+            if (profileVersion < 198)
+            {
+                // v19.8 only initializes the new idle-start alignment settings.
+                alignFacingBeforeDirectionalBlend = true;
+                maximumFacingErrorForAuthoredStart = 38f;
+                startFacingAlignmentReleaseAngle = 20f;
+                startFacingAlignmentMaxDuration = 0.32f;
+
+                profileVersion = 198;
+            }
+
+            if (profileVersion < 199)
+            {
+                // Preserve the old single landing assignment as the default
+                // standing/slow landing. The running slot stays optional.
+                if (landIdle == null)
+                    landIdle = land;
+
+                runningLandingSpeedThreshold = 3.25f;
+                profileVersion = 199;
             }
         }
 
@@ -268,6 +347,28 @@ namespace AirflowPrototype
             turnRateForFullLean =
                 Mathf.Max(30f, turnRateForFullLean);
 
+            locomotionDirectionResponse =
+                Mathf.Max(
+                    0.1f,
+                    locomotionDirectionResponse);
+
+            maximumFacingErrorForAuthoredStart =
+                Mathf.Clamp(
+                    maximumFacingErrorForAuthoredStart,
+                    5f,
+                    120f);
+
+            startFacingAlignmentReleaseAngle =
+                Mathf.Clamp(
+                    startFacingAlignmentReleaseAngle,
+                    1f,
+                    90f);
+
+            startFacingAlignmentMaxDuration =
+                Mathf.Max(
+                    0.05f,
+                    startFacingAlignmentMaxDuration);
+
             moveInputDeadzone =
                 Mathf.Clamp(moveInputDeadzone, 0.01f, 0.75f);
 
@@ -303,6 +404,11 @@ namespace AirflowPrototype
 
             doubleJumpTransitionDuration =
                 Mathf.Max(0f, doubleJumpTransitionDuration);
+
+            runningLandingSpeedThreshold =
+                Mathf.Max(
+                    0f,
+                    runningLandingSpeedThreshold);
 
             landTransitionDuration =
                 Mathf.Max(0f, landTransitionDuration);

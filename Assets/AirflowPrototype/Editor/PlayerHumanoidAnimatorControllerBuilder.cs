@@ -339,6 +339,11 @@ namespace AirflowPrototype.Editor
 
             AddParameter(
                 controller,
+                "LandVariant",
+                AnimatorControllerParameterType.Int);
+
+            AddParameter(
+                controller,
                 "SlingStart",
                 AnimatorControllerParameterType.Trigger);
 
@@ -357,10 +362,23 @@ namespace AirflowPrototype.Editor
             AnimatorController controller,
             PlayerHumanoidAnimationProfile profile)
         {
+            // AnimatorController.layers returns a COPY in Unity.
+            // Modify the copied layer, write it back into the array, then
+            // assign the array back to the controller or IK Pass will not persist.
+            AnimatorControllerLayer[] layers =
+                controller.layers;
+
             AnimatorControllerLayer baseLayer =
-                controller.layers[0];
+                layers[0];
 
             baseLayer.name = "Base Layer";
+            baseLayer.iKPass = true;
+
+            layers[0] =
+                baseLayer;
+
+            controller.layers =
+                layers;
 
             AnimatorStateMachine machine =
                 baseLayer.stateMachine;
@@ -411,15 +429,29 @@ namespace AirflowPrototype.Editor
                         20f,
                         0f));
 
-            AnimatorState land =
+            AnimatorState landIdle =
                 CreateState(
                     controller,
                     machine,
-                    "Land",
-                    profile.land,
-                    "Land Placeholder",
+                    "Land Idle",
+                    profile.landIdle,
+                    "Land Idle Placeholder",
                     new Vector3(
-                        880f,
+                        820f,
+                        250f,
+                        0f));
+
+            AnimatorState landRunning =
+                CreateState(
+                    controller,
+                    machine,
+                    "Land Running",
+                    profile.landRunning != null
+                        ? profile.landRunning
+                        : profile.landIdle,
+                    "Land Running Placeholder",
+                    new Vector3(
+                        980f,
                         250f,
                         0f));
 
@@ -453,20 +485,45 @@ namespace AirflowPrototype.Editor
                 0f,
                 "Jump");
 
-            AnimatorStateTransition landTrigger =
+            AnimatorStateTransition landIdleTrigger =
                 machine.AddAnyStateTransition(
-                    land);
+                    landIdle);
 
             ConfigureImmediateTransition(
-                landTrigger,
+                landIdleTrigger,
                 profile.landTransitionDuration);
 
-            landTrigger.canTransitionToSelf = false;
+            landIdleTrigger.canTransitionToSelf = false;
 
-            landTrigger.AddCondition(
+            landIdleTrigger.AddCondition(
                 AnimatorConditionMode.If,
                 0f,
                 "Land");
+
+            landIdleTrigger.AddCondition(
+                AnimatorConditionMode.Equals,
+                0f,
+                "LandVariant");
+
+            AnimatorStateTransition landRunningTrigger =
+                machine.AddAnyStateTransition(
+                    landRunning);
+
+            ConfigureImmediateTransition(
+                landRunningTrigger,
+                profile.landTransitionDuration);
+
+            landRunningTrigger.canTransitionToSelf = false;
+
+            landRunningTrigger.AddCondition(
+                AnimatorConditionMode.If,
+                0f,
+                "Land");
+
+            landRunningTrigger.AddCondition(
+                AnimatorConditionMode.Equals,
+                1f,
+                "LandVariant");
 
             AnimatorStateTransition locomotionToJump =
                 locomotion.AddTransition(
@@ -540,15 +597,26 @@ namespace AirflowPrototype.Editor
                 0.05f,
                 "VerticalSpeed");
 
-            AnimatorStateTransition landToLocomotion =
-                land.AddTransition(
+            AnimatorStateTransition landIdleToLocomotion =
+                landIdle.AddTransition(
                     locomotion);
 
-            landToLocomotion.hasExitTime = true;
-            landToLocomotion.exitTime =
+            landIdleToLocomotion.hasExitTime = true;
+            landIdleToLocomotion.exitTime =
                 profile.landExitTime;
-            landToLocomotion.hasFixedDuration = true;
-            landToLocomotion.duration =
+            landIdleToLocomotion.hasFixedDuration = true;
+            landIdleToLocomotion.duration =
+                profile.locomotionTransitionDuration;
+
+            AnimatorStateTransition landRunningToLocomotion =
+                landRunning.AddTransition(
+                    locomotion);
+
+            landRunningToLocomotion.hasExitTime = true;
+            landRunningToLocomotion.exitTime =
+                profile.landExitTime;
+            landRunningToLocomotion.hasFixedDuration = true;
+            landRunningToLocomotion.duration =
                 profile.locomotionTransitionDuration;
         }
 

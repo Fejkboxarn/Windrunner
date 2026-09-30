@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf232b0974a69e84595dd10c15280fa9, type: 3}
+  m_Name: RunningArmPose
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerRunningArmPosePreset
+  leftUpperArmEuler: {x: 28, y: 36.6, z: -11.77}
+  leftLowerArmEuler: {x: 32.4, y: 0, z: 0}
+  leftHandEuler: {x: -30.44, y: 6.8, z: -0.05}
+  rightUpperArmEuler: {x: 28, y: -36.6, z: 11.77}
+  rightLowerArmEuler: {x: 32.4, y: 0, z: 0}
+  rightHandEuler: {x: -30.44, y: 6.8, z: -0.05}
