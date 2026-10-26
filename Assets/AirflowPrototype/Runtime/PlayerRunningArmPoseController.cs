@@ -9,6 +9,7 @@ namespace AirflowPrototype
         [Header("References")]
         [SerializeField] private PlayerMotor motor;
         [SerializeField] private AirSlingController slingController;
+        [SerializeField] private PlayerProceduralKnifeFlick knifeFlick;
         [SerializeField] private Animator animator;
 
         [Header("Pose")]
@@ -86,6 +87,12 @@ namespace AirflowPrototype
             if (slingController == null)
                 slingController = GetComponent<AirSlingController>();
 
+            if (knifeFlick == null)
+            {
+                knifeFlick =
+                    GetComponent<PlayerProceduralKnifeFlick>();
+            }
+
             if (animator == null)
             {
                 Animator[] animators =
@@ -153,6 +160,10 @@ namespace AirflowPrototype
                 slingController != null &&
                 slingController.IsSlinging;
 
+            bool blockedByKnifeFlick =
+                knifeFlick != null &&
+                knifeFlick.IsPresentationActive;
+
             bool allowedByGround =
                 !groundedOnly ||
                 motor.IsGrounded;
@@ -176,6 +187,7 @@ namespace AirflowPrototype
             {
                 target =
                     blockedBySling ||
+                    blockedByKnifeFlick ||
                     !allowedByGround
                         ? 0f
                         : speed01 * poseWeight;
