@@ -70,6 +70,11 @@ namespace AirflowPrototype
             if (inputReader == null)
                 return;
 
+            // The old reflection repair must never re-enable actions while the
+            // production input service has deliberately suspended gameplay.
+            if (inputReader.UsesProductionInput)
+                return;
+
             BindingFlags flags =
                 BindingFlags.Instance |
                 BindingFlags.Public |

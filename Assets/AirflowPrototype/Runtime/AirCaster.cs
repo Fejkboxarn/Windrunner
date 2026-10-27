@@ -171,6 +171,13 @@ namespace AirflowPrototype
         {
             ResolveCastOrigin();
 
+            if (input != null && input.IsGameplaySuspended)
+            {
+                if (_charging)
+                    CancelCharge();
+                return;
+            }
+
             if (input == null ||
                 targeter == null ||
                 targetCamera == null ||

@@ -19,6 +19,7 @@ namespace AirflowPrototype
         }
 
         [SerializeField] private PlayerMotor motor;
+        [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private CharacterController controller;
         [SerializeField] private AirSlingTargeter slingTargeter;
         [SerializeField] private AirPower airPower;
@@ -294,6 +295,19 @@ namespace AirflowPrototype
 
         private void Update()
         {
+            if (inputReader == null)
+                inputReader = GetComponent<PlayerInputReader>();
+
+            if (inputReader != null && inputReader.IsGameplaySuspended)
+            {
+                // Disabling the Gameplay map while paused is not a real release.
+                // Never commit a charged Sling because a menu was opened.
+                if (_state == SlingState.Charging)
+                    CancelSling();
+                FinishFrame();
+                return;
+            }
+
             if (targetCamera == null)
                 targetCamera = Camera.main;
 
@@ -306,17 +320,18 @@ namespace AirflowPrototype
                 return;
             }
 
-            Mouse mouse =
-                Mouse.current;
+            bool slingPressed = inputReader != null && inputReader.SlingPressedThisFrame;
+            bool slingHeld = inputReader != null && inputReader.SlingHeld;
+            bool slingReleased = inputReader != null && inputReader.SlingReleasedThisFrame;
 
             switch (_state)
             {
                 case SlingState.Idle:
-                    UpdateIdle(mouse);
+                    UpdateIdle(slingPressed);
                     break;
 
                 case SlingState.Charging:
-                    UpdateCharging(mouse);
+                    UpdateCharging(slingHeld, slingReleased);
                     break;
 
                 case SlingState.DelayBeforeDash:
@@ -335,12 +350,10 @@ namespace AirflowPrototype
             FinishFrame();
         }
 
-        private void UpdateIdle(
-            Mouse mouse)
+        private void UpdateIdle(bool slingPressed)
         {
-            // Targeting remains presentation-only until RMB is actually pressed.
-            if (mouse == null ||
-                !mouse.rightButton.wasPressedThisFrame)
+            // Targeting remains presentation-only until Sling is actually pressed.
+            if (!slingPressed)
             {
                 return;
             }
@@ -380,8 +393,7 @@ namespace AirflowPrototype
                 _trackedTarget);
         }
 
-        private void UpdateCharging(
-            Mouse mouse)
+        private void UpdateCharging(bool slingHeld, bool slingReleased)
         {
             if (!IsTrackedTargetAvailable())
             {
@@ -389,13 +401,13 @@ namespace AirflowPrototype
                 return;
             }
 
-            if (mouse == null)
+            if (inputReader == null)
             {
                 CancelSling();
                 return;
             }
 
-            if (mouse.rightButton.isPressed)
+            if (slingHeld)
             {
                 _chargeElapsed +=
                     Time.deltaTime;
@@ -403,8 +415,7 @@ namespace AirflowPrototype
                 return;
             }
 
-            if (mouse.rightButton.wasReleasedThisFrame ||
-                !mouse.rightButton.isPressed)
+            if (slingReleased || !slingHeld)
             {
                 ReleaseCharge();
             }

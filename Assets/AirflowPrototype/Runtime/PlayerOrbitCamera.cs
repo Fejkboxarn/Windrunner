@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Windrunner.Production.Input;
 
 namespace AirflowPrototype
 {
@@ -148,6 +149,19 @@ namespace AirflowPrototype
 
         private void HandleCursorState()
         {
+            WindrunnerInputHost host = WindrunnerInputHost.Active;
+            if (host != null && host.Input != null)
+            {
+                // PauseController owns Escape and cursor state in production.
+                if (host.IsPaused)
+                    return;
+
+                if (Cursor.lockState != CursorLockMode.Locked &&
+                    input != null && input.RelockCursorPressedThisFrame)
+                    LockCursor();
+                return;
+            }
+
             if (Keyboard.current != null &&
                 Keyboard.current.escapeKey.wasPressedThisFrame)
             {
@@ -186,19 +200,25 @@ namespace AirflowPrototype
 
             if (input.LookIsPointer)
             {
+                WindrunnerInputHost host = WindrunnerInputHost.Active;
+                float multiplier = host != null && host.Input != null
+                    ? host.Input.MouseSensitivity : 1f;
                 _yaw +=
                     look.x *
-                    settings.mouseSensitivity;
+                    settings.mouseSensitivity * multiplier;
 
                 _pitch -=
                     look.y *
-                    settings.mouseSensitivity;
+                    settings.mouseSensitivity * multiplier;
             }
             else
             {
+                WindrunnerInputHost host = WindrunnerInputHost.Active;
+                float multiplier = host != null && host.Input != null
+                    ? host.Input.StickSensitivity : 1f;
                 float scale =
                     settings.gamepadLookDegreesPerSecond *
-                    Time.deltaTime;
+                    Time.deltaTime * multiplier;
 
                 _yaw += look.x * scale;
                 _pitch -= look.y * scale;

@@ -16,6 +16,7 @@ namespace AirflowPrototype
     public sealed class PlayerWaterSwim : MonoBehaviour
     {
         [SerializeField] private PlayerMotor motor;
+        [SerializeField] private PlayerInputReader input;
         [SerializeField] private CharacterController controller;
         [SerializeField] private WaterSwimSettings settings;
 
@@ -37,6 +38,9 @@ namespace AirflowPrototype
             WaterSwimSettings newSettings)
         {
             motor = newMotor;
+            input = newMotor != null
+                ? newMotor.GetComponent<PlayerInputReader>()
+                : GetComponent<PlayerInputReader>();
             controller =
                 newMotor != null
                     ? newMotor.GetComponent<CharacterController>()
@@ -54,6 +58,9 @@ namespace AirflowPrototype
         {
             if (motor == null)
                 motor = GetComponent<PlayerMotor>();
+
+            if (input == null)
+                input = GetComponent<PlayerInputReader>();
 
             if (controller == null)
                 controller = GetComponent<CharacterController>();
@@ -332,8 +339,11 @@ namespace AirflowPrototype
                 _isSwimming);
         }
 
-        private static bool SwimUpHeld()
+        private bool SwimUpHeld()
         {
+            if (input != null)
+                return input.SwimUpHeld;
+
             bool keyboard =
                 Keyboard.current != null &&
                 Keyboard.current.spaceKey.isPressed;
@@ -346,8 +356,11 @@ namespace AirflowPrototype
                    gamepad;
         }
 
-        private static bool SwimDownHeld()
+        private bool SwimDownHeld()
         {
+            if (input != null)
+                return input.SwimDownHeld;
+
             bool keyboard =
                 Keyboard.current != null &&
                 (Keyboard.current.leftCtrlKey.isPressed ||

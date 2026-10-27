@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Windrunner.Production.Input;
 
 namespace AirflowPrototype
 {
@@ -66,6 +67,9 @@ namespace AirflowPrototype
 
         private void Update()
         {
+            if (WindrunnerInputHost.Active != null && WindrunnerInputHost.Active.IsPaused)
+                return;
+
             Keyboard keyboard = Keyboard.current;
             if (keyboard == null)
                 return;

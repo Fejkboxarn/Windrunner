@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Windrunner.Production.Input;
 
 namespace AirflowPrototype
 {
     /// <summary>
-    /// Prototype-local input adapter. It creates actions in code so the package
-    /// remains drop-in. This can later be swapped for a project InputActionAsset.
+    /// Legacy-facing data adapter. ProductionInputHost owns the shared actions;
+    /// the original local bindings remain a safe fallback for old scenes.
     /// </summary>
     public sealed class PlayerInputReader : MonoBehaviour
     {
@@ -16,19 +17,49 @@ namespace AirflowPrototype
         private InputAction _dash;
         private InputAction _cast;
 
-        public Vector2 Move => _move != null ? _move.ReadValue<Vector2>() : Vector2.zero;
-        public Vector2 Look => _look != null ? _look.ReadValue<Vector2>() : Vector2.zero;
-        public bool JumpPressedThisFrame => _jump != null && _jump.WasPressedThisFrame();
-        public bool DashHeld => _dash != null && _dash.IsPressed();
+        private WindrunnerInputService Production => WindrunnerInputHost.Active != null
+            ? WindrunnerInputHost.Active.Input : null;
+        public bool UsesProductionInput => Production != null;
+        public bool IsGameplaySuspended => Production != null && Production.IsMenuOpen;
 
-        public bool CastHeld => _cast != null && _cast.IsPressed();
-        public bool CastPressedThisFrame => _cast != null && _cast.WasPressedThisFrame();
-        public bool CastReleasedThisFrame => _cast != null && _cast.WasReleasedThisFrame();
+        public Vector2 Move => Production != null ? Production.Axis("Move") :
+            (_move != null ? _move.ReadValue<Vector2>() : Vector2.zero);
+        public Vector2 Look => Production != null ? Production.Axis("Look") :
+            (_look != null ? _look.ReadValue<Vector2>() : Vector2.zero);
+        public bool JumpPressedThisFrame => Production != null ? Production.ButtonPressed("Jump") :
+            (_jump != null && _jump.WasPressedThisFrame());
+        public bool DashHeld => Production != null ? Production.ButtonHeld("Dash") :
+            (_dash != null && _dash.IsPressed());
+
+        public bool CastHeld => Production != null ? Production.ButtonHeld("Cast") :
+            (_cast != null && _cast.IsPressed());
+        public bool CastPressedThisFrame => Production != null ? Production.ButtonPressed("Cast") :
+            (_cast != null && _cast.WasPressedThisFrame());
+        public bool CastReleasedThisFrame => Production != null ? Production.ButtonReleased("Cast") :
+            (_cast != null && _cast.WasReleasedThisFrame());
+        public bool SlingHeld => Production != null ? Production.ButtonHeld("Sling") :
+            (Mouse.current != null && Mouse.current.rightButton.isPressed);
+        public bool SlingPressedThisFrame => Production != null ? Production.ButtonPressed("Sling") :
+            (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame);
+        public bool SlingReleasedThisFrame => Production != null ? Production.ButtonReleased("Sling") :
+            (Mouse.current != null && Mouse.current.rightButton.wasReleasedThisFrame);
+        public bool SwimUpHeld => Production != null ? Production.ButtonHeld("SwimUp") :
+            ((Keyboard.current != null && Keyboard.current.spaceKey.isPressed) ||
+             (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed));
+        public bool SwimDownHeld => Production != null ? Production.ButtonHeld("SwimDown") :
+            ((Keyboard.current != null &&
+              (Keyboard.current.leftCtrlKey.isPressed || Keyboard.current.rightCtrlKey.isPressed)) ||
+             (Gamepad.current != null && Gamepad.current.buttonEast.isPressed));
+        public bool RelockCursorPressedThisFrame => Production != null ?
+            Production.ButtonPressed("RelockCursor") :
+            (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
 
         public bool LookIsPointer
         {
             get
             {
+                if (Production != null)
+                    return Production.LookIsPointer;
                 var control = _look?.activeControl;
                 return control != null && control.device is Pointer;
             }
@@ -36,17 +67,20 @@ namespace AirflowPrototype
 
         private void Awake()
         {
-            BuildActions();
+            if (!UsesProductionInput)
+                BuildActions();
         }
 
         private void OnEnable()
         {
-            _gameplay?.Enable();
+            if (!UsesProductionInput)
+                _gameplay?.Enable();
         }
 
         private void OnDisable()
         {
-            _gameplay?.Disable();
+            if (!UsesProductionInput)
+                _gameplay?.Disable();
         }
 
         private void OnDestroy()
