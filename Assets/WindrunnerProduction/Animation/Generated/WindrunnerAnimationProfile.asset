@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: WindrunnerAnimationProfile
   m_EditorClassIdentifier: Windrunner.Production.Animation::Windrunner.Production.Animation.WindrunnerAnimationProfile
   automaticallyStartPortableInPlayMode: 0
+  useStandaloneCharacterGraph: 1
+  standaloneGroundProfile: {fileID: 11400000, guid: 82177dfe2aeaf524190393e7fe313f09, type: 2}
+  standaloneActionProfile: {fileID: 11400000, guid: 5f8f6e8021dfb064e9d87bb5fa8fcdd8, type: 2}
   weaponProfile: {fileID: 0}
   groundProfile: {fileID: 0}
   aeroProfile: {fileID: 0}

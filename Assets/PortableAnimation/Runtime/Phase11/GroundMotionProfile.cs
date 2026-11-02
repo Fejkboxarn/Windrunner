@@ -422,6 +422,38 @@ namespace PortableAnimation
                 throw new InvalidOperationException(
                     "GroundMotion StopThreshold must be below MoveThreshold.");
         }
+
+        /// <summary>
+        /// Standalone character locomotion does not depend on any weapon, hit,
+        /// hero-state or aim profile. Its semantic one-shots are optional;
+        /// the renderer and controller provide safe transitions when absent.
+        /// Existing Phase 10/11 AssertValid() remains strict and unchanged.
+        /// </summary>
+        public void AssertStandaloneValid()
+        {
+            if (clips == null || clips.Length != (int)GroundPose.Count)
+                throw new InvalidOperationException(
+                    "GroundMotion internal semantic slot array must have 18 entries.");
+            if (Clip(GroundPose.Idle) == null || Clip(GroundPose.Idle).length <= 0f)
+                throw new InvalidOperationException("Standalone locomotion needs a real Idle clip.");
+            int run = 0;
+            int walk = 0;
+            for (int direction = 0; direction < 8; direction++)
+            {
+                if (HasUsableDirectionalClip(false, direction)) run++;
+                if (HasUsableDirectionalClip(true, direction)) walk++;
+            }
+            if (run < 2 || walk < 2)
+                throw new InvalidOperationException(
+                    "Standalone locomotion needs at least two usable run and walk " +
+                    "directions; cardinal or diagonal samples are supported.");
+            if (!(idleToWalkEnd < walkToRunStart &&
+                walkToRunStart < fullRunSpeed))
+                throw new InvalidOperationException("Idle/Walk/Run thresholds must increase.");
+            if (stopThreshold >= moveThreshold)
+                throw new InvalidOperationException(
+                    "GroundMotion StopThreshold must be below MoveThreshold.");
+        }
     }
 
     public readonly struct GroundMotionFrame

@@ -25,7 +25,13 @@ namespace Windrunner.Production.Animation
         [Tooltip("OFF by default. Manual Play Mode start is available through the Batch 4 menu.")]
         public bool automaticallyStartPortableInPlayMode;
 
-        [Header("Portable profile chain")]
+        [Header("Batch 4B: independent character locomotion (recommended)")]
+        [Tooltip("Uses a standalone eight-way locomotion graph. No weapon/hero/hit/aim testbed dependencies.")]
+        public bool useStandaloneCharacterGraph = true;
+        public GroundMotionProfile standaloneGroundProfile;
+        public PortableCharacterActionProfile standaloneActionProfile;
+
+        [Header("Legacy integrated profile chain (optional advanced mode)")]
         public WeaponPoseProfile weaponProfile;
         public GroundMotionProfile groundProfile;
         public AeroMotionProfile aeroProfile;
@@ -53,6 +59,29 @@ namespace Windrunner.Production.Animation
 
         public bool ValidateForLiveGraph(out string error)
         {
+            if (useStandaloneCharacterGraph)
+            {
+                try
+                {
+                    if (standaloneGroundProfile == null)
+                        throw new InvalidOperationException(
+                            "Batch 4B requires a standalone GroundMotionProfile. " +
+                            "Run 'Batch 4B - Bind Windrunner Clips' in the Editor.");
+                    standaloneGroundProfile.AssertStandaloneValid();
+                    standaloneActionProfile?.AssertValid();
+                    ValidateBindings(standaloneActionProfile != null
+                        ? standaloneActionProfile.Count : 0);
+                    if (fullRunSpeed < 0.1f)
+                        throw new InvalidOperationException("Full-run speed must exceed zero.");
+                    error = "";
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                    return false;
+                }
+            }
             if (weaponProfile == null || groundProfile == null)
             {
                 error = "A valid weapon-profile chain and 18-pose GroundMotionProfile " +
@@ -93,22 +122,7 @@ namespace Windrunner.Production.Animation
                     throw new InvalidOperationException("Full-run speed must exceed zero.");
                 int actionCount = weaponProfile.PreviousPipeline.PreviousPipeline
                     .AimOffsetProfile.MontageProfile.Actions.Count;
-                if (actionBindings != null)
-                {
-                    var seen = new System.Collections.Generic.HashSet<FeedbackKey>();
-                    foreach (WindrunnerAnimationActionBinding binding in actionBindings)
-                    {
-                        if (binding == null) continue;
-                        if (binding.montageSlot < -1 ||
-                            binding.montageSlot >= actionCount)
-                            throw new InvalidOperationException("Invalid montage slot for " +
-                                binding.feedbackEvent + ": " + binding.montageSlot +
-                                ". Available actions=" + actionCount);
-                        if (!seen.Add(binding.feedbackEvent))
-                            throw new InvalidOperationException(
-                                "Duplicate semantic binding for " + binding.feedbackEvent);
-                    }
-                }
+                ValidateBindings(actionCount);
             }
             catch (Exception ex)
             {
@@ -117,6 +131,23 @@ namespace Windrunner.Production.Animation
             }
             error = "";
             return true;
+        }
+
+        private void ValidateBindings(int actionCount)
+        {
+            if (actionBindings == null) return;
+            var seen = new System.Collections.Generic.HashSet<FeedbackKey>();
+            foreach (WindrunnerAnimationActionBinding binding in actionBindings)
+            {
+                if (binding == null) continue;
+                if (binding.montageSlot < -1 || binding.montageSlot >= actionCount)
+                    throw new InvalidOperationException("Invalid action slot for " +
+                        binding.feedbackEvent + ": " + binding.montageSlot +
+                        ". Available actions=" + actionCount);
+                if (!seen.Add(binding.feedbackEvent))
+                    throw new InvalidOperationException(
+                        "Duplicate semantic binding for " + binding.feedbackEvent);
+            }
         }
     }
 }

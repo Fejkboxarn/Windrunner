@@ -63,6 +63,7 @@ namespace Windrunner.Production.Animation
         private readonly List<SuspendedBehaviour> suspended = new List<SuspendedBehaviour>();
         private IFeedbackService feedback;
         private WeaponPosePipelineRuntime graph;
+        private GroundOnlyPipelineRuntime standaloneGraph;
         private RuntimeAnimatorController legacyController;
         private bool legacyFireEvents;
         private bool legacyRootMotion;
@@ -79,8 +80,10 @@ namespace Windrunner.Production.Animation
         public FeedbackKey LastObservedEvent { get; private set; }
         public ContextualMotionState LastContext { get; private set; }
         public string LastError { get; private set; } = "";
-        public bool PortableActive => graph != null && graph.IsValid;
-        public string ActiveMontage => graph != null ? graph.ActiveMontage : "Legacy";
+        public bool PortableActive => (graph != null && graph.IsValid) ||
+                                      (standaloneGraph != null && standaloneGraph.IsValid);
+        public string ActiveMontage => graph != null ? graph.ActiveMontage :
+            standaloneGraph != null ? standaloneGraph.ActiveAction : "Legacy";
         public event Action<MontageSignal> MontageSignalRaised;
 
         public WindrunnerAnimationSession(Animator animator, WindrunnerAnimationProfile profile,
@@ -111,7 +114,9 @@ namespace Windrunner.Production.Animation
                     binding.montageSlot < 0) continue;
                 MappedEvents++;
                 if (!PortableActive) return; // Observation never plays an animation.
-                if (binding.montageSlot >= graph.LiveActionCount)
+                int count = standaloneGraph != null
+                    ? standaloneGraph.LiveActionCount : graph.LiveActionCount;
+                if (binding.montageSlot >= count)
                 {
                     BlockedActions++;
                     LastError = "Montage slot " + binding.montageSlot +
@@ -120,9 +125,18 @@ namespace Windrunner.Production.Animation
                 }
                 try
                 {
-                    MontageRequestResult result = graph.RequestAction(binding.montageSlot);
-                    if (result == MontageRequestResult.Started) StartedActions++;
-                    else BlockedActions++;
+                    if (standaloneGraph != null)
+                    {
+                        if (standaloneGraph.RequestAction(binding.montageSlot))
+                            StartedActions++;
+                        else BlockedActions++;
+                    }
+                    else
+                    {
+                        MontageRequestResult result = graph.RequestAction(binding.montageSlot);
+                        if (result == MontageRequestResult.Started) StartedActions++;
+                        else BlockedActions++;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -179,12 +193,20 @@ namespace Windrunner.Production.Animation
                 animator.applyRootMotion = false; // Windrunner motor owns physical movement.
                 animator.runtimeAnimatorController = null;
 
-                graph = new WeaponPosePipelineRuntime(animator,
-                    profile.weaponProfile, profile.groundProfile, profile.aeroProfile,
-                    profile.extensionProfile, profile.postPoseIKProfile);
-                if (profile.contextualActionProfile != null)
-                    graph.SetContextualActionProfile(profile.contextualActionProfile);
-                graph.MontageSignalRaised += OnMontageSignal;
+                if (profile.useStandaloneCharacterGraph)
+                {
+                    standaloneGraph = new GroundOnlyPipelineRuntime(animator,
+                        profile.standaloneGroundProfile, profile.standaloneActionProfile);
+                }
+                else
+                {
+                    graph = new WeaponPosePipelineRuntime(animator,
+                        profile.weaponProfile, profile.groundProfile, profile.aeroProfile,
+                        profile.extensionProfile, profile.postPoseIKProfile);
+                    if (profile.contextualActionProfile != null)
+                        graph.SetContextualActionProfile(profile.contextualActionProfile);
+                    graph.MontageSignalRaised += OnMontageSignal;
+                }
                 lastFrameId = -1;
                 LastError = "";
                 return true;
@@ -224,10 +246,17 @@ namespace Windrunner.Production.Animation
                     normalized, motion.Grounded ? LocomotionMode.Grounded : LocomotionMode.Airborne);
                 var ground = new GroundMotionFrame(state, motion.Grounded,
                     motion.VerticalSpeed, motion.YawRate, motion.JumpStarted);
-                var aim = new AimOffsetFrame(state, motion.AimYaw, motion.AimPitch,
-                    profile != null && profile.enableNativeAimOffset, false, false, true);
-                graph.LiveContextOverride = LastContext;
-                graph.Evaluate(in aim, in ground);
+                if (standaloneGraph != null)
+                {
+                    standaloneGraph.Evaluate(in ground);
+                }
+                else
+                {
+                    var aim = new AimOffsetFrame(state, motion.AimYaw, motion.AimPitch,
+                        profile != null && profile.enableNativeAimOffset, false, false, true);
+                    graph.LiveContextOverride = LastContext;
+                    graph.Evaluate(in aim, in ground);
+                }
                 GraphFrames++;
             }
             catch (Exception ex)
@@ -248,6 +277,12 @@ namespace Windrunner.Production.Animation
 
         public void StopPortable()
         {
+            if (standaloneGraph != null)
+            {
+                try { standaloneGraph.Dispose(); }
+                catch (Exception ex) { Debug.LogException(ex); }
+                standaloneGraph = null;
+            }
             if (graph != null)
             {
                 graph.MontageSignalRaised -= OnMontageSignal;

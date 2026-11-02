@@ -30,6 +30,7 @@ namespace PortableAnimation
         private float elapsed;
         private float pivotCooldown;
         private bool firstTick = true;
+        private readonly bool standalone;
         private float lastMovingSpeed;
         public int StopDirection { get; private set; }
         public int CurrentMoveDirection => DirectionIndex(lastHeading);
@@ -59,10 +60,12 @@ namespace PortableAnimation
             run = move * runShare;
         }
 
-        public GroundMotionController(GroundMotionProfile settings)
+        public GroundMotionController(GroundMotionProfile settings, bool standalone = false)
         {
             profile = settings ?? throw new ArgumentNullException(nameof(settings));
-            profile.AssertValid();
+            this.standalone = standalone;
+            if (standalone) profile.AssertStandaloneValid();
+            else profile.AssertValid();
             weights[(int)GroundPose.Idle] = 1f;
             desired[(int)GroundPose.Idle] = 1f;
         }
@@ -244,6 +247,35 @@ namespace PortableAnimation
 
         private void Enter(GroundMotionState next, GroundPose pose)
         {
+            if (standalone && MissingOptionalOneShot(next, pose))
+            {
+                // No invented clip, frozen anticipation, or T-pose while an
+                // action-specific one-shot has not been authored yet.
+                switch (next)
+                {
+                    case GroundMotionState.JumpStarting:
+                        next = GroundMotionState.Rising;
+                        pose = profile.Clip(GroundPose.Rise) != null
+                            ? GroundPose.Rise : GroundPose.Idle;
+                        break;
+                    case GroundMotionState.Starting:
+                    case GroundMotionState.Pivoting:
+                        next = GroundMotionState.Moving;
+                        pose = PickMove(direction);
+                        break;
+                    case GroundMotionState.Landing:
+                        next = Speed >= profile.MoveThreshold
+                            ? GroundMotionState.Moving : GroundMotionState.Idle;
+                        pose = next == GroundMotionState.Moving
+                            ? PickMove(direction) : GroundPose.Idle;
+                        break;
+                    case GroundMotionState.Stopping:
+                    case GroundMotionState.Turning:
+                        next = GroundMotionState.Idle;
+                        pose = GroundPose.Idle;
+                        break;
+                }
+            }
             if (State == next && PrimaryPose == pose) return;
             var previous = State;
             State = next;
@@ -251,6 +283,21 @@ namespace PortableAnimation
             oneShot = pose;
             elapsed = 0f;
             StateChanged?.Invoke(new GroundMotionSignal(previous, next, pose));
+        }
+
+        private bool MissingOptionalOneShot(GroundMotionState state, GroundPose pose)
+        {
+            if (state != GroundMotionState.Starting &&
+                state != GroundMotionState.Stopping &&
+                state != GroundMotionState.Pivoting &&
+                state != GroundMotionState.JumpStarting &&
+                state != GroundMotionState.Landing &&
+                state != GroundMotionState.Turning)
+                return false;
+            AnimationClip clip = pose == GroundPose.Stop
+                ? profile.StopClip(StopDirection)
+                : profile.Clip(pose);
+            return clip == null || clip.length <= 0f;
         }
 
         private void BuildTargets(float speed)

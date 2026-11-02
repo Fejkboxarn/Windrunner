@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07dc7ae47b5b47b45b27e84e7a2c90bd, type: 3}
+  m_Name: WindrunnerGroundMotion
+  m_EditorClassIdentifier: PortableAnimation.Runtime::PortableAnimation.GroundMotionProfile
+  previousPipeline: {fileID: 0}
+  clips:
+  - {fileID: -5252816984213320552, guid: 1312ceea0b13abf4c91f0ec5cedddb55, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 2771538212425445789, guid: fb49f1587ac7e4d4b99c4e7e0aa5634d, type: 3}
+  - {fileID: -4083814714835636986, guid: f0e45866b01d22a4e857d404e7c131aa, type: 3}
+  - {fileID: 8069876893736224668, guid: 44e7199ad824ba04e8b791fb505aef21, type: 3}
+  - {fileID: -4137572779537830732, guid: 3b0f352e848e2fa4e9c95f97b9163e24, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: -2993534804863918692, guid: 9931a4d916c1d7e44ac472a7a0db147d, type: 3}
+  - {fileID: -8684879809065802590, guid: 458726ad81ff17c41a2c1902d39809f9, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  moveThreshold: 0.035
+  stopThreshold: 0.018
+  startSeconds: 0.22
+  stopSeconds: 0.26
+  pivotSeconds: 0.3
+  turnSeconds: 0.32
+  enableTurning: 0
+  reversalDegrees: 125
+  turnRateThreshold: 100
+  pivotCooldown: 0.32
+  jumpStartSeconds: 0.15
+  landSeconds: 0.28
+  riseThreshold: 0.15
+  blendSpeed: 7
+  movementPlaybackRate: 1
+  useAuthoredOneShotDurations: 1
+  oneShotPlaybackSpeed: 1
+  movementPhaseOffsets: {x: 0, y: 0, z: 0, w: 0}
+  walkForward: {fileID: 6016072765218545851, guid: 024c8a339245f0a4db10a2c1de14386f, type: 3}
+  walkBackward: {fileID: 971290116121203592, guid: c68dff7966aa34a448dc3e81efd2e91b, type: 3}
+  walkLeft: {fileID: 3816002378432836460, guid: d1d5894ae572e2844913ec62aa80a161, type: 3}
+  walkRight: {fileID: -1401004751953925324, guid: e7c6211b42b1f354699cb1271c653deb, type: 3}
+  runForwardRight: {fileID: -1516150861718823909, guid: b6f67ee97363fd046ac74e67d115673c, type: 3}
+  runBackwardRight: {fileID: -5793505754911037349, guid: 04560ec347fd977478dea116f518d80e, type: 3}
+  runBackwardLeft: {fileID: -5829354953689089648, guid: fab3946e835c79f4fa1501fafc8c58df, type: 3}
+  runForwardLeft: {fileID: -8348040325455417124, guid: a907a0228e4c26047a1c1ee156709d90, type: 3}
+  walkForwardRight: {fileID: 1191583743746515396, guid: fd0bb72e0fdc5ee4987a389e6f8707ef, type: 3}
+  walkBackwardRight: {fileID: 6718899746501844909, guid: 2c01a39be62980d4285556bc58b5d24b, type: 3}
+  walkBackwardLeft: {fileID: 1773869212029264887, guid: d91783d00e096f74c822dec4145575d3, type: 3}
+  walkForwardLeft: {fileID: 3051433421192503066, guid: b7c85082e251c4348b03b7adee48cee6, type: 3}
+  runMirror: 0000000000000000y
+  walkMirror: 0000000000000000y
+  runMirrorSources:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  walkMirrorSources:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  runMirroredClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  walkMirroredClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  stopBackward: {fileID: 0}
+  stopLeft: {fileID: 0}
+  stopRight: {fileID: 0}
+  idleToWalkEnd: 0.18
+  walkToRunStart: 0.48
+  fullRunSpeed: 0.88
+  minimumStartSpeed: 0.68
+  minimumStopSpeed: 0.68
+  entryGaitPhase: 0.5

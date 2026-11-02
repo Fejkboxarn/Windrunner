@@ -64,11 +64,13 @@ namespace PortableAnimation
             remove { controller.StateChanged -= value; }
         }
 
-        public GroundMotionSource(PlayableGraph graph, GroundMotionProfile settings)
+        public GroundMotionSource(PlayableGraph graph, GroundMotionProfile settings,
+            bool standalone = false)
         {
             profile = settings ?? throw new ArgumentNullException(nameof(settings));
-            profile.AssertValid();
-            controller = new GroundMotionController(profile);
+            if (standalone) profile.AssertStandaloneValid();
+            else profile.AssertValid();
+            controller = new GroundMotionController(profile, standalone);
             mixer = AnimationMixerPlayable.Create(graph, Total);
 
             // Legacy semantic poses / one-shots.
@@ -115,6 +117,17 @@ namespace PortableAnimation
                     !profile.EnableTurning &&
                     (i == (int)GroundPose.TurnLeft ||
                      i == (int)GroundPose.TurnRight);
+
+                if (assets[i] == null || assets[i].length <= 0f)
+                {
+                    if (standalone && !optionalDirectional && !optionalTurn)
+                    {
+                        // Sparse one-shots are allowed. Use the real idle pose
+                        // as a safe visual fallback; GroundMotionController
+                        // skips any missing one-shot's hold state entirely.
+                        assets[i] = profile.Clip(GroundPose.Idle);
+                    }
+                }
 
                 if (assets[i] == null || assets[i].length <= 0f)
                 {
