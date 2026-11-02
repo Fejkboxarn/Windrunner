@@ -171,13 +171,6 @@ namespace AirflowPrototype
         {
             ResolveCastOrigin();
 
-            if (input != null && input.IsGameplaySuspended)
-            {
-                if (_charging)
-                    CancelCharge();
-                return;
-            }
-
             if (input == null ||
                 targeter == null ||
                 targetCamera == null ||
@@ -274,12 +267,6 @@ namespace AirflowPrototype
 
         private void Release()
         {
-            float releaseTime =
-                _chargeTime;
-
-            float charge01 =
-                Charge01;
-
             // CurrentTarget returns the sticky target while it is available.
             AirNode target =
                 CurrentTarget;
@@ -288,73 +275,29 @@ namespace AirflowPrototype
                 target != null &&
                 target == _trackedTarget;
 
-            float effectiveTiming =
-                settings.GetEffectiveTimingSeconds(
-                    _chargeTime,
-                    _targetLockTime,
-                    sameTarget);
-
-            float perfectQuality =
-                sameTarget
-                    ? settings.EvaluatePerfectQuality(effectiveTiming)
-                    : 0f;
-
-            bool perfect =
-                perfectQuality > 0f;
-
-            bool normallyReady =
-                sameTarget &&
-                _chargeTime >= settings.perfectTime &&
-                _targetLockTime >= settings.perfectTime;
-
-            bool ready =
-                normallyReady ||
-                perfect;
+            // The value-only policy preserves the prototype's exact release
+            // arithmetic. Scene interactions and events stay in this adapter.
+            AirCastReleaseDecision decision = AirCastReleasePolicy.Evaluate(
+                _chargeTime,
+                _targetLockTime,
+                target != null,
+                sameTarget,
+                new AirCastReleaseRules(
+                    settings.minimumFireTime,
+                    settings.perfectTime,
+                    settings.perfectLeeway,
+                    settings.fullTimingTime,
+                    settings.minimumAimAssist,
+                    settings.readyAimAssist));
 
             _charging = false;
             _chargeTime = 0f;
 
-            if (releaseTime < settings.minimumFireTime ||
-                target == null)
+            if (decision.Cancel)
             {
                 ResetTargetLock();
                 ChargeCanceled?.Invoke();
                 return;
-            }
-
-            float accuracy;
-
-            if (perfect)
-            {
-                accuracy =
-                    settings.readyAimAssist;
-            }
-            else
-            {
-                float airAccuracy01 =
-                    Mathf.InverseLerp(
-                        settings.minimumFireTime,
-                        settings.perfectTime,
-                        releaseTime);
-
-                float targetAccuracy01 =
-                    Mathf.InverseLerp(
-                        0f,
-                        settings.perfectTime,
-                        sameTarget
-                            ? _targetLockTime
-                            : 0f);
-
-                float accuracy01 =
-                    Mathf.Min(
-                        airAccuracy01,
-                        targetAccuracy01);
-
-                accuracy =
-                    Mathf.Lerp(
-                        settings.minimumAimAssist,
-                        settings.readyAimAssist,
-                        accuracy01);
             }
 
             Vector3 origin =
@@ -370,33 +313,33 @@ namespace AirflowPrototype
                 Vector3.Slerp(
                     cameraForward,
                     directToTarget,
-                    accuracy).normalized;
+                    decision.AimAssist).normalized;
 
             AirPulseProjectile.Spawn(
                 this,
                 target,
                 origin,
                 launchDirection,
-                charge01,
-                ready,
+                decision.Charge01,
+                decision.Ready,
                 settings);
 
             TargetedPulseReleased?.Invoke(
                 target,
-                charge01,
-                ready);
+                decision.Charge01,
+                decision.Ready);
 
             PulseReleased?.Invoke(
-                charge01,
-                ready);
+                decision.Charge01,
+                decision.Ready);
 
             ResetTargetLock();
 
-            if (perfect)
+            if (decision.Perfect)
             {
                 PerfectReleased?.Invoke(
                     target,
-                    perfectQuality);
+                    decision.PerfectQuality);
             }
         }
 

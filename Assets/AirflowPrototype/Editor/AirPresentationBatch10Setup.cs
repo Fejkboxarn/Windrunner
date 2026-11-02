@@ -110,7 +110,7 @@ namespace AirflowPrototype.Editor
                 settings);
 
             AirHitFeedback hitFeedback =
-                motor.GetComponent<AirHitFeedback>();
+                motor.GetComponentInChildren<AirHitFeedback>(true);
 
             if (hitFeedback != null)
             {

@@ -63,6 +63,11 @@ namespace AirflowPrototype
         private readonly List<CandidateScore> _candidates =
             new List<CandidateScore>(32);
 
+        // A reusable value-only view for the regular C# selection policy.
+        // Keeps the original public CandidateScore list and its sort order.
+        private readonly List<AirTargetSelectionCandidate> _selectionCandidates =
+            new List<AirTargetSelectionCandidate>(32);
+
         private AirNode _currentTarget;
         private float _currentScore;
 
@@ -484,109 +489,43 @@ namespace AirflowPrototype
 
         private void SelectBestTarget()
         {
-            CandidateScore? bestTotal = null;
-            CandidateScore? mostCentered = null;
-            CandidateScore? current = null;
+            _selectionCandidates.Clear();
 
-            for (int i = 0;
-                 i < _candidates.Count;
-                 i++)
+            for (int i = 0; i < _candidates.Count; i++)
             {
-                CandidateScore candidate =
-                    _candidates[i];
-
-                if (candidate.Total >=
-                    settings.minimumScore)
-                {
-                    if (!bestTotal.HasValue)
-                        bestTotal = candidate;
-
-                    if (!mostCentered.HasValue ||
-                        candidate.Screen >
-                        mostCentered.Value.Screen)
-                    {
-                        mostCentered = candidate;
-                    }
-                }
-
-                if (candidate.Node ==
-                    _currentTarget)
-                {
-                    current = candidate;
-                }
+                CandidateScore candidate = _candidates[i];
+                _selectionCandidates.Add(new AirTargetSelectionCandidate(
+                    candidate.Total,
+                    candidate.Screen,
+                    candidate.Node == _currentTarget));
             }
 
-            if (_currentTarget != null &&
-                current.HasValue)
+            var rules = new AirTargetSelectionRules(
+                settings.minimumScore,
+                settings.currentTargetScoreGrace,
+                settings.aimTakeoverScreenAdvantage,
+                settings.aimTakeoverAllowedScoreDeficit,
+                settings.switchScoreAdvantage);
+
+            AirTargetSelectionDecision decision = AirTargetSelectionPolicy.Choose(
+                _selectionCandidates,
+                _currentTarget != null,
+                rules);
+
+            switch (decision.Action)
             {
-                float graceMinimum =
-                    Mathf.Max(
-                        0f,
-                        settings.minimumScore -
-                        settings.currentTargetScoreGrace);
+                case AirTargetSelectionAction.KeepCurrent:
+                    _currentScore = decision.Score;
+                    return;
 
-                bool currentStillAcceptable =
-                    current.Value.Total >=
-                    graceMinimum;
+                case AirTargetSelectionAction.SelectCandidate:
+                    CandidateScore chosen = _candidates[decision.CandidateIndex];
+                    SetTarget(chosen.Node, chosen.Total);
+                    return;
 
-                if (currentStillAcceptable)
-                {
-                    _currentScore =
-                        current.Value.Total;
-
-                    if (mostCentered.HasValue &&
-                        mostCentered.Value.Node !=
-                        _currentTarget)
-                    {
-                        float screenAdvantage =
-                            mostCentered.Value.Screen -
-                            current.Value.Screen;
-
-                        float totalDeficit =
-                            current.Value.Total -
-                            mostCentered.Value.Total;
-
-                        bool deliberateAimTakeover =
-                            screenAdvantage >=
-                                settings.aimTakeoverScreenAdvantage &&
-                            totalDeficit <=
-                                settings.aimTakeoverAllowedScoreDeficit;
-
-                        if (deliberateAimTakeover)
-                        {
-                            SetTarget(
-                                mostCentered.Value.Node,
-                                mostCentered.Value.Total);
-
-                            return;
-                        }
-                    }
-
-                    if (!bestTotal.HasValue ||
-                        bestTotal.Value.Node ==
-                        _currentTarget)
-                    {
-                        return;
-                    }
-
-                    if (bestTotal.Value.Total <
-                        current.Value.Total +
-                        settings.switchScoreAdvantage)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            if (bestTotal.HasValue)
-            {
-                SetTarget(
-                    bestTotal.Value.Node,
-                    bestTotal.Value.Total);
-            }
-            else
-            {
-                ClearTarget();
+                case AirTargetSelectionAction.ClearCurrent:
+                    ClearTarget();
+                    return;
             }
         }
 

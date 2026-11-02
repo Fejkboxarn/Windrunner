@@ -51,10 +51,13 @@ namespace AirflowPrototype
         {
             if (hitSystem == null)
                 hitSystem =
-                    GetComponent<AirFlowHitSystem>();
+                    GetComponentInParent<AirFlowHitSystem>();
 
             if (playerTransform == null)
-                playerTransform = transform;
+            {
+                PlayerMotor player = GetComponentInParent<PlayerMotor>();
+                playerTransform = player != null ? player.transform : transform;
+            }
 
             ResolveCameraFeedback();
         }

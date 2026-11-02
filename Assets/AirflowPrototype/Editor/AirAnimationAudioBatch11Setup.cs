@@ -170,7 +170,7 @@ namespace AirflowPrototype.Editor
                 audio);
 
             PlayerDustFeedback dust =
-                motor.GetComponent<PlayerDustFeedback>();
+                motor.GetComponentInChildren<PlayerDustFeedback>(true);
 
             if (dust == null)
             {

@@ -47,7 +47,7 @@ namespace AirflowPrototype.Editor
                 player.GetComponent<AirSlingController>();
 
             PlayerHandAirTrails trails =
-                player.GetComponent<PlayerHandAirTrails>();
+                player.GetComponentInChildren<PlayerHandAirTrails>(true);
 
             if (trails == null)
             {

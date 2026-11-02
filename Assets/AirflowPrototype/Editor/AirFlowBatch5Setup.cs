@@ -67,7 +67,7 @@ namespace AirflowPrototype.Editor
                     : Object.FindFirstObjectByType<PlayerSpeedFeedback>();
 
             AirHitFeedback feedback =
-                player.GetComponent<AirHitFeedback>();
+                player.GetComponentInChildren<AirHitFeedback>(true);
 
             if (feedback == null)
                 feedback =

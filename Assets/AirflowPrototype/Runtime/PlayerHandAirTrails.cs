@@ -160,25 +160,26 @@ namespace AirflowPrototype
         private void ResolveReferences()
         {
             if (motor == null)
-                motor = GetComponent<PlayerMotor>();
+                motor = GetComponentInParent<PlayerMotor>();
 
             if (airFlowHitSystem == null)
             {
                 airFlowHitSystem =
-                    GetComponent<AirFlowHitSystem>();
+                    GetComponentInParent<AirFlowHitSystem>();
             }
 
             if (slingController == null)
             {
                 slingController =
-                    GetComponent<AirSlingController>();
+                    GetComponentInParent<AirSlingController>();
             }
 
             if (humanoidAnimator == null)
             {
                 Animator[] animators =
-                    GetComponentsInChildren<Animator>(
-                        true);
+                    motor != null
+                        ? motor.GetComponentsInChildren<Animator>(true)
+                        : GetComponentsInChildren<Animator>(true);
 
                 for (int i = 0;
                      i < animators.Length;

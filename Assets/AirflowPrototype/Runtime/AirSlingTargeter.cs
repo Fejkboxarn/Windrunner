@@ -42,6 +42,12 @@ namespace AirflowPrototype
         private readonly List<CandidateScore> _candidates =
             new List<CandidateScore>(24);
 
+        // Reused across every node and frame. A full buffer falls back to
+        // RaycastAll so crowded geometry cannot silently hide an obstruction.
+        private readonly RaycastHit[] _losHits = new RaycastHit[16];
+        private int _losQueries;
+        private int _losFullBufferFallbacks;
+
         private AirSlingNode _currentTarget;
         private float _currentScore;
 
@@ -53,6 +59,15 @@ namespace AirflowPrototype
 
         public IReadOnlyList<CandidateScore> DebugCandidates =>
             _candidates;
+
+        public int LosQueries => _losQueries;
+        public int LosFullBufferFallbacks => _losFullBufferFallbacks;
+
+#if UNITY_EDITOR
+        // Invoked only by the optional 5J parity tool. Not present in builds.
+        public bool DebugHasLineOfSight(AirSlingNode node) =>
+            node != null && HasLineOfSight(node, node.TargetPosition);
+#endif
 
         public event Action<AirSlingNode, AirSlingNode> TargetChanged;
 
@@ -132,50 +147,14 @@ namespace AirflowPrototype
             Vector3 targetPosition =
                 node.TargetPosition;
 
-            Vector3 playerToTarget =
-                targetPosition -
-                transform.position;
-
-            float distance =
-                playerToTarget.magnitude;
-
-            if (distance <= 0.001f ||
-                distance >
-                settings.maxTargetDistance)
-            {
-                result = default;
-                return false;
-            }
-
-            Vector3 cameraToTarget =
-                targetPosition -
-                targetCamera.transform.position;
-
-            float cameraDistance =
-                cameraToTarget.magnitude;
-
-            if (cameraDistance <= 0.001f)
-            {
-                result = default;
-                return false;
-            }
-
-            Vector3 cameraDirection =
-                cameraToTarget /
-                cameraDistance;
-
-            float cameraDot =
-                Vector3.Dot(
+            if (!AirSlingTargetScoreMath.TryPrepare(
+                    transform.position,
+                    targetPosition,
+                    targetCamera.transform.position,
                     targetCamera.transform.forward,
-                    cameraDirection);
-
-            float minCameraDot =
-                Mathf.Cos(
-                    settings.maxCameraAngle *
-                    Mathf.Deg2Rad);
-
-            if (cameraDot <
-                minCameraDot)
+                    settings.maxTargetDistance,
+                    settings.maxCameraAngle,
+                    out AirSlingTargetGeometry geometry))
             {
                 result = default;
                 return false;
@@ -191,61 +170,12 @@ namespace AirflowPrototype
                 return false;
             }
 
-            Vector2 viewportOffset =
-                new Vector2(
-                    viewport.x - 0.5f,
-                    viewport.y - 0.5f);
-
-            float normalizedScreenDistance =
-                Mathf.Clamp01(
-                    viewportOffset.magnitude /
-                    0.70710678f);
-
-            float screenScore =
-                1f -
-                normalizedScreenDistance;
-
-            float distanceScore =
-                1f -
-                Mathf.Clamp01(
-                    distance /
+            AirSlingTargetScores scores =
+                AirSlingTargetScoreMath.ComputeComponents(
+                    geometry,
+                    viewport,
+                    motor.PlanarVelocity,
                     settings.maxTargetDistance);
-
-            float cameraScore =
-                Mathf.InverseLerp(
-                    minCameraDot,
-                    1f,
-                    cameraDot);
-
-            Vector3 movement =
-                motor.PlanarVelocity;
-
-            movement.y = 0f;
-
-            Vector3 planarToTarget =
-                playerToTarget;
-
-            planarToTarget.y = 0f;
-
-            float movementScore =
-                0.5f;
-
-            if (movement.sqrMagnitude >
-                    0.01f &&
-                planarToTarget.sqrMagnitude >
-                    0.01f)
-            {
-                float dot =
-                    Vector3.Dot(
-                        movement.normalized,
-                        planarToTarget.normalized);
-
-                movementScore =
-                    Mathf.InverseLerp(
-                        -1f,
-                        1f,
-                        dot);
-            }
 
             bool visible =
                 HasLineOfSight(
@@ -258,34 +188,16 @@ namespace AirflowPrototype
                 return false;
             }
 
-            float weightSum =
-                settings.screenCenterWeight +
-                settings.movementDirectionWeight +
-                settings.distanceWeight +
-                settings.cameraForwardWeight;
-
-            if (weightSum <= 0.0001f)
-                weightSum = 1f;
-
-            float total =
-                (screenScore *
-                    settings.screenCenterWeight +
-                 movementScore *
-                    settings.movementDirectionWeight +
-                 distanceScore *
-                    settings.distanceWeight +
-                 cameraScore *
-                    settings.cameraForwardWeight) /
-                weightSum;
+            float total = AirSlingTargetScoreMath.WeightedTotal(scores, settings);
 
             result =
                 new CandidateScore(
                     node,
                     total,
-                    screenScore,
-                    movementScore,
-                    distanceScore,
-                    cameraScore,
+                    scores.Screen,
+                    scores.Movement,
+                    scores.Distance,
+                    scores.CameraForward,
                     true);
 
             return true;
@@ -311,20 +223,21 @@ namespace AirflowPrototype
             direction /=
                 distance;
 
-            RaycastHit[] hits =
-                Physics.RaycastAll(
-                    origin,
-                    direction,
-                    distance,
-                    settings.obstructionMask,
-                    QueryTriggerInteraction.Ignore);
+            _losQueries++;
+            int hitCount = Physics.RaycastNonAlloc(
+                origin,
+                direction,
+                _losHits,
+                distance,
+                settings.obstructionMask,
+                QueryTriggerInteraction.Ignore);
 
             for (int i = 0;
-                 i < hits.Length;
+                 i < hitCount;
                  i++)
             {
                 Transform hit =
-                    hits[i].transform;
+                    _losHits[i].transform;
 
                 if (hit == null)
                     continue;
@@ -336,6 +249,30 @@ namespace AirflowPrototype
                 }
 
                 return false;
+            }
+
+            // RaycastNonAlloc may omit arbitrary farther hits when full.
+            // Only fall back if the buffered hits were all valid node parts;
+            // a non-node obstruction found above is already conclusive.
+            if (hitCount == _losHits.Length)
+            {
+                _losFullBufferFallbacks++;
+                RaycastHit[] allHits = Physics.RaycastAll(
+                    origin,
+                    direction,
+                    distance,
+                    settings.obstructionMask,
+                    QueryTriggerInteraction.Ignore);
+
+                for (int i = 0; i < allHits.Length; i++)
+                {
+                    Transform hit = allHits[i].transform;
+                    if (hit == null || hit == node.transform ||
+                        hit.IsChildOf(node.transform))
+                        continue;
+
+                    return false;
+                }
             }
 
             return true;

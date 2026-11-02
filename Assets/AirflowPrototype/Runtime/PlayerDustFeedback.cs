@@ -40,10 +40,10 @@ namespace AirflowPrototype
         private void Awake()
         {
             if (motor == null)
-                motor = GetComponent<PlayerMotor>();
+                motor = GetComponentInParent<PlayerMotor>();
 
             if (movementVisuals == null)
-                movementVisuals = GetComponent<PlayerMovementVisuals>();
+                movementVisuals = GetComponentInParent<PlayerMovementVisuals>();
 
             BuildIfNeeded();
         }
@@ -251,7 +251,7 @@ namespace AirflowPrototype
             // Keeping this centralized makes it easy to add a dedicated foot/ground
             // probe transform later if the character hierarchy changes.
             return
-                transform.position +
+                (motor != null ? motor.transform.position : transform.position) +
                 Vector3.up *
                 settings.groundOffset;
         }
@@ -273,16 +273,25 @@ namespace AirflowPrototype
                 return;
             }
 
-            GameObject go =
-                new GameObject(
-                    "Ground Dust");
-
-            go.transform.SetParent(
-                transform,
-                false);
-
-            _particles =
-                go.AddComponent<ParticleSystem>();
+            Transform existing = transform.Find("Ground Dust");
+            GameObject go;
+            if (existing != null)
+            {
+                go = existing.gameObject;
+                _particles = go.GetComponent<ParticleSystem>();
+                if (_particles == null)
+                {
+                    Debug.LogError("Ground Dust child is missing ParticleSystem; refusing " +
+                                   "to alter an unrelated object.", go);
+                    return;
+                }
+            }
+            else
+            {
+                go = new GameObject("Ground Dust");
+                go.transform.SetParent(transform, false);
+                _particles = go.AddComponent<ParticleSystem>();
+            }
 
             _renderer =
                 go.GetComponent<ParticleSystemRenderer>();
