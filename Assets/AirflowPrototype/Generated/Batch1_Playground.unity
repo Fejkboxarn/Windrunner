@@ -40926,11 +40926,9 @@ GameObject:
   - component: {fileID: 863015103}
   - component: {fileID: 863015102}
   - component: {fileID: 863015106}
-  - component: {fileID: 863015105}
   - component: {fileID: 863015107}
   - component: {fileID: 863015108}
   - component: {fileID: 863015110}
-  - component: {fileID: 863015109}
   - component: {fileID: 863015112}
   - component: {fileID: 863015111}
   - component: {fileID: 863015113}
@@ -40941,7 +40939,6 @@ GameObject:
   - component: {fileID: 863015119}
   - component: {fileID: 863015121}
   - component: {fileID: 863015120}
-  - component: {fileID: 863015122}
   - component: {fileID: 863015123}
   - component: {fileID: 863015125}
   - component: {fileID: 863015126}
@@ -41012,6 +41009,7 @@ Transform:
   - {fileID: 856665196}
   - {fileID: 1460121256}
   - {fileID: 1905888325}
+  - {fileID: 1972870352}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 179.812, z: 0}
 --- !u!114 &863015093
@@ -41187,24 +41185,6 @@ MonoBehaviour:
   targetCamera: {fileID: 1438593768}
   castOrigin: {fileID: 1680258144}
   settings: {fileID: 11400000, guid: cfa8a3a804382a943b0139ef2b75cb03, type: 2}
---- !u!114 &863015105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ba38cb699e8f984ea33aebeac4ad12f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirHitFeedback
-  hitSystem: {fileID: 863015106}
-  speedFeedback: {fileID: 1438593765}
-  orbitCamera: {fileID: 0}
-  playerTransform: {fileID: 863015092}
-  settings: {fileID: 11400000, guid: 96663069f0762d74c96f2e2f8e129214, type: 2}
-  presentationSettings: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
 --- !u!114 &863015106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41257,21 +41237,6 @@ MonoBehaviour:
   hitSystem: {fileID: 863015106}
   airPower: {fileID: 0}
   settings: {fileID: 11400000, guid: 3afe925e17dffce479bbe3818b82e09a, type: 2}
---- !u!114 &863015109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 111ef7043c95485448cb059738d065db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerDustFeedback
-  motor: {fileID: 863015091}
-  movementVisuals: {fileID: 863015096}
-  settings: {fileID: 11400000, guid: 5d7f6c7946ba5544d887c0e197b1d34f, type: 2}
 --- !u!114 &863015110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41377,7 +41342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirSlingController
   motor: {fileID: 863015091}
-  inputReader: {fileID: 0}
   controller: {fileID: 863015094}
   slingTargeter: {fileID: 863015118}
   airPower: {fileID: 863015098}
@@ -41513,37 +41477,6 @@ MonoBehaviour:
   slingLayerBlendInResponse: 22
   slingLayerBlendOutResponse: 12
   slingImpactLayerFailSafeDuration: 1.5
---- !u!114 &863015122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66febed433d1554cbcdeb3318426fad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerHandAirTrails
-  motor: {fileID: 863015091}
-  airFlowHitSystem: {fileID: 863015106}
-  slingController: {fileID: 863015117}
-  humanoidAnimator: {fileID: 1472093725}
-  leftTrailOrigin: {fileID: 1938172988}
-  rightTrailOrigin: {fileID: 494107027}
-  airNodeEmitDuration: 1
-  airNodeFadeDuration: 1.1
-  slingImpactEmitDuration: 1
-  slingImpactFadeDuration: 1.1
-  trailMaterial: {fileID: 0}
-  startWidth: 0.085
-  endWidth: 0.005
-  minimumVertexDistance: 0.025
-  cornerVertices: 3
-  capVertices: 2
-  trailColor: {r: 0.78, g: 0.95, b: 1, a: 0.92}
-  scaleAirNodeWidthByRewardIntensity: 1
-  minimumRewardWidthMultiplier: 0.7
 --- !u!114 &863015123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57407,6 +57340,104 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c116a3fbf50d03842b538154000d4b48, type: 3}
+--- !u!1 &1972870351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1972870352}
+  - component: {fileID: 1972870355}
+  - component: {fileID: 1972870354}
+  - component: {fileID: 1972870353}
+  m_Layer: 2
+  m_Name: PresentationFeedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1972870352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972870351}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 863015092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1972870353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972870351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e66febed433d1554cbcdeb3318426fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerHandAirTrails
+  motor: {fileID: 863015091}
+  airFlowHitSystem: {fileID: 863015106}
+  slingController: {fileID: 863015117}
+  humanoidAnimator: {fileID: 1472093725}
+  leftTrailOrigin: {fileID: 1938172988}
+  rightTrailOrigin: {fileID: 494107027}
+  airNodeEmitDuration: 1
+  airNodeFadeDuration: 1.1
+  slingImpactEmitDuration: 1
+  slingImpactFadeDuration: 1.1
+  trailMaterial: {fileID: 0}
+  startWidth: 0.085
+  endWidth: 0.005
+  minimumVertexDistance: 0.025
+  cornerVertices: 3
+  capVertices: 2
+  trailColor: {r: 0.78, g: 0.95, b: 1, a: 0.92}
+  scaleAirNodeWidthByRewardIntensity: 1
+  minimumRewardWidthMultiplier: 0.7
+--- !u!114 &1972870354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972870351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 111ef7043c95485448cb059738d065db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerDustFeedback
+  motor: {fileID: 863015091}
+  movementVisuals: {fileID: 863015096}
+  settings: {fileID: 11400000, guid: 5d7f6c7946ba5544d887c0e197b1d34f, type: 2}
+--- !u!114 &1972870355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972870351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba38cb699e8f984ea33aebeac4ad12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirHitFeedback
+  hitSystem: {fileID: 863015106}
+  speedFeedback: {fileID: 1438593765}
+  orbitCamera: {fileID: 0}
+  playerTransform: {fileID: 863015092}
+  settings: {fileID: 11400000, guid: 96663069f0762d74c96f2e2f8e129214, type: 2}
+  presentationSettings: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
 --- !u!1 &1973415292
 GameObject:
   m_ObjectHideFlags: 0

@@ -148,7 +148,7 @@ namespace AirflowPrototype.Editor
                 visuals);
 
             AirAudioDirector audio =
-                motor.GetComponent<AirAudioDirector>();
+                motor.GetComponentInChildren<AirAudioDirector>(true);
 
             if (audio == null)
             {

@@ -78,7 +78,7 @@ namespace AirflowPrototype.Editor
             EditorUtility.SetDirty(ui);
 
             AirPerfectTimingFeedback perfectFeedback =
-                player.GetComponent<AirPerfectTimingFeedback>();
+                player.GetComponentInChildren<AirPerfectTimingFeedback>(true);
 
             if (perfectFeedback == null)
             {

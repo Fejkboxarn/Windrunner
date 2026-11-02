@@ -64,7 +64,7 @@ namespace AirflowPrototype
                 newMovementVisuals,
                 newCaster,
                 newHitSystem,
-                GetComponent<AirPower>(),
+                GetComponentInParent<AirPower>(),
                 newSettings);
         }
 
@@ -95,19 +95,19 @@ namespace AirflowPrototype
         private void Awake()
         {
             if (motor == null)
-                motor = GetComponent<PlayerMotor>();
+                motor = GetComponentInParent<PlayerMotor>();
 
             if (movementVisuals == null)
-                movementVisuals = GetComponent<PlayerMovementVisuals>();
+                movementVisuals = GetComponentInParent<PlayerMovementVisuals>();
 
             if (caster == null)
-                caster = GetComponent<AirCaster>();
+                caster = GetComponentInParent<AirCaster>();
 
             if (hitSystem == null)
-                hitSystem = GetComponent<AirFlowHitSystem>();
+                hitSystem = GetComponentInParent<AirFlowHitSystem>();
 
             if (airPower == null)
-                airPower = GetComponent<AirPower>();
+                airPower = GetComponentInParent<AirPower>();
 
             BuildSourcesIfNeeded();
             ApplyLoopClips();
@@ -600,15 +600,25 @@ namespace AirflowPrototype
             string objectName,
             bool loop)
         {
-            GameObject go =
-                new GameObject(objectName);
-
-            go.transform.SetParent(
-                transform,
-                false);
-
-            AudioSource source =
-                go.AddComponent<AudioSource>();
+            Transform existing = transform.Find(objectName);
+            AudioSource source;
+            if (existing != null)
+            {
+                source = existing.GetComponent<AudioSource>();
+                if (source == null)
+                {
+                    Debug.LogError("Existing audio child '" + objectName +
+                                   "' has no AudioSource. Refusing to change an " +
+                                   "unrelated object or create a duplicate.", existing);
+                    return null;
+                }
+            }
+            else
+            {
+                GameObject go = new GameObject(objectName);
+                go.transform.SetParent(transform, false);
+                source = go.AddComponent<AudioSource>();
+            }
 
             source.playOnAwake = false;
             source.loop = loop;

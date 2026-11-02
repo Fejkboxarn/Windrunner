@@ -214,7 +214,7 @@ namespace AirflowPrototype
             if (perfectTimingFeedback == null)
             {
                 perfectTimingFeedback =
-                    GetComponent<AirPerfectTimingFeedback>();
+                    GetComponentInChildren<AirPerfectTimingFeedback>(true);
             }
 
             if (movementVisuals == null)

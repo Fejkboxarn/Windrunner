@@ -14,11 +14,11 @@ namespace AirflowPrototype
         [SerializeField] private AirflowMovementSettings settings;
         [SerializeField] private AirFlowHitSystem flowHitSystem;
 
-        private bool _isDashing;
-        private bool _autoDashLatched;
+        private AirDashSession _session;
+        private AirDashSession Session => _session ?? (_session = new AirDashSession());
 
-        public bool IsDashing => _isDashing;
-        public bool IsAutoDashLatched => _autoDashLatched;
+        public bool IsDashing => Session.IsDashing;
+        public bool IsAutoDashLatched => Session.IsAutoDashLatched;
 
         public event Action DashStarted;
         public event Action DashStopped;
@@ -44,10 +44,7 @@ namespace AirflowPrototype
         /// </summary>
         public void TriggerAutoDash()
         {
-            if (airPower == null || !airPower.CanStartDash)
-                return;
-
-            _autoDashLatched = true;
+            Session.TryLatchReward(airPower != null && airPower.CanStartDash);
         }
 
         /// <summary>
@@ -56,7 +53,7 @@ namespace AirflowPrototype
         /// </summary>
         public void CancelAutoDash()
         {
-            _autoDashLatched = false;
+            Session.CancelAutoDash();
         }
 
         private void Reset()
@@ -90,7 +87,7 @@ namespace AirflowPrototype
         private void OnDisable()
         {
             UnsubscribeFromReward();
-            _autoDashLatched = false;
+            Session.CancelAutoDash();
             SetDashing(false);
         }
 
@@ -98,7 +95,7 @@ namespace AirflowPrototype
         {
             if (motor == null || input == null || airPower == null || settings == null)
             {
-                _autoDashLatched = false;
+                Session.CancelAutoDash();
                 SetDashing(false);
                 return;
             }
@@ -107,30 +104,15 @@ namespace AirflowPrototype
             bool hasMoveIntent =
                 input.Move.sqrMagnitude >= minimumInput * minimumInput;
 
-            // Releasing movement is an explicit request to end the reward dash.
-            // Moving again later does not silently restart it.
-            if (_autoDashLatched && !hasMoveIntent)
-                _autoDashLatched = false;
-
-            bool manualDashRequested =
-                input.DashHeld && hasMoveIntent;
-
-            bool autoDashRequested =
-                _autoDashLatched && hasMoveIntent;
-
-            bool wantsDash =
-                manualDashRequested || autoDashRequested;
-
-            if (!wantsDash)
+            if (!Session.WantsDash(hasMoveIntent, input.DashHeld))
             {
                 SetDashing(false);
                 return;
             }
 
-            if (!_isDashing && !airPower.CanStartDash)
+            if (!Session.IsDashing &&
+                !Session.CanBeginDash(airPower.CanStartDash))
             {
-                // Running out of Air Power permanently ends this auto-dash chain.
-                _autoDashLatched = false;
                 SetDashing(false);
                 return;
             }
@@ -140,8 +122,7 @@ namespace AirflowPrototype
 
             bool stillHasPower = airPower.Spend(cost);
 
-            if (!stillHasPower)
-                _autoDashLatched = false;
+            Session.AfterSpend(stillHasPower);
 
             SetDashing(stillHasPower);
         }
@@ -182,7 +163,7 @@ namespace AirflowPrototype
 
         private void SetDashing(bool value)
         {
-            if (_isDashing == value)
+            if (!Session.SetDashing(value))
             {
                 if (motor != null)
                     motor.SetDashActive(value);
@@ -190,12 +171,10 @@ namespace AirflowPrototype
                 return;
             }
 
-            _isDashing = value;
-
             if (motor != null)
                 motor.SetDashActive(value);
 
-            if (_isDashing)
+            if (Session.IsDashing)
                 DashStarted?.Invoke();
             else
                 DashStopped?.Invoke();

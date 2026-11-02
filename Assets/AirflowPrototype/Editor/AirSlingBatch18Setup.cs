@@ -63,7 +63,7 @@ namespace AirflowPrototype.Editor
                 player.GetComponent<AirPower>();
 
             AirPerfectTimingFeedback perfectFeedback =
-                player.GetComponent<AirPerfectTimingFeedback>();
+                player.GetComponentInChildren<AirPerfectTimingFeedback>(true);
 
             AirFlowHitSystem regularHitSystem =
                 player.GetComponent<AirFlowHitSystem>();

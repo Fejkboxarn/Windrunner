@@ -63,17 +63,19 @@ namespace AirflowPrototype
         private void Awake()
         {
             if (hitSystem == null)
-                hitSystem = GetComponent<AirFlowHitSystem>();
+                hitSystem = GetComponentInParent<AirFlowHitSystem>();
 
             if (visualRoot == null)
             {
+                PlayerMotor player = GetComponentInParent<PlayerMotor>();
+                Transform playerRoot = player != null ? player.transform : transform;
                 Transform found =
-                    transform.Find("Capsule Animation Root");
+                    playerRoot.Find("Capsule Animation Root");
 
                 visualRoot =
                     found != null
                         ? found
-                        : transform;
+                        : playerRoot;
             }
 
             RebuildRendererCache();
@@ -437,7 +439,7 @@ namespace AirflowPrototype
             }
 
             CharacterController controller =
-                GetComponent<CharacterController>();
+                GetComponentInParent<CharacterController>();
 
             Vector3 localPosition =
                 controller != null

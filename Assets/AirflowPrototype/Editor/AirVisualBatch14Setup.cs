@@ -168,7 +168,7 @@ namespace AirflowPrototype.Editor
             }
 
             AirRewardGlowFeedback glow =
-                player.GetComponent<AirRewardGlowFeedback>();
+                player.GetComponentInChildren<AirRewardGlowFeedback>(true);
 
             if (glow == null)
             {

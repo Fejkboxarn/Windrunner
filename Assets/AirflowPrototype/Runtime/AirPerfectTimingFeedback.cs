@@ -37,7 +37,7 @@ namespace AirflowPrototype
         private void Awake()
         {
             if (caster == null)
-                caster = GetComponent<AirCaster>();
+                caster = GetComponentInParent<AirCaster>();
 
             _normalTimeScale =
                 Time.timeScale;
