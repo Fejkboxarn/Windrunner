@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de644cdfb9d4bdaa3ae27b2fb5395a4, type: 3}
+  m_Name: FeelValidationProfile
+  m_EditorClassIdentifier: Windrunner.Production.Feedback::Windrunner.Production.Feedback.FeelValidationProfile
+  recipe:
+    prefab: {fileID: 769811691651764865, guid: 1225b316849a19d4c8ea7b92bbcb3ed2, type: 3}
+    category: 0
+    intensityMultiplier: 1
+    attachToTarget: 0
+    localPositionOffset: {x: 0, y: 0, z: 0}
+    localEulerOffset: {x: 0, y: 0, z: 0}
+    prewarmCount: 2
+    maxPoolSize: 4
+    overflow: 0
+    safetyReleaseSeconds: 1.25
+  firstIntensity: 0.8
+  burstIntensity: 0.3
+  burstSize: 24
+  releaseWaitSeconds: 1.5

@@ -40947,6 +40947,8 @@ GameObject:
   - component: {fileID: 863015122}
   - component: {fileID: 863015123}
   - component: {fileID: 863015125}
+  - component: {fileID: 863015126}
+  - component: {fileID: 863015127}
   m_Layer: 2
   m_Name: Airflow Player
   m_TagString: Untagged
@@ -41639,6 +41641,47 @@ MonoBehaviour:
   debugPreviewPhase: 2
   debugPreviewRightHand: 1
   debugPreviewWeight: 1
+--- !u!114 &863015126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863015090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a31c5fc7a1c4ae2bb6f903fe746407f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirflowProductionFeedbackEmitter
+  movement: {fileID: 863015096}
+  caster: {fileID: 863015104}
+  sling: {fileID: 863015117}
+  hits: {fileID: 863015106}
+  airPower: {fileID: 863015098}
+--- !u!114 &863015127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863015090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea6ac4d93a73416881241b8601fd0426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirflowPortableAnimationBridge
+  profile: {fileID: 11400000, guid: 7a9df32bb54f56f4aabad14ab595a657, type: 2}
+  motor: {fileID: 863015091}
+  sling: {fileID: 863015117}
+  humanoidAnimator: {fileID: 1472093725}
+  referenceCamera: {fileID: 1438593768}
+  optionalWorldLookTarget: {fileID: 0}
+  legacyHumanoid: {fileID: 863015121}
+  legacyCustom: {fileID: 863015110}
+  legacyArms: {fileID: 863015123}
+  legacyKnife: {fileID: 863015125}
+  legacyThrow: {fileID: 863015120}
+  legacyFootIK: {fileID: 1472093726}
 --- !u!1 &867562219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
@@ -56244,6 +56287,8 @@ GameObject:
   - component: {fileID: 1936097420}
   - component: {fileID: 1936097419}
   - component: {fileID: 1936097421}
+  - component: {fileID: 1936097423}
+  - component: {fileID: 1936097422}
   m_Layer: 0
   m_Name: WindrunnerProjectRoot
   m_TagString: Untagged
@@ -56295,6 +56340,34 @@ MonoBehaviour:
   authoringActions: {fileID: -944628639613478452, guid: e1bc4b6d2269c264b945b9aad0d4f33b, type: 3}
   pauseView: {fileID: 1493128427}
   uiModule: {fileID: 464679198}
+--- !u!114 &1936097422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936097418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753cfbf9b27144a6a8b6ce302165c545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Windrunner.Production.Integrations.Feel.WindrunnerFeelBackendAdapter
+--- !u!114 &1936097423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936097418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef639e59e1a4474896f400471fe5d55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Windrunner.Production.Feedback::Windrunner.Production.Feedback.WindrunnerFeedbackHost
+  catalog: {fileID: 11400000, guid: 6d2141322214d9b4fa2de30bc89c7bc0, type: 2}
+  feelBackendComponent: {fileID: 1936097422}
+  maximumAudioVoices: 24
+  logObservedEvents: 0
 --- !u!1 &1938172987
 GameObject:
   m_ObjectHideFlags: 0
