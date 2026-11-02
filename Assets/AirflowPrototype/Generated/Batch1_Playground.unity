@@ -40917,13 +40917,11 @@ GameObject:
   - component: {fileID: 863015094}
   - component: {fileID: 863015093}
   - component: {fileID: 863015091}
-  - component: {fileID: 863015095}
   - component: {fileID: 863015098}
   - component: {fileID: 863015097}
   - component: {fileID: 863015096}
   - component: {fileID: 863015101}
   - component: {fileID: 863015100}
-  - component: {fileID: 863015099}
   - component: {fileID: 863015104}
   - component: {fileID: 863015103}
   - component: {fileID: 863015102}
@@ -40938,7 +40936,6 @@ GameObject:
   - component: {fileID: 863015113}
   - component: {fileID: 863015114}
   - component: {fileID: 863015115}
-  - component: {fileID: 863015116}
   - component: {fileID: 863015118}
   - component: {fileID: 863015117}
   - component: {fileID: 863015119}
@@ -41014,6 +41011,7 @@ Transform:
   - {fileID: 1569174977}
   - {fileID: 856665196}
   - {fileID: 1460121256}
+  - {fileID: 1905888325}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 179.812, z: 0}
 --- !u!114 &863015093
@@ -41053,22 +41051,6 @@ CharacterController:
   m_SkinWidth: 0.04
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1.03, z: 0}
---- !u!114 &863015095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64d7f9b4fad92e546bfe984394d39fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerDebugHUD
-  motor: {fileID: 863015091}
-  input: {fileID: 863015093}
-  airPower: {fileID: 863015098}
-  airDash: {fileID: 863015097}
 --- !u!114 &863015096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41090,7 +41072,7 @@ MonoBehaviour:
   flipPivot: {fileID: 1956204492}
   customAnimationDriver: {fileID: 863015110}
   humanoidAnimatorDriver: {fileID: 0}
-  disableAllLegacyProceduralAnimation: 0
+  disableAllLegacyProceduralAnimation: 1
   disableIdleBreathing: 1
   disableWalkRunWobble: 1
   disableTakeoffLandingSquash: 0
@@ -41128,20 +41110,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirPower
   settings: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
---- !u!114 &863015099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b2f627376e08204fab0f12a64f6cab7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirTargetDebugHUD
-  targeter: {fileID: 863015101}
-  rows: 4
 --- !u!114 &863015100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41396,26 +41364,6 @@ MonoBehaviour:
   inputReader: {fileID: 863015093}
   verifyNextFrame: 1
   logRepairs: 0
---- !u!114 &863015116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17d1916af418d40488ce60e2bbda151a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirflowDebugRuntimeControls
-  airflowInfoWindow: {fileID: 863015095}
-  airTargetingWindow: {fileID: 863015099}
-  airflowInfoVisibleAtStart: 0
-  airTargetingVisibleAtStart: 0
-  airflowInfoToggleKey: 94
-  airTargetingToggleKey: 95
-  targetFrameRate: 166
-  disableVSyncForFrameCap: 1
 --- !u!114 &863015117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41665,7 +41613,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 863015090}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea6ac4d93a73416881241b8601fd0426, type: 3}
   m_Name: 
@@ -55836,6 +55784,90 @@ Transform:
   m_Children: []
   m_Father: {fileID: 651799076}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1905888324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1905888325}
+  - component: {fileID: 1905888328}
+  - component: {fileID: 1905888327}
+  - component: {fileID: 1905888326}
+  m_Layer: 2
+  m_Name: DevelopmentDiagnostics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1905888325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905888324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 863015092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1905888326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905888324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d1916af418d40488ce60e2bbda151a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirflowDebugRuntimeControls
+  airflowInfoWindow: {fileID: 1905888328}
+  airTargetingWindow: {fileID: 1905888327}
+  airflowInfoVisibleAtStart: 0
+  airTargetingVisibleAtStart: 0
+  airflowInfoToggleKey: 94
+  airTargetingToggleKey: 95
+  targetFrameRate: 166
+  disableVSyncForFrameCap: 1
+--- !u!114 &1905888327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905888324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2f627376e08204fab0f12a64f6cab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirTargetDebugHUD
+  targeter: {fileID: 863015101}
+  rows: 4
+--- !u!114 &1905888328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905888324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d7f9b4fad92e546bfe984394d39fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerDebugHUD
+  motor: {fileID: 863015091}
+  input: {fileID: 863015093}
+  airPower: {fileID: 863015098}
+  airDash: {fileID: 863015097}
 --- !u!1 &1906292050
 GameObject:
   m_ObjectHideFlags: 0

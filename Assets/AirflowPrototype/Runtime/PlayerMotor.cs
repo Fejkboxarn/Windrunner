@@ -14,11 +14,17 @@ namespace AirflowPrototype
         private Vector3 _planarVelocity;
         private Vector3 _actualVelocity;
         private float _verticalVelocity;
-        private float _lastGroundedTime = float.NegativeInfinity;
-        private float _lastJumpPressedTime = float.NegativeInfinity;
-        private bool _jumpConsumed;
         private bool _grounded;
         private bool _dashActive;
+
+        // Gameplay state is being extracted incrementally while preserving this
+        // MonoBehaviour as the serialized facade used by existing abilities.
+        private PlayerMotorJumpWindow _jumpWindow;
+        private PlayerMotorFlowState _flowState;
+        private PlayerMotorJumpWindow JumpWindow =>
+            _jumpWindow ?? (_jumpWindow = new PlayerMotorJumpWindow());
+        private PlayerMotorFlowState FlowState =>
+            _flowState ?? (_flowState = new PlayerMotorFlowState());
 
         // External traversal feedback.
         // Systems such as Sling can move the CharacterController after the
@@ -26,17 +32,6 @@ namespace AirflowPrototype
         // speed-driven feedback see the real traversal speed.
         private Vector3 _externalTraversalVelocity;
         private int _externalTraversalVelocityFrame = -1000;
-
-        // Reward speed envelope.
-        private float _rewardBoostSpeedFloor;
-        private float _rewardBoostHoldRemaining;
-        private float _rewardBoostDecayPerSecond;
-
-        // Temporary aerial-flow state.
-        private float _aerialGravityScale = 1f;
-        private float _aerialGravityRemaining;
-        private float _aerialSteeringMultiplier = 1f;
-        private float _aerialSteeringRemaining;
 
         public bool HasExternalTraversalVelocity =>
             Time.frameCount -
@@ -79,33 +74,28 @@ namespace AirflowPrototype
         public bool IsGrounded => _grounded;
         public bool IsDashActive => _dashActive;
 
-        public bool HasRewardSpeedBoost => _rewardBoostSpeedFloor > 0.01f;
-        public float RewardBoostSpeedFloor => _rewardBoostSpeedFloor;
-        public float RewardBoostHoldRemaining => _rewardBoostHoldRemaining;
+        public bool HasRewardSpeedBoost => FlowState.HasRewardSpeedBoost;
+        public float RewardBoostSpeedFloor => FlowState.RewardBoostSpeedFloor;
+        public float RewardBoostHoldRemaining => FlowState.RewardBoostHoldRemaining;
 
         public bool HasAerialFlow =>
             !_grounded &&
-            (_aerialGravityRemaining > 0f ||
-             _aerialSteeringRemaining > 0f);
+            FlowState.HasAerialFlow;
 
-        public float AerialGravityRemaining => _aerialGravityRemaining;
-        public float AerialSteeringRemaining => _aerialSteeringRemaining;
+        public float AerialGravityRemaining => FlowState.AerialGravityRemaining;
+        public float AerialSteeringRemaining => FlowState.AerialSteeringRemaining;
 
         public AirflowMovementSettings Settings => settings;
 
         public float CoyoteRemaining =>
-            Mathf.Max(
-                0f,
-                settings != null
-                    ? settings.coyoteTime - (Time.time - _lastGroundedTime)
-                    : 0f);
+            settings != null
+                ? JumpWindow.CoyoteRemaining(Time.time, settings.coyoteTime)
+                : 0f;
 
         public float JumpBufferRemaining =>
-            Mathf.Max(
-                0f,
-                settings != null
-                    ? settings.jumpBufferTime - (Time.time - _lastJumpPressedTime)
-                    : 0f);
+            settings != null
+                ? JumpWindow.BufferRemaining(Time.time, settings.jumpBufferTime)
+                : 0f;
 
         public void Configure(
             CharacterController newController,
@@ -181,20 +171,7 @@ namespace AirflowPrototype
             float resultingSpeed =
                 _planarVelocity.magnitude;
 
-            _rewardBoostSpeedFloor =
-                Mathf.Max(
-                    _rewardBoostSpeedFloor,
-                    resultingSpeed);
-
-            _rewardBoostHoldRemaining =
-                Mathf.Max(
-                    _rewardBoostHoldRemaining,
-                    Mathf.Max(0f, holdDuration));
-
-            _rewardBoostDecayPerSecond =
-                Mathf.Max(
-                    0.01f,
-                    decayPerSecond);
+            FlowState.AddRewardPlanarBoost(resultingSpeed, holdDuration, decayPerSecond);
         }
 
         public void AddVerticalImpulse(
@@ -272,8 +249,8 @@ namespace AirflowPrototype
             _actualVelocity =
                 Vector3.zero;
 
-            ClearRewardBoost();
-            ClearAerialFlow();
+            FlowState.ClearRewardBoost();
+            FlowState.ClearAerialFlow();
             ClearExternalTraversalVelocity();
         }
 
@@ -288,71 +265,18 @@ namespace AirflowPrototype
             float steeringDuration,
             bool forceWhenGrounded)
         {
-            if (_grounded &&
-                !forceWhenGrounded)
-            {
-                return;
-            }
-
-            bool falling =
-                _verticalVelocity < 0f;
-
-            if (falling)
-            {
-                float cancelFraction =
-                    Mathf.Clamp01(
-                        fallingCancelFraction);
-
-                _verticalVelocity =
-                    Mathf.Lerp(
-                        _verticalVelocity,
-                        0f,
-                        cancelFraction);
-
-                _verticalVelocity +=
-                    Mathf.Max(
-                        0f,
-                        fallingLift);
-            }
-            else
-            {
-                _verticalVelocity +=
-                    Mathf.Max(
-                        0f,
-                        risingLift);
-            }
-
-            _verticalVelocity =
-                Mathf.Min(
-                    _verticalVelocity,
-                    Mathf.Max(
-                        0.1f,
-                        maxUpwardSpeed));
-
-            _aerialGravityScale =
-                Mathf.Clamp(
-                    gravityScale,
-                    0.1f,
-                    1f);
-
-            _aerialGravityRemaining =
-                Mathf.Max(
-                    _aerialGravityRemaining,
-                    Mathf.Max(
-                        0f,
-                        gravityDuration));
-
-            _aerialSteeringMultiplier =
-                Mathf.Max(
-                    1f,
-                    steeringMultiplier);
-
-            _aerialSteeringRemaining =
-                Mathf.Max(
-                    _aerialSteeringRemaining,
-                    Mathf.Max(
-                        0f,
-                        steeringDuration));
+            _verticalVelocity = FlowState.ApplyAerialFlowReward(
+                _verticalVelocity,
+                _grounded,
+                forceWhenGrounded,
+                risingLift,
+                fallingLift,
+                fallingCancelFraction,
+                maxUpwardSpeed,
+                gravityScale,
+                gravityDuration,
+                steeringMultiplier,
+                steeringDuration);
         }
 
         private void Reset()
@@ -396,13 +320,8 @@ namespace AirflowPrototype
 
             if (groundedAtFrameStart)
             {
-                _lastGroundedTime =
-                    Time.time;
-
-                _jumpConsumed =
-                    false;
-
-                ClearAerialFlow();
+                JumpWindow.ReportGrounded(Time.time);
+                FlowState.ClearAerialFlow();
 
                 if (_verticalVelocity < 0f)
                 {
@@ -412,13 +331,12 @@ namespace AirflowPrototype
             }
             else
             {
-                TickAerialFlow(dt);
+                FlowState.TickAerialFlow(dt);
             }
 
             if (input.JumpPressedThisFrame)
             {
-                _lastJumpPressedTime =
-                    Time.time;
+                JumpWindow.ReportJumpPressed(Time.time);
             }
 
             Vector3 desiredDirection =
@@ -429,9 +347,7 @@ namespace AirflowPrototype
                 Mathf.Clamp01(
                     desiredDirection.magnitude);
 
-            UpdateRewardBoostEnvelope(
-                inputMagnitude,
-                dt);
+            FlowState.TickRewardBoost(inputMagnitude, dt, settings.dashMaxSpeed);
 
             UpdatePlanarVelocity(
                 desiredDirection,
@@ -470,103 +386,13 @@ namespace AirflowPrototype
 
             if (_grounded)
             {
-                _lastGroundedTime =
-                    Time.time;
-
-                _jumpConsumed =
-                    false;
-
-                ClearAerialFlow();
+                JumpWindow.ReportGrounded(Time.time);
+                FlowState.ClearAerialFlow();
             }
 
             UpdateFacing(
                 desiredDirection,
                 dt);
-        }
-
-        private void TickAerialFlow(
-            float dt)
-        {
-            if (_aerialGravityRemaining > 0f)
-            {
-                _aerialGravityRemaining =
-                    Mathf.Max(
-                        0f,
-                        _aerialGravityRemaining -
-                        dt);
-            }
-
-            if (_aerialSteeringRemaining > 0f)
-            {
-                _aerialSteeringRemaining =
-                    Mathf.Max(
-                        0f,
-                        _aerialSteeringRemaining -
-                        dt);
-            }
-
-            if (_aerialGravityRemaining <= 0f)
-                _aerialGravityScale = 1f;
-
-            if (_aerialSteeringRemaining <= 0f)
-                _aerialSteeringMultiplier = 1f;
-        }
-
-        private void ClearAerialFlow()
-        {
-            _aerialGravityScale = 1f;
-            _aerialGravityRemaining = 0f;
-            _aerialSteeringMultiplier = 1f;
-            _aerialSteeringRemaining = 0f;
-        }
-
-        private void UpdateRewardBoostEnvelope(
-            float inputMagnitude,
-            float dt)
-        {
-            if (_rewardBoostSpeedFloor <= 0f)
-                return;
-
-            if (inputMagnitude <= 0.0001f)
-            {
-                ClearRewardBoost();
-                return;
-            }
-
-            if (_rewardBoostHoldRemaining > 0f)
-            {
-                _rewardBoostHoldRemaining =
-                    Mathf.Max(
-                        0f,
-                        _rewardBoostHoldRemaining -
-                        dt);
-
-                return;
-            }
-
-            float normalDashSpeed =
-                settings != null
-                    ? settings.dashMaxSpeed
-                    : 0f;
-
-            _rewardBoostSpeedFloor =
-                Mathf.MoveTowards(
-                    _rewardBoostSpeedFloor,
-                    normalDashSpeed,
-                    _rewardBoostDecayPerSecond *
-                    dt);
-
-            if (_rewardBoostSpeedFloor <=
-                normalDashSpeed + 0.01f)
-            {
-                ClearRewardBoost();
-            }
-        }
-
-        private void ClearRewardBoost()
-        {
-            _rewardBoostSpeedFloor = 0f;
-            _rewardBoostHoldRemaining = 0f;
         }
 
         private Vector3 GetCameraRelativeMove(
@@ -670,8 +496,8 @@ namespace AirflowPrototype
             else
             {
                 float steeringMultiplier =
-                    _aerialSteeringRemaining > 0f
-                        ? _aerialSteeringMultiplier
+                    FlowState.AerialSteeringRemaining > 0f
+                        ? FlowState.AerialSteeringMultiplier
                         : 1f;
 
                 if (inputMagnitude > 0.0001f)
@@ -712,12 +538,12 @@ namespace AirflowPrototype
                 settings.dashMaxSpeed *
                 inputMagnitude;
 
-            if (_rewardBoostSpeedFloor > 0f)
+            if (FlowState.RewardBoostSpeedFloor > 0f)
             {
                 targetSpeed =
                     Mathf.Max(
                         targetSpeed,
-                        _rewardBoostSpeedFloor *
+                        FlowState.RewardBoostSpeedFloor *
                         inputMagnitude);
             }
 
@@ -732,8 +558,8 @@ namespace AirflowPrototype
 
             float steeringMultiplier =
                 !grounded &&
-                _aerialSteeringRemaining > 0f
-                    ? _aerialSteeringMultiplier
+                FlowState.AerialSteeringRemaining > 0f
+                    ? FlowState.AerialSteeringMultiplier
                     : 1f;
 
             float steerT =
@@ -809,8 +635,8 @@ namespace AirflowPrototype
 
             float steeringMultiplier =
                 !grounded &&
-                _aerialSteeringRemaining > 0f
-                    ? _aerialSteeringMultiplier
+                FlowState.AerialSteeringRemaining > 0f
+                    ? FlowState.AerialSteeringMultiplier
                     : 1f;
 
             float steerSharpness =
@@ -855,12 +681,12 @@ namespace AirflowPrototype
                     settings.maxGroundSpeed *
                     inputMagnitude;
 
-                if (_rewardBoostSpeedFloor > 0f)
+                if (FlowState.RewardBoostSpeedFloor > 0f)
                 {
                     targetSpeed =
                         Mathf.Max(
                             targetSpeed,
-                            _rewardBoostSpeedFloor *
+                            FlowState.RewardBoostSpeedFloor *
                             inputMagnitude);
                 }
 
@@ -884,38 +710,14 @@ namespace AirflowPrototype
 
         private void TryConsumeBufferedJump()
         {
-            if (_jumpConsumed)
+            if (!JumpWindow.TryConsume(Time.time, settings.jumpBufferTime, settings.coyoteTime))
                 return;
-
-            bool buffered =
-                Time.time -
-                _lastJumpPressedTime <=
-                settings.jumpBufferTime;
-
-            bool coyoteValid =
-                Time.time -
-                _lastGroundedTime <=
-                settings.coyoteTime;
-
-            if (!buffered ||
-                !coyoteValid)
-            {
-                return;
-            }
 
             _verticalVelocity =
                 Mathf.Sqrt(
                     2f *
                     settings.gravity *
                     settings.jumpHeight);
-
-            _jumpConsumed = true;
-
-            _lastJumpPressedTime =
-                float.NegativeInfinity;
-
-            _lastGroundedTime =
-                float.NegativeInfinity;
         }
 
         private void UpdateGravity(
@@ -934,8 +736,8 @@ namespace AirflowPrototype
                     : 1f;
 
             float flowGravityScale =
-                _aerialGravityRemaining > 0f
-                    ? _aerialGravityScale
+                FlowState.AerialGravityRemaining > 0f
+                    ? FlowState.AerialGravityScale
                     : 1f;
 
             _verticalVelocity -=

@@ -58,7 +58,8 @@ namespace AirflowPrototype.Editor
 
             indicator.Configure(targeter, camera);
 
-            AirTargetDebugHUD hud = player.GetComponent<AirTargetDebugHUD>();
+            AirTargetDebugHUD hud = player.GetComponent<AirTargetDebugHUD>() ??
+                                    player.GetComponentInChildren<AirTargetDebugHUD>(true);
             if (hud == null)
                 hud = Undo.AddComponent<AirTargetDebugHUD>(player);
 

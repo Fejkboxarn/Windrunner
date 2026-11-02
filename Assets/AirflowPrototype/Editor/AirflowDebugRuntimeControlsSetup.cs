@@ -38,7 +38,8 @@ namespace AirflowPrototype.Editor
             }
 
             AirflowDebugRuntimeControls controls =
-                owner.GetComponent<AirflowDebugRuntimeControls>();
+                owner.GetComponent<AirflowDebugRuntimeControls>() ??
+                owner.GetComponentInChildren<AirflowDebugRuntimeControls>(true);
 
             if (controls == null)
                 controls = Undo.AddComponent<AirflowDebugRuntimeControls>(owner);

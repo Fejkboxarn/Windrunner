@@ -14,6 +14,11 @@ namespace AirflowPrototype.Editor
         private string[] _presetNames =
             System.Array.Empty<string>();
 
+        private string[] _popupOptions = { "<None>" };
+
+        private PlayerKnifeFlickPreset _cachedPreset;
+        private SerializedObject _cachedPresetObject;
+
         private SerializedProperty _presetProperty;
 
         private void OnEnable()
@@ -22,7 +27,16 @@ namespace AirflowPrototype.Editor
                 serializedObject.FindProperty(
                     "preset");
 
+            EditorApplication.projectChanged += RefreshPresetList;
             RefreshPresetList();
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.projectChanged -= RefreshPresetList;
+            _cachedPresetObject?.Dispose();
+            _cachedPresetObject = null;
+            _cachedPreset = null;
         }
 
         public override void OnInspectorGUI()
@@ -82,9 +96,14 @@ namespace AirflowPrototype.Editor
                     "Live Preset Tuning",
                     EditorStyles.boldLabel);
 
-                SerializedObject presetObject =
-                    new SerializedObject(
-                        preset);
+                if (_cachedPreset != preset || _cachedPresetObject == null)
+                {
+                    _cachedPresetObject?.Dispose();
+                    _cachedPreset = preset;
+                    _cachedPresetObject = new SerializedObject(preset);
+                }
+
+                SerializedObject presetObject = _cachedPresetObject;
 
                 presetObject.Update();
 
@@ -108,8 +127,6 @@ namespace AirflowPrototype.Editor
 
         private void DrawPresetPopup()
         {
-            RefreshPresetList();
-
             PlayerKnifeFlickPreset current =
                 _presetProperty.objectReferenceValue
                     as PlayerKnifeFlickPreset;
@@ -127,20 +144,6 @@ namespace AirflowPrototype.Editor
                 }
             }
 
-            string[] options =
-                new string[
-                    _presetNames.Length + 1];
-
-            options[0] = "<None>";
-
-            for (int i = 0;
-                 i < _presetNames.Length;
-                 i++)
-            {
-                options[i + 1] =
-                    _presetNames[i];
-            }
-
             int displayIndex =
                 Mathf.Max(
                     0,
@@ -150,7 +153,7 @@ namespace AirflowPrototype.Editor
                 EditorGUILayout.Popup(
                     "Load Saved Preset",
                     displayIndex,
-                    options);
+                _popupOptions);
 
             if (selected == displayIndex)
                 return;
@@ -203,6 +206,11 @@ namespace AirflowPrototype.Editor
                 _presetNames[i] =
                     _presets[i].name;
             }
+
+            _popupOptions = new string[_presetNames.Length + 1];
+            _popupOptions[0] = "<None>";
+            System.Array.Copy(_presetNames, 0,
+                _popupOptions, 1, _presetNames.Length);
         }
 
         private void CreatePreset()

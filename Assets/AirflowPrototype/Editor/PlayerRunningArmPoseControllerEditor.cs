@@ -14,6 +14,11 @@ namespace AirflowPrototype.Editor
         private string[] _presetNames =
             System.Array.Empty<string>();
 
+        private string[] _popupOptions = { "<None>" };
+
+        private PlayerRunningArmPosePreset _cachedPreset;
+        private SerializedObject _cachedPresetObject;
+
         private SerializedProperty _activePose;
 
         private void OnEnable()
@@ -22,7 +27,16 @@ namespace AirflowPrototype.Editor
                 serializedObject.FindProperty(
                     "activePose");
 
+            EditorApplication.projectChanged += RefreshPresetList;
             RefreshPresetList();
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.projectChanged -= RefreshPresetList;
+            _cachedPresetObject?.Dispose();
+            _cachedPresetObject = null;
+            _cachedPreset = null;
         }
 
         public override void OnInspectorGUI()
@@ -83,9 +97,14 @@ namespace AirflowPrototype.Editor
                     "Live Pose Offsets",
                     EditorStyles.boldLabel);
 
-                SerializedObject poseObject =
-                    new SerializedObject(
-                        preset);
+                if (_cachedPreset != preset || _cachedPresetObject == null)
+                {
+                    _cachedPresetObject?.Dispose();
+                    _cachedPreset = preset;
+                    _cachedPresetObject = new SerializedObject(preset);
+                }
+
+                SerializedObject poseObject = _cachedPresetObject;
 
                 poseObject.Update();
                 DrawPropertiesExcluding(
@@ -134,8 +153,6 @@ namespace AirflowPrototype.Editor
 
         private void DrawPresetPopup()
         {
-            RefreshPresetList();
-
             int currentIndex = -1;
 
             PlayerRunningArmPosePreset current =
@@ -158,26 +175,11 @@ namespace AirflowPrototype.Editor
                     0,
                     currentIndex + 1);
 
-            string[] options =
-                new string[
-                    _presetNames.Length + 1];
-
-            options[0] =
-                "<None>";
-
-            for (int i = 0;
-                 i < _presetNames.Length;
-                 i++)
-            {
-                options[i + 1] =
-                    _presetNames[i];
-            }
-
             int selected =
                 EditorGUILayout.Popup(
                     "Load Saved Pose",
                     displayIndex,
-                    options);
+                _popupOptions);
 
             if (selected == displayIndex)
                 return;
@@ -230,6 +232,11 @@ namespace AirflowPrototype.Editor
                 _presetNames[i] =
                     _presets[i].name;
             }
+
+            _popupOptions = new string[_presetNames.Length + 1];
+            _popupOptions[0] = "<None>";
+            System.Array.Copy(_presetNames, 0,
+                _popupOptions, 1, _presetNames.Length);
         }
 
         private void CreatePreset()

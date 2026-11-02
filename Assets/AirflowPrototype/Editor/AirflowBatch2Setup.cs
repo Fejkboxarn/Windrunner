@@ -49,7 +49,8 @@ namespace AirflowPrototype.Editor
                 airDash = Undo.AddComponent<AirDash>(player);
             airDash.Configure(motor, input, airPower, settings);
 
-            PlayerDebugHUD hud = player.GetComponent<PlayerDebugHUD>();
+            PlayerDebugHUD hud = player.GetComponent<PlayerDebugHUD>() ??
+                                 player.GetComponentInChildren<PlayerDebugHUD>(true);
             if (hud == null)
                 hud = Undo.AddComponent<PlayerDebugHUD>(player);
             hud.Configure(motor, input, airPower, airDash);
