@@ -9,17 +9,7 @@ namespace AirflowPrototype
     [RequireComponent(typeof(CharacterController))]
     public sealed class AirSlingController : MonoBehaviour
     {
-        private enum SlingState
-        {
-            Idle,
-            Charging,
-            DelayBeforeDash,
-            DashingToNode,
-            ImpactHold
-        }
-
         [SerializeField] private PlayerMotor motor;
-        [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private CharacterController controller;
         [SerializeField] private AirSlingTargeter slingTargeter;
         [SerializeField] private AirPower airPower;
@@ -32,30 +22,24 @@ namespace AirflowPrototype
         [SerializeField] private PlayerOrbitCamera orbitCamera;
         [SerializeField] private AirSlingSettings settings;
 
-        private SlingState _state =
-            SlingState.Idle;
-
         private AirSlingNode _trackedTarget;
 
-        private float _chargeElapsed;
-        private float _capturedPerfectQuality;
-        private float _delayRemaining;
+        // Batch 5I: all phase and numerical substate are owned by one regular
+        // C# object. This component remains the Unity/physics/event adapter.
+        private AirSlingFlowState _flowState;
+        private AirSlingFlowState FlowState =>
+            _flowState ?? (_flowState = new AirSlingFlowState());
 
-        private float _dashSpeed;
-        private float _dashElapsed;
-        private float _dashProgress;
-        private float _dashPathDistance;
-
-        private float _impactHoldRemaining;
-        private Vector3 _impactRootPosition;
+        private AirSlingChargeState ChargeState => FlowState.Charge;
+        private AirSlingDashProgression DashProgression => FlowState.Dash;
 
         private Vector3 _dashStartRootPosition;
         private Vector3 _dashLandingRootPosition;
 
-        private Vector3 _bezierP0;
-        private Vector3 _bezierP1;
-        private Vector3 _bezierP2;
-        private Vector3 _bezierP3;
+        // The path is a regular C# object; no additional Unity component is needed.
+        private AirSlingBezierPath _bezierPath;
+        private AirSlingBezierPath BezierPath =>
+            _bezierPath ?? (_bezierPath = new AirSlingBezierPath());
 
         private Vector3 _previousPosition;
         private bool _hasPreviousPosition;
@@ -64,20 +48,14 @@ namespace AirflowPrototype
         // forward through the node instead of bouncing backward.
         private Vector3 _incomingForwardDirection;
 
-        public bool IsCharging =>
-            _state ==
-            SlingState.Charging;
+        public bool IsCharging => FlowState.IsCharging;
 
-        public bool IsSlinging =>
-            _state !=
-            SlingState.Idle;
+        public bool IsSlinging => FlowState.IsSlinging;
 
-        public bool IsDashingToNode =>
-            _state ==
-            SlingState.DashingToNode;
+        public bool IsDashingToNode => FlowState.IsDashingToNode;
 
         public AirSlingNode CurrentTarget =>
-            _state != SlingState.Idle &&
+            FlowState.IsSlinging &&
             IsTrackedTargetAvailable()
                 ? _trackedTarget
                 : slingTargeter != null
@@ -85,7 +63,7 @@ namespace AirflowPrototype
                     : null;
 
         public AirSlingNode DisplayTarget =>
-            _state != SlingState.Idle
+            FlowState.IsSlinging
                 ? _trackedTarget
                 : slingTargeter != null
                     ? slingTargeter.CurrentTarget
@@ -95,8 +73,7 @@ namespace AirflowPrototype
         {
             get
             {
-                if (_state !=
-                    SlingState.Charging)
+                if (!FlowState.IsCharging)
                 {
                     return 0f;
                 }
@@ -104,11 +81,7 @@ namespace AirflowPrototype
                 float fullTime =
                     GetFullTimingTime();
 
-                return Mathf.Clamp01(
-                    _chargeElapsed /
-                    Mathf.Max(
-                        0.05f,
-                        fullTime));
+                return ChargeState.Progress01(fullTime);
             }
         }
 
@@ -119,12 +92,7 @@ namespace AirflowPrototype
                 float fullTime =
                     GetFullTimingTime();
 
-                return
-                    fullTime > 0f
-                        ? Mathf.Clamp01(
-                            GetPerfectTime() /
-                            fullTime)
-                        : 0.5f;
+                return AirSlingChargeState.PerfectCenter01(fullTime, GetPerfectTime());
             }
         }
 
@@ -135,20 +103,11 @@ namespace AirflowPrototype
                 float fullTime =
                     GetFullTimingTime();
 
-                return
-                    fullTime > 0f
-                        ? Mathf.Clamp(
-                            GetPerfectLeeway() /
-                            fullTime,
-                            0.001f,
-                            0.49f)
-                        : 0.15f;
+                return AirSlingChargeState.PerfectHalfWidth01(fullTime, GetPerfectLeeway());
             }
         }
 
-        public bool IsPerfectWindow =>
-            EvaluatePerfectQuality(
-                _chargeElapsed) > 0f;
+        public bool IsPerfectWindow => EvaluatePerfectQuality() > 0f;
 
         public AirSlingSettings Settings =>
             settings;
@@ -295,19 +254,6 @@ namespace AirflowPrototype
 
         private void Update()
         {
-            if (inputReader == null)
-                inputReader = GetComponent<PlayerInputReader>();
-
-            if (inputReader != null && inputReader.IsGameplaySuspended)
-            {
-                // Disabling the Gameplay map while paused is not a real release.
-                // Never commit a charged Sling because a menu was opened.
-                if (_state == SlingState.Charging)
-                    CancelSling();
-                FinishFrame();
-                return;
-            }
-
             if (targetCamera == null)
                 targetCamera = Camera.main;
 
@@ -320,29 +266,28 @@ namespace AirflowPrototype
                 return;
             }
 
-            bool slingPressed = inputReader != null && inputReader.SlingPressedThisFrame;
-            bool slingHeld = inputReader != null && inputReader.SlingHeld;
-            bool slingReleased = inputReader != null && inputReader.SlingReleasedThisFrame;
+            Mouse mouse =
+                Mouse.current;
 
-            switch (_state)
+            switch (FlowState.Phase)
             {
-                case SlingState.Idle:
-                    UpdateIdle(slingPressed);
+                case AirSlingPhase.Idle:
+                    UpdateIdle(mouse);
                     break;
 
-                case SlingState.Charging:
-                    UpdateCharging(slingHeld, slingReleased);
+                case AirSlingPhase.Charging:
+                    UpdateCharging(mouse);
                     break;
 
-                case SlingState.DelayBeforeDash:
+                case AirSlingPhase.DelayBeforeDash:
                     UpdateDelayBeforeDash();
                     break;
 
-                case SlingState.DashingToNode:
+                case AirSlingPhase.DashingToNode:
                     UpdateDashToNode();
                     break;
 
-                case SlingState.ImpactHold:
+                case AirSlingPhase.ImpactHold:
                     UpdateImpactHold();
                     break;
             }
@@ -350,10 +295,12 @@ namespace AirflowPrototype
             FinishFrame();
         }
 
-        private void UpdateIdle(bool slingPressed)
+        private void UpdateIdle(
+            Mouse mouse)
         {
-            // Targeting remains presentation-only until Sling is actually pressed.
-            if (!slingPressed)
+            // Targeting remains presentation-only until RMB is actually pressed.
+            if (mouse == null ||
+                !mouse.rightButton.wasPressedThisFrame)
             {
                 return;
             }
@@ -375,10 +322,7 @@ namespace AirflowPrototype
             AirSlingNode target)
         {
             _trackedTarget = target;
-            _state = SlingState.Charging;
-
-            _chargeElapsed = 0f;
-            _capturedPerfectQuality = 0f;
+            FlowState.BeginCharge();
 
             _trackedTarget.SetSelected(
                 true);
@@ -393,39 +337,35 @@ namespace AirflowPrototype
                 _trackedTarget);
         }
 
-        private void UpdateCharging(bool slingHeld, bool slingReleased)
+        private void UpdateCharging(
+            Mouse mouse)
         {
-            if (!IsTrackedTargetAvailable())
-            {
-                CancelSling();
-                return;
-            }
+            AirSlingChargeCommand command = FlowState.DecideCharging(
+                IsTrackedTargetAvailable(),
+                mouse != null,
+                mouse != null && mouse.rightButton.isPressed,
+                mouse != null && mouse.rightButton.wasReleasedThisFrame);
 
-            if (inputReader == null)
+            switch (command)
             {
-                CancelSling();
-                return;
-            }
+                case AirSlingChargeCommand.Cancel:
+                    CancelSling();
+                    return;
 
-            if (slingHeld)
-            {
-                _chargeElapsed +=
-                    Time.deltaTime;
+                case AirSlingChargeCommand.Accumulate:
+                    ChargeState.AdvanceCharge(Time.deltaTime);
+                    return;
 
-                return;
-            }
-
-            if (slingReleased || !slingHeld)
-            {
-                ReleaseCharge();
+                case AirSlingChargeCommand.Release:
+                    ReleaseCharge();
+                    return;
             }
         }
 
         private void ReleaseCharge()
         {
             float perfectQuality =
-                EvaluatePerfectQuality(
-                    _chargeElapsed);
+                EvaluatePerfectQuality();
 
             bool perfect =
                 perfectQuality > 0f;
@@ -443,10 +383,7 @@ namespace AirflowPrototype
                 return;
             }
 
-            _capturedPerfectQuality =
-                perfect
-                    ? perfectQuality
-                    : 0f;
+            ChargeState.CapturePerfectQuality(perfect ? perfectQuality : 0f);
 
             SlingCommitted?.Invoke(
                 _trackedTarget,
@@ -491,13 +428,9 @@ namespace AirflowPrototype
                 }
             }
 
-            _delayRemaining =
-                settings.delayBeforeNodeDash;
+            FlowState.BeginDelayBeforeDash(settings.delayBeforeNodeDash);
 
-            _state =
-                SlingState.DelayBeforeDash;
-
-            if (_delayRemaining <= 0f)
+            if (ChargeState.DelayRemaining <= 0f)
                 BeginDashToNode();
         }
 
@@ -584,10 +517,9 @@ namespace AirflowPrototype
 
             UpdateTrackedNodeFacing();
 
-            _delayRemaining -=
-                Time.deltaTime;
+            ChargeState.AdvanceDelay(Time.deltaTime);
 
-            if (_delayRemaining <= 0f)
+            if (ChargeState.DelayRemaining <= 0f)
                 BeginDashToNode();
         }
 
@@ -607,12 +539,12 @@ namespace AirflowPrototype
 
             BuildBezierPath();
 
-            _dashPathDistance =
+            DashProgression.SetPathDistance(
                 EstimateBezierLength(
                     Mathf.Clamp(
                         settings.bezierLengthSamples,
                         8,
-                        64));
+                        64)));
 
             Vector3 finalTangent =
                 EvaluateBezierTangent(
@@ -636,22 +568,7 @@ namespace AirflowPrototype
                         : transform.forward;
             }
 
-            _dashProgress = 0f;
-
-            float initialCurveSpeed =
-                EvaluateDashSpeed(
-                    0f);
-
-            _dashSpeed =
-                Mathf.Max(
-                    settings.dashStartSpeed +
-                    settings.dashInitialKickSpeed,
-                    initialCurveSpeed);
-
-            _dashElapsed = 0f;
-
-            _state =
-                SlingState.DashingToNode;
+            FlowState.BeginDash(settings);
 
             if (settings.enableSlingFovProfile &&
                 speedFeedback != null)
@@ -691,10 +608,9 @@ namespace AirflowPrototype
             if (dt <= 0f)
                 return;
 
-            _dashElapsed += dt;
+            DashProgression.AdvanceElapsed(dt);
 
-            if (_dashElapsed >=
-                settings.maximumDashDuration)
+            if (DashProgression.HasTimedOut(settings.maximumDashDuration))
             {
                 CancelSling();
                 return;
@@ -703,46 +619,18 @@ namespace AirflowPrototype
             UpdateTrackedNodeFacing();
 
             Vector3 directToLanding =
-                _bezierP3 -
+                BezierPath.End -
                 transform.position;
 
             if (directToLanding.magnitude <=
                 settings.landingTolerance)
             {
                 ResolveNodeImpact(
-                    _bezierP3);
+                    BezierPath.End);
                 return;
             }
 
-            float targetSpeed =
-                EvaluateDashSpeed(
-                    _dashProgress);
-
-            float accelerationMultiplier =
-                _dashProgress >=
-                    settings.dashArrivalAccelerationStart
-                    ? settings
-                        .dashArrivalAccelerationMultiplier
-                    : 1f;
-
-            _dashSpeed =
-                Mathf.MoveTowards(
-                    _dashSpeed,
-                    targetSpeed,
-                    settings.dashAcceleration *
-                    accelerationMultiplier *
-                    dt);
-
-            float progressStep =
-                (_dashSpeed * dt) /
-                Mathf.Max(
-                    0.01f,
-                    _dashPathDistance);
-
-            float nextProgress =
-                Mathf.Clamp01(
-                    _dashProgress +
-                    progressStep);
+            float nextProgress = DashProgression.PreviewNextProgress(dt, settings);
 
             Vector3 desiredPathRoot =
                 EvaluateBezier(
@@ -755,8 +643,7 @@ namespace AirflowPrototype
             controller.Move(
                 correction);
 
-            _dashProgress =
-                nextProgress;
+            DashProgression.CommitProgress(nextProgress);
 
             if (_hasPreviousPosition)
             {
@@ -773,15 +660,15 @@ namespace AirflowPrototype
             UpdateSlingFovDuringDash();
 
             Vector3 remaining =
-                _bezierP3 -
+                BezierPath.End -
                 transform.position;
 
             if (remaining.magnitude <=
                     settings.landingTolerance ||
-                _dashProgress >= 1f)
+                DashProgression.Progress >= 1f)
             {
                 ResolveNodeImpact(
-                    _bezierP3);
+                    BezierPath.End);
             }
         }
 
@@ -801,8 +688,7 @@ namespace AirflowPrototype
                 desiredRoot -
                 transform.position);
 
-            _impactRootPosition =
-                transform.position;
+            FlowState.CaptureImpactRoot(transform.position);
 
             // Clean planted impact frame before the second reward.
             motor.StopForTraversalImpact();
@@ -814,7 +700,7 @@ namespace AirflowPrototype
                 impactAudioLibrary);
 
             bool releaseWasPerfect =
-                _capturedPerfectQuality > 0f;
+                ChargeState.CapturedPerfectQuality > 0f;
 
             int impactDamage =
                 releaseWasPerfect
@@ -847,19 +733,15 @@ namespace AirflowPrototype
                     settings.curveBankResponse);
             }
 
-            _impactHoldRemaining =
-                Mathf.Max(
-                    0f,
-                    settings.impactPoseHoldDuration);
+            FlowState.SetImpactHold(settings.impactPoseHoldDuration);
 
-            if (_impactHoldRemaining <= 0f)
+            if (FlowState.ShouldLaunchImmediately)
             {
                 CompleteImpactLaunch();
                 return;
             }
 
-            _state =
-                SlingState.ImpactHold;
+            FlowState.EnterImpactHold();
         }
 
         private void UpdateImpactHold()
@@ -873,15 +755,12 @@ namespace AirflowPrototype
             // The PlayerMotor still updates normally, so counter its displacement
             // and keep the character planted on the target during the impact pose.
             controller.Move(
-                _impactRootPosition -
+                FlowState.ImpactRootPosition -
                 transform.position);
 
             motor.StopForTraversalImpact();
 
-            _impactHoldRemaining -=
-                Time.unscaledDeltaTime;
-
-            if (_impactHoldRemaining <= 0f)
+            if (FlowState.AdvanceImpactHold(Time.unscaledDeltaTime))
             {
                 CompleteImpactLaunch();
             }
@@ -899,7 +778,7 @@ namespace AirflowPrototype
             }
 
             bool releaseWasPerfect =
-                _capturedPerfectQuality > 0f;
+                ChargeState.CapturedPerfectQuality > 0f;
 
             if (settings.enableSlingFovProfile &&
                 speedFeedback != null)
@@ -922,16 +801,8 @@ namespace AirflowPrototype
                             .finalLaunchFlipIntensity);
             }
 
-            _state =
-                SlingState.Idle;
-
+            FlowState.CompleteLaunch();
             _trackedTarget = null;
-
-            _dashElapsed = 0f;
-            _dashSpeed = 0f;
-            _dashProgress = 0f;
-            _delayRemaining = 0f;
-            _impactHoldRemaining = 0f;
 
             target.SetSelected(
                 false);
@@ -941,7 +812,7 @@ namespace AirflowPrototype
 
             float releaseQuality =
                 releaseWasPerfect
-                    ? _capturedPerfectQuality
+                    ? ChargeState.CapturedPerfectQuality
                     : 0f;
 
             SlingLaunched?.Invoke(
@@ -1075,28 +946,8 @@ namespace AirflowPrototype
                     : Vector3.forward;
         }
 
-        private float EvaluatePerfectQuality(
-            float chargeSeconds)
-        {
-            float distance =
-                Mathf.Abs(
-                    chargeSeconds -
-                    GetPerfectTime());
-
-            if (distance >
-                GetPerfectLeeway())
-            {
-                return 0f;
-            }
-
-            return
-                1f -
-                Mathf.Clamp01(
-                    distance /
-                    Mathf.Max(
-                        0.001f,
-                        GetPerfectLeeway()));
-        }
+        private float EvaluatePerfectQuality() =>
+            ChargeState.EvaluatePerfectQuality(GetPerfectTime(), GetPerfectLeeway());
 
         private float GetPerfectTime()
         {
@@ -1124,221 +975,21 @@ namespace AirflowPrototype
 
         private void BuildBezierPath()
         {
-            _bezierP0 =
-                _dashStartRootPosition;
-
-            _bezierP3 =
-                _dashLandingRootPosition;
-
-            Vector3 direct =
-                _bezierP3 -
-                _bezierP0;
-
-            Vector3 directDirection =
-                direct.sqrMagnitude > 0.0001f
-                    ? direct.normalized
-                    : transform.forward;
-
-            Vector3 directPlanar =
-                directDirection;
-
-            directPlanar.y = 0f;
-
-            if (directPlanar.sqrMagnitude <
-                0.0001f)
-            {
-                directPlanar =
-                    transform.forward;
-                directPlanar.y = 0f;
-            }
-
-            directPlanar.Normalize();
-
-            Vector3 incoming =
-                motor != null
-                    ? motor.PlanarVelocity
-                    : Vector3.zero;
-
-            incoming.y = 0f;
-
-            if (incoming.sqrMagnitude <
-                0.25f)
-            {
-                incoming =
-                    directPlanar;
-            }
-            else
-            {
-                incoming.Normalize();
-            }
-
-            Vector3 startDirection =
-                (directPlanar +
-                 incoming *
-                 settings.startMomentumInfluence);
-
-            if (startDirection.sqrMagnitude <
-                0.0001f)
-            {
-                startDirection =
-                    directPlanar;
-            }
-
-            startDirection.Normalize();
-
-            Vector3 side =
-                targetCamera != null
-                    ? targetCamera.transform.right
-                    : Vector3.Cross(
-                        Vector3.up,
-                        directPlanar);
-
-            side.y = 0f;
-
-            if (side.sqrMagnitude <
-                0.0001f)
-            {
-                side =
-                    Vector3.Cross(
-                        Vector3.up,
-                        directPlanar);
-            }
-
-            side.Normalize();
-
-            float sideDot =
-                Vector3.Dot(
-                    incoming,
-                    side);
-
-            float sideSign =
-                Mathf.Abs(sideDot) > 0.08f
-                    ? Mathf.Sign(sideDot)
-                    : 1f;
-
-            Vector3 lateral =
-                side *
-                sideSign *
-                settings.bezierLateralOffset;
-
-            _bezierP1 =
-                _bezierP0 +
-                startDirection *
-                settings.startTangentDistance +
-                Vector3.up *
-                settings.bezierVerticalLift +
-                lateral;
-
-            _bezierP2 =
-                _bezierP3 -
-                directPlanar *
-                settings.approachTangentDistance +
-                Vector3.up *
-                (settings.bezierVerticalLift *
-                 0.55f) +
-                lateral *
-                0.55f;
+            BezierPath.Build(
+                _dashStartRootPosition,
+                _dashLandingRootPosition,
+                transform.forward,
+                motor != null ? motor.PlanarVelocity : Vector3.zero,
+                targetCamera != null,
+                targetCamera != null ? targetCamera.transform.right : Vector3.zero,
+                settings);
         }
 
-        private Vector3 EvaluateBezier(
-            float t)
-        {
-            t =
-                Mathf.Clamp01(
-                    t);
+        private Vector3 EvaluateBezier(float t) => BezierPath.Evaluate(t);
 
-            float u =
-                1f -
-                t;
+        private Vector3 EvaluateBezierTangent(float t) => BezierPath.EvaluateTangent(t);
 
-            return
-                u * u * u * _bezierP0 +
-                3f * u * u * t * _bezierP1 +
-                3f * u * t * t * _bezierP2 +
-                t * t * t * _bezierP3;
-        }
-
-        private Vector3 EvaluateBezierTangent(
-            float t)
-        {
-            t =
-                Mathf.Clamp01(
-                    t);
-
-            float u =
-                1f -
-                t;
-
-            Vector3 tangent =
-                3f * u * u *
-                    (_bezierP1 - _bezierP0) +
-                6f * u * t *
-                    (_bezierP2 - _bezierP1) +
-                3f * t * t *
-                    (_bezierP3 - _bezierP2);
-
-            return tangent;
-        }
-
-        private float EstimateBezierLength(
-            int samples)
-        {
-            samples =
-                Mathf.Max(
-                    2,
-                    samples);
-
-            float length = 0f;
-
-            Vector3 previous =
-                EvaluateBezier(
-                    0f);
-
-            for (int i = 1;
-                 i <= samples;
-                 i++)
-            {
-                float t =
-                    i /
-                    (float)samples;
-
-                Vector3 point =
-                    EvaluateBezier(
-                        t);
-
-                length +=
-                    Vector3.Distance(
-                        previous,
-                        point);
-
-                previous =
-                    point;
-            }
-
-            return Mathf.Max(
-                0.01f,
-                length);
-        }
-
-        private float EvaluateDashSpeed(
-            float progress01)
-        {
-            float multiplier =
-                settings.dashSpeedCurve != null
-                    ? settings.dashSpeedCurve.Evaluate(
-                        Mathf.Clamp01(
-                            progress01))
-                    : 1f;
-
-            multiplier =
-                Mathf.Max(
-                    0.05f,
-                    multiplier);
-
-            return
-                settings.dashMaximumSpeed *
-                multiplier;
-        }
+        private float EstimateBezierLength(int samples) => BezierPath.EstimateLength(samples);
 
         private void UpdateCurveBank()
         {
@@ -1355,12 +1006,12 @@ namespace AirflowPrototype
 
             float previewT =
                 Mathf.Clamp01(
-                    _dashProgress +
+                    DashProgression.Progress +
                     settings.curveBankPreview);
 
             Vector3 tangent =
                 EvaluateBezierTangent(
-                    _dashProgress);
+                    DashProgression.Progress);
 
             Vector3 preview =
                 EvaluateBezierTangent(
@@ -1412,7 +1063,7 @@ namespace AirflowPrototype
                 return;
             }
 
-            if (_dashProgress <
+            if (DashProgression.Progress <
                 settings.impactFovCompressionStart)
             {
                 speedFeedback.SetFovOverride(
@@ -1426,7 +1077,7 @@ namespace AirflowPrototype
                 Mathf.InverseLerp(
                     settings.impactFovCompressionStart,
                     1f,
-                    _dashProgress);
+                    DashProgression.Progress);
 
             float targetFov =
                 Mathf.Lerp(
@@ -1540,30 +1191,13 @@ namespace AirflowPrototype
 
         private void ForceIdleState()
         {
-            _state =
-                SlingState.Idle;
-
+            FlowState.Reset();
             _trackedTarget = null;
-
-            _chargeElapsed = 0f;
-            _capturedPerfectQuality = 0f;
-            _delayRemaining = 0f;
-
-            _dashSpeed = 0f;
-            _dashElapsed = 0f;
-            _dashProgress = 0f;
-            _dashPathDistance = 0f;
-
-            _impactHoldRemaining = 0f;
-            _impactRootPosition = Vector3.zero;
 
             _incomingForwardDirection =
                 Vector3.zero;
 
-            _bezierP0 = Vector3.zero;
-            _bezierP1 = Vector3.zero;
-            _bezierP2 = Vector3.zero;
-            _bezierP3 = Vector3.zero;
+            BezierPath.Clear();
 
             if (movementVisuals != null)
             {
