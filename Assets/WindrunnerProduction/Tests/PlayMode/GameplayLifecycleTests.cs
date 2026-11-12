@@ -13,6 +13,12 @@ namespace Windrunner.Production.Tests
         [UnityTest]
         public IEnumerator GameplaySceneStartsAndPlayerRemainsFinite()
         {
+#if UNITY_EDITOR
+            var authored = UnityEditor.AssetDatabase.LoadAssetAtPath<Material>("Assets/INab Studio/2D Assets/Procedural Progress Bars/Demo Files/Demo Materials/Canvas/Canvas 4.mat");
+            Assert.That(authored, Is.Not.Null);
+            float originalFill = authored.GetFloat("_Fill_Amount");
+            float originalMain = authored.GetFloat("_Main_Bar_Fill_Amount");
+#endif
             yield return SceneManager.LoadSceneAsync("Assets/AirflowPrototype/Generated/Batch1_Playground.unity", LoadSceneMode.Single);
             var motorType = Type.GetType("AirflowPrototype.PlayerMotor, Assembly-CSharp", true);
             var motors = UnityEngine.Object.FindObjectsByType(motorType, FindObjectsSortMode.None);
@@ -28,6 +34,23 @@ namespace Windrunner.Production.Tests
             }
             Assert.That(WindrunnerInputHost.Active, Is.Not.Null);
             Assert.That(WindrunnerInputHost.Active.Input, Is.Not.Null);
+#if UNITY_EDITOR
+            Assert.That(authored.GetFloat("_Fill_Amount"), Is.EqualTo(originalFill), "Runtime UI must not mutate the authored fill material.");
+            Assert.That(authored.GetFloat("_Main_Bar_Fill_Amount"), Is.EqualTo(originalMain));
+            var bridgeType = Type.GetType("AirflowPrototype.AirPowerProgressBarUI, Assembly-CSharp", true);
+            var bridge = UnityEngine.Object.FindAnyObjectByType(bridgeType);
+            Assert.That(bridge, Is.Not.Null);
+            var bar = (MonoBehaviour)bridgeType.GetField("proceduralProgressBar", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(bridge);
+            var runtimeMaterial = (Material)bar.GetType().GetField("progressBarMaterial").GetValue(bar);
+            Assert.That(UnityEditor.EditorUtility.IsPersistent(runtimeMaterial), Is.False);
+            Assert.That(runtimeMaterial, Is.Not.SameAs(authored));
+            var empty = SceneManager.CreateScene("Migration teardown");
+            SceneManager.SetActiveScene(empty);
+            yield return SceneManager.UnloadSceneAsync("Batch1_Playground");
+            yield return null;
+            Assert.That(runtimeMaterial == null, Is.True, "Runtime material must be destroyed on scene unload.");
+            Assert.That(authored.GetFloat("_Fill_Amount"), Is.EqualTo(originalFill));
+#endif
         }
     }
 }

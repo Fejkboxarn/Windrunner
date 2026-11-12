@@ -4,7 +4,8 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 - Repository/source inventory and migration plan created. No 5Q implementation identified.
 - Stage 1 complete: executable baseline, inventory, documentation and content-debt gate.
-- Current: fix runtime UI material ownership discovered by baseline smoke testing, then motor simulation extraction.
+- Stage 1 checkpoint: `71f3f62`.
+- Current: validate runtime UI material ownership, then motor simulation extraction.
 - Unity executable: `C:\Program Files\Unity\Hub\Editor\6000.6.2f1\Editor\Unity.exe`.
 - Baseline Unity licensing and compilation confirmed by actual batch runs.
 - `baseline-EditMode`: 4 passed / 11 failed (wrapper incorrectly rejected normal PASS logs). Corrected wrapper captures errors and requires a PASS message.
@@ -16,4 +17,8 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 - Raw XML and logs: `Logs/ProductionMigration/` (ignored local artifacts). Baseline inventory includes serialized SHA-256 fingerprints and no duplicate Assets GUIDs.
 - `baseline-recorded-EditMode`: **16 passed / 0 failed**, exit 0; integrity test requires the exact 10 baseline reference issues, with no additions.
 - Baseline PlayMode changed two shader float values in vendor `Canvas 4.mat` via the resource bar. Restored the known test-induced changes from HEAD; no user changes were present. This is a real asset-ownership defect, so its fix precedes motor work. No scene/prefab migration has been performed.
+- Material ownership: added a regular C# lease owned by AirPowerProgressBarUI. It clones the plugin material in Play Mode, binds its graphic/renderer, restores references and destroys the clone on teardown. Vendor code and serialized fields remain unchanged.
+- `material-ownership-PlayMode`: **1 passed / 0 failed**, exit 0. Actual scene startup plus authored-material immutability, runtime instance ownership and destruction after scene unload verified.
+- `material-ownership-EditMode`: **16 passed / 0 failed**, exit 0.
+- Baseline serialized fingerprint comparison: **0 changed**; Git diff has no scene, prefab, vendor material or existing metadata changes.
 - Remaining work and manual acceptance matrix: `ProductionMigration.md`.

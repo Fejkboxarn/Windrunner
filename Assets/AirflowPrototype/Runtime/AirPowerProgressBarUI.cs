@@ -71,6 +71,8 @@ namespace AirflowPrototype
         private bool _initialized;
         private bool _reportedBarApiError;
         private bool _reportedAirPowerError;
+        private ProgressBarMaterialLease _materialLease;
+        private MonoBehaviour _leasedBar;
 
         private static readonly string[] NormalizedMemberNames =
         {
@@ -129,18 +131,21 @@ namespace AirflowPrototype
             airPower = newAirPower;
             proceduralProgressBar = newProgressBar;
 
+            EnsureRuntimeMaterial();
             RebuildBindings();
         }
 
         private void Awake()
         {
             ResolveReferences();
+            EnsureRuntimeMaterial();
             RebuildBindings();
         }
 
         private void OnEnable()
         {
             ResolveReferences();
+            EnsureRuntimeMaterial();
             RebuildBindings();
 
             _initialized = false;
@@ -149,6 +154,22 @@ namespace AirflowPrototype
         private void Start()
         {
             RefreshImmediately();
+        }
+
+        private void EnsureRuntimeMaterial()
+        {
+            if (!Application.isPlaying || _leasedBar == proceduralProgressBar) return;
+            _materialLease?.Dispose();
+            _leasedBar = proceduralProgressBar;
+            _materialLease = proceduralProgressBar != null
+                ? new ProgressBarMaterialLease(proceduralProgressBar) : null;
+        }
+
+        private void OnDestroy()
+        {
+            _materialLease?.Dispose();
+            _materialLease = null;
+            _leasedBar = null;
         }
 
         private void LateUpdate()
@@ -167,6 +188,7 @@ namespace AirflowPrototype
                 RebuildBindings();
             }
 
+            EnsureRuntimeMaterial();
             if (_readNormalized == null)
             {
                 BuildAirPowerReader();
