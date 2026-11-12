@@ -198,3 +198,14 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 - See ReleaseCandidate.md for the full inventory, warning/content categories, exact test/build evidence and manual checklist. Resume from that checklist; do not repeat completed architecture stages or delete compatibility components solely by name.
 
 - Exact final-candidate startup: headless and DX11 each survived 15 seconds, initialization confirmed, zero matched errors. Rendered process aggregate CPU 10.53125 s; peak working set 1,012,662,272 bytes; ending private memory 2,609,991,680 bytes. Includes startup/idle, not frame timing.
+
+### RC3 manual acceptance: targeted waterfall correction
+
+- Starting checkpoint 28606d4f, clean working tree. User reports 8/11 manual areas exercised without significant gameplay differences, but no item identities supplied; no additional individual acceptance passes inferred. Architecture remains frozen.
+- Root cause: fc550cfc repaired missing decorative waterfall clips with an audible substitute, activating four volume-1 direct-output loops alongside the original tuned .004 ambience. Spatial Blend was already 1. Neither scene lifecycle nor feedback pools introduced them. Scene, original ambience prefab and mixer match 5P byte-for-byte after newline normalization.
+- Clear only the two substituted splash prefab clip references. Preserve all original ambience settings, mixer, transforms, source components and other sounds. Baseline silence is restored without broken GUIDs. ContentRepairs exact hashes updated.
+- Added actual-scene configuration/reload/listener regression test; pre-fix test failed with five audible configured sources instead of one. Post-fix full Play Mode suite passed 20/20; final Edit Mode suite passed 31/31, both exit 0. Final broadened duplicate detection is included in the subsequent final run.
+- Added ManualAcceptanceGuide.md (eleven numbered areas; no inferred passes), read-only audio audit/selection and Play-Mode-only acceptance helpers. Hub helper process is now distinguished from Editors by the test harness.
+- WaterfallAudioRegression.md/json contain causal evidence and preserved settings. Audible near/far mix, unchanged other sounds and reload still require manual verification. No Windows rebuild was requested/performed; the existing RC3 executable remains unchanged.
+
+- Final validation: waterfall-final-EditMode **31/31 passed**, waterfall-final-PlayMode **20/20 passed**, both Unity exit 0. Final serialized-contract audit has zero failures; git diff --check passed. Runtime duplicate detection covers both object and clip names.

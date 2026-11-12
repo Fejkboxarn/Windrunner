@@ -4,14 +4,14 @@
     {
       "path": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Particle Effects/Waterfall_Splashes_1.prefab",
       "baseline_sha256": "65383a991321efb8187decf0f59272161852804e30ab210e7b1bfc3b089d46fb",
-      "approved_sha256": "5ad8573f0d27a49a5699f8ec28320f9bb0b5434175c42cc82cce75ff249acfb4",
-      "reason": "Missing source GUID absent from Assets/history; use existing bundled Water_Waterfall_Small.wav for small waterfall splash emitter. Audible replacement requires mix acceptance."
+      "approved_sha256": "9faacc0c8e5b15d2096ff4deec12f2160a209c2b5a5961428dce913b8d47c1df",
+      "reason": "RC3 audio regression correction: clear the originally missing decorative splash clip instead of substituting an audible loop. Preserves baseline silence; original Audio/Water/Waterfall owns the unchanged localized ambience. No source settings, GUID, mixer or transforms changed."
     },
     {
       "path": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Particle Effects/Waterfall_Splashes_2.prefab",
       "baseline_sha256": "cd6b2a1725f69fc72c7833f07a3bf54778e199d7afba3f9091978d9e32d0c65c",
-      "approved_sha256": "e44139e583443413a9c49156b116eb7bdeac40dd3e44dd428cf900f81e7ff0a2",
-      "reason": "Missing source GUID absent from Assets/history; use existing bundled Water_Waterfall_Small.wav for small waterfall splash emitter. Audible replacement requires mix acceptance."
+      "approved_sha256": "34abba7d676fcd9deb5c273fd096f7cbdc1e51d4457386908d0b67b24d6c31bf",
+      "reason": "RC3 audio regression correction: clear the originally missing decorative splash clip instead of substituting an audible loop. Preserves baseline silence; original Audio/Water/Waterfall owns the unchanged localized ambience. No source settings, GUID, mixer or transforms changed."
     },
     {
       "path": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Particle Effects/Birds.prefab",

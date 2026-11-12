@@ -6,7 +6,9 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $project = Split-Path $PSScriptRoot -Parent
-if (Get-Process Unity -ErrorAction SilentlyContinue) {
+# Unity Hub also ships a unity.exe serve helper; it does not open the project.
+# Fail closed for unknown Unity processes, including custom Editor locations.
+if (Get-Process Unity -ErrorAction SilentlyContinue | Where-Object { !$_.Path -or $_.Path -notmatch '[\\/]Unity Hub[\\/]resources[\\/]unity.exe$' }) {
     throw 'A Unity Editor is running. Close it before starting project validation.'
 }
 $version = ((Get-Content (Join-Path $project 'ProjectSettings/ProjectVersion.txt') | Select-String '^m_EditorVersion:').Line -split ': ')[1]

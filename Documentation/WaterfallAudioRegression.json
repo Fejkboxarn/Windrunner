@@ -1,0 +1,144 @@
+{
+  "baseline": "7bfdfe5e",
+  "regression_checkpoint": "fc550cfc",
+  "rc3": "28606d4f",
+  "baseline_content_checks": {
+    "Assets/AirflowPrototype/Generated/Batch1_Playground.unity": {
+      "unchanged_from_5P": true,
+      "canonical_sha256": "3e0f10a3ca94c45e084fd23e9a90f8e487215a4598fcefc3e44b4273acf3608d"
+    },
+    "Assets/Raygeas/Grasslands - Stylized Nature/Demo/Audio.prefab": {
+      "unchanged_from_5P": true,
+      "canonical_sha256": "425007edfe0f4c3e00e525494fda44b56b90640ff8519a27bfc04615f68856d2"
+    },
+    "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Audio/SceneMixer.mixer": {
+      "unchanged_from_5P": true,
+      "canonical_sha256": "73f3a43d61b129a4d15cb3e2999e50d81c9a8e7cbe07193784757d2e21587ce8"
+    }
+  },
+  "before_fix_loaded_waterfall_sources": [
+    {
+      "path": "Environment (1)/Environment/Waterfall_Small (1)/Waterfall_Splashes_2",
+      "clip": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Audio/Nature/Water/Water_Waterfall_Small.wav",
+      "scene": "Batch1_Playground",
+      "mixer": "<direct>",
+      "position": {
+        "x": 42.706905364990234,
+        "y": 98.81672668457031,
+        "z": 72.26792907714844
+      },
+      "scale": {
+        "x": 3.9812018871307373,
+        "y": 3.5333704948425293,
+        "z": 3.534360885620117
+      },
+      "volume": 1.0,
+      "spatialBlend": 1.0,
+      "min": 5.0,
+      "max": 37.17735290527344,
+      "rolloff": "Logarithmic",
+      "loop": true,
+      "playing": false,
+      "enabled": true
+    },
+    {
+      "path": "Environment (1)/Environment/Waterfall_Small (1)/Waterfall_Splashes_1",
+      "clip": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Audio/Nature/Water/Water_Waterfall_Small.wav",
+      "scene": "Batch1_Playground",
+      "mixer": "<direct>",
+      "position": {
+        "x": 42.749244689941406,
+        "y": 89.98536682128906,
+        "z": 72.16522216796875
+      },
+      "scale": {
+        "x": 3.981199026107788,
+        "y": 3.533369541168213,
+        "z": 3.53436017036438
+      },
+      "volume": 1.0,
+      "spatialBlend": 1.0,
+      "min": 5.0,
+      "max": 37.17735290527344,
+      "rolloff": "Logarithmic",
+      "loop": true,
+      "playing": false,
+      "enabled": true
+    },
+    {
+      "path": "Environment (1)/Environment/Waterfall_Small/Waterfall_Splashes_1",
+      "clip": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Audio/Nature/Water/Water_Waterfall_Small.wav",
+      "scene": "Batch1_Playground",
+      "mixer": "<direct>",
+      "position": {
+        "x": 38.183841705322266,
+        "y": 112.53019714355469,
+        "z": 92.62376403808594
+      },
+      "scale": {
+        "x": 3.4879965782165527,
+        "y": 3.0956461429595947,
+        "z": 3.096513271331787
+      },
+      "volume": 1.0,
+      "spatialBlend": 1.0,
+      "min": 5.0,
+      "max": 37.17735290527344,
+      "rolloff": "Logarithmic",
+      "loop": true,
+      "playing": false,
+      "enabled": true
+    },
+    {
+      "path": "Audio/Water/Waterfall",
+      "clip": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Audio/Nature/Water/Water_Waterfall_Big.wav",
+      "scene": "Batch1_Playground",
+      "mixer": "Waterfall",
+      "position": {
+        "x": 48.70000076293945,
+        "y": 90.3547134399414,
+        "z": 74.94999694824219
+      },
+      "scale": {
+        "x": 3.234933614730835,
+        "y": 3.2349326610565186,
+        "z": 3.442615032196045
+      },
+      "volume": 0.004000000189989805,
+      "spatialBlend": 1.0,
+      "min": 42.47955322265625,
+      "max": 125.0,
+      "rolloff": "Custom",
+      "loop": true,
+      "playing": false,
+      "enabled": true
+    },
+    {
+      "path": "Environment (1)/Environment/Waterfall_Small/Waterfall_Splashes_2",
+      "clip": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Audio/Nature/Water/Water_Waterfall_Small.wav",
+      "scene": "Batch1_Playground",
+      "mixer": "<direct>",
+      "position": {
+        "x": 38.12153625488281,
+        "y": 118.99212646484375,
+        "z": 92.80433654785156
+      },
+      "scale": {
+        "x": 3.487999439239502,
+        "y": 3.095646381378174,
+        "z": 3.0965137481689453
+      },
+      "volume": 1.0,
+      "spatialBlend": 1.0,
+      "min": 5.0,
+      "max": 37.17735290527344,
+      "rolloff": "Logarithmic",
+      "loop": true,
+      "playing": false,
+      "enabled": true
+    }
+  ],
+  "before_fix_active_listeners": [
+    "Airflow Camera"
+  ]
+}

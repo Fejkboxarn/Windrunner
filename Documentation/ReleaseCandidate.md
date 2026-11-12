@@ -49,6 +49,8 @@ Core single-player architectural implementation is integrated; no known unresolv
 
 ## Manual Unity/player acceptance checklist
 
+Practical numbered steps, expected results, failures and setup: [ManualAcceptanceGuide.md](ManualAcceptanceGuide.md). User reports 8/11 areas tested without significant gameplay differences; the specific areas are not identified, so individual items remain unassigned. Waterfall audio failed manual acceptance; see [WaterfallAudioRegression.md](WaterfallAudioRegression.md) for the targeted correction and required audible retest. The old RC3 binary does not contain this subsequent fix. Architecture is frozen except targeted regression fixes and validation tooling.
+
 - Compare acceleration/friction/reversals, air momentum, jump/coyote/buffer timing and gravity with 5P.
 - Manual/reward Dash chains; normal/perfect/blocked/canceled Sling and Cast; collisions/occlusion/target destruction and reward order.
 - Water entry/exit and ability overlap on authored water meshes.
