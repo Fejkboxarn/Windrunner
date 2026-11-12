@@ -17,8 +17,19 @@ namespace AirflowPrototype
         private InputAction _dash;
         private InputAction _cast;
 
-        private WindrunnerInputService Production => WindrunnerInputHost.Active != null
-            ? WindrunnerInputHost.Active.Input : null;
+        private WindrunnerInputService boundInput;
+        private WindrunnerInputService Production => boundInput ??
+            (WindrunnerInputHost.Active != null ? WindrunnerInputHost.Active.Input : null);
+        public float MouseSensitivity => Production != null ? Production.MouseSensitivity : 1f;
+        public float StickSensitivity => Production != null ? Production.StickSensitivity : 1f;
+
+        // The composition owner retains service lifetime. A disposed binding
+        // remains bound and inert rather than silently switching players.
+        public void BindProductionInput(WindrunnerInputService service)
+        {
+            boundInput = service ?? throw new System.ArgumentNullException(nameof(service));
+            _gameplay?.Disable();
+        }
         public bool UsesProductionInput => Production != null;
         public bool IsGameplaySuspended => Production != null && Production.IsMenuOpen;
 
@@ -81,8 +92,7 @@ namespace AirflowPrototype
 
         private void OnDisable()
         {
-            if (!UsesProductionInput)
-                _gameplay?.Disable();
+            _gameplay?.Disable();
         }
 
         private void OnDestroy()

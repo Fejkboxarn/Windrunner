@@ -106,6 +106,13 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 
 ## Next implementation scope and release gates
 
+### Post-RC1: scoped player bindings
+
+- Added explicit non-owning input-service binding on PlayerInputReader. Disposed bindings remain inert; they never silently switch to the global player. Existing unbound scenes retain their compatibility host fallback.
+- Camera sensitivity/cursor decisions use its serialized reader. Sling input uses the motor's actual configured reader; optional FOV effects resolve only on the player and camera kicks only on its assigned camera, removing scene-wide cross-player searches.
+- `player-bindings-PlayMode`: **11/11 passed**, exit 0, including independent action overrides/menu state and disposed-binding isolation. `player-bindings-EditMode`: **26/26 passed**, exit 0. Serialized-contract gate passed; no serialized content changed.
+- Remaining: explicit scene composition of the input binding and broader presentation/global-host discovery cleanup; this stage does not claim multiplayer support.
+
 1. Explicit per-player bindings for camera/input/presentation, eliminating cross-player fallback searches with multiple-composition coverage. Current scene composition is verified; global services still assume one local player.
 2. Further separate Sling presentation orchestration while preserving synchronous motor -> Sling (300) -> swimming (1000) steps. Expand water overlap, obstruction, destroyed-target and device-removal/reconnection coverage.
 3. Author/test portable action mappings (all five currently -1; auto-start false). Keep legacy humanoid fallback until visual and gameplay parity passes. Do not invent mappings or remove a functioning writer without an authored replacement.

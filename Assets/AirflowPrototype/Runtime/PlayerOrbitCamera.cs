@@ -150,11 +150,10 @@ namespace AirflowPrototype
 
         private void HandleCursorState()
         {
-            WindrunnerInputHost host = WindrunnerInputHost.Active;
-            if (host != null && host.Input != null)
+            if (input != null && input.UsesProductionInput)
             {
                 // PauseController owns Escape and cursor state in production.
-                if (host.IsPaused)
+                if (input.IsGameplaySuspended)
                     return;
 
                 if (Cursor.lockState != CursorLockMode.Locked &&
@@ -201,9 +200,7 @@ namespace AirflowPrototype
 
             if (input.LookIsPointer)
             {
-                WindrunnerInputHost host = WindrunnerInputHost.Active;
-                float multiplier = host != null && host.Input != null
-                    ? host.Input.MouseSensitivity : 1f;
+                float multiplier = input.MouseSensitivity;
                 _yaw +=
                     look.x *
                     settings.mouseSensitivity * multiplier;
@@ -214,9 +211,7 @@ namespace AirflowPrototype
             }
             else
             {
-                WindrunnerInputHost host = WindrunnerInputHost.Active;
-                float multiplier = host != null && host.Input != null
-                    ? host.Input.StickSensitivity : 1f;
+                float multiplier = input.StickSensitivity;
                 float scale =
                     settings.gamepadLookDegreesPerSecond *
                     Time.deltaTime * multiplier;

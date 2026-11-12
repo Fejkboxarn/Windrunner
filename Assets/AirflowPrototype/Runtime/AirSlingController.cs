@@ -175,7 +175,7 @@ namespace AirflowPrototype
                     newImpactAudioLibrary;
             }
 
-            playerInput = motor != null ? motor.GetComponent<PlayerInputReader>() : null;
+            playerInput = motor != null ? motor.Input : null;
             ResolveOptionalReferences();
             ForceIdleState();
 
@@ -199,7 +199,7 @@ namespace AirflowPrototype
             if (airPower == null)
                 airPower = GetComponent<AirPower>();
 
-            playerInput = motor != null ? motor.GetComponent<PlayerInputReader>() : null;
+            playerInput = motor != null ? motor.Input : null;
             ResolveOptionalReferences();
             ForceIdleState();
 
@@ -212,7 +212,8 @@ namespace AirflowPrototype
         private void ResolveOptionalReferences()
         {
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = motor != null && motor.ViewTransform != null
+                    ? motor.ViewTransform.GetComponent<Camera>() : Camera.main;
 
             if (perfectTimingFeedback == null)
             {
@@ -232,16 +233,10 @@ namespace AirflowPrototype
                     GetComponent<PlayerSpeedFeedback>();
             }
 
-            if (speedFeedback == null)
-            {
-                speedFeedback =
-                    FindAnyObjectByType<PlayerSpeedFeedback>();
-            }
-
-            if (orbitCamera == null)
+            if (orbitCamera == null && targetCamera != null)
             {
                 orbitCamera =
-                    FindAnyObjectByType<PlayerOrbitCamera>();
+                    targetCamera.GetComponent<PlayerOrbitCamera>();
             }
         }
 

@@ -114,6 +114,31 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator ExplicitPlayerInputBindingStaysIsolatedThroughDisposal()
+        {
+            var template = WindrunnerInputActionsFactory.CreateDefaults(); assets.Add(template);
+            var other = new WindrunnerInputService(template);
+            try
+            {
+                other.Actions.RemoveAllBindingOverrides();
+                other.GetAction("Gameplay", "Sling").ApplyBindingOverride(0, "<Keyboard>/g");
+                Call(input, "BindProductionInput", other);
+                Keys(Key.F); yield return Frames(2);
+                Assert.That(host.Input.ButtonHeld("Sling"), Is.True);
+                Assert.That(Get(input, "SlingHeld"), Is.EqualTo(false));
+                Keys(Key.G); yield return Frames(2);
+                Assert.That(host.Input.ButtonHeld("Sling"), Is.False);
+                Assert.That(Get(input, "SlingHeld"), Is.EqualTo(true));
+                other.SetMenuOpen(true);
+                Assert.That(Get(input, "IsGameplaySuspended"), Is.EqualTo(true));
+                Assert.That(host.Input.IsMenuOpen, Is.False);
+                other.Dispose(); Keys(Key.F); yield return Frames(2);
+                Assert.That(Get(input, "SlingHeld"), Is.EqualTo(false), "Disposed player binding must not switch to global host.");
+            }
+            finally { other.Dispose(); }
+        }
+
+        [UnityTest]
         public IEnumerator RebindCancellationRestoresSystemActionAndRespectsMenuState()
         {
             var service = host.Input;

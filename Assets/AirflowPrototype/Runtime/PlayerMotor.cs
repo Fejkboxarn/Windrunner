@@ -12,6 +12,8 @@ namespace AirflowPrototype
         [SerializeField] private AirflowMovementSettings settings;
 
         private PlayerMotorSimulation _simulation;
+        public PlayerInputReader Input => input != null ? input : (input = GetComponent<PlayerInputReader>());
+        public Transform ViewTransform => cameraTransform;
         private PlayerDisplacementAuthority _displacement;
 
         public PlayerDisplacementAuthority Displacement
