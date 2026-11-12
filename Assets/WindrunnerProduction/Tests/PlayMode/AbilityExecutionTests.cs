@@ -114,6 +114,39 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator RebindCancellationRestoresSystemActionAndRespectsMenuState()
+        {
+            var service = host.Input;
+            var pause = service.GetAction("System", "Pause");
+            Assert.That(service.BeginRebind("System", "Pause", 0, null), Is.True);
+            Assert.That(pause.enabled, Is.False);
+            service.CancelRebind();
+            Assert.That(pause.enabled, Is.True, "Cancel must restore the only action in its map.");
+            Assert.That(service.BeginRebind("Gameplay", "Sling", 0, null), Is.True);
+            service.SetMenuOpen(true);
+            service.CancelRebind();
+            Assert.That(service.GetAction("Gameplay", "Sling").enabled, Is.False);
+            service.SetMenuOpen(false);
+            Assert.That(service.GetAction("Gameplay", "Sling").enabled, Is.True);
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator InputDisposalRejectsReentrantRebinding()
+        {
+            var service = host.Input;
+            bool restarted = false;
+            Assert.That(service.BeginRebind("Gameplay", "Sling", 0,
+                success => restarted = service.BeginRebind("System", "Pause", 0, null)), Is.True);
+            service.Dispose();
+            Assert.That(restarted, Is.False);
+            Assert.That(service.IsRebinding, Is.False);
+            Assert.That(service.Actions, Is.Null);
+            service.Dispose();
+            yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder()
         {
             node = new GameObject("Sling node"); node.transform.position = new Vector3(0, 2, 8); Add(node, "AirSlingNode");

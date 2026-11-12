@@ -138,7 +138,13 @@ namespace Windrunner.Production.Input
             activeRebind = null;
             operation.Dispose();
 
-            if (previouslyEnabled && action.actionMap != null && action.actionMap.enabled)
+            // A map reports disabled when its sole action is suspended for
+            // rebinding. Restore from our ownership policy, not that transient
+            // aggregate state, and never enable gameplay behind an open menu.
+            bool mapShouldBeEnabled = action.actionMap == system ||
+                (action.actionMap == gameplay && !menuOpen) ||
+                (action.actionMap == ui && menuOpen);
+            if (!disposed && previouslyEnabled && mapShouldBeEnabled)
                 action.Enable();
 
             if (success)
@@ -179,13 +185,18 @@ namespace Windrunner.Production.Input
         public void Dispose()
         {
             if (disposed) return;
-            CancelRebind();
             disposed = true;
-            if (actions != null)
+            // Close the service before cancellation invokes client callbacks;
+            // they must not be able to create a new operation during teardown.
+            try { CancelRebind(); }
+            finally
             {
-                actions.Disable();
-                UnityEngine.Object.Destroy(actions);
-                actions = null;
+                if (actions != null)
+                {
+                    actions.Disable();
+                    UnityEngine.Object.Destroy(actions);
+                    actions = null;
+                }
             }
         }
     }

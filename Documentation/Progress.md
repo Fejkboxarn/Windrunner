@@ -2,6 +2,12 @@
 
 Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
+## Current handoff
+
+Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayMode** (`input-lifecycle-after`), both Unity exit 0. Ordered movement, nested time ownership, ability composition, decorative references, typed UI binding and input teardown are implemented. Windows candidate packaging is recorded below. Overall production architecture migration remains incomplete; manual acceptance and the next implementation scope are at the end of this file. TestResults.json preserves actual runs, including failures, and source hashes.
+
+## Historical first-pass record
+
 - Repository/source inventory and migration plan created. No 5Q implementation identified.
 - Stage 1 complete: executable baseline, inventory, documentation and content-debt gate.
 - Stage 1 checkpoint: `71f3f62`.
@@ -84,18 +90,29 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 - Calibrated UI resource callback: 4.7852 ms/100,000 reads versus typed getter control 1.6864 ms. Removed unnecessary guessed-member reflection from the sealed AirPower binding; preserved all serialized fields/plugin animation behavior.
 - `runtime-profile-after-EditMode`: **26/26 passed**, exit 0. UI callback 2.6680 ms/100,000 reads; typed control 1.8505 ms; feedback dispatch 0.9616 ms. See PerformanceFindings.md for limits.
 - `ui-profile-after-PlayMode`: **8/8 passed**, exit 0. Actual gameplay UI/material and all traversal regressions passed. Serialized-contract gate passed, including support for combined SerializeField attributes.
+- Checkpoint: `27fa589d`.
 
-Completed this pass: structural repository audit and dependency graph; durable guidance/plan; executable baseline; immutable runtime UI material ownership; remaining motor simulation extraction; feedback failure isolation; animation subscription lifetime fix; scene composition/reference and animation takeover gates. No pushes, scene migrations, asset deletion, obsolete-code removal or automatic animation activation.
+### Autonomous continuation — input lifecycle and candidate verification
 
-Next stage is explicit player composition and traversal orchestration, **not** deletion of legacy animation:
+- Reproduced two input defects: canceling the sole System action's rebind left Pause disabled, and Dispose cancellation callbacks could start an orphaned rebind. Restore from the service's map policy and mark disposed before callbacks; finally guarantees asset cleanup even if a cancellation callback throws.
+- `input-lifecycle-before-PlayMode`: **3/10 passed, 7 failed**, exit 2. The orphaned rebind also interfered with later input scenarios; all failures retained in evidence.
+- `input-lifecycle-after-PlayMode`: **10/10 passed**, exit 0. New tests cover System restoration, menu-aware gameplay cancellation, reentrant disposal rejection and idempotent cleanup.
+- `candidate-final-EditMode`: **26/26 passed**, exit 0. Serialized-contract gate passed; only the exact three documented decorative prefab repairs differ from baseline content.
+- Initial Windows build `migration-20261112`: succeeded, **0 errors / 40 warnings**, 56.388 seconds, 1,222,122,846 bytes. A final candidate build follows to include input fixes. Build scripts never overwrite artifacts or run beside an existing Editor.
+- Warning families include inherited FindFirstObjectByType calls, vendor BinaryFormatter/API warnings and vendor shader warnings. The retained hidden legacy resource fallback field also reports unused; no claim of warning-free compilation.
+- Final Windows candidate `migration-rc1-20261112`: succeeded, **0 errors / 21 warnings**, 25.153 seconds, 1,222,122,846 bytes. Artifact: `Builds/migration-rc1-20261112/Windrunner.exe`. Incremental builds do not re-emit every earlier shader warning; a lower warning count is not evidence of fixes.
+- Headless candidate startup: initialized Unity and remained running for **15 seconds**, no matched exception/error/crash/load-failure lines. Harness then stopped only its own process. This is not rendered gameplay or graceful-shutdown validation; graphics/audio/feel still require acceptance.
+- `Tools/Record-MigrationResults.py` refreshes committed test/build summaries and SHA-256 source/XML/log evidence without discarding failed runs. Local raw logs, XML and build artifacts are ignored by Git.
 
-1. Extend the physics fixture to replay Sling charge/release/curved dash/impact hold/launch, water overlap and cast reward ordering. Preserve motor -> Sling (300) -> swimming (1000) movement order until traces justify consolidation.
-2. Introduce explicit per-player bindings for input, camera, resources and presentation; eliminate cross-player scene searches with scene/prefab migration coverage. Current composition tests prove reference consistency, not exclusive physical ownership.
-3. Extract Sling orchestration/resource decisions and route input through the central service. Its current raw Mouse polling bypasses rebinding/pause; any externally visible correction must be documented before activation.
-4. Map portable actions deliberately (all five mappings currently -1; auto-start false). Keep legacy humanoid fallback until full action and gameplay-feel coverage passes.
-5. Continue camera/FOV/audio/UI and time-scale arbitration, prefab organization, Editor profiling, measured runtime optimization, then proven obsolete-code removal and build verification.
+## Next implementation scope and release gates
 
-Remaining risks: 10 known missing decorative audio/sprite references; three physics writers by design; pause/hit-stop ownership overlap; static service access/runtime discovery; full Sling/cast/reward/device-loss/rebind automation absent; animation actions not integrated; no measured CPU/GC/Inspector performance baseline or player build yet. Vendor/demo source was inventoried, not exhaustively code-reviewed. Headless PlayMode does not verify visual quality, audio output or gameplay feel.
+1. Explicit per-player bindings for camera/input/presentation, eliminating cross-player fallback searches with multiple-composition coverage. Current scene composition is verified; global services still assume one local player.
+2. Further separate Sling presentation orchestration while preserving synchronous motor -> Sling (300) -> swimming (1000) steps. Expand water overlap, obstruction, destroyed-target and device-removal/reconnection coverage.
+3. Author/test portable action mappings (all five currently -1; auto-start false). Keep legacy humanoid fallback until visual and gameplay parity passes. Do not invent mappings or remove a functioning writer without an authored replacement.
+4. Representative rendered player CPU/GPU/GC captures, node-count scaling, FEEL pool saturation and large-selection Inspector measurement. Current microbenchmarks support a small UI simplification only; allocation counter failed calibration.
+5. Scene/prefab composition and proven obsolete-code removal after the above dependencies; final production architecture sign-off.
+
+Known risks: distributed presentation and service discovery, unassigned animation actions, missing broad device/water/obstruction coverage, inherited vendor/API/shader warnings. Vendor/demo source was inventoried, not exhaustively code-reviewed. Zero broken references applies to enabled gameplay scenes and owned prefabs, not every vendor demo. Headless PlayMode does not verify visual quality, audio output or gameplay feel.
 
 Required in-engine acceptance: full movement/jump/momentum comparison, manual and reward dash, normal/perfect Sling and cast, collision/occlusion/cancellation, water traversal, camera/FOV/bank/sensitivity, pause during hit-stop/impact hold, rebinding/gamepad/device loss, audible/visible FEEL effects and animation action transitions. Do not label this production-ready until these and the remaining stages pass.
 
