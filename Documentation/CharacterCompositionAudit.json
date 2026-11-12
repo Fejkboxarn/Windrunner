@@ -1,0 +1,3222 @@
+{
+    "components": [
+        {
+            "type": "AirflowPrototype.AirSlingDeathReward",
+            "path": "Air Sling Node (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "flowSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.PlayerDualThrowPose",
+            "path": "Airflow Player",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirTargetDebugHUD",
+            "path": "Airflow Player/DevelopmentDiagnostics",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 02 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Scrollbar Vertical",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingController",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "regularNodeRewardSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "impactAudioLibrary -> Assets/AirflowPrototype/Generated/Batch18_AirSlingImpactAudioLibrary.asset",
+                "settings -> Assets/AirflowPrototype/Generated/Batch18_AirSlingSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeHealth",
+            "path": "Air Sling Node (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_1 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 02 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.CanvasScaler",
+            "path": "Canvas",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerHumanoidAnimatorDriver",
+            "path": "Airflow Player",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerGroundedFootIK",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 19",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.GraphicRaycaster",
+            "path": "Canvas",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (5)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_1",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeWander",
+            "path": "Air Sling Node (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCloth",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/MC-Skirt",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (5)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Resume/Text (Legacy)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirWaterSurface",
+            "path": "Water",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirFlowHitSystem",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNode",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingImpactVFX",
+            "path": "Air Sling Node/Impact Splash VFX",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (8)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (12)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (6)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (16)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirRewardGlowFeedback",
+            "path": "Airflow Player/PresentationFeedback",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset",
+                "glowSettings -> Assets/AirflowPrototype/Generated/Batch14_RewardGlowSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingTargetChargeUI",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch18_AirSlingTargetUISettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Label",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (19)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (5)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 17",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Scrollbar Vertical/Sliding Area/Handle",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_2 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Windrunner.Production.Input.WindrunnerInputHost",
+            "path": "WindrunnerProjectRoot",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "authoringActions -> Assets/WindrunnerProduction/Input/Generated/WindrunnerGameplay.inputactions"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 06 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirflowDebugRuntimeControls",
+            "path": "Airflow Player/DevelopmentDiagnostics",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Book",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (15)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 14",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeHealth",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (18)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirPerfectTimingFeedback",
+            "path": "Airflow Player/PresentationFeedback",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch12_TargetUISettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (17)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChargeVisual",
+            "path": "Airflow Player/LegacyPresentation",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch4_AirCastSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport/Content/BindingRowTemplate",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNode",
+            "path": "Air Sling Node (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (10)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (13)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (11)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChime",
+            "path": "Air Chime Trial Demo/Air Chime 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 23",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (14)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider/Fill Area/Fill",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (7)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeVisualAnimator",
+            "path": "Air Sling Node (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingDeathReward",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "flowSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Label",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 21",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider/Handle Slide Area/Handle",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 18",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeHealth",
+            "path": "Air Sling Node (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Windrunner.Production.Unity.ProjectRoot",
+            "path": "WindrunnerProjectRoot",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeVisualAnimator",
+            "path": "Air Sling Node (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (8)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeVisualAnimator",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (18)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCloth",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/MC-Hair",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (16)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 21",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 19",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 18",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChimeTrial",
+            "path": "Air Chime Trial Demo",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChime",
+            "path": "Air Chime Trial Demo/Air Chime 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 06 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Mask",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Directional Light",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCapsuleCollider",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/root/DEF-spine/DEF-thigh.R/Magica Capsule Collider (DEF-thigh.R) (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (7)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Button",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport/Content/BindingRowTemplate",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 24",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (11)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_3 (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingImpactVFX",
+            "path": "Air Sling Node (4)/Impact Splash VFX",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Windrunner.Production.Feedback.WindrunnerFeedbackHost",
+            "path": "WindrunnerProjectRoot",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "catalog -> Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 16",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider/Background",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (12)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeWander",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeVisualAnimator",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChime",
+            "path": "Air Chime Trial Demo/Air Chime 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeHealth",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 14",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNode",
+            "path": "Air Sling Node (3)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "Canvas/Progress Bar",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerMotor",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (10)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCloth",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/MC-Skirt-Front",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (6)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 17",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerWaterSwim",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch16_WaterSwimSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirChime",
+            "path": "Air Chime Trial Demo/Air Chime 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 22",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (15)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (21)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (16)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (9)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirTargeter",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch3_TargetingSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirPresentationController",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 22",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerInputStartupRepair",
+            "path": "Airflow Player",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeVisualAnimator",
+            "path": "Air Sling Node (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 13",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeHealth",
+            "path": "Air Sling Node (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirAudioDirector",
+            "path": "Airflow Player/PresentationFeedback",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch11_AudioSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeWander",
+            "path": "Air Sling Node (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerDustFeedback",
+            "path": "Airflow Player/PresentationFeedback",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch11_DustSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Label",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (18)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Button",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Reset_bindings",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (20)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerCustomAnimationDriver",
+            "path": "Airflow Player",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": false,
+            "profiles": [
+                "profile -> Assets/AirflowPrototype/Generated/Batch11_PlayerAnimationProfile.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (8)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Volume",
+            "path": "Airflow Autumn Global Volume",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "sharedProfile -> Assets/AirflowPrototype/Generated/Batch14_AutumnVolumeProfile.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (17)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AutumnPostProcessController",
+            "path": "Airflow Autumn Global Volume",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "lookSettings -> Assets/AirflowPrototype/Generated/Batch14_v14.1_BoldAutumnLookSettings.asset",
+                "speedSettings -> Assets/AirflowPrototype/Generated/Batch14_v14.1_SpeedPostProcessSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 15",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingDeathReward",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "flowSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (14)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "INab.UI.ProceduralProgressBar",
+            "path": "Canvas/Progress Bar",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "config -> Assets/INab Studio/2D Assets/Procedural Progress Bars/Demo Files/Demo Materials/Canvas/ProgressBarConfig.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.GraphicRaycaster",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider/Background",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirDash",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport/Content/BindingRowTemplate/Text (Legacy)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 21",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirTargetChargeUI",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch12_TargetUISettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeWander",
+            "path": "Air Sling Node (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (16)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirPower",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.ContentSizeFitter",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport/Content",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 22",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.CanvasScaler",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerDebugHUD",
+            "path": "Airflow Player/DevelopmentDiagnostics",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 02 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (11)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeWander",
+            "path": "Air Sling Node (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 20",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 23",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Windrunner.Production.Input.WindrunnerPauseMenuView",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirHitFeedback",
+            "path": "Airflow Player/PresentationFeedback",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirSlingImpactVFX",
+            "path": "Air Sling Node (2)/Impact Splash VFX",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCapsuleCollider",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/root/DEF-spine/DEF-thigh.R/DEF-thigh.R.001/Magica Capsule Collider (DEF-thigh.R.001)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (19)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 17",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalCameraData",
+            "path": "Airflow Camera",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.Interactive",
+            "path": "Environment (1)/Environment/Chest/Chest_Lid",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerSpeedFeedback",
+            "path": "Airflow Camera",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Label",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider/Handle Slide Area/Handle",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingDeathReward",
+            "path": "Air Sling Node (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "flowSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Slider",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.ResponsiveHUDCanvas",
+            "path": "Canvas",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (17)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (20)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.EventSystems.EventSystem",
+            "path": "EventSystem",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 15",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirflowPortableAnimationBridge",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "profile -> Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 13",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (8)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirCastFeedback",
+            "path": "Airflow Player/LegacyPresentation",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.InputSystem.UI.InputSystemUIInputModule",
+            "path": "EventSystem",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (7)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Button",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Resume",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingImpactVFX",
+            "path": "Air Sling Node (1)/Impact Splash VFX",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (7)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.WindSettings",
+            "path": "Wind Controller",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirTargetIndicator",
+            "path": "Airflow Player/LegacyPresentation",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerOrbitCamera",
+            "path": "Airflow Camera",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset",
+                "feelSettings -> Assets/AirflowPrototype/Generated/Batch7_AirFeelSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirPowerProgressBarUI",
+            "path": "Canvas/Progress Bar",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (21)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 16",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 24",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (9)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (17)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingTargeter",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch18_AirSlingSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.UI.Scrollbar",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Scrollbar Vertical",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerProceduralKnifeFlick",
+            "path": "Airflow Player",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": false,
+            "profiles": [
+                "preset -> Assets/AirflowPrototype/Generated/Batch21_KnifeFlickPreset.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeVisualAnimator",
+            "path": "Air Sling Node (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerHandAirTrails",
+            "path": "Airflow Player/PresentationFeedback",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 19",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.CloudMover",
+            "path": "Lighting/Directional Light",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirCaster",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch4_AirCastSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Label",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_3",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNode",
+            "path": "Air Sling Node (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerRunningArmPoseController",
+            "path": "Airflow Player",
+            "classification": "replaceable",
+            "reason": "Serialized compatibility path; prove production replacement and audit callers before removal.",
+            "enabled": false,
+            "profiles": [
+                "activePose -> Assets/Armposes/RunningArmPose.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (13)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 16",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (9)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 03",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChime",
+            "path": "Air Chime Trial Demo/Air Chime 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 15",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerInputReader",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_2",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 20",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 06 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeHealth",
+            "path": "Air Sling Node (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Directional Light",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 20",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.Interactive",
+            "path": "Environment (1)/Environment/Chest/Chest_Lid",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (12)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingDeathReward",
+            "path": "Air Sling Node (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "flowSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Reset_bindings",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo/Route Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Resume",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (10)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (5)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (4)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (12)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (6)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirChimeStartSeal",
+            "path": "Air Chime Trial Demo/Start Seal",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (6)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (14)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.ScrollRect",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (9)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (20)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (19)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_2 (2)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Text",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Reset_bindings/Text (Legacy)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerMovementVisuals",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset",
+                "feelSettings -> Assets/AirflowPrototype/Generated/Batch7_AirFeelSettings.asset",
+                "animationSettings -> Assets/AirflowPrototype/Generated/Batch11_CapsuleAnimationSettings.asset"
+            ]
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 13",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "Raygeas.PhysicsObject",
+            "path": "Environment (1)/Environment/Vase_3 (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 18",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 06",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNode",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (10)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.LayoutElement",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport/Content/BindingRowTemplate",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCapsuleCollider",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/root/DEF-spine/DEF-thigh.R/Magica Capsule Collider (DEF-thigh.R)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 05",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 07",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 23",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNodeWander",
+            "path": "Air Sling Node",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (13)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 24",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "MagicaCloth2.MagicaCloth",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/MC-Breasts",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirflowProductionFeedbackEmitter",
+            "path": "Airflow Player",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (13)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.VerticalLayoutGroup",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView/Viewport/Content",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 02",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingImpactVFX",
+            "path": "Air Sling Node (3)/Impact Splash VFX",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (15)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/BindingScrollView",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 14",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 09",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingDeathReward",
+            "path": "Air Sling Node (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "flowSettings -> Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+                "presentationSettings -> Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+            ]
+        },
+        {
+            "type": "UnityEngine.Rendering.Universal.UniversalAdditionalLightData",
+            "path": "Lighting/Lights/Point Light (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingNode",
+            "path": "Air Sling Node (1)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodeIdleHover",
+            "path": "Air Nodes — Batch 3/Air Node 11 (21)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (15)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo/Route Node 08",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 12",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Image",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider/Fill Area/Fill",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.PlayerWindFeedback",
+            "path": "Airflow Camera",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": [
+                "settings -> Assets/AirflowPrototype/Generated/Batch7_AirFeelSettings.asset"
+            ]
+        },
+        {
+            "type": "MagicaCloth2.MagicaSphereCollider",
+            "path": "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character/VampGirl_Grp/VampGirl_Rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-spine.005/DEF-spine.006/Magica Sphere Collider (DEF-spine.006)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "UnityEngine.UI.Slider",
+            "path": "WindrunnerProjectRoot/WindrunnerPauseCanvas/PausePanel/Slider",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": false,
+            "profiles": []
+        },
+        {
+            "type": "Windrunner.Production.Integrations.Feel.WindrunnerFeelBackendAdapter",
+            "path": "WindrunnerProjectRoot",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Air Nodes — Batch 3/Air Node 11 (14)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 01",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirSlingImpactVFX",
+            "path": "Air Sling Node/Impact Splash VFX",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNode",
+            "path": "Batch 9 Aerial Route Demo/Route Node 10",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Air Nodes — Batch 3/Air Node 11 (11)",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        },
+        {
+            "type": "AirflowPrototype.AirNodePulseFeedback",
+            "path": "Batch 9 Aerial Route Demo (1)/Route Node 04",
+            "classification": "required",
+            "reason": "Installed scene dependency; name alone is not an obsolete verdict.",
+            "enabled": true,
+            "profiles": []
+        }
+    ],
+    "animatorControllers": [
+        "Air Sling Node (3)/Default Node Visual -> Assets/StylizedFantasyCreaturesBundle/Meshes/Bear/Bear.controller",
+        "Environment (1)/Environment/Chest/Chest_Lid -> Assets/Raygeas/Grasslands - Stylized Nature/Assets/Animation/Chest.controller",
+        "Air Sling Node/Default Node Visual -> Assets/StylizedFantasyCreaturesBundle/Meshes/Bear/Bear.controller",
+        "Air Sling Node (1)/Default Node Visual -> Assets/StylizedFantasyCreaturesBundle/Meshes/Bear/Bear.controller",
+        "Environment (1)/Environment/Chest/Chest_Lid -> Assets/Raygeas/Grasslands - Stylized Nature/Assets/Animation/Chest.controller",
+        "Air Sling Node (4)/Default Node Visual -> Assets/StylizedFantasyCreaturesBundle/Meshes/Bear/Bear.controller",
+        "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root -> ",
+        "Air Sling Node (2)/Default Node Visual -> Assets/StylizedFantasyCreaturesBundle/Meshes/Bear/Bear.controller",
+        "Air Sling Node/Default Node Visual -> Assets/StylizedFantasyCreaturesBundle/Meshes/Bear/Bear.controller",
+        "Airflow Player/Capsule Animation Root/Capsule Flip Pivot/Custom Animation Root/Humanoid Character -> Assets/AirflowPrototype/Generated/Batch19_PlayerHumanoid.controller"
+    ]
+}

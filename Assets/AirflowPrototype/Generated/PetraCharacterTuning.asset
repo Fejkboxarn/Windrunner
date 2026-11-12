@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30d35ddec4634a248a6ea96972e2a147, type: 3}
+  m_Name: PetraCharacterTuning
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::AirflowPrototype.Editor.CharacterTuningPreset
+  characterName: Petra
+  bindings:
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerMotor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirPower, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirDash, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerMovementVisuals, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerMovementVisuals, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: feelSettings
+    profile: {fileID: 11400000, guid: 799f46b1ca49bd24aa715318eca2c72e, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerMovementVisuals, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: animationSettings
+    profile: {fileID: 11400000, guid: 33f4bdc57e1faf346b9f177da394634f, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirTargeter, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 6a0d51363c1cb674ea5b2a855172f6e7, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirCaster, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: cfa8a3a804382a943b0139ef2b75cb03, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirFlowHitSystem, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 96663069f0762d74c96f2e2f8e129214, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirPresentationController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerCustomAnimationDriver, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: profile
+    profile: {fileID: 11400000, guid: 523810686dd05eb44a4a96ebd192fa2d, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirTargetChargeUI, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 481d81f40e9429e4f8fefaf7b2006548, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerWaterSwim, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 39cb7a8d5b0b4e84baef92cef2e1702f, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirSlingTargeter, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: e56fb48c27730954a83a3091a91143d6, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirSlingController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: regularNodeRewardSettings
+    profile: {fileID: 11400000, guid: 96663069f0762d74c96f2e2f8e129214, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirSlingController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: impactAudioLibrary
+    profile: {fileID: 11400000, guid: 6a2dfa6c47964de4db257fda2e909efb, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirSlingController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: e56fb48c27730954a83a3091a91143d6, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirSlingTargetChargeUI, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: bbe81f4a011f64b43bc6a767ceb34901, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerRunningArmPoseController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: activePose
+    profile: {fileID: 11400000, guid: a5342348f257cea42abac8fb06fe0574, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.PlayerProceduralKnifeFlick, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: preset
+    profile: {fileID: 11400000, guid: 5eebcd02585d5314aa2bd223856b8e9b, type: 2}
+  - ownerPath: 
+    componentType: AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: profile
+    profile: {fileID: 11400000, guid: 7a9df32bb54f56f4aabad14ab595a657, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.AirHitFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 96663069f0762d74c96f2e2f8e129214, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.AirHitFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: presentationSettings
+    profile: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.PlayerDustFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 5d7f6c7946ba5544d887c0e197b1d34f, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.AirAudioDirector, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 3afe925e17dffce479bbe3818b82e09a, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.AirRewardGlowFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: presentationSettings
+    profile: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.AirRewardGlowFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: glowSettings
+    profile: {fileID: 11400000, guid: 373f87becfb8f2f4c865b60cb4fc4829, type: 2}
+  - ownerPath: PresentationFeedback
+    componentType: AirflowPrototype.AirPerfectTimingFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 481d81f40e9429e4f8fefaf7b2006548, type: 2}
+  - ownerPath: LegacyPresentation
+    componentType: AirflowPrototype.AirChargeVisual, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: cfa8a3a804382a943b0139ef2b75cb03, type: 2}
+  - ownerPath: '@camera/'
+    componentType: AirflowPrototype.PlayerOrbitCamera, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
+  - ownerPath: '@camera/'
+    componentType: AirflowPrototype.PlayerOrbitCamera, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: feelSettings
+    profile: {fileID: 11400000, guid: 799f46b1ca49bd24aa715318eca2c72e, type: 2}
+  - ownerPath: '@camera/'
+    componentType: AirflowPrototype.PlayerSpeedFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 187a02f7fc7201c46b6fd101ed6b4cab, type: 2}
+  - ownerPath: '@camera/'
+    componentType: AirflowPrototype.PlayerWindFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    propertyPath: settings
+    profile: {fileID: 11400000, guid: 799f46b1ca49bd24aa715318eca2c72e, type: 2}

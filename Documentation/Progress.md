@@ -209,3 +209,12 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 - WaterfallAudioRegression.md/json contain causal evidence and preserved settings. Audible near/far mix, unchanged other sounds and reload still require manual verification. No Windows rebuild was requested/performed; the existing RC3 executable remains unchanged.
 
 - Final validation: waterfall-final-EditMode **31/31 passed**, waterfall-final-PlayMode **20/20 passed**, both Unity exit 0. Final serialized-contract audit has zero failures; git diff --check passed. Runtime duplicate detection covers both object and clip names.
+
+### Character Tuning Studio: isolated profile authoring
+
+- Started clean at 9a604f4a. No deletions in the initial dependency audit. Inventory and live composition are in LegacyRetirementInventory.json and CharacterCompositionAudit.json.
+- Added Tools > Windrunner > Character Tuning, using 21 existing module profiles and 33 actual player/camera bindings. Drafts, search/categories, validation, baseline comparison, explicit Save, Undo/Revert, preset capture/application and independent profile duplication preserve existing runtime authorities. Petra preset indexes current assets without changing their values.
+- Live preview allowlist covers movement/Dash/resources/camera, Sling/Cast/targeting/reward and water. Cached animation/pool settings require explicit save and restart. Other characters' authored references remain isolated.
+- tuning-foundation Edit Mode: 31/32, test scene-restoration failure (not runtime parity); corrected test's empty-scene handling. tuning-scene-restore: 1/1 passed. tuning-live Play Mode: 21/21 passed. Full final Editor validation pending its result below.
+- Next stage: explicit portable-by-default ownership and production-only diagnostics, then reference-safe retirement only where parity is proven.
+- tuning-studio-final Edit Mode: **32/32 passed**, exit 0. Serialized contract check passed; no pre-existing gameplay asset changed in this stage.

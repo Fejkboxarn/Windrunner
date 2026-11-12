@@ -1,0 +1,3260 @@
+{
+  "scanned_text_assets": 2934,
+  "owned_scripts": [
+    {
+      "path": "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/TimeScaleArbitrationTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/DisplacementAuthorityTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/RenderedSceneProfileTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Core/GameStateMachine.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Runtime/Core/ProjectRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Core/ProjectRuntime.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Core/ServiceRegistry.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Runtime/Core/ProjectRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Core/TimeScaleArbiter.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/TimeScaleArbitrationTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/WindrunnerProduction/Runtime/Unity/UnityTimeAuthority.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+        "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/RenderedSceneProfileTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs",
+        "Assets/WindrunnerProduction/Runtime/Unity/UnityTimeAuthority.cs",
+        "Assets/WindrunnerProduction/Input/Editor/WindrunnerInputSetup.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Unity/UnitySceneLoader.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Runtime/Unity/UnityTimeAuthority.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Integrations/Feel/WindrunnerFeelBackendAdapter.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Editor/WindrunnerInputSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputActionsFactory.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/WindrunnerProduction/Input/Editor/WindrunnerInputSetup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Input/Editor/WindrunnerInputSetup.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowDebugRuntimeControls.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputService.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuView.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Input/Editor/WindrunnerInputSetup.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackAudioPool.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackCatalog.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackDefinitions.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackEventDefinition.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/AirPowerDepleted.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/AirPowerRecovered.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/CastCanceled.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/CastChargeStarted.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/CastHit.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/CastMissed.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/CastPerfect.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/CastReleased.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/Flip.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/Footstep.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/Jump.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/Land.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/ReturnStarted.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/RewardDelivered.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingCanceled.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingChargeStarted.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingCommitted.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingDashStarted.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingImpact.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingInitialBoost.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingLaunched.asset",
+        "Assets/WindrunnerProduction/Feedback/Generated/SlingPerfect.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackAudioPool.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackCatalog.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackVfxPool.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackSettingsService.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackVfxPool.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProfile.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/Diagnostics/FeelValidationProfile.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/AnimationFrameState.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+        "Assets/PortableAnimation/Runtime/AnimationGraphRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionSource.cs",
+        "Assets/PortableAnimation/Runtime/Phase2/PoseFrameState.cs",
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetModel.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/AnimationGraphRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase10/FlattenedPoseStack.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase10/WeaponPoseController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+        "Assets/PortableAnimation/Runtime/Phase15/PipelineDiagnosticSession.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase10/WeaponPoseProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPoseController.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase11/GroundMotionController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionSource.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase11/GroundMotionProfile.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionController.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionSource.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionProfile.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase11/GroundMotionSource.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionSource.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase11/PortableActionPlayback.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase11/PortableCharacterActionProfile.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase12/AeroMotionController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionSource.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase12/AeroMotionProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionController.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionSource.cs",
+        "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase12/AeroMotionSource.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionPoseStage.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionPoseStage.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionController.cs",
+        "Assets/PortableAnimation/Runtime/Phase13/CharacterExtensionPoseStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase14/PostPoseIKProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase14/IKGeometry.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase14/PostPoseIKRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingSolver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase14/PostPoseIKProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase14/PostPoseIKRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase15/PipelineDiagnosticSession.cs",
+        "Assets/PortableAnimation/Runtime/Phase15/PipelineStressProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase14/PostPoseIKRuntime.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase15/PipelineDiagnosticSession.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase15/PipelineStressProfile.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase15/PipelineStressScript.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase15/PipelineTelemetry.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase15/PipelineDiagnosticSession.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16/Phase16HumanoidClipSession.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_1/ContextualActionInfluenceController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_1/ContextualActionInfluenceProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_1/ContextualActionInfluenceController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_1/GroundMotionCycleMath.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionSource.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_1_2/ActionBlendComparisonMode.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_2/FootContactMath.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingSolver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingSolver.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_2/GroundingTestMotor.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingSolver.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_2/FootSupportGeometry.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingSolver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_2/GroundingTestMotor.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_2/MotionCommandSmoother.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_3/AuthoringContextMapper.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase16_3/WorldLookAimRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_3/LiveActionMaskEvaluator.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase16_3/WorldLookAimRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_3/VisualActionAuthoringDatabase.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase16_3/LiveActionMaskEvaluator.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_3/VisualActionAuthoringModel.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_3/WorldLookAimRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_3/VisualActionAuthoringModel.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase16_3/WorldLookAimRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase2/ClipLocomotionSource.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase2/ModularPoseGraphRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase2/ModularPoseGraphRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase2/PoseFrameState.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase2/ModularPoseGraphRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase2/PosePipelineProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase2/ModularPoseGraphRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase3/BoneWeightMask.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPoseProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase3/PerBoneMixerStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetModel.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPoseStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPoseStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase3/PerBoneMixerStage.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase3/PerBoneMixJob.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/FlattenedPoseStack.cs",
+        "Assets/PortableAnimation/Runtime/Phase3/PerBoneMixerStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ControllableRegionStage.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase3/PerBonePipelineRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase4/AdditivePoseJob.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePoseStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPoseStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPoseStage.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase4/AdditivePoseStage.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase4/AdditivePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase5/AbilityBlendMath.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase5/AbilityBlendPolicy.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase5/AbilityBlendProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase5/AbilityBlendProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase5/AbilityRegionMap.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase5/AbilityBlendProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase5/HumanoidAbilityRegionResolver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase5/HumanoidAbilityRegionResolver.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase5/PolicyDrivenAbilityBlendRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase6/ActionMontageController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase6/ActionMontageProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_1/ContextualActionInfluenceController.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_1/ContextualActionInfluenceProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_3/LiveActionMaskEvaluator.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_3/WorldLookAimRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageController.cs",
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetModel.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase6/ControllableRegionStage.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase6/ActionMontageRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase7/AimOffsetMath.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase7/AimOffsetModel.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPoseStage.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase7/AimOffsetPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase8/HitReactController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPoseStage.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase8/HitReactPoseStage.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase8/HitReactProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactController.cs",
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStateProfile.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase9/HeroStateController.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/PortableAnimation/Runtime/Phase9/HeroStateProfile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPoseProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStateController.cs",
+        "Assets/PortableAnimation/Runtime/Phase9/HeroStatePipelineRuntime.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirAudioSettingsEditor.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirCastSettingsEditor.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirflowBatch11FlipPivotRepair.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirflowDebugRuntimeControlsSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirPowerProgressBarSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AutumnSandboxAssetResolver.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AutumnSandboxGenerator.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerHandAirTrailsSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/ResponsiveHUDCanvasSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAbilityCompositionChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAcceptanceTools.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAirCastReleaseParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAirDashStateParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAirPowerStateChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAirTargetSelectionParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAnimationContentAudit.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAudioAudit.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerCandidateBuild.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerMotorStateChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlanarParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+      "classification": "replaceable",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingChargeParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingDashParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceSession.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingFlowParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingPathParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerSlingTargetParityChecks.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
+      ],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AbilityResourcePolicy.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAbilityCompositionChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirAudioSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch11_AudioSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirAudioSettingsEditor.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/PrototypeAudioSynthesis.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAirCastReleaseParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirCastReleasePolicy.cs",
+        "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+        "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+        "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirCastReleasePolicy.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAbilityCompositionChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAirCastReleaseParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirCastSession.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirCastSession.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAbilityCompositionChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirCastSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch4_AirCastSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirCastSettingsEditor.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+        "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+        "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetUISettings.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirChime.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirChimeTrial.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirChimeTrial.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirChime.cs",
+        "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirChimeTrialSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirChime.cs",
+        "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs",
+        "Assets/AirflowPrototype/Runtime/AirChimeTrial.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirDash.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAirDashStateParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAbilityCompositionChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAirDashStateParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirFeelSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch7_AirFeelSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWindFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirflowDebugRuntimeControls.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowDebugRuntimeControlsSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirFlowHitSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirReturnStreamVisual.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHandAirTrailsSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+        "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirflowMovementSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlanarParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirPower.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotorPlanarSolver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAcceptanceTools.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirNode.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirNodeIdleHover.cs",
+        "Assets/AirflowPrototype/Runtime/AirNodePulseFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+        "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+        "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDualThrowTracerVisual.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerKnifeFlickProjectileVisual.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirNodeIdleHover.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirNodePulseFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPower.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirPowerProgressBarSetup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+        "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs",
+        "Assets/AirflowPrototype/Runtime/AirPowerState.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/AirflowPrototype/Editor/AirPowerProgressBarSetup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPowerState.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAbilityCompositionChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAirPowerStateChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirPower.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPresentationSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+        "Assets/AirflowPrototype/Runtime/AirPressureBurstVisual.cs",
+        "Assets/AirflowPrototype/Runtime/AirReturnStreamVisual.cs",
+        "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPressureBurstVisual.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirPresentationController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirReturnStreamVisual.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirRewardGlowSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch14_RewardGlowSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingBezierPath.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingPathParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingChargeState.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingChargeParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingFlowParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingFlowState.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHandAirTrailsSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingDashProgression.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingDashParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingFlowParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingFlowState.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingFlowState.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingFlowParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingImpactAudioLibrary.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch18_AirSlingImpactAudioLibrary.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNode.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingImpactVFX.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Impact Splash VFX.prefab"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNode.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingNode.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingTargetParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingImpactAudioLibrary.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNodeHealth.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNodeWander.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingNodeHealth.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNode.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNodeWander.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingNodeVisualAnimator.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNode.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNodeHealth.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNodeWander.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingNodeWander.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch18_AirSlingSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingDashParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingFlowParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingPathParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingTargetParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingBezierPath.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDashProgression.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingFlowState.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetScoreMath.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeGraphic.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingTargetParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingTargetScoreMath.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingTargetParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirSlingTargetUISettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch18_AirSlingTargetUISettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeGraphic.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetChargeGraphic.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetDebugHUD.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowDebugRuntimeControlsSetup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAirTargetSelectionParityChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+        "Assets/AirflowPrototype/Runtime/AirNodeIdleHover.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetDebugHUD.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetSelectionPolicy.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetingSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch3_TargetingSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargeter.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetSelectionPolicy.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAirTargetSelectionParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargeter.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetUISettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch12_TargetUISettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetChargeGraphic.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirWaterSurface.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/AutumnSandboxGenerator.cs",
+        "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AutumnLookSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch14_AutumnLookSettings.asset",
+        "Assets/AirflowPrototype/Generated/Batch14_v14.1_BoldAutumnLookSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AutumnPostProcessController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AutumnPostProcessController.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AutumnSandboxSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch15_AutumnSandboxSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AutumnSandboxGenerator.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/CapsuleAnimationSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch11_CapsuleAnimationSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/HitStopEnvelope.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/TimeScaleArbitrationTests.cs",
+        "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch11_PlayerAnimationProfile.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowDebugRuntimeControlsSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDisplacementAuthority.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/DisplacementAuthorityTests.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDualThrowTracerVisual.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDustFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDustSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch11_DustSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDustFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerHandAirTrailsSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimationProfile.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch19_PlayerAnimationProfile.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationContentAudit.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowDebugRuntimeControlsSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerKnifeFlickPreset.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch21_KnifeFlickPreset.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerKnifeFlickProjectileVisual.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch11FlipPivotRepair.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowDebugRuntimeControlsSetup.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHandAirTrailsSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+        "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAcceptanceTools.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+        "Assets/AirflowPrototype/Runtime/AirChime.cs",
+        "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs",
+        "Assets/AirflowPrototype/Runtime/AirChimeTrial.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+        "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+        "Assets/AirflowPrototype/Runtime/AutumnPostProcessController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDustFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotorFlowState.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWindFeedback.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMotorFlowState.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorStateChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlanarParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMotorJumpWindow.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorStateChecks.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMotorPlanarSolver.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlanarParityChecks.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMotor.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch11FlipPivotRepair.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDustFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerRunningArmPosePreset.cs",
+      "classification": "replaceable",
+      "serialized_references": [
+        "Assets/Armposes/RunningArmPose.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs"
+      ],
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerWindFeedback.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/ProgressBarMaterialLease.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PrototypeAudioSynthesis.cs",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/ResponsiveHUDCanvas.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/ResponsiveHUDCanvasSetup.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/SpeedPostProcessSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch14_v14.1_SpeedPostProcessSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs",
+        "Assets/AirflowPrototype/Runtime/AutumnPostProcessController.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/WaterSwimSettings.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch16_WaterSwimSettings.asset"
+      ],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    }
+  ],
+  "external_script_packages_retained": {
+    "Spells Pack 2": 7,
+    "Raygeas": 6,
+    "PixPlays": 21,
+    "MagicaCloth2": 176,
+    "JMO Assets": 57,
+    "INab Studio": 7,
+    "Feel": 889
+  },
+  "removed": [],
+  "notes": "Initial audit: no deletions. Source mentions include comments/tooling; unknown dynamic reflection callers remain a removal risk."
+}
