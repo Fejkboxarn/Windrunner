@@ -11,51 +11,15 @@ namespace AirflowPrototype
         [SerializeField] private Transform visualRoot;
         [SerializeField] private AirflowMovementSettings settings;
 
-        private Vector3 _planarVelocity;
-        private Vector3 _actualVelocity;
-        private float _verticalVelocity;
-        private bool _grounded;
-        private bool _dashActive;
+        private PlayerMotorSimulation _simulation;
+        private PlayerMotorSimulation Simulation =>
+            _simulation ?? (_simulation = new PlayerMotorSimulation());
+        private PlayerMotorJumpWindow JumpWindow => Simulation.JumpWindow;
+        private PlayerMotorFlowState FlowState => Simulation.Flow;
 
-        // Gameplay state is being extracted incrementally while preserving this
-        // MonoBehaviour as the serialized facade used by existing abilities.
-        private PlayerMotorJumpWindow _jumpWindow;
-        private PlayerMotorFlowState _flowState;
-        private PlayerMotorJumpWindow JumpWindow =>
-            _jumpWindow ?? (_jumpWindow = new PlayerMotorJumpWindow());
-        private PlayerMotorFlowState FlowState =>
-            _flowState ?? (_flowState = new PlayerMotorFlowState());
-
-        // External traversal feedback.
-        // Systems such as Sling can move the CharacterController after the
-        // motor update. Reporting that displacement here makes all existing
-        // speed-driven feedback see the real traversal speed.
-        private Vector3 _externalTraversalVelocity;
-        private int _externalTraversalVelocityFrame = -1000;
-
-        public bool HasExternalTraversalVelocity =>
-            Time.frameCount -
-            _externalTraversalVelocityFrame <= 1;
-
-        public Vector3 Velocity =>
-            HasExternalTraversalVelocity
-                ? _externalTraversalVelocity
-                : _actualVelocity;
-
-        public Vector3 PlanarVelocity
-        {
-            get
-            {
-                if (!HasExternalTraversalVelocity)
-                    return _planarVelocity;
-
-                Vector3 planar =
-                    _externalTraversalVelocity;
-
-                planar.y = 0f;
-                return planar;
-            }
-        }
+        public bool HasExternalTraversalVelocity => Simulation.HasExternalVelocity(Time.frameCount);
+        public Vector3 Velocity => Simulation.VelocityAt(Time.frameCount);
+        public Vector3 PlanarVelocity => Simulation.PlanarVelocityAt(Time.frameCount);
 
         public float HorizontalSpeed
         {
@@ -71,15 +35,15 @@ namespace AirflowPrototype
 
         public float VerticalSpeed =>
             Velocity.y;
-        public bool IsGrounded => _grounded;
-        public bool IsDashActive => _dashActive;
+        public bool IsGrounded => Simulation.Grounded;
+        public bool IsDashActive => Simulation.DashActive;
 
         public bool HasRewardSpeedBoost => FlowState.HasRewardSpeedBoost;
         public float RewardBoostSpeedFloor => FlowState.RewardBoostSpeedFloor;
         public float RewardBoostHoldRemaining => FlowState.RewardBoostHoldRemaining;
 
         public bool HasAerialFlow =>
-            !_grounded &&
+            !Simulation.Grounded &&
             FlowState.HasAerialFlow;
 
         public float AerialGravityRemaining => FlowState.AerialGravityRemaining;
@@ -113,7 +77,7 @@ namespace AirflowPrototype
 
         public void SetDashActive(bool active)
         {
-            _dashActive = active;
+            Simulation.DashActive = active;
         }
 
         /// <summary>
@@ -124,38 +88,19 @@ namespace AirflowPrototype
         public void ReportExternalTraversalVelocity(
             Vector3 velocity)
         {
-            _externalTraversalVelocity =
-                velocity;
-
-            _externalTraversalVelocityFrame =
-                Time.frameCount;
+            Simulation.ReportExternalVelocity(velocity, Time.frameCount);
         }
 
         public void ClearExternalTraversalVelocity()
         {
-            _externalTraversalVelocity =
-                Vector3.zero;
-
-            _externalTraversalVelocityFrame =
-                -1000;
+            Simulation.ClearExternalVelocity();
         }
 
         public void AddPlanarImpulse(
             Vector3 impulse,
             float maxResultSpeed = 30f)
         {
-            impulse.y = 0f;
-            _planarVelocity += impulse;
-
-            float speed = _planarVelocity.magnitude;
-
-            if (maxResultSpeed > 0f &&
-                speed > maxResultSpeed)
-            {
-                _planarVelocity =
-                    _planarVelocity.normalized *
-                    maxResultSpeed;
-            }
+            Simulation.AddPlanarImpulse(impulse, maxResultSpeed);
         }
 
         public void AddRewardPlanarBoost(
@@ -164,21 +109,13 @@ namespace AirflowPrototype
             float holdDuration,
             float decayPerSecond)
         {
-            AddPlanarImpulse(
-                impulse,
-                maxResultSpeed);
-
-            float resultingSpeed =
-                _planarVelocity.magnitude;
-
-            FlowState.AddRewardPlanarBoost(resultingSpeed, holdDuration, decayPerSecond);
+            Simulation.AddRewardPlanarBoost(impulse, maxResultSpeed, holdDuration, decayPerSecond);
         }
 
         public void AddVerticalImpulse(
             float velocityDelta)
         {
-            _verticalVelocity +=
-                velocityDelta;
+            Simulation.AddVerticalImpulse(velocityDelta);
         }
 
         /// <summary>
@@ -242,16 +179,7 @@ namespace AirflowPrototype
         /// </summary>
         public void StopForTraversalImpact()
         {
-            _planarVelocity =
-                Vector3.zero;
-
-            _verticalVelocity = 0f;
-            _actualVelocity =
-                Vector3.zero;
-
-            FlowState.ClearRewardBoost();
-            FlowState.ClearAerialFlow();
-            ClearExternalTraversalVelocity();
+            Simulation.StopForTraversalImpact();
         }
 
         private void ApplyAerialFlowRewardInternal(
@@ -265,18 +193,9 @@ namespace AirflowPrototype
             float steeringDuration,
             bool forceWhenGrounded)
         {
-            _verticalVelocity = FlowState.ApplyAerialFlowReward(
-                _verticalVelocity,
-                _grounded,
-                forceWhenGrounded,
-                risingLift,
-                fallingLift,
-                fallingCancelFraction,
-                maxUpwardSpeed,
-                gravityScale,
-                gravityDuration,
-                steeringMultiplier,
-                steeringDuration);
+            Simulation.ApplyAerialFlowReward(risingLift, fallingLift, fallingCancelFraction,
+                maxUpwardSpeed, gravityScale, gravityDuration, steeringMultiplier,
+                steeringDuration, forceWhenGrounded);
         }
 
         private void Reset()
@@ -301,191 +220,27 @@ namespace AirflowPrototype
 
         private void Update()
         {
-            if (controller == null ||
-                input == null ||
-                cameraTransform == null ||
-                settings == null)
-            {
+            if (controller == null || input == null || cameraTransform == null || settings == null)
                 return;
-            }
+            float dt = Time.deltaTime;
+            if (dt <= 0f) return;
 
-            float dt =
-                Time.deltaTime;
-
-            if (dt <= 0f)
-                return;
-
-            bool groundedAtFrameStart =
-                controller.isGrounded;
-
-            if (groundedAtFrameStart)
-            {
-                JumpWindow.ReportGrounded(Time.time);
-                FlowState.ClearAerialFlow();
-
-                if (_verticalVelocity < 0f)
-                {
-                    _verticalVelocity =
-                        -settings.groundedStickForce;
-                }
-            }
-            else
-            {
-                FlowState.TickAerialFlow(dt);
-            }
-
-            if (input.JumpPressedThisFrame)
-            {
-                JumpWindow.ReportJumpPressed(Time.time);
-            }
-
-            Vector3 desiredDirection =
-                GetCameraRelativeMove(
-                    input.Move);
-
-            float inputMagnitude =
-                Mathf.Clamp01(
-                    desiredDirection.magnitude);
-
-            FlowState.TickRewardBoost(inputMagnitude, dt, settings.dashMaxSpeed);
-
-            UpdatePlanarVelocity(
-                desiredDirection,
-                groundedAtFrameStart,
-                dt);
-
-            TryConsumeBufferedJump();
-            UpdateGravity(
-                groundedAtFrameStart,
-                dt);
-
-            Vector3 frameVelocity =
-                _planarVelocity +
-                Vector3.up *
-                _verticalVelocity;
-
-            Vector3 beforeMove =
-                transform.position;
-
-            CollisionFlags flags =
-                controller.Move(
-                    frameVelocity *
-                    dt);
-
-            Vector3 afterMove =
-                transform.position;
-
-            _actualVelocity =
-                (afterMove - beforeMove) /
-                dt;
-
-            _grounded =
-                controller.isGrounded ||
-                (flags &
-                 CollisionFlags.Below) != 0;
-
-            if (_grounded)
-            {
-                JumpWindow.ReportGrounded(Time.time);
-                FlowState.ClearAerialFlow();
-            }
-
-            UpdateFacing(
-                desiredDirection,
-                dt);
+            Vector3 desiredDirection = GetCameraRelativeMove(input.Move);
+            Vector3 frameVelocity = Simulation.BeginFrame(desiredDirection,
+                input.JumpPressedThisFrame, controller.isGrounded, Time.time, dt, settings);
+            Vector3 beforeMove = transform.position;
+            CollisionFlags flags = controller.Move(frameVelocity * dt);
+            // OnControllerColliderHit may update simulation during Move, just as
+            // it updated the original motor state before displacement reporting.
+            Simulation.CompleteMove(transform.position - beforeMove, dt,
+                controller.isGrounded || (flags & CollisionFlags.Below) != 0, Time.time);
+            UpdateFacing(desiredDirection, dt);
         }
 
         private Vector3 GetCameraRelativeMove(
             Vector2 moveInput)
         {
-            Vector2 clamped =
-                Vector2.ClampMagnitude(
-                    moveInput,
-                    1f);
-
-            Vector3 forward =
-                cameraTransform.forward;
-
-            Vector3 right =
-                cameraTransform.right;
-
-            forward.y = 0f;
-            right.y = 0f;
-
-            forward =
-                forward.sqrMagnitude > 0.0001f
-                    ? forward.normalized
-                    : Vector3.forward;
-
-            right =
-                right.sqrMagnitude > 0.0001f
-                    ? right.normalized
-                    : Vector3.right;
-
-            Vector3 world =
-                forward * clamped.y +
-                right * clamped.x;
-
-            return
-                world.sqrMagnitude > 1f
-                    ? world.normalized
-                    : world;
-        }
-
-        private void UpdatePlanarVelocity(
-            Vector3 desiredDirection,
-            bool grounded,
-            float dt)
-        {
-            _planarVelocity = PlayerMotorPlanarSolver.Update(
-                _planarVelocity,
-                desiredDirection,
-                _dashActive,
-                grounded,
-                dt,
-                settings,
-                FlowState.RewardBoostSpeedFloor,
-                FlowState.AerialSteeringRemaining,
-                FlowState.AerialSteeringMultiplier);
-        }
-
-        private void TryConsumeBufferedJump()
-        {
-            if (!JumpWindow.TryConsume(Time.time, settings.jumpBufferTime, settings.coyoteTime))
-                return;
-
-            _verticalVelocity =
-                Mathf.Sqrt(
-                    2f *
-                    settings.gravity *
-                    settings.jumpHeight);
-        }
-
-        private void UpdateGravity(
-            bool groundedAtFrameStart,
-            float dt)
-        {
-            if (groundedAtFrameStart &&
-                _verticalVelocity <= 0f)
-            {
-                return;
-            }
-
-            float fallMultiplier =
-                _verticalVelocity < 0f
-                    ? settings.fallGravityMultiplier
-                    : 1f;
-
-            float flowGravityScale =
-                FlowState.AerialGravityRemaining > 0f
-                    ? FlowState.AerialGravityScale
-                    : 1f;
-
-            _verticalVelocity -=
-                settings.gravity *
-                fallMultiplier *
-                flowGravityScale *
-                dt;
+            return PlayerMotorSimulation.CameraRelativeMove(moveInput, cameraTransform.forward, cameraTransform.right);
         }
 
         private void UpdateFacing(
@@ -520,21 +275,7 @@ namespace AirflowPrototype
         private void OnControllerColliderHit(
             ControllerColliderHit hit)
         {
-            if (hit.normal.y < 0.5f)
-            {
-                Vector3 intoWall =
-                    Vector3.Project(
-                        _planarVelocity,
-                        hit.normal);
-
-                if (Vector3.Dot(
-                        intoWall,
-                        hit.normal) < 0f)
-                {
-                    _planarVelocity -=
-                        intoWall;
-                }
-            }
+            Simulation.HandleCollision(hit.normal);
         }
     }
 }

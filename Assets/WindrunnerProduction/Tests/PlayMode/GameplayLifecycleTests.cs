@@ -4,12 +4,87 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using Windrunner.Production.Input;
 
 namespace Windrunner.Production.Tests
 {
     public sealed class GameplayLifecycleTests
     {
+        [UnityTest]
+        public IEnumerator MotorMovesJumpsAndStopsIntegrationWhilePaused()
+        {
+            Assert.That(WindrunnerInputHost.Active, Is.Null, "Fixtures must not leak persistent input hosts.");
+            var scene = SceneManager.CreateScene("Motor integration fixture");
+            SceneManager.SetActiveScene(scene);
+            var player = new GameObject("Motor fixture");
+            var ground = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            ground.transform.position = new Vector3(0f, -0.5f, 0f);
+            ground.transform.localScale = new Vector3(100f, 1f, 100f);
+            var camera = new GameObject("Motor camera basis");
+            var motorType = Type.GetType("AirflowPrototype.PlayerMotor, Assembly-CSharp", true);
+            var inputType = Type.GetType("AirflowPrototype.PlayerInputReader, Assembly-CSharp", true);
+            var settingsType = Type.GetType("AirflowPrototype.AirflowMovementSettings, Assembly-CSharp", true);
+            var settings = ScriptableObject.CreateInstance(settingsType);
+            var originalInputSettings = InputSystem.settings;
+            var originalFlags = originalInputSettings.hideFlags;
+            // InputManager destroys temporary HideAndDontSave settings when
+            // replaced. Retain the original object so teardown can restore it.
+            if (originalFlags == HideFlags.HideAndDontSave) originalInputSettings.hideFlags = HideFlags.DontSave;
+            var testInputSettings = UnityEngine.Object.Instantiate(originalInputSettings);
+            testInputSettings.hideFlags = HideFlags.DontSave;
+            testInputSettings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+            testInputSettings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            InputSystem.settings = testInputSettings;
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            float oldCapture = Time.captureDeltaTime;
+            float oldScale = Time.timeScale;
+            try
+            {
+                Time.captureDeltaTime = 1f / 60f;
+                Time.timeScale = 1f;
+                var controller = player.AddComponent<CharacterController>();
+                player.transform.position = new Vector3(0f, 1.05f, 0f);
+                var input = player.AddComponent(inputType);
+                var motor = player.AddComponent(motorType);
+                motorType.GetMethod("Configure").Invoke(motor, new object[] { controller, input, camera.transform, null, settings });
+                Physics.SyncTransforms();
+                for (int i = 0; i < 30; i++) yield return null;
+                Assert.That((bool)motorType.GetProperty("IsGrounded").GetValue(motor), Is.True);
+                var start = player.transform.position;
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W));
+                for (int i = 0; i < 20; i++) yield return null;
+                Assert.That(player.transform.position.z - start.z, Is.GreaterThan(0.1f));
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W, Key.Space));
+                for (int i = 0; i < 3; i++) yield return null;
+                Assert.That((float)motorType.GetProperty("VerticalSpeed").GetValue(motor), Is.GreaterThan(0f));
+                Time.timeScale = 0f;
+                yield return null;
+                var paused = player.transform.position;
+                for (int i = 0; i < 5; i++) yield return null;
+                Assert.That(player.transform.position, Is.EqualTo(paused));
+                Time.timeScale = 1f;
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState());
+                for (int i = 0; i < 90; i++) yield return null;
+                Assert.That((bool)motorType.GetProperty("IsGrounded").GetValue(motor), Is.True);
+            }
+            finally
+            {
+                Time.captureDeltaTime = oldCapture;
+                Time.timeScale = oldScale;
+                InputSystem.RemoveDevice(keyboard);
+                InputSystem.settings = originalInputSettings;
+                originalInputSettings.hideFlags = originalFlags;
+                UnityEngine.Object.Destroy(testInputSettings);
+                UnityEngine.Object.Destroy(player);
+                UnityEngine.Object.Destroy(ground);
+                UnityEngine.Object.Destroy(camera);
+                UnityEngine.Object.Destroy(settings);
+            }
+            yield return null;
+        }
+
         [UnityTest]
         public IEnumerator GameplaySceneStartsAndPlayerRemainsFinite()
         {
@@ -51,6 +126,11 @@ namespace Windrunner.Production.Tests
             Assert.That(runtimeMaterial == null, Is.True, "Runtime material must be destroyed on scene unload.");
             Assert.That(authored.GetFloat("_Fill_Amount"), Is.EqualTo(originalFill));
 #endif
+            // ProjectRoot deliberately survives scene unload; the test owns it
+            // and must dispose it before another fixture creates local input.
+            var root = Windrunner.Production.Unity.ProjectRoot.Active;
+            if (root != null) UnityEngine.Object.Destroy(root.gameObject);
+            yield return null;
         }
     }
 }

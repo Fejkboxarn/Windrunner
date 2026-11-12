@@ -67,7 +67,7 @@ The target boundary is player composition -> input snapshot + ability sessions +
 ## Ordered stages and gates
 
 1. **Baseline and regression infrastructure**: expose existing deterministic checks to Test Runner; inventory scene ownership/references; capture initial results. No runtime behavior change.
-2. **Player simulation and composition**: move remaining motor state/integration to a regular C# session behind unchanged facade. Test numerical parity and collision response. Define explicit displacement ownership without changing update ordering; introduce composition only with scene-wiring coverage.
+2. **Player simulation and composition**: move remaining motor state/integration to a regular C# session behind unchanged facade. Test numerical parity and collision response. Define explicit displacement ownership without changing update ordering; introduce composition only with scene-wiring coverage. Motor simulation extraction implemented in this session; composition and multi-writer physics remain outstanding.
 3. **Sling and ability execution**: separate orchestration/presentation; central input snapshot and resource decisions; preserve release, spend, impact, reward and event order. Cover pause/device loss and cancellation.
 4. **Animation ownership**: validate graph lifecycle/action bindings, establish a single pose authority and deliberate procedural layers; retire legacy paths only after authored content parity.
 5. **Presentation consolidation**: feedback subscriber isolation, camera/FOV bank and hit-stop ownership; audio/UI use explicit bindings. Test event order, pause and pool saturation.
