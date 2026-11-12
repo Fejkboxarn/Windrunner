@@ -1,5 +1,7 @@
 # RC3 manual acceptance: practical Unity guide
 
+This guide records the RC3 baseline workflow. The later production-only character now uses automatic portable animation and has no legacy restore path. For current tuning/ownership tests use ProductionOnlyAcceptance.md and CharacterTuningStudio.md; do not follow the old opt-in/restoration expectations in area 9 on the updated scene. Waterfall and other baseline acceptance observations remain relevant.
+
 Status: the user reports testing 8 of 11 areas without significant movement/ability/camera/animation differences. The identities of those eight and the remaining three were not supplied. Do not infer individual passes below. Waterfall audio is a reported regression; its fix still needs an audible retest. This guide expands the seven grouped ReleaseCandidate bullets into eleven practical areas; it does not invent a new acceptance result.
 
 ## Preparation and controls

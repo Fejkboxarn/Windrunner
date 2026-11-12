@@ -218,3 +218,17 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 - tuning-foundation Edit Mode: 31/32, test scene-restoration failure (not runtime parity); corrected test's empty-scene handling. tuning-scene-restore: 1/1 passed. tuning-live Play Mode: 21/21 passed. Full final Editor validation pending its result below.
 - Next stage: explicit portable-by-default ownership and production-only diagnostics, then reference-safe retirement only where parity is proven.
 - tuning-studio-final Edit Mode: **32/32 passed**, exit 0. Serialized contract check passed; no pre-existing gameplay asset changed in this stage.
+
+### Production-only ownership and verified component retirement
+
+- Studio checkpoint: fee61215. Enabled automatic portable ownership with productionOnly fail-closed stop behavior. Detached the player's legacy Animator controller; retained its Avatar and all node controllers. New character animation profiles default to portable production ownership.
+- production-only-first Play Mode: **22/22 passed**, including runtime physical removal of legacy pose writers, startup, stop/re-enable, missing-clip fallback and real ability/resource/device/water tests. Retired ten disabled legacy/overlay components from the scene only after that evidence; cleared every incoming scene reference and refreshed Petra's preset. production-retired Play Mode: **22/22 passed**.
+- Removed the completed WindrunnerPlaceholderActionSetup source/meta after zero-caller/GUID-reference audit. Legacy type definitions remain because historic installers, facade serialization and tests still depend on their APIs; exact retirement conditions are documented, not treated as active gameplay authorities.
+- production-final and production-tuning-integrated Edit Mode: **32/32 passed** each. The first expanded Save/Undo check exposed the wrong integrated-weapon validator being used for a standalone ground profile; tuning-save-undo failed 0/1, then tuning-save-undo-fixed passed 1/1 after selecting AssertStandaloneValid. Actual save/Undo, numerical-copy parity, source isolation and no-op saving now execute.
+- Next: final suites, representative rendered measurements, Windows candidate and startup validation. Production-only animation visual acceptance is a new manual gate; the user's earlier 8/11 RC3 observations do not automatically pass it.
+
+- Final production-tuning-release suites: **32/32 Edit Mode**, **22/22 Play Mode**, both exit 0; serialized-contract and whitespace gates passed. Representative rendered profile and build verification follow.
+
+- Rendered production-traversal-profile: 1/1 passed (eight actual gameplay/lifecycle scenarios). production-rendered-baseline: 1/1 passed, calibrated native allocations; 1280x720 DX11 median 6.1655 ms, p95 6.9400 ms, median frame allocation 2,664 bytes. Editor/test overhead applies; no shipping-FPS or causal optimization claim.
+- Windows production-tuning-20261112: succeeded, 0 errors, 24 inherited/classified warnings, 24.36 s, 1,212,161,806 bytes. Headless and rendered DX11 startup both survived 15 seconds, initialized and logged no matched runtime errors.
+- Tuning authoring sources grouped under Editor/CharacterTuning with all existing script GUIDs retained; no new runtime assembly or hot-path discovery introduced. Current composition export and full data-asset reference inventory recorded.

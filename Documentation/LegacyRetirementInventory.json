@@ -1,5 +1,5 @@
 {
-  "scanned_text_assets": 2934,
+  "scanned_text_assets": 2943,
   "owned_scripts": [
     {
       "path": "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
@@ -7,6 +7,13 @@
       "serialized_references": [],
       "source_mentions": [],
       "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/CharacterTuningEditorTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
       "path": "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
@@ -53,6 +60,13 @@
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
       "path": "Assets/WindrunnerProduction/Tests/PlayMode/DisplacementAuthorityTests.cs",
       "classification": "required",
       "serialized_references": [],
@@ -66,6 +80,13 @@
       "source_mentions": [
         "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs"
       ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
@@ -147,7 +168,9 @@
       ],
       "source_mentions": [
         "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs",
         "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/WindrunnerProduction/Tests/PlayMode/RenderedSceneProfileTests.cs",
         "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs",
         "Assets/WindrunnerProduction/Runtime/Unity/UnityTimeAuthority.cs",
@@ -432,8 +455,8 @@
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
-        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -537,8 +560,7 @@
         "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs",
         "Assets/PortableAnimation/Runtime/Phase12/AeroMotionProfile.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs"
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -1528,10 +1550,10 @@
     },
     {
       "path": "Assets/AirflowPrototype/Editor/WindrunnerCandidateBuild.cs",
-      "classification": "uncertain",
+      "classification": "required",
       "serialized_references": [],
       "source_mentions": [],
-      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
       "path": "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
@@ -1570,13 +1592,6 @@
       "source_mentions": [
         "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs"
       ],
-      "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
-    },
-    {
-      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
-      "classification": "uncertain",
-      "serialized_references": [],
-      "source_mentions": [],
       "retirement_condition": "No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal."
     },
     {
@@ -1749,23 +1764,26 @@
         "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
         "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
         "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
-      "classification": "required",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "classification": "replaceable",
+      "serialized_references": [],
       "source_mentions": [
         "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
         "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs"
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
-      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/AirCastReleasePolicy.cs",
@@ -1802,22 +1820,23 @@
         "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
         "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
-        "Assets/AirflowPrototype/Runtime/AirTargetUISettings.cs"
+        "Assets/AirflowPrototype/Runtime/AirTargetUISettings.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
-      "classification": "required",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "classification": "replaceable",
+      "serialized_references": [],
       "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
         "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs"
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
-      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/AirChime.cs",
@@ -1881,13 +1900,14 @@
         "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
         "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAirDashStateParityChecks.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
         "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
         "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
         "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
         "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -1944,7 +1964,8 @@
         "Assets/AirflowPrototype/Runtime/AirReturnStreamVisual.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
-        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs"
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2000,7 +2021,10 @@
         "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs",
         "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
         "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningChecks.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2013,10 +2037,12 @@
       "source_mentions": [
         "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
         "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAcceptanceTools.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2155,7 +2181,10 @@
         "Assets/AirflowPrototype/Runtime/AirPowerState.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2316,7 +2345,9 @@
         "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
         "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
         "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2476,7 +2507,8 @@
         "Assets/AirflowPrototype/Runtime/AirSlingFlowState.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs",
         "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
-        "Assets/AirflowPrototype/Runtime/AirSlingTargetScoreMath.cs"
+        "Assets/AirflowPrototype/Runtime/AirSlingTargetScoreMath.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2512,7 +2544,8 @@
         "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerSlingTargetParityChecks.cs",
-        "Assets/AirflowPrototype/Runtime/AirSlingController.cs"
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2594,23 +2627,25 @@
         "Assets/AirflowPrototype/Runtime/AirNodeIdleHover.cs",
         "Assets/AirflowPrototype/Runtime/AirTargetDebugHUD.cs",
         "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
-        "Assets/AirflowPrototype/Runtime/AirTargetSelectionPolicy.cs"
+        "Assets/AirflowPrototype/Runtime/AirTargetSelectionPolicy.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
-      "classification": "required",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "classification": "replaceable",
+      "serialized_references": [],
       "source_mentions": [
         "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
         "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs"
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
-      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+      "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/AirTargetingSettings.cs",
@@ -2622,7 +2657,8 @@
         "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
         "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
         "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
-        "Assets/AirflowPrototype/Runtime/AirTargeter.cs"
+        "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -2739,16 +2775,17 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
         "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
         "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
         "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
@@ -2781,14 +2818,15 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
         "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
-        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
@@ -2828,13 +2866,14 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
-        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
@@ -2862,7 +2901,6 @@
         "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
         "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationContentAudit.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
         "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
@@ -2870,17 +2908,18 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
         "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
         "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
         "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
@@ -2908,19 +2947,21 @@
         "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
         "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
         "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
-        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
@@ -2956,6 +2997,7 @@
         "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
         "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
         "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs",
         "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
         "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
         "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
@@ -3014,7 +3056,10 @@
         "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
         "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
         "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerWindFeedback.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerWindFeedback.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningChecks.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
     },
@@ -3114,29 +3159,31 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
         "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
         "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
       "classification": "replaceable",
-      "serialized_references": [
-        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
-      ],
+      "serialized_references": [],
       "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
         "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
         "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
         "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
-        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
       ],
       "retirement_condition": "Legacy compatibility or installation path; audit live ownership and callers before retirement."
     },
@@ -3241,9 +3288,1255 @@
       "source_mentions": [
         "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
         "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs",
-        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs"
+        "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
       ],
       "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningChecks.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/CharacterTuningEditorTests.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningPreset.cs",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_mentions": [
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningChecks.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs"
+      ],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs",
+      "classification": "required",
+      "serialized_references": [],
+      "source_mentions": [],
+      "retirement_condition": "Current runtime/test dependency; preserve until replacement contract is tested."
+    }
+  ],
+  "owned_data_assets": [
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch10_AirPresentationSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AudioSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_CapsuleAnimationSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_DustSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_PlayerAnimationProfile.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch12_TargetUISettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch13_AirChimeTrialSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch14_AutumnLookSettings.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch14_AutumnVolumeProfile.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch14_RewardGlowSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch14_v14.1_BoldAutumnLookSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch14_v14.1_SpeedPostProcessSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_AutumnSandboxSettings.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AutumnSandboxGenerator.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_AutumnSandboxTerrain.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AutumnSandboxGenerator.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_FloatingIslandGround.mat",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_LakeMesh_01.asset",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_LakeMesh_02.asset",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_RiverMesh.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AutumnSandboxGenerator.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_WindStreakShape.asset",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch15_WindStreakVfx.mat",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch16_WaterSwimSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/WaterSwimBatch16Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch18_AirSlingImpactAudioLibrary.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch18_AirSlingNodePrototype.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch18_AirSlingSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch18_AirSlingTargetUISettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch18_SlingImpactParticle.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Impact Splash VFX.prefab"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch19_PlayerAnimationProfile.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationContentAudit.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch19_PlayerHumanoid.controller",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch2Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/RenderedSceneProfileTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAcceptanceTools.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAudioAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningChecks.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch21_KnifeFlickPreset.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch3_AirNode.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch3_TargetingSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirRouteBatch9Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch4_AirCastSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch5_FlowHitSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirFlowBatch5Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch7_AirFeelSettings.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/FacingMarker.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Ground.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase10/WeaponPosePipelineRuntime.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionController.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase12/AeroMotionSource.cs",
+        "Assets/PortableAnimation/Runtime/Phase15/PipelineStressScript.cs",
+        "Assets/PortableAnimation/Runtime/Phase16_2/FootGroundingProfile.cs",
+        "Assets/PixPlays/Components/Scripts/BindingPointType.cs",
+        "Assets/PixPlays/Components/Scripts/VFXTester.cs",
+        "Assets/PixPlays/Components/Scripts/VfxSystem/VfxData.cs",
+        "Assets/PixPlays/Components/Scripts/VfxSystem/AOE/WindAoeVfx.cs",
+        "Assets/Feel/MMTools/Accessories/MMProcedural/MMTilemapGenerator/MMTilemapGeneratorLayer.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerPresentationMigration.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowMovementSettings.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDustFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Impact Splash VFX.prefab",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch18_AirSlingSettings.asset",
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Obstacle.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningChecks.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Player.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Integrations/Feel/WindrunnerFeelBackendAdapter.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/INab Studio/Demo Assets/Unity Companion License/FirstPersonController/Scripts/FirstPersonController.cs",
+        "Assets/Feel/MMTools/Core/MMAudio/MMPlaylist/MMPlaylistRemote.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/VisualEffectGraph/Feedbacks/MMF_VisualEffect.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/VisualEffectGraph/Feedbacks/MMF_VisualEffectSetProperty.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/NiceVibrations/Feedbacks/MMF_NVClip.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/MMTools/Feedbacks/MMF_MMSoundManagerSound.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/MMFeedbacksEvents.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/MMFeedbackTargetAcquisition.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/MMFeedbackTiming.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_Animation.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_AnimationCrossfade.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_AnimatorPlayState.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_Feedbacks.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_Particles.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_ParticlesInstantiation.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_PlayerChain.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_PlayerControl.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_PositionSpring.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_ReferenceHolder.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_RotationSpring.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_ScaleSpring.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_SquashAndStretchSpring.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_VideoPlayer.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Springs/Feedbacks/MMF_SpringColor.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Springs/Feedbacks/MMF_SpringFloat.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Springs/Feedbacks/MMF_SpringVector2.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Springs/Feedbacks/MMF_SpringVector3.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Springs/Feedbacks/MMF_SpringVector4.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/Legacy/MMFeedbacks.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/MMF_Player/MMF_Feedback.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/MMF_Player/MMF_Player.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Core/MMF_Player/MMF_PlayerDebugInput.cs",
+        "Assets/Feel/MMFeedbacks/Editor/Core/MMFeedbacksEditor.cs",
+        "Assets/Feel/MMFeedbacks/Editor/Core/MMF_PlayerEditorSettings.cs",
+        "Assets/Feel/MMFeedbacks/Editor/Core/UIToolkit/MMF_PlayerEditorUITK.cs",
+        "Assets/Feel/FeelDemos/GettingStartedTutorial/Scripts/GettingStartedTutorialHeroReference.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch1Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerDiagnosticsMigration.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDustSettings.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Shadow_Dagger.prefab",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Accessories.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Body 1.mat",
+      "classification": "uncertain",
+      "serialized_references": [],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Body.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/PortableAnimation/Runtime/Phase8/HitReactPipelineRuntime.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Boot.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Eyebrows.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/EyeMouth.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Hair.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/MagicaCloth2/Example (Can be deleted)/Common/Scripts/RuntimeDressUpDemo.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Skirt.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/VampGirl_V2/Materials/Top.mat",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/UIToolkit/Feedbacks/MMF_UIToolkitBorderWidth.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingNode.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_Empty.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_Fall.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_FlipA.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_FlipB.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_FlipC.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_Idle.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_Jump.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_Land.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/AF_Locomotion.anim",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch11_AnimationTemplate/Batch11_AnimationTemplate.controller",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch11_PlayerAnimationProfile.asset",
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Generated/WindrunnerGameplay.inputactions",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Input/Editor/WindrunnerInputSetup.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputActionsFactory.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/AirPowerDepleted.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/AirPowerRecovered.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/CastCanceled.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/CastChargeStarted.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/CastHit.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/CastMissed.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/CastPerfect.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/CastReleased.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/Flip.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Feedbacks/MMF_SpriteRenderer.cs",
+        "Assets/Feel/MMFeedbacks/MMFeedbacks/Shakers/MMSpriteRendererShaker.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirAudioSettingsEditor.cs",
+        "Assets/AirflowPrototype/Editor/AirflowBatch11FlipPivotRepair.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingSettings.cs",
+        "Assets/AirflowPrototype/Runtime/CapsuleAnimationSettings.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerAnimationProfile.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PrototypeAudioSynthesis.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/Footstep.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/Raygeas/Shared Assets/Scripts/PlayerController.cs",
+        "Assets/AirflowPrototype/Editor/AirAudioSettingsEditor.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Runtime/PrototypeAudioSynthesis.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/Jump.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+        "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputActionsFactory.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProbe.cs",
+        "Assets/Raygeas/Shared Assets/Scripts/PlayerController.cs",
+        "Assets/PortableAnimation/Runtime/Phase15/PipelineStressScript.cs",
+        "Assets/INab Studio/Demo Assets/Unity Companion License/FirstPersonController/Scripts/FirstPersonController.cs",
+        "Assets/Feel/NiceVibrations/Scripts/Components/HapticSource.cs",
+        "Assets/Feel/MMTools/Foundation/MMAchievements/Scripts/MMAchievementRules.cs",
+        "Assets/Feel/FeelDemos/GettingStartedTutorial/Scripts/GettingStartedTutorialHeroReference.cs",
+        "Assets/Feel/FeelDemos/Duck/Scripts/Duck.cs",
+        "Assets/Feel/FeelDemos/Bounce/Scripts/BounceManager.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirAudioSettingsEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerPlayerServicesMigration.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowMovementSettings.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/CapsuleAnimationSettings.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimationProfile.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs",
+        "Assets/AirflowPrototype/Runtime/PrototypeAudioSynthesis.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningStudio.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/Land.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionController.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionProfile.cs",
+        "Assets/PortableAnimation/Runtime/Phase11/GroundMotionSource.cs",
+        "Assets/Feel/FeelDemos/Duck/Scripts/Duck.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimationProfile.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/ReturnStarted.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/RewardDelivered.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirAudioDirector.cs",
+        "Assets/AirflowPrototype/Runtime/AirDash.cs",
+        "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+        "Assets/AirflowPrototype/Runtime/AirRewardGlowFeedback.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHandAirTrails.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingCanceled.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingChargeStarted.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingCommitted.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingDashStarted.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingImpact.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerDisplacementAuthority.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingInitialBoost.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingLaunched.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerSlingEventTraceMenu.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+        "Assets/AirflowPrototype/Runtime/AirSlingFlowState.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/SlingPerfect.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs",
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/WindrunnerFeedbackCatalog.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerFeedbackSetup.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/Diagnostics/FeelValidationProfile.asset",
+      "classification": "required",
+      "serialized_references": [],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Feedback/Runtime/FeelValidationProfile.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Feedback/Generated/Diagnostics/FeelValidation_Pause.prefab",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Feedback/Generated/Diagnostics/FeelValidationProfile.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerFeelValidation.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+        "Assets/AirflowPrototype/Generated/PetraCharacterTuning.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+        "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterTuningSession.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset",
+      "classification": "required",
+      "serialized_references": [
+        "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset"
+      ],
+      "source_name_mentions": [
+        "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs"
+      ],
+      "retirement_condition": "Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion."
     }
   ],
   "external_script_packages_retained": {
@@ -3255,6 +4548,110 @@
     "INab Studio": 7,
     "Feel": 889
   },
-  "removed": [],
-  "notes": "Initial audit: no deletions. Source mentions include comments/tooling; unknown dynamic reflection callers remain a removal risk."
+  "removed_files": [
+    "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
+    "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs.meta"
+  ],
+  "retired_scene_components": [
+    {
+      "component": "PlayerHumanoidAnimatorDriver",
+      "scene_file_id": "863015121",
+      "prior_references": [
+        "  - component: {fileID: 863015121}",
+        "  legacyHumanoid: {fileID: 863015121}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "PlayerCustomAnimationDriver",
+      "scene_file_id": "863015110",
+      "prior_references": [
+        "  - component: {fileID: 863015110}",
+        "  customAnimationDriver: {fileID: 863015110}",
+        "  legacyCustom: {fileID: 863015110}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "PlayerRunningArmPoseController",
+      "scene_file_id": "863015123",
+      "prior_references": [
+        "  - component: {fileID: 863015123}",
+        "  legacyArms: {fileID: 863015123}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "PlayerProceduralKnifeFlick",
+      "scene_file_id": "863015125",
+      "prior_references": [
+        "  - component: {fileID: 863015125}",
+        "  legacyKnife: {fileID: 863015125}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "PlayerDualThrowPose",
+      "scene_file_id": "863015120",
+      "prior_references": [
+        "  - component: {fileID: 863015120}",
+        "  legacyThrow: {fileID: 863015120}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "PlayerGroundedFootIK",
+      "scene_file_id": "1472093726",
+      "prior_references": [
+        "  legacyFootIK: {fileID: 1472093726}",
+        "      addedObject: {fileID: 1472093726}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "PlayerInputStartupRepair",
+      "scene_file_id": "863015115",
+      "prior_references": [
+        "  - component: {fileID: 863015115}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "AirCastFeedback",
+      "scene_file_id": "1822526092",
+      "prior_references": [
+        "  - component: {fileID: 1822526092}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "AirTargetIndicator",
+      "scene_file_id": "1822526093",
+      "prior_references": [
+        "  - component: {fileID: 1822526093}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    },
+    {
+      "component": "AirChargeVisual",
+      "scene_file_id": "1822526091",
+      "prior_references": [
+        "  - component: {fileID: 1822526091}"
+      ],
+      "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+    }
+  ],
+  "notes": "Initial audit performed before deletion. Current inventory includes reviewed retirements. Source mentions include comments/tooling; unknown dynamic reflection/resource callers remain a removal risk. Third-party assets are retained, not declared obsolete.",
+  "removed_classification": [
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs",
+      "classification": "obsolete",
+      "reason": "Completed one-off placeholder installer, no current source callers or serialized GUID users; content remains editable through the Studio."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs.meta",
+      "classification": "obsolete",
+      "reason": "Completed one-off placeholder installer, no current source callers or serialized GUID users; content remains editable through the Studio."
+    }
+  ]
 }

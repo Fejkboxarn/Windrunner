@@ -1,0 +1,89 @@
+[
+  {
+    "component": "PlayerHumanoidAnimatorDriver",
+    "scene_file_id": "863015121",
+    "prior_references": [
+      "  - component: {fileID: 863015121}",
+      "  legacyHumanoid: {fileID: 863015121}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "PlayerCustomAnimationDriver",
+    "scene_file_id": "863015110",
+    "prior_references": [
+      "  - component: {fileID: 863015110}",
+      "  customAnimationDriver: {fileID: 863015110}",
+      "  legacyCustom: {fileID: 863015110}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "PlayerRunningArmPoseController",
+    "scene_file_id": "863015123",
+    "prior_references": [
+      "  - component: {fileID: 863015123}",
+      "  legacyArms: {fileID: 863015123}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "PlayerProceduralKnifeFlick",
+    "scene_file_id": "863015125",
+    "prior_references": [
+      "  - component: {fileID: 863015125}",
+      "  legacyKnife: {fileID: 863015125}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "PlayerDualThrowPose",
+    "scene_file_id": "863015120",
+    "prior_references": [
+      "  - component: {fileID: 863015120}",
+      "  legacyThrow: {fileID: 863015120}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "PlayerGroundedFootIK",
+    "scene_file_id": "1472093726",
+    "prior_references": [
+      "  legacyFootIK: {fileID: 1472093726}",
+      "      addedObject: {fileID: 1472093726}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "PlayerInputStartupRepair",
+    "scene_file_id": "863015115",
+    "prior_references": [
+      "  - component: {fileID: 863015115}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "AirCastFeedback",
+    "scene_file_id": "1822526092",
+    "prior_references": [
+      "  - component: {fileID: 1822526092}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "AirTargetIndicator",
+    "scene_file_id": "1822526093",
+    "prior_references": [
+      "  - component: {fileID: 1822526093}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  },
+  {
+    "component": "AirChargeVisual",
+    "scene_file_id": "1822526091",
+    "prior_references": [
+      "  - component: {fileID: 1822526091}"
+    ],
+    "source_retained_reason": "Historical installers, compatibility APIs or test fixtures still reference this type; runtime production scene no longer contains it."
+  }
+]

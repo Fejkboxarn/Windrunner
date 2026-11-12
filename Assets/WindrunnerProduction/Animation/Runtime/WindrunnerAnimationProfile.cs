@@ -27,9 +27,11 @@ namespace Windrunner.Production.Animation
         fileName = "WindrunnerAnimationProfile")]
     public sealed class WindrunnerAnimationProfile : ScriptableObject
     {
-        [Header("Migration gate")]
-        [Tooltip("OFF by default. Manual Play Mode start is available through the Batch 4 menu.")]
-        public bool automaticallyStartPortableInPlayMode;
+        [Header("Production ownership")]
+        [Tooltip("Start the configured portable graph when the character becomes active.")]
+        public bool automaticallyStartPortableInPlayMode = true;
+        [Tooltip("Never restore legacy pose writers or an Animator controller on stop/failure. Missing action clips use portable locomotion fallback.")]
+        public bool productionOnly = true;
 
         [Header("Batch 4B: independent character locomotion (recommended)")]
         [Tooltip("Uses a standalone eight-way locomotion graph. No weapon/hero/hit/aim testbed dependencies.")]

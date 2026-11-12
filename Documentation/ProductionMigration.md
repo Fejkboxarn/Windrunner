@@ -1,5 +1,9 @@
 # Windrunner production architecture
 
+## Character tuning and production-only continuation
+
+Current authoring entry: Tools > Windrunner > Character Tuning. Existing module profiles, isolated drafts/live preview, explicit Save, presets and duplication are implemented. Petra now starts the portable graph automatically with no legacy controller fallback. Ten legacy/overlay components were retired after production-only tests; retained compatibility source/tooling and removal conditions are listed in LegacyRetirement.md. The earlier automatic-takeover-off instructions below are historical, not the current configuration. See ProductionOnlyAcceptance.md for the new manual gate.
+
 ## Current integrated candidate status
 
 The latest implementation supersedes historical open-item descriptions below: portable action phases and compatible placeholders are integrated, remaining owner-scoped presentation camera paths are fixed, and representative traversal/lifecycle profiling executed twice. See AnimationWorkflow.md, ArchitectureReview.md and ReleaseCandidate.md for the current completion boundary. Automatic portable takeover and legacy retirement still require manual visual acceptance. Optional vendor template warnings and missing authored clips are noncritical debt, not missing core architecture.

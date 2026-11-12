@@ -55,10 +55,6 @@ MonoBehaviour:
     propertyPath: settings
     profile: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
   - ownerPath: 
-    componentType: AirflowPrototype.PlayerCustomAnimationDriver, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    propertyPath: profile
-    profile: {fileID: 11400000, guid: 523810686dd05eb44a4a96ebd192fa2d, type: 2}
-  - ownerPath: 
     componentType: AirflowPrototype.AirTargetChargeUI, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     propertyPath: settings
     profile: {fileID: 11400000, guid: 481d81f40e9429e4f8fefaf7b2006548, type: 2}
@@ -86,14 +82,6 @@ MonoBehaviour:
     componentType: AirflowPrototype.AirSlingTargetChargeUI, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     propertyPath: settings
     profile: {fileID: 11400000, guid: bbe81f4a011f64b43bc6a767ceb34901, type: 2}
-  - ownerPath: 
-    componentType: AirflowPrototype.PlayerRunningArmPoseController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    propertyPath: activePose
-    profile: {fileID: 11400000, guid: a5342348f257cea42abac8fb06fe0574, type: 2}
-  - ownerPath: 
-    componentType: AirflowPrototype.PlayerProceduralKnifeFlick, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    propertyPath: preset
-    profile: {fileID: 11400000, guid: 5eebcd02585d5314aa2bd223856b8e9b, type: 2}
   - ownerPath: 
     componentType: AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     propertyPath: profile
@@ -126,10 +114,6 @@ MonoBehaviour:
     componentType: AirflowPrototype.AirPerfectTimingFeedback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     propertyPath: settings
     profile: {fileID: 11400000, guid: 481d81f40e9429e4f8fefaf7b2006548, type: 2}
-  - ownerPath: LegacyPresentation
-    componentType: AirflowPrototype.AirChargeVisual, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    propertyPath: settings
-    profile: {fileID: 11400000, guid: cfa8a3a804382a943b0139ef2b75cb03, type: 2}
   - ownerPath: '@camera/'
     componentType: AirflowPrototype.PlayerOrbitCamera, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     propertyPath: settings

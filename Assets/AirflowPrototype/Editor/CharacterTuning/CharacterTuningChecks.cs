@@ -42,12 +42,36 @@ namespace AirflowPrototype.Editor
                     foreach(var pair in bytes)if(!pair.Value.SequenceEqual(File.ReadAllBytes(AssetDatabase.GetAssetPath(pair.Key))))throw new Exception("No-op save rewrote asset "+pair.Key.name);
                     Debug.Log("[Character Tuning] "+session.Entries.Count+" profile clones and "+session.Bindings.Count+" bindings preserve authored data; draft/revert/range/preset/no-op-save checks passed.");
                 }
+                VerifyExplicitSaveAndUndo(motor.Settings);
             }
             finally
             {
                 if(setup.Any(s=>s.isLoaded && s.isActive)) EditorSceneManager.RestoreSceneManagerSetup(setup);
                 else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             }
+        }
+        private static void VerifyExplicitSaveAndUndo(AirflowMovementSettings source)
+        {
+            string path=AssetDatabase.GenerateUniqueAssetPath("Assets/AirflowPrototype/Generated/TuningSaveTest.asset");
+            var temporary=UnityEngine.Object.Instantiate(source);temporary.name="TuningSaveTest";
+            var owner=new GameObject("Temporary tuning test owner");owner.SetActive(false);
+            try
+            {
+                AssetDatabase.CreateAsset(temporary,path);
+                var motor=owner.AddComponent<PlayerMotor>();
+                using(var so=new SerializedObject(motor)){so.FindProperty("settings").objectReferenceValue=temporary;so.ApplyModifiedPropertiesWithoutUndo();}
+                float initial=temporary.maxGroundSpeed;
+                using(var session=new CharacterTuningSession(owner))
+                {
+                    var draft=(AirflowMovementSettings)session.Entries.Single().Draft;draft.maxGroundSpeed=initial+2;
+                    if(temporary.maxGroundSpeed!=initial)throw new Exception("Draft leaked before Save.");
+                    session.Save();
+                    if(temporary.maxGroundSpeed!=initial+2 || EditorUtility.IsDirty(temporary))throw new Exception("Explicit save failed to persist.");
+                    Undo.FlushUndoRecordObjects();Undo.PerformUndo();
+                    if(temporary.maxGroundSpeed!=initial)throw new Exception("Saved value was not undoable.");
+                }
+            }
+            finally {Undo.ClearUndo(temporary);UnityEngine.Object.DestroyImmediate(owner);AssetDatabase.DeleteAsset(path);}
         }
         public static void CapturePetra()
         {

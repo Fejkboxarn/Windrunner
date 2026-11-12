@@ -18,7 +18,7 @@ namespace AirflowPrototype.Editor
         private static readonly string[] Categories={"All","Movement","Jumping","Aerial","Air Dash","Air Sling","Air Cast","Camera","Animation","Resources","Feedback","Water","Other"};
         [MenuItem("Tools/Windrunner/Character Tuning")]
         public static void Open() => GetWindow<CharacterTuningStudio>("Character Tuning");
-        private void OnEnable() { EditorApplication.playModeStateChanged+=ModeChanged; Undo.undoRedoPerformed+=Repaint; }
+        private void OnEnable() { minSize=new Vector2(960,640);EditorApplication.playModeStateChanged+=ModeChanged; Undo.undoRedoPerformed+=Repaint; }
         private void OnDisable() { EditorApplication.playModeStateChanged-=ModeChanged; Undo.undoRedoPerformed-=Repaint; session?.Dispose();session=null; }
         private void ModeChanged(PlayModeStateChange state)
         {
@@ -44,6 +44,7 @@ namespace AirflowPrototype.Editor
             using(new EditorGUILayout.HorizontalScope())
             {
                 if(GUILayout.Button("Validate")) {var issues=session.Validate();message=issues.Count==0?"Profile ranges and cross-field checks passed. Missing action clips use production fallback; visual parity still requires testing.":string.Join("\n",issues);}
+                if(GUILayout.Button("Production-only audit")){var issues=CharacterProductionDiagnostics.Validate(character);message=issues.Count==0?"Production composition valid"+(Application.isPlaying?"; portable owner active.":"; enter Play to check active ownership."):string.Join("\n",issues);}
                 if(GUILayout.Button("Revert drafts"))Do(session.Revert);
                 if(GUILayout.Button("Save changes to assets"))Do(session.Save);
                 if(GUILayout.Button("Capture preset"))Do(Capture);
@@ -60,6 +61,7 @@ namespace AirflowPrototype.Editor
             category=Categories[EditorGUILayout.Popup("Category",Array.IndexOf(Categories,category),Categories)];
             if(!string.IsNullOrEmpty(message))EditorGUILayout.LabelField(message,EditorStyles.wordWrappedLabel);
             scroll=EditorGUILayout.BeginScrollView(scroll);
+            bool edited=false;
             foreach(var entry in session.Entries)
             {
                 using(var serialized=new SerializedObject(entry.Draft))
@@ -86,10 +88,15 @@ namespace AirflowPrototype.Editor
                         EditorGUILayout.PropertyField(property,new GUIContent(property.displayName+" ["+group+"]",tooltip),true);
                         if(changed)EditorGUILayout.LabelField("Loaded baseline: "+Value(original),EditorStyles.miniLabel);
                     }
-                    serialized.ApplyModifiedProperties();
+                    edited|=serialized.ApplyModifiedProperties();
                 }
             }
             EditorGUILayout.EndScrollView();
+            if(edited && session.Previewing)
+            {
+                var issues=session.Validate();
+                if(issues.Count>0){session.Preview(false);message="Live preview stopped: "+string.Join("\n",issues);}
+            }
         }
         internal static string Group(string type,string section)
         {

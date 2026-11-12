@@ -87,9 +87,27 @@ namespace AirflowPrototype.Editor
                 }
                 if(entry.Draft is AirflowMovementSettings movement && movement.minCameraPitch>=movement.maxCameraPitch) errors.Add("Camera minimum pitch must be below maximum pitch.");
                 if(entry.Draft is AirSlingSettings sling && sling.perfectTime>sling.fullTimingTime) errors.Add("Sling perfect time exceeds full timing time.");
+                if(entry.Draft is Windrunner.Production.Animation.WindrunnerAnimationProfile animation &&
+                    !animation.ValidateForLiveGraph(out string reason)) errors.Add(entry.Source.name+": "+reason);
+                bool standaloneGround=Entries.Any(e=>e.Draft is Windrunner.Production.Animation.WindrunnerAnimationProfile p &&
+                    p.useStandaloneCharacterGraph && p.standaloneGroundProfile==entry.Source);
+                var validate=type.GetMethod(standaloneGround?"AssertStandaloneValid":"AssertValid",Type.EmptyTypes);
+                if(validate!=null)try{validate.Invoke(entry.Draft,null);}catch(Exception ex){errors.Add(entry.Source.name+": "+(ex.InnerException??ex).Message);}
             }
             if(Entries.Count==0) errors.Add("No supported character module profiles found. Select the player root.");
             if(Character.GetComponent<PlayerMotor>() is PlayerMotor motor && motor.Settings==null) errors.Add("PlayerMotor has no movement profile.");
+            var motorBinding=Bindings.Find(b=>b.Owner is PlayerMotor && b.Path=="settings");
+            if(motorBinding!=null)
+                foreach(var b in Bindings.Where(b=>b.Path=="settings" && b.Entry.Source is AirflowMovementSettings))
+                    if(b.Entry.Source!=motorBinding.Entry.Source)errors.Add("Conflicting movement/resource/camera profile on "+b.Owner.GetType().Name+"; expected the motor's shared character module.");
+            foreach(var component in Character.GetComponents<MonoBehaviour>())
+            {
+                if(component==null)continue;
+                string name=component.GetType().Name;
+                if(new[]{"PlayerMotor","AirDash","AirCaster","AirSlingController","AirPower","AirTargeter","AirSlingTargeter"}.Contains(name))
+                    using(var so=new SerializedObject(component))
+                    {var p=so.FindProperty("settings");if(p!=null && p.objectReferenceValue==null)errors.Add(name+" has no settings profile.");}
+            }
             return errors;
         }
         public void Preview(bool enable)

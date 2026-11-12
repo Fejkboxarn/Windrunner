@@ -1,5 +1,7 @@
 # Character animation profiles and replacement workflow
 
+Current production configuration: Petra automatically starts the portable graph; productionOnly prevents hidden legacy restoration. Use Character Tuning Studio for profile edits and Production-only audit for ownership checks. Legacy pose components and the controller were retired from the scene after automated validation. The manual takeover/legacy comparison steps below describe the earlier RC3 baseline and should not be used to reintroduce legacy writers into the production scene. See ProductionOnlyAcceptance.md.
+
 The permanent configuration is the existing WindrunnerAnimationProfile, GroundMotionProfile and PortableCharacterActionProfile chain. There is no second animation framework. Gameplay owns movement and ability timing; animation samples movement and semantic events and never supplies gameplay rewards or root displacement.
 
 ## Select or override a character

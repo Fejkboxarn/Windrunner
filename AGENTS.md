@@ -8,3 +8,6 @@
 - Before Unity commands check for any running Unity Editor; never open this project concurrently. Use the matching Editor recorded in ProjectSettings.
 - Run relevant EditMode/PlayMode tests, inspect logs and serialized diffs, then record exact results and a local checkpoint. Never claim unexecuted checks passed.
 - Do not push, merge, rewrite history or delete irreplaceable assets. Keep outstanding manual gameplay checks explicit.
+
+- Character authoring: use Tools > Windrunner > Character Tuning and existing module profiles; drafts/live preview must never implicitly persist asset edits. See Documentation/CharacterTuningStudio.md.
+- The current production character uses automatic portable animation with productionOnly enabled. Never reactivate hidden legacy pose writers to cover missing clips. Audit retirement callers/GUIDs and execute parity tests before deleting retained compatibility source.

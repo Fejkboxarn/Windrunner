@@ -111,7 +111,7 @@ namespace AirflowPrototype.Editor
             profile.useStandaloneCharacterGraph = true;
             profile.standaloneGroundProfile = ground;
             profile.standaloneActionProfile = actions;
-            profile.automaticallyStartPortableInPlayMode = false;
+            if (!profile.productionOnly) profile.automaticallyStartPortableInPlayMode = false;
             EditorUtility.SetDirty(ground);
             EditorUtility.SetDirty(actions);
             EditorUtility.SetDirty(profile);

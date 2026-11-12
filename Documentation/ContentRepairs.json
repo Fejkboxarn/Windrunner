@@ -28,14 +28,20 @@
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset",
       "baseline_sha256": "d8d5418908d6f3d388e93add4b3cf71cc600bda03a55bf835ff7f5f5b3ef0f47",
-      "approved_sha256": "6d57c2a00fae34537b9dc610d99985580634b800e5f2201cdd755587a29d917e",
-      "reason": "User-authorized placeholder action integration. Reuses audited Humanoid flip/Sling clips, reserves missing Cast/Dash/start slots, preserves GUID and automatic-start setting."
+      "approved_sha256": "128d1fcb185797612042b0c925df6e61564e83b42e59b606532db80320a59a33",
+      "reason": "User-authorized production-only configuration: portable graph auto-start and no legacy fallback; legacy pose writers and redundant production input repair disabled. Existing numerical tuning, GUIDs, references and gameplay order preserved."
     },
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset",
       "baseline_sha256": "94170bfffec3bc97b76f63bbc629ef1cc965dcc9be47a9eab569318f0d84bfdb",
       "approved_sha256": "93d35d69c4269cbdbdd71c1befe08df2f03b4fac6b5d9a62d67e315fcd41a95f",
       "reason": "User-authorized completion of empty start/stop/pivot/fall/landing slots with audited compatible placeholder clips. Existing locomotion assignments and tuning retained."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",
+      "baseline_sha256": "3e0f10a3ca94c45e084fd23e9a90f8e487215a4598fcefc3e44b4273acf3608d",
+      "approved_sha256": "e67a13166c4fb8df05c0a9ca0955ddc8722dd6de3425a0f2e70cde1d34b98db3",
+      "reason": "User-authorized production-only configuration: portable graph auto-start and no legacy fallback; legacy pose writers and redundant production input repair disabled. Existing numerical tuning, GUIDs, references and gameplay order preserved. Detach only the player legacy Animator controller override; retain Avatar and node Animator controllers. After 22/22 production-only Play tests, retire ten disabled legacy/overlay components and clear their incoming references; no GameObjects, transforms, rig assets or gameplay values removed."
     }
   ]
 }

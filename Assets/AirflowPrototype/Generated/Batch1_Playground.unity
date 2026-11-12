@@ -40924,17 +40924,11 @@ GameObject:
   - component: {fileID: 863015104}
   - component: {fileID: 863015106}
   - component: {fileID: 863015107}
-  - component: {fileID: 863015110}
   - component: {fileID: 863015112}
   - component: {fileID: 863015114}
-  - component: {fileID: 863015115}
   - component: {fileID: 863015118}
   - component: {fileID: 863015117}
   - component: {fileID: 863015119}
-  - component: {fileID: 863015121}
-  - component: {fileID: 863015120}
-  - component: {fileID: 863015123}
-  - component: {fileID: 863015125}
   - component: {fileID: 863015126}
   - component: {fileID: 863015127}
   m_Layer: 2
@@ -41059,7 +41053,7 @@ MonoBehaviour:
   animationSettings: {fileID: 11400000, guid: 33f4bdc57e1faf346b9f177da394634f, type: 2}
   hitSystem: {fileID: 863015106}
   flipPivot: {fileID: 1956204492}
-  customAnimationDriver: {fileID: 863015110}
+  customAnimationDriver: {fileID: 0}
   humanoidAnimatorDriver: {fileID: 0}
   disableAllLegacyProceduralAnimation: 1
   disableIdleBreathing: 1
@@ -41165,22 +41159,6 @@ MonoBehaviour:
   castOrigin: {fileID: 1680258144}
   targetCamera: {fileID: 1438593768}
   settings: {fileID: 11400000, guid: 5418a89b0d0061c46af6b33f6087d82c, type: 2}
---- !u!114 &863015110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3376a04f35144546baf3c6eae82ffe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerCustomAnimationDriver
-  motor: {fileID: 863015091}
-  movementVisuals: {fileID: 863015096}
-  animator: {fileID: 96526860}
-  profile: {fileID: 11400000, guid: 523810686dd05eb44a4a96ebd192fa2d, type: 2}
 --- !u!114 &863015112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41212,21 +41190,6 @@ MonoBehaviour:
   input: {fileID: 0}
   controller: {fileID: 863015094}
   settings: {fileID: 11400000, guid: 39cb7a8d5b0b4e84baef92cef2e1702f, type: 2}
---- !u!114 &863015115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8070eed46e58e1542aeaec084ea06c5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerInputStartupRepair
-  inputReader: {fileID: 863015093}
-  verifyNextFrame: 1
-  logRepairs: 0
 --- !u!114 &863015117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41281,145 +41244,6 @@ MonoBehaviour:
   slingController: {fileID: 863015117}
   targetCamera: {fileID: 1438593768}
   settings: {fileID: 11400000, guid: bbe81f4a011f64b43bc6a767ceb34901, type: 2}
---- !u!114 &863015120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7563df32cf49d7c49b24e4d1c29b0a29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerDualThrowPose
-  caster: {fileID: 863015104}
-  animator: {fileID: 1472093725}
-  leftThrowOrigin: {fileID: 1938172988}
-  rightThrowOrigin: {fileID: 494107027}
-  chargeAimWeight: 0.36
-  maximumChestYaw: 16
-  maximumArmAimDegrees: 58
-  chargeArmSpreadDegrees: 18
-  chargeElbowLiftDegrees: 12
-  chargePoseResponse: 15
-  leftHandDelay: 0.055
-  throwPulseDuration: 0.17
-  forearmSnapDegrees: 16
-  wristSnapDegrees: 12
-  recoveryResponse: 18
-  spawnDualThrowTracers: 1
-  tracerTravelDuration: 0.11
-  tracerWidth: 0.045
-  tracerColor: {r: 0.8, g: 0.94, b: 1, a: 0.95}
---- !u!114 &863015121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7402831dd701164fbf46f18002b1957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerHumanoidAnimatorDriver
-  motor: {fileID: 863015091}
-  input: {fileID: 0}
-  movementVisuals: {fileID: 863015096}
-  slingController: {fileID: 863015117}
-  animator: {fileID: 1472093725}
-  movementCamera: {fileID: 0}
-  speedFloatParameter: Speed
-  groundedBoolParameter: Grounded
-  verticalSpeedFloatParameter: VerticalSpeed
-  locomotionDirectionFloatParameter: LocomotionDirection
-  hasMoveInputBoolParameter: HasMoveInput
-  runStartTriggerParameter: RunStart
-  runStartDirectionIntParameter: RunStartDirection
-  runStopTriggerParameter: RunStop
-  hardTurnTriggerParameter: HardTurn
-  hardTurnDirectionIntParameter: HardTurnDirection
-  jumpTriggerParameter: Jump
-  doubleJumpTriggerParameter: DoubleJump
-  doubleJumpVariantIntParameter: DoubleJumpVariant
-  doubleJumpMirrorBoolParameter: DoubleJumpMirror
-  landTriggerParameter: Land
-  landVariantIntParameter: LandVariant
-  speedForFullRun: 8.5
-  maximumNormalizedSpeed: 1.35
-  moveInputDeadzone: 0.12
-  startMaximumSpeed: 3
-  stopMinimumSpeed: 2.2
-  hardTurnAngle: 112
-  hardTurnMinimumSpeed: 4
-  hardTurnCooldown: 0.45
-  forwardStartHalfAngle: 32
-  backwardStartAngle: 112
-  turnLeanBlendExtension: 0.157
-  turnRateForFullLean: 240
-  locomotionDirectionResponse: 8
-  enableAuthoredHardTurns: 0
-  alignFacingBeforeDirectionalBlend: 1
-  maximumFacingErrorForAuthoredStart: 38
-  startFacingAlignmentReleaseAngle: 20
-  startFacingAlignmentMaxDuration: 0.32
-  runningLandingSpeedThreshold: 3.25
-  doubleJumpVariantCount: 1
-  doubleJumpMirrorChancePercent: 0
-  slingStartTriggerParameter: SlingStart
-  slingAirBoolParameter: SlingAir
-  slingImpactTriggerParameter: SlingImpact
-  manageSlingLayerWeight: 1
-  slingLayerName: Sling
-  slingLayerBlendInResponse: 22
-  slingLayerBlendOutResponse: 12
-  slingImpactLayerFailSafeDuration: 1.5
---- !u!114 &863015123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5eabb050772c3504da83365497421b34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerRunningArmPoseController
-  motor: {fileID: 863015091}
-  slingController: {fileID: 863015117}
-  knifeFlick: {fileID: 0}
-  animator: {fileID: 1472093725}
-  activePose: {fileID: 11400000, guid: a5342348f257cea42abac8fb06fe0574, type: 2}
-  debugAlwaysShowPose: 0
-  poseWeight: 1
-  minimumRunSpeed: 2.5
-  fullPoseSpeed: 6
-  blendResponse: 12
-  groundedOnly: 1
---- !u!114 &863015125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863015090}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53846960a0bc61243be92b401d8c41d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerProceduralKnifeFlick
-  caster: {fileID: 863015104}
-  animator: {fileID: 1472093725}
-  preset: {fileID: 11400000, guid: 5eebcd02585d5314aa2bd223856b8e9b, type: 2}
-  knifeVisualPrefab: {fileID: 0}
-  leftKnifeSocket: {fileID: 1770872975}
-  rightKnifeSocket: {fileID: 1282798519}
-  debugPreviewPose: 0
-  debugPreviewPhase: 2
-  debugPreviewRightHand: 1
-  debugPreviewWeight: 1
 --- !u!114 &863015126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41455,12 +41279,12 @@ MonoBehaviour:
   humanoidAnimator: {fileID: 1472093725}
   referenceCamera: {fileID: 1438593768}
   optionalWorldLookTarget: {fileID: 0}
-  legacyHumanoid: {fileID: 863015121}
-  legacyCustom: {fileID: 863015110}
-  legacyArms: {fileID: 863015123}
-  legacyKnife: {fileID: 863015125}
-  legacyThrow: {fileID: 863015120}
-  legacyFootIK: {fileID: 1472093726}
+  legacyHumanoid: {fileID: 0}
+  legacyCustom: {fileID: 0}
+  legacyArms: {fileID: 0}
+  legacyKnife: {fileID: 0}
+  legacyThrow: {fileID: 0}
+  legacyFootIK: {fileID: 0}
 --- !u!1 &867562219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
@@ -48127,8 +47951,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
       propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 245a55b81fb7d7b4a831b9e92679df31, type: 2}
+      value:
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -48208,10 +48032,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 420163615243828820, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1196023305}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1472093726}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
 --- !u!4 &1472093722 stripped
 Transform:
@@ -48233,35 +48054,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
   m_PrefabInstance: {fileID: 1472093721}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1472093726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867562219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e65d464d9a769e478ce769c0c02c158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.PlayerGroundedFootIK
-  animator: {fileID: 1472093725}
-  motor: {fileID: 863015091}
-  slingController: {fileID: 863015117}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  raycastStartHeight: 0.62
-  raycastDistance: 1.16
-  maximumGroundAngle: 60
-  soleOffset: 0.14
-  fullContactHeight: 0.07
-  releaseHeight: 0.28
-  weightResponse: 18
-  adjustPelvis: 1
-  maximumPelvisDrop: 0.25
-  pelvisResponse: 14
-  drawDebugRays: 0
 --- !u!4 &1475927551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3412766248009319397, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
@@ -54898,9 +54690,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1822526090}
-  - component: {fileID: 1822526093}
-  - component: {fileID: 1822526092}
-  - component: {fileID: 1822526091}
   m_Layer: 2
   m_Name: LegacyPresentation
   m_TagString: Untagged
@@ -54926,51 +54715,6 @@ Transform:
   - {fileID: 967402448}
   m_Father: {fileID: 863015092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1822526091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822526089}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99595119f0f4ae4f8a8ccf6d1a262f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirChargeVisual
-  caster: {fileID: 863015104}
-  castOrigin: {fileID: 1680258144}
-  settings: {fileID: 11400000, guid: cfa8a3a804382a943b0139ef2b75cb03, type: 2}
---- !u!114 &1822526092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822526089}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cef2dd7ea62eb4d418ece98fb929fcc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirCastFeedback
-  caster: {fileID: 863015104}
-  targetCamera: {fileID: 1438593768}
---- !u!114 &1822526093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822526089}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b08802405f947c45961ca598c95ad79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirflowPrototype.AirTargetIndicator
-  targeter: {fileID: 863015101}
-  targetCamera: {fileID: 1438593768}
-  size: 28
-  thickness: 2
 --- !u!4 &1825823558 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -261339428294530322, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}

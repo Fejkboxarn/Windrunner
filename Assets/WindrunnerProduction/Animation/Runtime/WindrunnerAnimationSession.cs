@@ -165,7 +165,7 @@ namespace Windrunner.Production.Animation
                     LastError = ex.ToString();
                     StopPortable();
                     Debug.LogError("[Windrunner Animation] Montage request failed; " +
-                                   "legacy Animator restored. " + LastError);
+                                   (profile.productionOnly ? "production graph stopped without legacy fallback. " : "legacy Animator restored. ") + LastError);
                 }
                 return; // At most one route per semantic event.
             }
@@ -289,7 +289,7 @@ namespace Windrunner.Production.Animation
                 LastError = ex.ToString();
                 StopPortable();
                 Debug.LogError("[Windrunner Animation] Portable graph failed; " +
-                               "legacy Animator restored. " + LastError);
+                               (profile.productionOnly ? "production graph stopped without legacy fallback. " : "legacy Animator restored. ") + LastError);
             }
         }
 
@@ -315,7 +315,7 @@ namespace Windrunner.Production.Animation
                 catch (Exception ex) { Debug.LogException(ex); }
                 graph = null;
             }
-            if (ownsAnimator && animator != null)
+            if (ownsAnimator && animator != null && (profile == null || !profile.productionOnly))
             {
                 animator.runtimeAnimatorController = legacyController;
                 animator.fireEvents = legacyFireEvents;
@@ -326,7 +326,7 @@ namespace Windrunner.Production.Animation
                 Owners.Remove(animator);
             for (int i = suspended.Count - 1; i >= 0; i--)
                 if (suspended[i].Component != null)
-                    suspended[i].Component.enabled = suspended[i].WasEnabled;
+                    suspended[i].Component.enabled = profile != null && profile.productionOnly ? false : suspended[i].WasEnabled;
             suspended.Clear();
         }
 

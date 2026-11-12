@@ -47,6 +47,18 @@ namespace AirflowPrototype
         public WindrunnerAnimationProfile Profile => profile;
         public Animator HumanoidAnimator => humanoidAnimator;
         public bool PortableActive => session != null && session.PortableActive;
+        public bool ProductionOnlyReady
+        {
+            get
+            {
+                if(profile == null || !profile.productionOnly || !PortableActive || humanoidAnimator == null ||
+                   humanoidAnimator.runtimeAnimatorController != null || humanoidAnimator.applyRootMotion) return false;
+                foreach(var writer in new Behaviour[] {legacyHumanoid,legacyCustom,legacyArms,legacyKnife,legacyThrow,legacyFootIK})
+                    if(writer != null && writer.enabled) return false;
+                var visuals=motor != null ? motor.GetComponent<PlayerMovementVisuals>() : null;
+                return visuals == null || !visuals.LegacyProceduralAnimationEnabled;
+            }
+        }
         public string LastError => session != null ? session.LastError : "Not initialized";
 
         public void Configure(WindrunnerAnimationProfile newProfile, PlayerMotor newMotor,
@@ -71,8 +83,8 @@ namespace AirflowPrototype
         {
             if (profile == null || motor == null || humanoidAnimator == null)
             {
-                Debug.LogWarning("[Windrunner Animation] Incomplete observation bridge setup. " +
-                                 "Run the Batch 4 installer in Edit Mode.", this);
+                Debug.LogWarning("[Windrunner Animation] Missing character profile, motor or Humanoid Animator reference. " +
+                                 "Validate the production character composition in Character Tuning.", this);
                 return;
             }
             CreateSession();
@@ -91,6 +103,7 @@ namespace AirflowPrototype
                 return;
             CreateSession();
             TryBindFeedback();
+            if (profile.automaticallyStartPortableInPlayMode) TryStartPortable();
         }
 
         private void CreateSession()
@@ -153,7 +166,9 @@ namespace AirflowPrototype
         {
             if (session == null) return;
             session.StopPortable();
-            Debug.Log("[Windrunner Animation] Legacy Animator and pose scripts restored.", this);
+            Debug.Log(profile != null && profile.productionOnly ?
+                "[Windrunner Animation] Portable graph stopped; production-only mode keeps legacy writers inactive." :
+                "[Windrunner Animation] Legacy Animator and pose scripts restored.", this);
         }
 
         private void LateUpdate()

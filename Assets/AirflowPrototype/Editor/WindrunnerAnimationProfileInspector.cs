@@ -27,7 +27,7 @@ namespace AirflowPrototype.Editor
     {
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.HelpBox("Assign this character profile on AirflowPortableAnimationBridge. Duplicate the profile and its clip profiles for a different character. Graph takeover remains opt-in until visual acceptance.", MessageType.Info);
+            EditorGUILayout.HelpBox("Assign this profile on AirflowPortableAnimationBridge, or use Character Tuning Studio. Production characters start the portable owner automatically and never restore hidden legacy writers. Duplicate module profiles for independent character tuning; validate placeholder poses in gameplay.", MessageType.Info);
             DrawDefaultInspector();
             var profile = (WindrunnerAnimationProfile)target;
             if (GUILayout.Button("Inspect locomotion clips and transitions")) Selection.activeObject = profile.standaloneGroundProfile;

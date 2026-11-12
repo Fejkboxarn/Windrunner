@@ -182,6 +182,8 @@ namespace Windrunner.Production.Tests
             var animationType = Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp", true);
             var animation = (Behaviour)UnityEngine.Object.FindAnyObjectByType(animationType);
             Assert.That(animation, Is.Not.Null);
+            Assert.That((bool)animationType.GetProperty("ProductionOnlyReady").GetValue(animation), Is.True,
+                "Installed character must start with portable ownership and no legacy pose fallback.");
             var animator = (Animator)animationType.GetProperty("HumanoidAnimator").GetValue(animation);
             var originalController = animator.runtimeAnimatorController;
             bool originalEvents = animator.fireEvents;
@@ -249,8 +251,8 @@ namespace Windrunner.Production.Tests
             for (int i = 0; i < writers.Count; i++) Assert.That(writers[i].enabled, Is.EqualTo(enabledStates[i]));
             animation.enabled = true;
             yield return null;
-            Assert.That((bool)animationType.GetProperty("PortableActive").GetValue(animation), Is.False,
-                "Re-enable must return to the configured observation mode.");
+            Assert.That((bool)animationType.GetProperty("ProductionOnlyReady").GetValue(animation), Is.True,
+                "Re-enable must restart the configured production owner without legacy fallback.");
 #if UNITY_EDITOR
             Assert.That(authored.GetFloat("_Fill_Amount"), Is.EqualTo(originalFill), "Runtime UI must not mutate the authored fill material.");
             Assert.That(authored.GetFloat("_Main_Bar_Fill_Amount"), Is.EqualTo(originalMain));

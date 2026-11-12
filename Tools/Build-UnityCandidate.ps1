@@ -1,7 +1,7 @@
 param([ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'candidate')
 $ErrorActionPreference = 'Stop'
 $project = Split-Path $PSScriptRoot -Parent
-if (Get-Process Unity -ErrorAction SilentlyContinue) { throw 'Close the running Unity Editor before building.' }
+if (Get-Process Unity -ErrorAction SilentlyContinue | Where-Object { !$_.Path -or $_.Path -notmatch '[\\/]Unity Hub[\\/]resources[\\/]unity.exe$' }) { throw 'Close the running Unity Editor before building.' }
 $version = ((Get-Content (Join-Path $project 'ProjectSettings/ProjectVersion.txt') | Select-String '^m_EditorVersion:').Line -split ': ')[1]
 $editor = "C:\Program Files\Unity\Hub\Editor\$version\Editor\Unity.exe"
 $log = Join-Path $project "Logs/ProductionMigration/$Label-build.log"

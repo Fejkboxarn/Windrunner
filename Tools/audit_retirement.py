@@ -1,5 +1,5 @@
 """Conservative retirement inventory. References are evidence, not proof of runtime use."""
-import json,re
+import json,re,subprocess
 from pathlib import Path
 root=Path(__file__).resolve().parent.parent
 assets=root/'Assets'
@@ -22,10 +22,22 @@ for p in scripts:
  refs=serialized.get(m[1],[]) if m else []
  callers=[c for c in tokens.get(p.stem,[]) if c!=name]
  editor='/Editor/' in name; tests='/Tests/' in name
- legacy=any(x in p.stem for x in ('HumanoidAnimatorDriver','CustomAnimationDriver','RunningArmPose','ProceduralKnife','DualThrowPose','GroundedFootIK','InputStartupRepair','Batch','Migration'))
- status='required' if tests or (not editor and not legacy and (refs or callers)) else 'replaceable' if legacy else 'uncertain'
+ legacy=any(x in p.stem for x in ('HumanoidAnimatorDriver','CustomAnimationDriver','RunningArmPose','ProceduralKnife','DualThrowPose','GroundedFootIK','InputStartupRepair','AirCastFeedback','AirTargetIndicator','AirChargeVisual','Batch','Migration'))
+ authoring=p.stem.startswith('CharacterTuning') or p.stem in ('CharacterProductionDiagnostics','CharacterCompositionAudit','WindrunnerCandidateBuild')
+ status='required' if tests or authoring or (not editor and not legacy and (refs or callers)) else 'replaceable' if legacy else 'uncertain'
  reason='Current runtime/test dependency; preserve until replacement contract is tested.' if status=='required' else 'Legacy compatibility or installation path; audit live ownership and callers before retirement.' if status=='replaceable' else 'No automatic obsolete verdict: inspect reflection, animation events and authoring workflow before removal.'
  owned.append(dict(path=name,classification=status,serialized_references=refs,source_mentions=callers,retirement_condition=reason))
-report=dict(scanned_text_assets=total,owned_scripts=owned,external_script_packages_retained=external,removed=[],notes='Initial audit: no deletions. Source mentions include comments/tooling; unknown dynamic reflection callers remain a removal risk.')
+data=[]
+for folder in ('AirflowPrototype','WindrunnerProduction','PortableAnimation'):
+ for p in (assets/folder).rglob('*'):
+  if p.suffix not in ('.unity','.prefab','.asset','.controller','.overrideController','.anim','.mat','.inputactions'):continue
+  meta=Path(str(p)+'.meta');m=re.search(r'guid: (\w+)',meta.read_text()) if meta.exists() else None
+  refs=serialized.get(m[1],[]) if m else []
+  mentions=tokens.get(p.stem,[])
+  data.append(dict(path=p.relative_to(root).as_posix(),classification='required' if refs or mentions or p.suffix=='.unity' else 'uncertain',serialized_references=refs,source_name_mentions=mentions,retirement_condition='Retain referenced authoring/runtime assets. Zero static references is not proof of obsolescence: verify dynamic loads and installer-generated paths before deletion.'))
+removed=subprocess.check_output(['git','diff','--name-only','--diff-filter=D','9a604f4','--','Assets'],cwd=root,text=True).splitlines()
+retired=root/'Documentation/RetiredProductionComponents.json'
+report=dict(scanned_text_assets=total,owned_scripts=owned,owned_data_assets=data,external_script_packages_retained=external,removed_files=removed,retired_scene_components=json.loads(retired.read_text()) if retired.exists() else [],notes='Initial audit performed before deletion. Current inventory includes reviewed retirements. Source mentions include comments/tooling; unknown dynamic reflection/resource callers remain a removal risk. Third-party assets are retained, not declared obsolete.')
+report['removed_classification']=[dict(path=p,classification='obsolete',reason='Completed one-off placeholder installer, no current source callers or serialized GUID users; content remains editable through the Studio.') for p in removed]
 (root/'Documentation/LegacyRetirementInventory.json').write_text(json.dumps(report,indent=2)+'\n')
 print(f'{len(owned)} owned scripts inventoried; {sum(external.values())} external scripts retained; {total} text assets searched.')
