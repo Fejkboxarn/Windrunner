@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -9,6 +10,61 @@ namespace Windrunner.Production.Tests
 {
     public sealed class ContentIntegrityTests
     {
+        [Test]
+        public void GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences()
+        {
+            var setup = EditorSceneManager.GetSceneManagerSetup();
+            try
+            {
+                EditorSceneManager.OpenScene("Assets/AirflowPrototype/Generated/Batch1_Playground.unity", OpenSceneMode.Single);
+                var components = new Dictionary<string, Component>();
+                foreach (var name in new[] { "PlayerMotor", "PlayerInputReader", "AirPower", "AirDash", "AirCaster", "AirTargeter", "AirSlingTargeter", "AirSlingController", "AirFlowHitSystem", "PlayerWaterSwim", "AirflowPortableAnimationBridge" })
+                {
+                    var type = Type.GetType("AirflowPrototype." + name + ", Assembly-CSharp", true);
+                    var found = UnityEngine.Object.FindObjectsByType(type, FindObjectsInactive.Include, FindObjectsSortMode.None);
+                    Assert.That(found.Length, Is.EqualTo(1), name + " must have one owner in the gameplay scene.");
+                    components.Add(name, (Component)found[0]);
+                }
+                var motor = components["PlayerMotor"];
+                var controller = motor.GetComponent<CharacterController>();
+                Assert.That(controller, Is.Not.Null);
+                CheckReference(motor, "controller", controller);
+                CheckReference(motor, "input", components["PlayerInputReader"]);
+                foreach (var name in new[] { "AirSlingController", "PlayerWaterSwim" })
+                {
+                    CheckReference(components[name], "controller", controller);
+                    CheckReference(components[name], "motor", motor);
+                }
+                CheckReference(components["AirDash"], "motor", motor);
+                CheckReference(components["AirDash"], "input", components["PlayerInputReader"]);
+                CheckReference(components["AirDash"], "airPower", components["AirPower"]);
+                CheckReference(components["AirSlingController"], "airPower", components["AirPower"]);
+                CheckReference(components["AirSlingController"], "slingTargeter", components["AirSlingTargeter"]);
+                CheckReference(components["AirCaster"], "input", components["PlayerInputReader"]);
+                CheckReference(components["AirCaster"], "targeter", components["AirTargeter"]);
+                CheckReference(components["AirFlowHitSystem"], "motor", motor);
+                CheckReference(components["AirFlowHitSystem"], "caster", components["AirCaster"]);
+                CheckReference(components["AirFlowHitSystem"], "airPower", components["AirPower"]);
+                CheckReference(components["AirflowPortableAnimationBridge"], "motor", motor);
+                CheckReference(components["AirflowPortableAnimationBridge"], "sling", components["AirSlingController"]);
+            }
+            finally
+            {
+                if (setup.Length > 0) EditorSceneManager.RestoreSceneManagerSetup(setup);
+                else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            }
+        }
+
+        private static void CheckReference(Component owner, string field, UnityEngine.Object expected)
+        {
+            using (var serialized = new SerializedObject(owner))
+            {
+                var property = serialized.FindProperty(field);
+                Assert.That(property, Is.Not.Null, owner.GetType().Name + "." + field);
+                Assert.That(property.objectReferenceValue, Is.EqualTo(expected), owner.GetType().Name + "." + field);
+            }
+        }
+
         [Test]
         public void GameplaySceneAndOwnedPrefabsHaveOnlyRecordedBaselineReferenceIssues()
         {

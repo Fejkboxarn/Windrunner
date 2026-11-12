@@ -21,7 +21,22 @@ namespace Windrunner.Production.Feedback
         private readonly bool logObserved;
         private bool disposed;
 
-        public event Action<FeedbackKey, FeedbackRequest> Observed;
+        private Action<FeedbackKey, FeedbackRequest> observed;
+        private Delegate[] observers = Array.Empty<Delegate>();
+        public event Action<FeedbackKey, FeedbackRequest> Observed
+        {
+            add
+            {
+                if (disposed) return;
+                observed += value;
+                observers = observed?.GetInvocationList() ?? Array.Empty<Delegate>();
+            }
+            remove
+            {
+                observed -= value;
+                observers = observed?.GetInvocationList() ?? Array.Empty<Delegate>();
+            }
+        }
         public int ObservedCount { get; private set; }
         public int PlayedCount { get; private set; }
 
@@ -69,8 +84,16 @@ namespace Windrunner.Production.Feedback
             if (disposed || key == FeedbackKey.None) return;
             ObservedCount++;
             if (logObserved) Debug.Log("[Windrunner Feedback] Observed " + key);
-            try { Observed?.Invoke(key, request); }
-            catch (Exception ex) { Debug.LogException(ex); }
+            // Snapshot on subscription changes, not on every gameplay event.
+            // A failing observer cannot suppress animation or other presentation
+            // listeners. Changes during delivery affect the next publication,
+            // matching normal multicast delegate ordering.
+            var delivery = observers;
+            for (int i = 0; i < delivery.Length; i++)
+            {
+                try { ((Action<FeedbackKey, FeedbackRequest>)delivery[i])(key, request); }
+                catch (Exception ex) { Debug.LogException(ex); }
+            }
 
             if (!catalog.TryGetValue(key, out FeedbackEventDefinition def) || def == null ||
                 !def.enableProductionPlayback || !def.legacyEffectsMutedAndTested)
@@ -117,7 +140,8 @@ namespace Windrunner.Production.Feedback
         {
             if (disposed) return;
             disposed = true;
-            Observed = null;
+            observed = null;
+            observers = Array.Empty<Delegate>();
             audio?.Dispose();
             vfx?.Dispose();
             feel?.Dispose();

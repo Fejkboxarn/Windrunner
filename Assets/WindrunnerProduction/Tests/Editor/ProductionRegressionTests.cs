@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -135,6 +136,55 @@ namespace Windrunner.Production.Tests
                 Assert.That(session.ObservedEvents, Is.EqualTo(2));
             }
             finally { session.Dispose(); first.Dispose(); second.Dispose(); }
+        }
+
+        [Test]
+        public void FeedbackSubscriberFailureDoesNotSuppressLaterObservers()
+        {
+            var service = new FeedbackService(null, null, null, null, null, false);
+            var calls = new List<int>();
+            service.Observed += (key, request) => { calls.Add(1); throw new InvalidOperationException("listener failed"); };
+            service.Observed += (key, request) => calls.Add(2);
+            LogAssert.Expect(LogType.Exception, new Regex("InvalidOperationException: listener failed"));
+            try
+            {
+                service.Publish(FeedbackKey.SlingImpact, default);
+                CollectionAssert.AreEqual(new[] { 1, 2 }, calls);
+            }
+            finally { service.Dispose(); }
+        }
+
+        [Test]
+        public void FeedbackSubscriptionChangesApplyToNextPublish()
+        {
+            var service = new FeedbackService(null, null, null, null, null, false);
+            var calls = new List<int>();
+            Action<FeedbackKey, FeedbackRequest> second = (key, request) => calls.Add(2);
+            service.Observed += (key, request) => { calls.Add(1); service.Observed -= second; };
+            service.Observed += second;
+            try
+            {
+                service.Publish(FeedbackKey.SlingImpact, default);
+                service.Publish(FeedbackKey.SlingLaunched, default);
+                CollectionAssert.AreEqual(new[] { 1, 2, 1 }, calls);
+            }
+            finally { service.Dispose(); }
+        }
+
+        [Test]
+        public void DisposedAnimationCannotResubscribeToFeedback()
+        {
+            var service = new FeedbackService(null, null, null, null, null, false);
+            var session = new WindrunnerAnimationSession(null, null, null);
+            try
+            {
+                session.Dispose();
+                session.BindFeedback(service);
+                service.Publish(FeedbackKey.Jump, default);
+                Assert.That(session.ObservedEvents, Is.Zero);
+                Assert.That(session.TryStartPortable(), Is.False);
+            }
+            finally { session.Dispose(); service.Dispose(); }
         }
     }
 }

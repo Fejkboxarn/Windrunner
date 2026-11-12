@@ -109,6 +109,43 @@ namespace Windrunner.Production.Tests
             }
             Assert.That(WindrunnerInputHost.Active, Is.Not.Null);
             Assert.That(WindrunnerInputHost.Active.Input, Is.Not.Null);
+            var animationType = Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp", true);
+            var animation = (Behaviour)UnityEngine.Object.FindAnyObjectByType(animationType);
+            Assert.That(animation, Is.Not.Null);
+            var animator = (Animator)animationType.GetProperty("HumanoidAnimator").GetValue(animation);
+            var originalController = animator.runtimeAnimatorController;
+            bool originalEvents = animator.fireEvents;
+            bool originalRootMotion = animator.applyRootMotion;
+            var writers = new System.Collections.Generic.List<Behaviour>();
+            var enabledStates = new System.Collections.Generic.List<bool>();
+            foreach (var name in new[] { "legacyHumanoid", "legacyCustom", "legacyArms", "legacyKnife", "legacyThrow", "legacyFootIK" })
+            {
+                var writer = (Behaviour)animationType.GetField(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(animation);
+                if (writer == null) continue;
+                writers.Add(writer);
+                enabledStates.Add(writer.enabled);
+            }
+            Assert.That((bool)animationType.GetMethod("TryStartPortable").Invoke(animation, null), Is.True,
+                (string)animationType.GetProperty("LastError").GetValue(animation));
+            for (int i = 0; i < 5; i++) yield return null;
+            Assert.That((bool)animationType.GetProperty("PortableActive").GetValue(animation), Is.True);
+            foreach (var writer in writers) Assert.That(writer.enabled, Is.False, writer.GetType().Name);
+            Assert.That(animator.runtimeAnimatorController, Is.Null);
+            Assert.That(animator.applyRootMotion, Is.False);
+            animationType.GetMethod("StopPortable").Invoke(animation, null);
+            Assert.That(animator.runtimeAnimatorController, Is.SameAs(originalController));
+            Assert.That(animator.fireEvents, Is.EqualTo(originalEvents));
+            Assert.That(animator.applyRootMotion, Is.EqualTo(originalRootMotion));
+            for (int i = 0; i < writers.Count; i++) Assert.That(writers[i].enabled, Is.EqualTo(enabledStates[i]));
+            Assert.That((bool)animationType.GetMethod("TryStartPortable").Invoke(animation, null), Is.True);
+            animation.enabled = false;
+            yield return null;
+            Assert.That(animator.runtimeAnimatorController, Is.SameAs(originalController));
+            for (int i = 0; i < writers.Count; i++) Assert.That(writers[i].enabled, Is.EqualTo(enabledStates[i]));
+            animation.enabled = true;
+            yield return null;
+            Assert.That((bool)animationType.GetProperty("PortableActive").GetValue(animation), Is.False,
+                "Re-enable must return to the configured observation mode.");
 #if UNITY_EDITOR
             Assert.That(authored.GetFloat("_Fill_Amount"), Is.EqualTo(originalFill), "Runtime UI must not mutate the authored fill material.");
             Assert.That(authored.GetFloat("_Main_Bar_Fill_Amount"), Is.EqualTo(originalMain));

@@ -96,6 +96,7 @@ namespace Windrunner.Production.Animation
 
         public void BindFeedback(IFeedbackService source)
         {
+            if (disposed) return;
             if (ReferenceEquals(feedback, source)) return;
             if (feedback != null) feedback.Observed -= OnFeedbackObserved;
             feedback = source;
