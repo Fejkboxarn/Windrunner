@@ -6,6 +6,8 @@ Audited 2026-11-12 at `7bfdfe5e`, branch `production-refactor`, initially clean.
 
 ## Inventory and ownership
 
+Latest continuation: see ArchitectureReview.md and Progress.md. Explicit reader/feedback binding, source-filtered animation, scoped core camera/reward resolution, Sling presentation separation, water/device-loss/target-loss coverage and persistent-service scene reload are implemented. Rendered native-allocation baselines and exact Windows warning classification are available. Historical inventory below remains useful; it does not supersede the latest stage records.
+
 Current implementation includes continuation checkpoints `5f4f6645`, `617cb5e8`, `365d6aaf`, `fc550cfc`, `27fa589d` plus the final input-lifecycle/build checkpoint. Detailed boundaries: MovementAuthority.md, TimeOwnership.md, AbilityComposition.md. Historical failures remain in Progress.md and TestResults.json.
 
 | Area | Installed implementation | Boundary / remaining work |

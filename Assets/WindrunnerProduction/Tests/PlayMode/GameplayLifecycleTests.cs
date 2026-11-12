@@ -98,6 +98,49 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi()
+        {
+            const string path = "Assets/AirflowPrototype/Generated/Batch1_Playground.unity";
+            try
+            {
+                yield return SceneManager.LoadSceneAsync(path);
+                yield return null;
+                var root = Windrunner.Production.Unity.ProjectRoot.Active;
+                var host = WindrunnerInputHost.Active;
+                var service = host.Input;
+                var menuField = typeof(WindrunnerInputHost).GetField("menu", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var menu = (WindrunnerPauseMenuController)menuField.GetValue(host);
+                menu.Pause();
+                Assert.That(host.IsPaused, Is.True);
+                int rowCount = host.PauseView.BindingsContainer.childCount;
+                yield return SceneManager.LoadSceneAsync(path);
+                yield return null; yield return null;
+                Assert.That(Windrunner.Production.Unity.ProjectRoot.Active, Is.SameAs(root));
+                Assert.That(WindrunnerInputHost.Active.Input, Is.SameAs(service));
+                Assert.That(UnityEngine.Object.FindObjectsByType<Windrunner.Production.Unity.ProjectRoot>(FindObjectsInactive.Include).Length, Is.EqualTo(1));
+                Assert.That(UnityEngine.Object.FindObjectsByType<WindrunnerInputHost>(FindObjectsInactive.Include).Length, Is.EqualTo(1));
+                Assert.That(host.UiModule, Is.Not.Null);
+                Assert.That(host.UiModule.gameObject.scene, Is.EqualTo(SceneManager.GetActiveScene()));
+                Assert.That(host.UiModule.enabled, Is.True);
+                Assert.That(host.IsPaused, Is.True);
+                Assert.That(Cursor.lockState, Is.EqualTo(CursorLockMode.None));
+                Assert.That(Cursor.visible, Is.True);
+                Assert.That(host.PauseView.BindingsContainer.childCount, Is.EqualTo(rowCount), "Reload must not duplicate binding rows.");
+                ((WindrunnerPauseMenuController)menuField.GetValue(host)).Resume();
+                Assert.That(service.IsMenuOpen, Is.False);
+                Assert.That(Time.timeScale, Is.EqualTo(1f));
+            }
+            finally
+            {
+                var root = Windrunner.Production.Unity.ProjectRoot.Active;
+                if (root != null) UnityEngine.Object.Destroy(root.gameObject);
+            }
+            yield return null;
+            var empty = SceneManager.CreateScene("Reload cleanup"); SceneManager.SetActiveScene(empty);
+            yield return SceneManager.UnloadSceneAsync("Batch1_Playground");
+        }
+
+        [UnityTest]
         public IEnumerator GameplaySceneStartsAndPlayerRemainsFinite()
         {
 #if UNITY_EDITOR

@@ -108,7 +108,7 @@ namespace AirflowPrototype
                 _hasTargetPosition = true;
             }
 
-            LockCursor();
+            if (input == null || !input.IsGameplaySuspended) LockCursor();
             SnapToDesiredPosition();
         }
 

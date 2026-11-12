@@ -41,7 +41,9 @@ namespace Windrunner.Production.Input
         {
             if (Active != null && Active != this)
             {
-                Debug.LogError("[Windrunner Input] Duplicate input host; duplicate disabled.", this);
+                var root = GetComponent<ProjectRoot>();
+                if (root != null && root.IsDuplicate) Active.RebindSceneUi(uiModule);
+                else Debug.LogError("[Windrunner Input] Duplicate input host; duplicate disabled.", this);
                 enabled = false;
                 return;
             }
@@ -85,6 +87,30 @@ namespace Windrunner.Production.Input
             SetUiAction("ScrollWheel", reference => uiModule.scrollWheel = reference);
         }
 
+        private void RebindSceneUi(InputSystemUIInputModule replacement)
+        {
+            if (Input == null || replacement == null || replacement == uiModule) return;
+            bool wasPaused = IsPaused;
+            menu?.Dispose();
+            ReleaseUiModule();
+            uiModule = replacement;
+            ConfigureUiModule();
+            menu = new WindrunnerPauseMenuController(Input, pauseView, uiModule);
+            if (wasPaused) menu.Pause();
+        }
+
+        private void ReleaseUiModule()
+        {
+            if (uiModule != null)
+            {
+                uiModule.enabled = false;
+                uiModule.UnassignActions();
+            }
+            foreach (InputActionReference reference in uiActionReferences)
+                if (reference != null) Destroy(reference);
+            uiActionReferences.Clear();
+        }
+
         private void SetUiAction(string name, System.Action<InputActionReference> apply)
         {
             InputAction action = Input.GetAction("UI", name);
@@ -104,14 +130,7 @@ namespace Windrunner.Production.Input
             if (Active != this) return;
             if (menu != null) menu.Dispose();
             menu = null;
-            if (uiModule != null)
-            {
-                uiModule.enabled = false;
-                uiModule.UnassignActions();
-            }
-            foreach (InputActionReference reference in uiActionReferences)
-                if (reference != null) Destroy(reference);
-            uiActionReferences.Clear();
+            ReleaseUiModule();
             if (Input != null) Input.Dispose();
             Input = null;
             Active = null;

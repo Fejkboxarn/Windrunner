@@ -203,6 +203,13 @@ namespace Windrunner.Production.Input
         {
             if (paused) Resume();
             input.BindingsChanged -= RefreshBindingLabels;
+            foreach (Button row in bindingRows)
+            {
+                if (row == null) continue;
+                row.gameObject.SetActive(false);
+                UnityEngine.Object.Destroy(row.gameObject);
+            }
+            bindingRows.Clear();
             if (view != null)
             {
                 if (view.ResumeButton != null) view.ResumeButton.onClick.RemoveListener(Resume);

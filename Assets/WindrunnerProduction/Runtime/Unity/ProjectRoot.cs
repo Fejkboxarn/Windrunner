@@ -17,13 +17,18 @@ namespace Windrunner.Production.Unity
         // service references, not reach through this static property every frame.
         public static ProjectRoot Active { get; private set; }
         public ProjectRuntime Runtime { get; private set; }
+        public bool IsDuplicate { get; private set; }
 
         private void Awake()
         {
             if (Active != null && Active != this)
             {
-                Debug.LogError("[Windrunner Production] Duplicate ProjectRoot detected; duplicate disabled.", this);
+                // A reload brings another authored service root. Keep the
+                // persistent owner and let its scene adapters hand off references
+                // during Awake before retiring this duplicate at frame end.
+                IsDuplicate = true;
                 enabled = false;
+                Destroy(gameObject);
                 return;
             }
 

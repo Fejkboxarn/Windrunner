@@ -43,7 +43,9 @@ namespace Windrunner.Production.Feedback
         {
             if (Active != null && Active != this)
             {
-                Debug.LogError("[Windrunner Feedback] Duplicate host disabled.", this);
+                var root = GetComponent<ProjectRoot>();
+                if (root == null || !root.IsDuplicate)
+                    Debug.LogError("[Windrunner Feedback] Duplicate host disabled.", this);
                 enabled = false;
                 return;
             }

@@ -122,6 +122,14 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 - Death reward resolves missing resource only from its specified player, never an arbitrary scene resource. Two-player Play Mode delivery test confirms recipient isolation. Added destroyed-target cancellation during charge and paid traversal, including baseline no-refund semantics and external-velocity cleanup.
 - `scoped-camera-rewards-PlayMode`: 16/16 passed; `scoped-ownership-final-PlayMode`: **17/17 passed**; `scoped-ownership-final-EditMode`: **27/27 passed**, all exit 0. Serialized-contract gate passed.
 
+### Resumed: application lifetime across scene reload
+
+- Camera/reward checkpoint: `9dda123d`.
+- Reproduced persistent-root reload failure (`scene-reload-before-PlayMode`: 0/1, exit 2). The scene-authored duplicate now retires at frame end; existing application services remain canonical. The duplicate input adapter hands off the new scene's UI module before retirement. Persistent pause view, input service and pause state survive.
+- Menu disposal releases generated binding rows. Camera startup respects an already-open pause menu instead of locking its cursor.
+- `scene-reload-after-PlayMode`: 1/1 passed; `scene-lifetime-final-PlayMode`: 18/18 passed; `scene-lifetime-cursor-PlayMode`: **18/18 passed**; `scene-lifetime-final-EditMode`: **27/27 passed**, all exit 0. Full-scene reload verifies one root/host, same input service, live scene UI module, no duplicate rows, paused cursor and normal resume. Serialized-contract gate passed.
+- ArchitectureReview.md distinguishes validated ownership from remaining authored-content, packaging, profiling and compatibility-adapter debt. No production-readiness sign-off.
+
 ### Post-RC1: scoped player bindings
 
 - Added explicit non-owning input-service binding on PlayerInputReader. Disposed bindings remain inert; they never silently switch to the global player. Existing unbound scenes retain their compatibility host fallback.
