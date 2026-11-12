@@ -24,7 +24,7 @@ repair_file = ROOT / 'Documentation/ContentRepairs.json'
 repairs = {r['path']: r for r in json.loads(repair_file.read_text())['repairs']} if repair_file.exists() else {}
 def canonical_hash(text):
     return hashlib.sha256(text.replace('\r\n', '\n').encode('utf-8')).hexdigest()
-fields = re.compile(r'\[SerializeField\]\s+(?:private|public|protected)\s+([\w.<>\[\]]+)\s+(\w+)')
+fields = re.compile(r'\[SerializeField[^\]]*\](?:\s*\[[^\]]*\])*\s+(?:private|public|protected)\s+([\w.<>\[\]]+)\s+(\w+)')
 for name in changed:
     path = ROOT / name
     if path.suffix in CONTENT or name.startswith(('Packages/', 'ProjectSettings/')):

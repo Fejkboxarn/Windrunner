@@ -75,6 +75,15 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 - Four reference lines changed across three prefabs. No assets/components deleted, no GUID changes, no scene reserialization. Exact pre/post canonical hashes and rationale are in ContentRepairs.json; serialized gate now permits only these exact reviewed repairs.
 - `content-repair-EditMode`: **25/25 passed**, exit 0. The integrity test now requires **zero** missing scripts/broken references in enabled gameplay scenes and owned prefabs; the ten-item exception list was removed.
 - `content-repair-PlayMode`: **8/8 passed**, exit 0. Exact content-repair hash gate passed.
+- Checkpoint: `fc550cfc`.
+
+### Autonomous continuation — measured UI simplification
+
+- `runtime-profile-before-EditMode`: **26/26 passed**, exit 0. Initial profiling exposed counter uncertainty.
+- `runtime-profile-calibrated-EditMode`: **26/26 passed**, exit 0. Confirmed GC.GetAllocatedBytesForCurrentThread is unsupported here (8 KiB calibration reports zero). No zero-allocation claim is made.
+- Calibrated UI resource callback: 4.7852 ms/100,000 reads versus typed getter control 1.6864 ms. Removed unnecessary guessed-member reflection from the sealed AirPower binding; preserved all serialized fields/plugin animation behavior.
+- `runtime-profile-after-EditMode`: **26/26 passed**, exit 0. UI callback 2.6680 ms/100,000 reads; typed control 1.8505 ms; feedback dispatch 0.9616 ms. See PerformanceFindings.md for limits.
+- `ui-profile-after-PlayMode`: **8/8 passed**, exit 0. Actual gameplay UI/material and all traversal regressions passed. Serialized-contract gate passed, including support for combined SerializeField attributes.
 
 Completed this pass: structural repository audit and dependency graph; durable guidance/plan; executable baseline; immutable runtime UI material ownership; remaining motor simulation extraction; feedback failure isolation; animation subscription lifetime fix; scene composition/reference and animation takeover gates. No pushes, scene migrations, asset deletion, obsolete-code removal or automatic animation activation.
 

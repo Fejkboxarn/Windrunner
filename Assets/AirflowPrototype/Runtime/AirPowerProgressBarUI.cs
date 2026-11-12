@@ -45,12 +45,11 @@ namespace AirflowPrototype
         [Min(0.01f)]
         [SerializeField] private float lossDuration = 0.12f;
 
-        [Header("Air Power Value Fallback")]
+        [Header("Legacy serialized compatibility")]
         [Tooltip(
-            "Used only if the bridge can read the current Air Power value but " +
-            "cannot discover its maximum value. Your current prototype uses 100.")]
+            "Retained for existing serialized assets. The typed AirPower API supplies its own maximum.")]
         [Min(0.01f)]
-        [SerializeField] private float fallbackMaximumAirPower = 100f;
+        [SerializeField, HideInInspector] private float fallbackMaximumAirPower = 100f;
 
         [Header("Refresh")]
         [Tooltip(
@@ -70,59 +69,8 @@ namespace AirflowPrototype
         private float _lastNormalized;
         private bool _initialized;
         private bool _reportedBarApiError;
-        private bool _reportedAirPowerError;
         private ProgressBarMaterialLease _materialLease;
         private MonoBehaviour _leasedBar;
-
-        private static readonly string[] NormalizedMemberNames =
-        {
-            "Normalized",
-            "NormalizedValue",
-            "NormalizedPower",
-            "NormalizedAmount",
-            "Power01",
-            "Fill01"
-        };
-
-        private static readonly string[] CurrentMemberNames =
-        {
-            "Current",
-            "CurrentValue",
-            "CurrentPower",
-            "CurrentAirPower",
-            "Value",
-            "Amount",
-            "_current",
-            "_currentValue",
-            "_currentPower",
-            "_currentAirPower",
-            "current",
-            "currentValue",
-            "currentPower",
-            "currentAirPower"
-        };
-
-        private static readonly string[] MaximumMemberNames =
-        {
-            "Max",
-            "Maximum",
-            "MaxValue",
-            "MaximumValue",
-            "MaxPower",
-            "MaximumPower",
-            "MaxAirPower",
-            "Capacity",
-            "_max",
-            "_maximum",
-            "_maxValue",
-            "_maxPower",
-            "_maxAirPower",
-            "max",
-            "maximum",
-            "maxValue",
-            "maxPower",
-            "maxAirPower"
-        };
 
         public void Configure(
             AirPower newAirPower,
@@ -333,7 +281,6 @@ namespace AirflowPrototype
             _lossTimedMethod = null;
 
             _reportedBarApiError = false;
-            _reportedAirPowerError = false;
 
             BuildAirPowerReader();
             BuildProgressBarBindings();
@@ -414,85 +361,13 @@ namespace AirflowPrototype
 
         private void BuildAirPowerReader()
         {
-            if (airPower == null)
-                return;
-
-            Type type =
-                airPower.GetType();
-
-            MemberInfo normalizedMember =
-                FindNumericMember(
-                    type,
-                    NormalizedMemberNames);
-
-            if (normalizedMember != null)
-            {
-                _readNormalized =
-                    () =>
-                    {
-                        float value =
-                            ReadNumericMember(
-                                airPower,
-                                normalizedMember);
-
-                        return Mathf.Clamp01(value);
-                    };
-
-                return;
-            }
-
-            MemberInfo currentMember =
-                FindNumericMember(
-                    type,
-                    CurrentMemberNames);
-
-            MemberInfo maximumMember =
-                FindNumericMember(
-                    type,
-                    MaximumMemberNames);
-
-            if (currentMember != null)
-            {
-                _readNormalized =
-                    () =>
-                    {
-                        float current =
-                            ReadNumericMember(
-                                airPower,
-                                currentMember);
-
-                        float maximum =
-                            maximumMember != null
-                                ? ReadNumericMember(
-                                    airPower,
-                                    maximumMember)
-                                : fallbackMaximumAirPower;
-
-                        if (maximum <= 0.0001f)
-                            maximum = fallbackMaximumAirPower;
-
-                        return Mathf.Clamp01(
-                            current /
-                            Mathf.Max(
-                                0.0001f,
-                                maximum));
-                    };
-
-                return;
-            }
-
-            if (!_reportedAirPowerError)
-            {
-                _reportedAirPowerError = true;
-
-                Debug.LogError(
-                    "AirPowerProgressBarUI: Could not discover a readable Air Power " +
-                    "value on AirPower. The bridge looks for common normalized/current " +
-                    "property or field names. If your AirPower API uses another name, " +
-                    "add it to the member-name list in this script.",
-                    this);
-            }
+            // AirPower is a sealed, explicitly serialized dependency. Reflection
+            // over guessed member names adds overhead without compatibility value.
+            if (airPower != null) _readNormalized = ReadAirPowerNormalized;
+            else _readNormalized = null;
         }
+
+        private float ReadAirPowerNormalized() => Mathf.Clamp01(airPower.Normalized);
 
         private float ReadNormalizedSafely()
         {
@@ -610,78 +485,5 @@ namespace AirflowPrototype
             }
         }
 
-        private static MemberInfo FindNumericMember(
-            Type type,
-            string[] names)
-        {
-            BindingFlags flags =
-                BindingFlags.Instance |
-                BindingFlags.Public |
-                BindingFlags.NonPublic;
-
-            for (int i = 0;
-                 i < names.Length;
-                 i++)
-            {
-                PropertyInfo property =
-                    type.GetProperty(
-                        names[i],
-                        flags);
-
-                if (property != null &&
-                    property.CanRead &&
-                    IsNumericType(
-                        property.PropertyType))
-                {
-                    return property;
-                }
-
-                FieldInfo field =
-                    type.GetField(
-                        names[i],
-                        flags);
-
-                if (field != null &&
-                    IsNumericType(
-                        field.FieldType))
-                {
-                    return field;
-                }
-            }
-
-            return null;
-        }
-
-        private static float ReadNumericMember(
-            object instance,
-            MemberInfo member)
-        {
-            object value;
-
-            if (member is PropertyInfo property)
-                value = property.GetValue(instance);
-            else if (member is FieldInfo field)
-                value = field.GetValue(instance);
-            else
-                return 0f;
-
-            return Convert.ToSingle(value);
-        }
-
-        private static bool IsNumericType(
-            Type type)
-        {
-            return
-                type == typeof(float) ||
-                type == typeof(double) ||
-                type == typeof(int) ||
-                type == typeof(uint) ||
-                type == typeof(short) ||
-                type == typeof(ushort) ||
-                type == typeof(byte) ||
-                type == typeof(sbyte) ||
-                type == typeof(long) ||
-                type == typeof(ulong);
-        }
     }
 }
