@@ -21,6 +21,18 @@ namespace AirflowPrototype
         [SerializeField] private PlayerOrbitCamera orbitCamera;
         [SerializeField] private AirSlingSettings settings;
 
+        private AirSlingPresentation presentation;
+        private AirSlingPresentation Presentation
+        {
+            get
+            {
+                if (presentation == null) presentation = new AirSlingPresentation();
+                presentation.Configure(settings, movementVisuals, speedFeedback,
+                    orbitCamera, perfectTimingFeedback, impactAudioLibrary);
+                return presentation;
+            }
+        }
+
         private AirSlingNode _trackedTarget;
         private PlayerInputReader playerInput;
         private bool wasPaused;
@@ -399,15 +411,7 @@ namespace AirflowPrototype
                     : 0f,
                 perfect);
 
-            if (settings.enableSlingFovProfile &&
-                speedFeedback != null)
-            {
-                speedFeedback.PulseFovOverride(
-                    settings.releaseFov,
-                    settings.releaseFovResponse,
-                    settings.releaseFovHoldDuration,
-                    settings.releaseFovRecoveryResponse);
-            }
+            Presentation.Release();
 
             if (perfect)
             {
@@ -420,19 +424,8 @@ namespace AirflowPrototype
                     _trackedTarget,
                     perfectQuality);
 
-                if (settings.enablePerfectReleaseTimeStop &&
-                    perfectTimingFeedback != null)
-                {
-                    perfectTimingFeedback
-                        .TriggerPerfectFeedback(
-                            perfectQuality,
-                            settings
-                                .perfectReleaseTimeStopDuration,
-                            settings
-                                .perfectReleaseTimeStopRecovery,
-                            settings
-                                .perfectReleaseTimeScale);
-                }
+            Presentation.PerfectRelease(perfectQuality);
+
             }
 
             FlowState.BeginDelayBeforeDash(settings.delayBeforeNodeDash);
@@ -577,25 +570,7 @@ namespace AirflowPrototype
 
             FlowState.BeginDash(settings);
 
-            if (settings.enableSlingFovProfile &&
-                speedFeedback != null)
-            {
-                speedFeedback.SetFovOverride(
-                    settings.dashFov,
-                    settings.dashFovResponse);
-            }
-
-            if (settings.enableDashStartCameraKick &&
-                orbitCamera != null)
-            {
-                orbitCamera.AddRewardImpulse(
-                    _trackedTarget.LandingPosition,
-                    1f,
-                    settings.dashCameraKickBack,
-                    settings.dashCameraKickUp,
-                    settings.dashCameraKickRoll,
-                    settings.dashCameraKickRecovery);
-            }
+            Presentation.DashStart(_trackedTarget);
 
             NodeDashStarted?.Invoke(
                 _trackedTarget);
@@ -699,9 +674,7 @@ namespace AirflowPrototype
 
             // Contact gameplay happens immediately. Only the final launch is delayed
             // so the authored Sling Impact pose has time to read.
-            target.PlayImpactVFX();
-            target.PlayImpactAudio(
-                impactAudioLibrary);
+            Presentation.ImpactEffects(target);
 
             bool releaseWasPerfect =
                 ChargeState.CapturedPerfectQuality > 0f;
@@ -717,25 +690,7 @@ namespace AirflowPrototype
             NodeImpact?.Invoke(
                 target);
 
-            if (settings.enableNodeImpactTimeStop &&
-                perfectTimingFeedback != null)
-            {
-                perfectTimingFeedback
-                    .TriggerPerfectFeedback(
-                        1f,
-                        settings
-                            .nodeImpactTimeStopDuration,
-                        settings
-                            .nodeImpactTimeStopRecovery,
-                        settings
-                            .nodeImpactTimeScale);
-            }
-
-            if (movementVisuals != null)
-            {
-                movementVisuals.ClearTraversalBank(
-                    settings.curveBankResponse);
-            }
+            Presentation.ImpactResponse();
 
             FlowState.SetImpactHold(settings.impactPoseHoldDuration);
 
@@ -782,26 +737,11 @@ namespace AirflowPrototype
             bool releaseWasPerfect =
                 ChargeState.CapturedPerfectQuality > 0f;
 
-            if (settings.enableSlingFovProfile &&
-                speedFeedback != null)
-            {
-                speedFeedback.PulseFovOverride(
-                    settings.launchFov,
-                    settings.launchFovResponse,
-                    settings.launchFovHoldDuration,
-                    settings.launchFovRecoveryResponse);
-            }
+            Presentation.LaunchFov();
 
             ApplyFinalForwardReward();
 
-            if (settings.enableFinalLaunchFlip &&
-                movementVisuals != null)
-            {
-                movementVisuals
-                    .TriggerTraversalFlip(
-                        settings
-                            .finalLaunchFlipIntensity);
-            }
+            Presentation.LaunchFlip();
 
             FlowState.CompleteLaunch();
             _trackedTarget = null;
@@ -993,126 +933,14 @@ namespace AirflowPrototype
 
         private float EstimateBezierLength(int samples) => BezierPath.EstimateLength(samples);
 
-        private void UpdateCurveBank()
-        {
-            if (movementVisuals == null)
-                return;
+        private void UpdateCurveBank() => Presentation.UpdateCurveBank(BezierPath, DashProgression.Progress);
 
-            if (!settings.enablePlayerCurveBank)
-            {
-                movementVisuals.ClearTraversalBank(
-                    settings.curveBankResponse);
 
-                return;
-            }
+        private void UpdateSlingFovDuringDash() => Presentation.UpdateSlingFovDuringDash(DashProgression.Progress);
 
-            float previewT =
-                Mathf.Clamp01(
-                    DashProgression.Progress +
-                    settings.curveBankPreview);
 
-            Vector3 tangent =
-                EvaluateBezierTangent(
-                    DashProgression.Progress);
+        private void UpdateTrackedNodeFacing() => Presentation.UpdateTrackedNodeFacing(_trackedTarget, transform.position, Time.unscaledDeltaTime);
 
-            Vector3 preview =
-                EvaluateBezierTangent(
-                    previewT);
-
-            tangent.y = 0f;
-            preview.y = 0f;
-
-            if (tangent.sqrMagnitude <
-                    0.0001f ||
-                preview.sqrMagnitude <
-                    0.0001f)
-            {
-                movementVisuals.ClearTraversalBank(
-                    settings.curveBankResponse);
-
-                return;
-            }
-
-            float signedAngle =
-                Vector3.SignedAngle(
-                    tangent.normalized,
-                    preview.normalized,
-                    Vector3.up);
-
-            float bank01 =
-                Mathf.Clamp(
-                    signedAngle /
-                    Mathf.Max(
-                        1f,
-                        settings.curveAngleForMaximumBank),
-                    -1f,
-                    1f);
-
-            float bankDegrees =
-                -bank01 *
-                settings.maximumPlayerCurveBankDegrees;
-
-            movementVisuals.SetTraversalBank(
-                bankDegrees,
-                settings.curveBankResponse);
-        }
-
-        private void UpdateSlingFovDuringDash()
-        {
-            if (!settings.enableSlingFovProfile ||
-                speedFeedback == null)
-            {
-                return;
-            }
-
-            if (DashProgression.Progress <
-                settings.impactFovCompressionStart)
-            {
-                speedFeedback.SetFovOverride(
-                    settings.dashFov,
-                    settings.dashFovResponse);
-
-                return;
-            }
-
-            float compression01 =
-                Mathf.InverseLerp(
-                    settings.impactFovCompressionStart,
-                    1f,
-                    DashProgression.Progress);
-
-            float targetFov =
-                Mathf.Lerp(
-                    settings.dashFov,
-                    settings.impactCompressionFov,
-                    compression01);
-
-            speedFeedback.SetFovOverride(
-                targetFov,
-                settings.impactCompressionFovResponse);
-        }
-
-        private void UpdateTrackedNodeFacing()
-        {
-            if (!settings.makeNodeVisualFacePlayerDuringSling ||
-                _trackedTarget == null)
-            {
-                return;
-            }
-
-            AirSlingNodeVisualAnimator visualAnimator =
-                _trackedTarget
-                    .GetComponent<AirSlingNodeVisualAnimator>();
-
-            if (visualAnimator == null)
-                return;
-
-            visualAnimator.FaceWorldPosition(
-                transform.position,
-                settings
-                    .nodeVisualTurnSpeedDegreesPerSecond,
-                Time.unscaledDeltaTime);
-        }
 
         private Vector3 GetLandingRootPosition()
         {
@@ -1154,21 +982,7 @@ namespace AirflowPrototype
                 previous.PlayIdleAnimation();
             }
 
-            if (movementVisuals != null)
-            {
-                movementVisuals.ClearTraversalBank(
-                    settings != null
-                        ? settings.curveBankResponse
-                        : 15f);
-            }
-
-            if (speedFeedback != null)
-            {
-                speedFeedback.ClearFovOverride(
-                    settings != null
-                        ? settings.launchFovRecoveryResponse
-                        : 7f);
-            }
+            Presentation.Reset();
 
             SlingCanceled?.Invoke();
         }
@@ -1183,21 +997,7 @@ namespace AirflowPrototype
 
             BezierPath.Clear();
 
-            if (movementVisuals != null)
-            {
-                movementVisuals.ClearTraversalBank(
-                    settings != null
-                        ? settings.curveBankResponse
-                        : 15f);
-            }
-
-            if (speedFeedback != null)
-            {
-                speedFeedback.ClearFovOverride(
-                    settings != null
-                        ? settings.launchFovRecoveryResponse
-                        : 7f);
-            }
+            Presentation.Reset();
 
             if (motor != null)
             {
