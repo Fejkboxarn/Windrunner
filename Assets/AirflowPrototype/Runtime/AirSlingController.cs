@@ -640,8 +640,7 @@ namespace AirflowPrototype
                 desiredPathRoot -
                 transform.position;
 
-            controller.Move(
-                correction);
+            motor.ApplyDisplacement(correction, PlayerMovementPhase.SlingPath);
 
             DashProgression.CommitProgress(nextProgress);
 
@@ -684,9 +683,7 @@ namespace AirflowPrototype
                 return;
             }
 
-            controller.Move(
-                desiredRoot -
-                transform.position);
+            motor.ApplyDisplacement(desiredRoot - transform.position, PlayerMovementPhase.SlingImpact);
 
             FlowState.CaptureImpactRoot(transform.position);
 
@@ -754,9 +751,7 @@ namespace AirflowPrototype
 
             // The PlayerMotor still updates normally, so counter its displacement
             // and keep the character planted on the target during the impact pose.
-            controller.Move(
-                FlowState.ImpactRootPosition -
-                transform.position);
+            motor.ApplyDisplacement(FlowState.ImpactRootPosition - transform.position, PlayerMovementPhase.SlingHold);
 
             motor.StopForTraversalImpact();
 

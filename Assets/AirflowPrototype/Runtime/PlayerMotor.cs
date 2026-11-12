@@ -12,6 +12,22 @@ namespace AirflowPrototype
         [SerializeField] private AirflowMovementSettings settings;
 
         private PlayerMotorSimulation _simulation;
+        private PlayerDisplacementAuthority _displacement;
+
+        public PlayerDisplacementAuthority Displacement
+        {
+            get
+            {
+                if (_displacement == null || _displacement.Controller != controller)
+                    _displacement = new PlayerDisplacementAuthority(controller);
+                return _displacement;
+            }
+        }
+
+        public CollisionFlags ApplyDisplacement(Vector3 displacement, PlayerMovementPhase phase)
+        {
+            return Displacement.Apply(displacement, phase, Time.frameCount);
+        }
         private PlayerMotorSimulation Simulation =>
             _simulation ?? (_simulation = new PlayerMotorSimulation());
         private PlayerMotorJumpWindow JumpWindow => Simulation.JumpWindow;
@@ -229,7 +245,7 @@ namespace AirflowPrototype
             Vector3 frameVelocity = Simulation.BeginFrame(desiredDirection,
                 input.JumpPressedThisFrame, controller.isGrounded, Time.time, dt, settings);
             Vector3 beforeMove = transform.position;
-            CollisionFlags flags = controller.Move(frameVelocity * dt);
+            CollisionFlags flags = ApplyDisplacement(frameVelocity * dt, PlayerMovementPhase.Locomotion);
             // OnControllerColliderHit may update simulation during Move, just as
             // it updated the original motor state before displacement reporting.
             Simulation.CompleteMove(transform.position - beforeMove, dt,

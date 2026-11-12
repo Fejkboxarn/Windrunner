@@ -27,6 +27,7 @@ namespace AirflowPrototype
         private float _surfaceY;
         private float _timeWithoutWater;
         private bool _entryLiftPending;
+        private PlayerDisplacementAuthority _standaloneDisplacement;
 
         public bool IsSwimming => _isSwimming;
         public float CurrentWaterSurfaceY => _surfaceY;
@@ -316,8 +317,15 @@ namespace AirflowPrototype
             if (correction.sqrMagnitude >
                 0.0000001f)
             {
-                controller.Move(
-                    correction);
+                if (motor != null)
+                    motor.ApplyDisplacement(correction, PlayerMovementPhase.Swimming);
+                else
+                {
+                    // Preserve standalone water-adapter support in older scenes.
+                    if (_standaloneDisplacement == null || _standaloneDisplacement.Controller != controller)
+                        _standaloneDisplacement = new PlayerDisplacementAuthority(controller);
+                    _standaloneDisplacement.Apply(correction, PlayerMovementPhase.Swimming, Time.frameCount);
+                }
             }
         }
 

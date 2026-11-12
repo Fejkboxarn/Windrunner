@@ -37,6 +37,16 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 ## Continuation
 
+### Autonomous continuation — movement authority
+
+- Read all handoff documents; starting branch clean at `8dfe6a68`.
+- Writer inventory: `MovementAuthority.md`; raw source scan in `Logs/ProductionMigration/writers-scan.txt`.
+- Added regular C# PlayerDisplacementAuthority as the single synchronous CharacterController.Move boundary. Motor, Sling path/impact/hold and swimming keep original call order, callbacks, displacement arithmetic and execution orders. Standalone swimming retains a local driver when no motor exists.
+- `movement-authority-PlayMode`: 2 passed / 1 failed due to reflection selecting Activator's bool overload through Unity Object's implicit conversion. Corrected constructor argument array.
+- `movement-authority-fixed-PlayMode`: **3/3 passed**, exit 0. New fixture compared all 360 intermediate displacement steps and collision flags against direct CharacterController.Move, including floor/wall contacts. Existing motor, material and animation takeover tests passed.
+- Serialized-contract gate: passed; no serialized content or field changes.
+- `movement-authority-EditMode`: **21/21 passed**, exit 0. Movement stage ready for local checkpoint; next is engine time ownership.
+
 Completed this pass: structural repository audit and dependency graph; durable guidance/plan; executable baseline; immutable runtime UI material ownership; remaining motor simulation extraction; feedback failure isolation; animation subscription lifetime fix; scene composition/reference and animation takeover gates. No pushes, scene migrations, asset deletion, obsolete-code removal or automatic animation activation.
 
 Next stage is explicit player composition and traversal orchestration, **not** deletion of legacy animation:
