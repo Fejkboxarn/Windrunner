@@ -4,9 +4,11 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 ## Current handoff
 
-Resumed after usage-limit interruption at `67938aea`. The uncommitted profiling/warning stage was preserved and inspected. `resume-profile-stage-EditMode` **26/26** and `resume-profile-stage-PlayMode` **14/14** passed, exit 0. Two earlier rendered profiling runs each passed 1/1; native frame allocation calibration succeeded. BuildWarnings.md/JSON classify all 21 original RC1 build warnings. Current code has not yet been packaged as RC2.
+RC2 packaged successfully: `Builds/migration-rc2-20261112/Windrunner.exe`, Unity 6000.6.2f1, zero errors / 24 classified warnings, 26.164 seconds, 1,222,126,654 bytes. Its 15-second headless startup initialized successfully with no matched exception/error/crash/load-failure lines; harness terminated its own process afterward. This does not test rendered player quality or graceful shutdown. ArchitectureReview.md and ReleaseCandidate.md identify unfinished gates; no migration-complete claim.
 
-Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayMode** (`input-lifecycle-after`), both Unity exit 0. Ordered movement, nested time ownership, ability composition, decorative references, typed UI binding and input teardown are implemented. Windows candidate packaging is recorded below. Overall production architecture migration remains incomplete; manual acceptance and the next implementation scope are at the end of this file. TestResults.json preserves actual runs, including failures, and source hashes.
+Resumed after usage-limit interruption at `67938aea`. The uncommitted profiling/warning stage was validated and checkpointed at `63e3408c`, followed by animation ownership `4bb6c7e8`, scoped camera/rewards `9dda123d`, and scene lifetime `a15a886f`. Latest suites: **27/27 EditMode** (`scene-lifetime-final`) and **18/18 PlayMode** (`scene-lifetime-cursor`), exit 0. Two rendered profiling runs each passed 1/1 with native frame allocation calibration. BuildWarnings.md/JSON classify all 21 original RC1 build warnings. RC2 packaging follows below.
+
+Overall production architecture migration remains incomplete; manual acceptance and the remaining scope are at the end of this file. TestResults.json preserves actual runs, including failures, source hashes, rendered profiles and build reports. Earlier counts below are historical stage evidence.
 
 ## Historical first-pass record
 
@@ -159,13 +161,13 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 - Reader binds the early production host once at Awake; swimming uses the motor's configured input/controller. Removed only unused nonserialized trial state; retained serialized UI legacy capacity with narrowly scoped warning suppression.
 - Architecture inventory scans 205 owned runtime sources: 21 discovery sites, 8 global-service accesses, one physical Move boundary, and pose/material ownership candidates. These are review signals, not proof that components are obsolete.
 
-1. Explicit per-player bindings for camera/input/presentation, eliminating cross-player fallback searches with multiple-composition coverage. Current scene composition is verified; global services still assume one local player.
-2. Further separate Sling presentation orchestration while preserving synchronous motor -> Sling (300) -> swimming (1000) steps. Expand water overlap, obstruction, destroyed-target and device-removal/reconnection coverage.
+1. Review remaining compatibility adapters outside the core scoped camera/input/feedback/reward paths. Explicit APIs and isolation tests exist; the application still has one local input host and no general multiplayer guarantee.
+2. Expand broad water/ability collision overlap, obstruction and hardware reconnect acceptance. Sling presentation separation, basic swimming/device loss, target destruction and reward recipient tests are complete.
 3. Author/test portable action mappings (all five currently -1; auto-start false). Keep legacy humanoid fallback until visual and gameplay parity passes. Do not invent mappings or remove a functioning writer without an authored replacement.
-4. Representative rendered player CPU/GPU/GC captures, node-count scaling, FEEL pool saturation and large-selection Inspector measurement. Current microbenchmarks support a small UI simplification only; allocation counter failed calibration.
+4. Representative player traversal CPU/GPU/GC captures, node-count scaling, FEEL saturation and large-selection Inspector measurement. Rendered Editor baseline and native frame allocation calibration now work; per-method attribution and shipping-player budgets remain unverified.
 5. Scene/prefab composition and proven obsolete-code removal after the above dependencies; final production architecture sign-off.
 
-Known risks: distributed presentation and service discovery, unassigned animation actions, missing broad device/water/obstruction coverage, inherited vendor/API/shader warnings. Vendor/demo source was inventoried, not exhaustively code-reviewed. Zero broken references applies to enabled gameplay scenes and owned prefabs, not every vendor demo. Headless PlayMode does not verify visual quality, audio output or gameplay feel.
+Known risks: compatibility discovery and retained legacy presentation, unassigned animation actions, broad hardware/water/obstruction coverage, inherited vendor/API/shader/importer warnings and three missing-script optional FEEL Resources in packaged content. Vendor/demo source was inventoried, not exhaustively code-reviewed. Zero broken references applies to enabled gameplay scenes and owned prefabs. Rendered pixel validation does not establish visual quality, audio output or gameplay feel.
 
 Required in-engine acceptance: full movement/jump/momentum comparison, manual and reward dash, normal/perfect Sling and cast, collision/occlusion/cancellation, water traversal, camera/FOV/bank/sensitivity, pause during hit-stop/impact hold, rebinding/gamepad/device loss, audible/visible FEEL effects and animation action transitions. Do not label this production-ready until these and the remaining stages pass.
 
