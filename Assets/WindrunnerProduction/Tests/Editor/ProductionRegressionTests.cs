@@ -22,6 +22,7 @@ namespace Windrunner.Production.Tests
         [TestCase("WindrunnerAirTargetSelectionParityChecks", "Run")]
         [TestCase("WindrunnerMotorStateChecks", "Run")]
         [TestCase("WindrunnerMotorSimulationChecks", "Run")]
+        [TestCase("WindrunnerAbilityCompositionChecks", "Run")]
         [TestCase("WindrunnerPlanarParityChecks", "Run")]
         [TestCase("WindrunnerSlingChargeParityChecks", "Run")]
         [TestCase("WindrunnerSlingDashParityChecks", "Run")]

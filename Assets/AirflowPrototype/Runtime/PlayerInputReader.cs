@@ -39,6 +39,8 @@ namespace AirflowPrototype
             (_cast != null && _cast.WasReleasedThisFrame());
         public bool SlingHeld => Production != null ? Production.ButtonHeld("Sling") :
             (Mouse.current != null && Mouse.current.rightButton.isPressed);
+        public bool SlingInputAvailable => Production != null
+            ? Production.GetAction("Gameplay", "Sling") != null : Mouse.current != null;
         public bool SlingPressedThisFrame => Production != null ? Production.ButtonPressed("Sling") :
             (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame);
         public bool SlingReleasedThisFrame => Production != null ? Production.ButtonReleased("Sling") :

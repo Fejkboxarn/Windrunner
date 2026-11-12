@@ -1,0 +1,13 @@
+# Ability composition
+
+AirPower implements IAirPowerBudget. The contract names spending as `SpendAndHasRemaining` to distinguish resource depletion from rejected payment: Sling may successfully spend exactly its balance, while Dash stops when no power remains. AbilityResourcePolicy owns Sling's free/optional/required/insufficient-resource decision. The adapter converts destroyed Unity references to null before crossing the regular C# boundary.
+
+AirDashSession now orchestrates intent, start eligibility and drain through the budget. The component preserves motor-state/event delivery order. Existing reward delivery subscribes Dash to AirFlowHitSystem; an actual Cast hit/return/reward test verifies the auto-dash latch is set before subsequent observers.
+
+AirCastSession owns sticky target, charging and target-lock clocks, cancellation, release decision and cleanup. The adapter owns scene references, projectile spawning and public events. Release observers still see charging false/charge zero while target-lock state is retained until the original cleanup point. PerfectReleased remains after both pulse-release events and target reset.
+
+Sling uses the player's existing PlayerInputReader and configured Sling action (including runtime rebinding/gamepad), rather than Mouse.current. The curve/phase models and controller ordering remain unchanged. A keyboard-rebound Sling action drives the complete PlayMode scenario. During pause, charge state freezes; releasing the held input during pause cancels safely on resume instead of firing a stale release. This is an intentional interruption correction, not a tuning change.
+
+Automated execution covers perfect and normal Sling charge/path/impact/launch, imperfect-release rejection, pause-release cancellation, payment before commitment, boost/impact/launch event ordering, Dash activation/depletion/reward reactivation/interruption, perfect Cast projectile hit/return reward, second airborne jump rejection (there is no double-jump mechanic in the baseline), movement reversal and camera/FOV pause. Existing deterministic selection, path, flow and release policies remain covered.
+
+Remaining architecture work: Sling still coordinates presentation effects in its adapter; explicit per-player camera/feedback service injection and removal of legacy fallback discovery are not complete. Action animation mappings remain unassigned by design. No new movement tuning or combat rules were introduced.

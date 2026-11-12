@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace AirflowPrototype
 {
@@ -23,6 +22,8 @@ namespace AirflowPrototype
         [SerializeField] private AirSlingSettings settings;
 
         private AirSlingNode _trackedTarget;
+        private PlayerInputReader playerInput;
+        private bool wasPaused;
 
         // Batch 5I: all phase and numerical substate are owned by one regular
         // C# object. This component remains the Unity/physics/event adapter.
@@ -174,6 +175,7 @@ namespace AirflowPrototype
                     newImpactAudioLibrary;
             }
 
+            playerInput = motor != null ? motor.GetComponent<PlayerInputReader>() : null;
             ResolveOptionalReferences();
             ForceIdleState();
 
@@ -197,6 +199,7 @@ namespace AirflowPrototype
             if (airPower == null)
                 airPower = GetComponent<AirPower>();
 
+            playerInput = motor != null ? motor.GetComponent<PlayerInputReader>() : null;
             ResolveOptionalReferences();
             ForceIdleState();
 
@@ -256,6 +259,7 @@ namespace AirflowPrototype
         {
             if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused)
             {
+                wasPaused = true;
                 FinishFrame();
                 return;
             }
@@ -271,17 +275,22 @@ namespace AirflowPrototype
                 return;
             }
 
-            Mouse mouse =
-                Mouse.current;
+            if (playerInput == null && motor != null)
+                playerInput = motor.GetComponent<PlayerInputReader>();
+            if (wasPaused)
+            {
+                wasPaused = false;
+                if (FlowState.IsCharging && (playerInput == null || !playerInput.SlingHeld)) CancelSling();
+            }
 
             switch (FlowState.Phase)
             {
                 case AirSlingPhase.Idle:
-                    UpdateIdle(mouse);
+                    UpdateIdle();
                     break;
 
                 case AirSlingPhase.Charging:
-                    UpdateCharging(mouse);
+                    UpdateCharging();
                     break;
 
                 case AirSlingPhase.DelayBeforeDash:
@@ -300,12 +309,11 @@ namespace AirflowPrototype
             FinishFrame();
         }
 
-        private void UpdateIdle(
-            Mouse mouse)
+        private void UpdateIdle()
         {
             // Targeting remains presentation-only until RMB is actually pressed.
-            if (mouse == null ||
-                !mouse.rightButton.wasPressedThisFrame)
+            if (playerInput == null ||
+                !playerInput.SlingPressedThisFrame)
             {
                 return;
             }
@@ -342,14 +350,13 @@ namespace AirflowPrototype
                 _trackedTarget);
         }
 
-        private void UpdateCharging(
-            Mouse mouse)
+        private void UpdateCharging()
         {
             AirSlingChargeCommand command = FlowState.DecideCharging(
                 IsTrackedTargetAvailable(),
-                mouse != null,
-                mouse != null && mouse.rightButton.isPressed,
-                mouse != null && mouse.rightButton.wasReleasedThisFrame);
+                playerInput != null && playerInput.SlingInputAvailable,
+                playerInput != null && playerInput.SlingHeld,
+                playerInput != null && playerInput.SlingReleasedThisFrame);
 
             switch (command)
             {
@@ -1130,26 +1137,8 @@ namespace AirflowPrototype
 
         private bool TrySpendAirPower()
         {
-            if (!settings.useAirPower ||
-                settings.airPowerCost <= 0f)
-            {
-                return true;
-            }
-
-            if (airPower == null)
-                return !settings.requireEnoughAirPower;
-
-            if (settings.requireEnoughAirPower &&
-                airPower.Current <
-                settings.airPowerCost)
-            {
-                return false;
-            }
-
-            airPower.Spend(
-                settings.airPowerCost);
-
-            return true;
+            return AbilityResourcePolicy.TryCommitSling(airPower != null ? airPower : null, settings.useAirPower,
+                settings.requireEnoughAirPower, settings.airPowerCost);
         }
 
         public void CancelSling()

@@ -59,6 +59,13 @@ namespace Windrunner.Production.Tests
                 InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W, Key.Space));
                 for (int i = 0; i < 3; i++) yield return null;
                 Assert.That((float)motorType.GetProperty("VerticalSpeed").GetValue(motor), Is.GreaterThan(0f));
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W));
+                yield return null;
+                float beforeSecondPress = (float)motorType.GetProperty("VerticalSpeed").GetValue(motor);
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W, Key.Space));
+                for (int i = 0; i < 3; i++) yield return null;
+                Assert.That((float)motorType.GetProperty("VerticalSpeed").GetValue(motor), Is.LessThan(beforeSecondPress),
+                    "Baseline has no airborne double jump; a second press must not reset upward velocity.");
                 Time.timeScale = 0f;
                 yield return null;
                 var paused = player.transform.position;
@@ -68,6 +75,11 @@ namespace Windrunner.Production.Tests
                 InputSystem.QueueStateEvent(keyboard, new KeyboardState());
                 for (int i = 0; i < 90; i++) yield return null;
                 Assert.That((bool)motorType.GetProperty("IsGrounded").GetValue(motor), Is.True);
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W));
+                for (int i = 0; i < 20; i++) yield return null;
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.S));
+                for (int i = 0; i < 40; i++) yield return null;
+                Assert.That(((Vector3)motorType.GetProperty("PlanarVelocity").GetValue(motor)).z, Is.LessThan(-0.1f));
             }
             finally
             {
@@ -109,6 +121,21 @@ namespace Windrunner.Production.Tests
             }
             Assert.That(WindrunnerInputHost.Active, Is.Not.Null);
             Assert.That(WindrunnerInputHost.Active.Input, Is.Not.Null);
+            var gameplayCamera = Camera.main;
+            Assert.That(gameplayCamera, Is.Not.Null);
+            var speedType = Type.GetType("AirflowPrototype.PlayerSpeedFeedback, Assembly-CSharp", true);
+            var speed = UnityEngine.Object.FindAnyObjectByType(speedType);
+            Assert.That(speed, Is.Not.Null);
+            speedType.GetMethod("PulseFovOverride").Invoke(speed, new object[] { 88f, 30f, 0.2f, 5f });
+            using (var pause = Windrunner.Production.Unity.UnityTimeAuthority.Pause())
+            {
+                var position = gameplayCamera.transform.position; var rotation = gameplayCamera.transform.rotation;
+                float fov = gameplayCamera.fieldOfView;
+                for (int i = 0; i < 5; i++) yield return null;
+                Assert.That(gameplayCamera.transform.position, Is.EqualTo(position));
+                Assert.That(gameplayCamera.transform.rotation, Is.EqualTo(rotation));
+                Assert.That(gameplayCamera.fieldOfView, Is.EqualTo(fov));
+            }
             var animationType = Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp", true);
             var animation = (Behaviour)UnityEngine.Object.FindAnyObjectByType(animationType);
             Assert.That(animation, Is.Not.Null);

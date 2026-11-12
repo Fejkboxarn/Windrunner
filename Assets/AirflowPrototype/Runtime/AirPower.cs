@@ -7,7 +7,7 @@ namespace AirflowPrototype
     /// Existing serialized reference and public API preserved; game rules live in AirPowerState.
     /// Keep this component on the player while legacy systems still GetComponent<AirPower>().
     /// </summary>
-    public sealed class AirPower : MonoBehaviour
+    public sealed class AirPower : MonoBehaviour, IAirPowerBudget
     {
         [SerializeField] private AirflowMovementSettings settings;
 
@@ -77,6 +77,8 @@ namespace AirflowPrototype
 
             return State.Spend(amount, Time.time, settings.maxAirPower);
         }
+
+        bool IAirPowerBudget.SpendAndHasRemaining(float amount) => Spend(amount);
 
         public void Restore(float amount)
         {

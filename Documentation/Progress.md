@@ -55,6 +55,17 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 - `time-authority-EditMode`: **24/24 passed**, exit 0; includes nested requests, fixed-step restoration and 400 legacy-envelope scenarios.
 - `time-authority-PlayMode`: **4/4 passed**, exit 0; actual pause menu + two hit-stop sources + nested pause + source disable + recovery tested, alongside previous physics/animation/material gates.
 - Serialized-contract gate passed; no scene/assets/serialized fields changed. See `TimeOwnership.md` for policy and limits.
+- Checkpoint: `617cb5e8`.
+
+### Autonomous continuation — ability composition
+
+- Added AirCastSession and explicit IAirPowerBudget/AbilityResourcePolicy; moved Dash execution decisions into its session and routed Sling through PlayerInputReader's configured action. Preserve resource/depletion semantics, sticky targeting and event order. Destroyed Unity resource references are normalized at the adapter boundary.
+- `ability-composition-EditMode`: **25/25 passed**, exit 0; includes 20,000 cast-session cases and payment/depletion/reward tests.
+- `ability-execution-PlayMode`: 5/8 passed; fixture teardown reused an existing scene name, preventing later scenarios. Fixed cleanup reuse.
+- `ability-execution-fixed-PlayMode`: 6/8 passed; Sling fixtures assumed pre-upgrade default settings and waited scaled frame counts for an unscaled impact hold. Made policy explicit and bounded waits by real time.
+- `ability-execution-clocks-PlayMode`: **8/8 passed**, exit 0.
+- `ability-edges-final-PlayMode`: **8/8 passed**, exit 0; added reward-to-Dash subscriber check, second airborne jump rejection, reversal, camera/FOV pause. Actual perfect/normal Sling and Cast execution, payment/feedback order and resource interruption validated. See `AbilityComposition.md`.
+- `ability-final-EditMode`: **25/25 passed**, exit 0. Serialized-contract and code whitespace gates passed; ready for ability checkpoint.
 
 Completed this pass: structural repository audit and dependency graph; durable guidance/plan; executable baseline; immutable runtime UI material ownership; remaining motor simulation extraction; feedback failure isolation; animation subscription lifetime fix; scene composition/reference and animation takeover gates. No pushes, scene migrations, asset deletion, obsolete-code removal or automatic animation activation.
 

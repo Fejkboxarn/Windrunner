@@ -11,54 +11,51 @@ namespace AirflowPrototype
         [SerializeField] private Transform castOrigin;
         [SerializeField] private AirCastSettings settings;
 
-        private float _chargeTime;
-        private bool _charging;
+        private readonly AirCastSession<AirNode> session = new AirCastSession<AirNode>();
+        private bool wasPaused;
 
-        private AirNode _trackedTarget;
-        private float _targetLockTime;
-
-        public bool IsCharging => _charging;
-        public float ChargeTime => _chargeTime;
+        public bool IsCharging => session.IsCharging;
+        public float ChargeTime => session.ChargeTime;
 
         public float Charge01 =>
             settings != null &&
             settings.fullTimingTime > 0f
-                ? Mathf.Clamp01(_chargeTime / settings.fullTimingTime)
+                ? Mathf.Clamp01(session.ChargeTime / settings.fullTimingTime)
                 : 0f;
 
         public float TargetLock01 =>
             settings != null &&
-            _trackedTarget != null &&
+            session.Target != null &&
             settings.fullTimingTime > 0f
-                ? Mathf.Clamp01(_targetLockTime / settings.fullTimingTime)
+                ? Mathf.Clamp01(session.TargetLockTime / settings.fullTimingTime)
                 : 0f;
 
         public float EffectiveTimingSeconds =>
             settings != null
                 ? settings.GetEffectiveTimingSeconds(
-                    _chargeTime,
-                    _targetLockTime,
-                    _trackedTarget != null)
+                    session.ChargeTime,
+                    session.TargetLockTime,
+                    session.Target != null)
                 : 0f;
 
         public float TimingProgress01 =>
             settings != null
                 ? settings.GetTimingProgress01(
-                    _chargeTime,
-                    _targetLockTime,
-                    _trackedTarget != null)
+                    session.ChargeTime,
+                    session.TargetLockTime,
+                    session.Target != null)
                 : 0f;
 
         public bool IsAirReady =>
             settings != null &&
-            _charging &&
-            _chargeTime >= settings.perfectTime;
+            session.IsCharging &&
+            session.ChargeTime >= settings.perfectTime;
 
         public bool IsTargetReady =>
             settings != null &&
-            _charging &&
-            _trackedTarget != null &&
-            _targetLockTime >= settings.perfectTime;
+            session.IsCharging &&
+            session.Target != null &&
+            session.TargetLockTime >= settings.perfectTime;
 
         public bool IsReady =>
             IsAirReady &&
@@ -69,8 +66,8 @@ namespace AirflowPrototype
             get
             {
                 if (settings == null ||
-                    !_charging ||
-                    _trackedTarget == null)
+                    !session.IsCharging ||
+                    session.Target == null)
                 {
                     return 0f;
                 }
@@ -89,10 +86,10 @@ namespace AirflowPrototype
         {
             get
             {
-                if (_charging &&
+                if (session.IsCharging &&
                     IsTrackedTargetAvailable())
                 {
-                    return _trackedTarget;
+                    return session.Target;
                 }
 
                 return targeter != null
@@ -169,7 +166,7 @@ namespace AirflowPrototype
 
         private void Update()
         {
-            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused) return;
+            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused) { wasPaused = true; return; }
             ResolveCastOrigin();
 
             if (input == null ||
@@ -181,22 +178,24 @@ namespace AirflowPrototype
                 return;
             }
 
+            if (wasPaused)
+            {
+                wasPaused = false;
+                if (session.IsCharging && !input.CastHeld) CancelCharge();
+            }
+
             if (input.CastPressedThisFrame)
                 BeginCharge();
 
-            if (!_charging)
+            if (!session.IsCharging)
                 return;
 
             if (input.CastHeld)
             {
-                _chargeTime +=
-                    Time.deltaTime;
-
-                UpdateTargetLock(
-                    Time.deltaTime);
+                if (!session.Advance(Time.deltaTime, IsTrackedTargetAvailable())) CancelCharge();
             }
 
-            if (!_charging)
+            if (!session.IsCharging)
                 return;
 
             if (input.CastReleasedThisFrame)
@@ -219,51 +218,24 @@ namespace AirflowPrototype
                 return;
             }
 
-            _charging = true;
-            _chargeTime = 0f;
-            _targetLockTime = 0f;
-
-            _trackedTarget =
-                target;
+            session.Begin(target);
 
             ChargeStarted?.Invoke();
 
             TargetedChargeStarted?.Invoke(
-                _trackedTarget);
-        }
-
-        private void UpdateTargetLock(float dt)
-        {
-            // A charge is hard-locked to the node claimed on LMB press.
-            // If that node disappears, cancel instead of jumping to another node.
-            if (!IsTrackedTargetAvailable())
-            {
-                CancelCharge();
-                return;
-            }
-
-            _targetLockTime +=
-                dt;
+                session.Target);
         }
 
         private void CancelCharge()
         {
-            if (!_charging)
-                return;
-
-            _charging = false;
-            _chargeTime = 0f;
-
-            ResetTargetLock();
-
-            ChargeCanceled?.Invoke();
+            if (session.Cancel()) ChargeCanceled?.Invoke();
         }
 
         private bool IsTrackedTargetAvailable()
         {
             return
-                _trackedTarget != null &&
-                _trackedTarget.IsAvailable;
+                session.Target != null &&
+                session.Target.IsAvailable;
         }
 
         private void Release()
@@ -274,13 +246,11 @@ namespace AirflowPrototype
 
             bool sameTarget =
                 target != null &&
-                target == _trackedTarget;
+                target == session.Target;
 
             // The value-only policy preserves the prototype's exact release
             // arithmetic. Scene interactions and events stay in this adapter.
-            AirCastReleaseDecision decision = AirCastReleasePolicy.Evaluate(
-                _chargeTime,
-                _targetLockTime,
+            AirCastReleaseDecision decision = session.Release(
                 target != null,
                 sameTarget,
                 new AirCastReleaseRules(
@@ -290,9 +260,6 @@ namespace AirflowPrototype
                     settings.fullTimingTime,
                     settings.minimumAimAssist,
                     settings.readyAimAssist));
-
-            _charging = false;
-            _chargeTime = 0f;
 
             if (decision.Cancel)
             {
@@ -346,8 +313,7 @@ namespace AirflowPrototype
 
         private void ResetTargetLock()
         {
-            _trackedTarget = null;
-            _targetLockTime = 0f;
+            session.ResetTargetLock();
         }
 
         internal void NotifyPulseHit(

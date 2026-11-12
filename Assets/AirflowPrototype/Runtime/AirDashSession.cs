@@ -10,6 +10,15 @@ namespace AirflowPrototype
         public bool IsDashing { get; private set; }
         public bool IsAutoDashLatched { get; private set; }
 
+        public bool EvaluateTick(bool hasMoveIntent, bool held, float cost, IAirPowerBudget power)
+        {
+            if (!WantsDash(hasMoveIntent, held)) return false;
+            if (!IsDashing && !CanBeginDash(power.CanStartDash)) return false;
+            bool remaining = power.SpendAndHasRemaining(cost);
+            AfterSpend(remaining);
+            return remaining;
+        }
+
         public void TryLatchReward(bool canStartDash)
         {
             if (canStartDash)

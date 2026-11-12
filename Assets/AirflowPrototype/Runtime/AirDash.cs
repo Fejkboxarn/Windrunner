@@ -105,27 +105,8 @@ namespace AirflowPrototype
             bool hasMoveIntent =
                 input.Move.sqrMagnitude >= minimumInput * minimumInput;
 
-            if (!Session.WantsDash(hasMoveIntent, input.DashHeld))
-            {
-                SetDashing(false);
-                return;
-            }
-
-            if (!Session.IsDashing &&
-                !Session.CanBeginDash(airPower.CanStartDash))
-            {
-                SetDashing(false);
-                return;
-            }
-
-            float cost =
-                settings.dashDrainPerSecond * Time.deltaTime;
-
-            bool stillHasPower = airPower.Spend(cost);
-
-            Session.AfterSpend(stillHasPower);
-
-            SetDashing(stillHasPower);
+            SetDashing(Session.EvaluateTick(hasMoveIntent, input.DashHeld,
+                settings.dashDrainPerSecond * Time.deltaTime, airPower));
         }
 
         private void ResolveFlowHitSystem()
