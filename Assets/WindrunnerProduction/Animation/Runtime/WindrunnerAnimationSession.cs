@@ -60,6 +60,8 @@ namespace Windrunner.Production.Animation
         private readonly Animator animator;
         private readonly WindrunnerAnimationProfile profile;
         private readonly Behaviour[] legacyWriters;
+        private readonly Transform feedbackSource;
+        private readonly bool filterFeedbackSource;
         private readonly List<SuspendedBehaviour> suspended = new List<SuspendedBehaviour>();
         private IFeedbackService feedback;
         private WeaponPosePipelineRuntime graph;
@@ -87,11 +89,13 @@ namespace Windrunner.Production.Animation
         public event Action<MontageSignal> MontageSignalRaised;
 
         public WindrunnerAnimationSession(Animator animator, WindrunnerAnimationProfile profile,
-            Behaviour[] legacyWriters)
+            Behaviour[] legacyWriters, Transform feedbackSource = null)
         {
             this.animator = animator;
             this.profile = profile;
             this.legacyWriters = legacyWriters ?? Array.Empty<Behaviour>();
+            this.feedbackSource = feedbackSource;
+            filterFeedbackSource = !ReferenceEquals(feedbackSource, null);
         }
 
         public void BindFeedback(IFeedbackService source)
@@ -105,6 +109,7 @@ namespace Windrunner.Production.Animation
 
         private void OnFeedbackObserved(FeedbackKey key, FeedbackRequest request)
         {
+            if (filterFeedbackSource && (feedbackSource == null || request.Source != feedbackSource)) return;
             ObservedEvents++;
             LastObservedEvent = key;
             if (profile == null || profile.actionBindings == null) return;

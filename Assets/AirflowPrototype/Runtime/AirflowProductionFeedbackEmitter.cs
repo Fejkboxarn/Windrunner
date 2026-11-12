@@ -15,6 +15,16 @@ namespace AirflowPrototype
         [SerializeField] private AirPower airPower;
 
         private AirflowProductionFeedbackAdapter adapter;
+        private IFeedbackService boundFeedback;
+        private bool hasFeedbackBinding;
+
+        public void BindFeedbackService(IFeedbackService service)
+        {
+            StopObserving();
+            hasFeedbackBinding = true;
+            boundFeedback = service;
+            if (isActiveAndEnabled && Application.isPlaying) StartObserving();
+        }
 
         public void Configure(PlayerMovementVisuals newMovement, AirCaster newCaster,
             AirSlingController newSling, AirFlowHitSystem newHits, AirPower newPower)
@@ -51,9 +61,14 @@ namespace AirflowPrototype
         {
             if (adapter != null) return;
             ResolveReferences();
-            WindrunnerFeedbackHost host = WindrunnerFeedbackHost.Active;
-            if (host == null || host.Service == null) return;
-            adapter = new AirflowProductionFeedbackAdapter(transform, host.Service,
+            IFeedbackService service = boundFeedback;
+            if (!hasFeedbackBinding)
+            {
+                WindrunnerFeedbackHost host = WindrunnerFeedbackHost.Active;
+                service = host != null ? host.Service : null;
+            }
+            if (service == null) return;
+            adapter = new AirflowProductionFeedbackAdapter(transform, service,
                 movement, caster, sling, hits, airPower);
         }
 

@@ -178,6 +178,35 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator ExplicitFeedbackBindingRebindsAndReleasesSubscriptions()
+        {
+            using (var first = new Windrunner.Production.Feedback.FeedbackService(null, null, null, null, null, false))
+            using (var second = new Windrunner.Production.Feedback.FeedbackService(null, null, null, null, null, false))
+            {
+                var emitter = Add(player, "AirflowProductionFeedbackEmitter");
+                Call(emitter, "BindFeedbackService", first);
+                Call(power, "Spend", 100f);
+                Assert.That(first.ObservedCount, Is.EqualTo(1));
+                Call(power, "Restore", 100f);
+                int firstCount = first.ObservedCount;
+                Call(emitter, "BindFeedbackService", second);
+                Call(power, "Spend", 100f);
+                Assert.That(first.ObservedCount, Is.EqualTo(firstCount));
+                Assert.That(second.ObservedCount, Is.EqualTo(1));
+                ((Behaviour)emitter).enabled = false;
+                Call(power, "Restore", 100f);
+                Assert.That(second.ObservedCount, Is.EqualTo(1));
+                ((Behaviour)emitter).enabled = true;
+                Call(power, "Spend", 100f);
+                Assert.That(second.ObservedCount, Is.EqualTo(2));
+                Call(emitter, "BindFeedbackService", new object[] { null });
+                Call(power, "Restore", 100f);
+                Assert.That(second.ObservedCount, Is.EqualTo(2));
+                yield return null;
+            }
+        }
+
+        [UnityTest]
         public IEnumerator ExplicitPlayerInputBindingStaysIsolatedThroughDisposal()
         {
             var template = WindrunnerInputActionsFactory.CreateDefaults(); assets.Add(template);

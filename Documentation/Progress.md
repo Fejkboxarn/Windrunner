@@ -108,6 +108,13 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 
 ## Next implementation scope and release gates
 
+### Resumed: animation and feedback ownership
+
+- Interrupted profiling/warning stage checkpoint: `63e3408c`.
+- WindrunnerAnimationSession now accepts an explicit player source and ignores other players' and unowned semantic requests. A destroyed owner never becomes a broadcast listener. Existing three-argument callers retain observation compatibility; the installed bridge supplies its motor owner.
+- Bridge and emitter expose non-owning BindFeedbackService APIs; explicit null means unbound, not global fallback. Emitter rebind/disable/re-enable disposes and recreates exactly one subscription set. No clips/mappings or graph startup settings changed.
+- `animation-player-ownership-EditMode`: **27/27 passed**. `animation-player-ownership-PlayMode`: **15/15 passed**, both exit 0. Existing live graph takeover/restoration and traversal checks remain green. Serialized-contract gate passed.
+
 ### Post-RC1: scoped player bindings
 
 - Added explicit non-owning input-service binding on PlayerInputReader. Disposed bindings remain inert; they never silently switch to the global player. Existing unbound scenes retain their compatibility host fallback.

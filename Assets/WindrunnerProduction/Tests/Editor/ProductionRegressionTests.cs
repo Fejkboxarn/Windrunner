@@ -118,6 +118,31 @@ namespace Windrunner.Production.Tests
         }
 
         [Test]
+        public void AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated()
+        {
+            var firstOwner = new GameObject("First player");
+            var secondOwner = new GameObject("Second player");
+            using (var service = new FeedbackService(null, null, null, null, null, false))
+            using (var first = new WindrunnerAnimationSession(null, null, null, firstOwner.transform))
+            using (var second = new WindrunnerAnimationSession(null, null, null, secondOwner.transform))
+            {
+                try
+                {
+                    first.BindFeedback(service); second.BindFeedback(service);
+                    service.Publish(FeedbackKey.SlingImpact, FeedbackRequest.At(firstOwner.transform));
+                    service.Publish(FeedbackKey.CastReleased, FeedbackRequest.At(secondOwner.transform));
+                    service.Publish(FeedbackKey.SlingLaunched, default);
+                    Assert.That(first.ObservedEvents, Is.EqualTo(1));
+                    Assert.That(second.ObservedEvents, Is.EqualTo(1));
+                    UnityEngine.Object.DestroyImmediate(firstOwner);
+                    service.Publish(FeedbackKey.Flip, default);
+                    Assert.That(first.ObservedEvents, Is.EqualTo(1), "Destroyed owner must not become a broadcast subscription.");
+                }
+                finally { UnityEngine.Object.DestroyImmediate(firstOwner); UnityEngine.Object.DestroyImmediate(secondOwner); }
+            }
+        }
+
+        [Test]
         public void AnimationObservationUnbindsPreviousServiceAndDisposes()
         {
             var first = new FeedbackService(null, null, null, null, null, false);

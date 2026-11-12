@@ -29,6 +29,15 @@ namespace AirflowPrototype
 
         private WindrunnerAnimationSession session;
         private IFeedbackService connectedFeedback;
+        private IFeedbackService boundFeedback;
+        private bool hasFeedbackBinding;
+
+        public void BindFeedbackService(IFeedbackService service)
+        {
+            hasFeedbackBinding = true;
+            boundFeedback = service;
+            TryBindFeedback();
+        }
         private bool hadGroundedSample;
         private bool lastGrounded;
         private Vector3 previousForward;
@@ -92,7 +101,7 @@ namespace AirflowPrototype
                 {
                     legacyHumanoid, legacyCustom, legacyArms, legacyKnife,
                     legacyThrow, legacyFootIK
-                });
+                }, motor != null ? motor.transform : transform);
             session.MontageSignalRaised += OnMontageSignal;
             hadGroundedSample = false;
             previousForward = humanoidAnimator != null
@@ -102,8 +111,12 @@ namespace AirflowPrototype
         private void TryBindFeedback()
         {
             if (session == null) return;
-            WindrunnerFeedbackHost host = WindrunnerFeedbackHost.Active;
-            IFeedbackService service = host != null ? host.Service : null;
+            IFeedbackService service = boundFeedback;
+            if (!hasFeedbackBinding)
+            {
+                WindrunnerFeedbackHost host = WindrunnerFeedbackHost.Active;
+                service = host != null ? host.Service : null;
+            }
             if (ReferenceEquals(connectedFeedback, service)) return;
             connectedFeedback = service;
             session.BindFeedback(service);
