@@ -52,14 +52,13 @@ namespace AirflowPrototype.Editor
 
             targeter.Configure(camera, motor, settings);
 
-            AirTargetIndicator indicator = player.GetComponent<AirTargetIndicator>();
+            AirTargetIndicator indicator = player.GetComponentInChildren<AirTargetIndicator>(true);
             if (indicator == null)
                 indicator = Undo.AddComponent<AirTargetIndicator>(player);
 
             indicator.Configure(targeter, camera);
 
-            AirTargetDebugHUD hud = player.GetComponent<AirTargetDebugHUD>() ??
-                                    player.GetComponentInChildren<AirTargetDebugHUD>(true);
+            AirTargetDebugHUD hud = player.GetComponentInChildren<AirTargetDebugHUD>(true);
             if (hud == null)
                 hud = Undo.AddComponent<AirTargetDebugHUD>(player);
 

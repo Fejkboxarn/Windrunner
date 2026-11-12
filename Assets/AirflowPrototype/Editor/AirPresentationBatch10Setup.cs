@@ -122,7 +122,7 @@ namespace AirflowPrototype.Editor
             }
 
             AirChargeVisual oldCharge =
-                motor.GetComponent<AirChargeVisual>();
+                motor.GetComponentInChildren<AirChargeVisual>(true);
 
             if (oldCharge != null &&
                 oldCharge.enabled)

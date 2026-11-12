@@ -141,12 +141,28 @@ namespace AirflowPrototype
 
             for (int i = 0; i < _rings.Length; i++)
             {
-                GameObject child =
-                    new GameObject($"Air Compression Ring {i + 1}");
+                string childName = $"Air Compression Ring {i + 1}";
+                Transform found = transform.Find(childName);
+                GameObject child;
+                if (found != null)
+                {
+                    child = found.gameObject;
+                    if (child.GetComponent<LineRenderer>() == null)
+                    {
+                        Debug.LogError("Existing " + childName +
+                                       " is not a LineRenderer; skipping an unrelated object.", child);
+                        continue;
+                    }
+                }
+                else
+                {
+                    child = new GameObject(childName);
+                    child.transform.SetParent(transform, false);
+                }
 
-                child.transform.SetParent(transform, false);
-
-                LineRenderer line = child.AddComponent<LineRenderer>();
+                LineRenderer line = child.GetComponent<LineRenderer>();
+                if (line == null)
+                    line = child.AddComponent<LineRenderer>();
                 line.useWorldSpace = false;
                 line.loop = true;
                 line.positionCount = Segments;
@@ -157,14 +173,19 @@ namespace AirflowPrototype
                     UnityEngine.Rendering.ShadowCastingMode.Off;
                 line.receiveShadows = false;
 
-                Material material = new Material(shader);
-                material.color =
-                    new Color(0.55f, 0.82f, 0.94f, 0.8f);
-
-                line.material = material;
+                // Preserve a migrated legacy ring's original material instead
+                // of allocating a second material and leaking the first.
+                Material material = null;
+                if (line.sharedMaterial == null)
+                {
+                    material = new Material(shader);
+                    material.color =
+                        new Color(0.55f, 0.82f, 0.94f, 0.8f);
+                    line.material = material;
+                }
 
                 _rings[i] = line;
-                _materials[i] = material;
+                _materials[i] = material; // Only destroy materials we created.
             }
 
             SetVisible(false);

@@ -22,7 +22,7 @@ namespace AirflowPrototype
         private void Awake()
         {
             if (caster == null)
-                caster = GetComponent<AirCaster>();
+                caster = GetComponentInParent<AirCaster>();
 
             if (targetCamera == null)
                 targetCamera = Camera.main;

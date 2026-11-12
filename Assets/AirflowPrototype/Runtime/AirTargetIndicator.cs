@@ -24,7 +24,7 @@ namespace AirflowPrototype
         private void Awake()
         {
             if (targeter == null)
-                targeter = GetComponent<AirTargeter>();
+                targeter = GetComponentInParent<AirTargeter>();
 
             if (targetCamera == null)
                 targetCamera = Camera.main;

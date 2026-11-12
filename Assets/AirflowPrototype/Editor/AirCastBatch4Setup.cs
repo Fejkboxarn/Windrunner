@@ -96,7 +96,7 @@ namespace AirflowPrototype.Editor
                 settings);
 
             AirCastFeedback feedback =
-                player.GetComponent<AirCastFeedback>();
+                player.GetComponentInChildren<AirCastFeedback>(true);
 
             if (feedback == null)
                 feedback =
@@ -105,7 +105,7 @@ namespace AirflowPrototype.Editor
             feedback.Configure(caster, camera);
 
             AirChargeVisual chargeVisual =
-                player.GetComponent<AirChargeVisual>();
+                player.GetComponentInChildren<AirChargeVisual>(true);
 
             if (chargeVisual == null)
                 chargeVisual =

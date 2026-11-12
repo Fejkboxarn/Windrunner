@@ -95,7 +95,7 @@ namespace AirflowPrototype.Editor
                 perfectFeedback);
 
             AirTargetIndicator oldTarget =
-                player.GetComponent<AirTargetIndicator>();
+                player.GetComponentInChildren<AirTargetIndicator>(true);
 
             if (oldTarget != null &&
                 oldTarget.enabled)
@@ -111,7 +111,7 @@ namespace AirflowPrototype.Editor
             }
 
             AirCastFeedback oldCastFeedback =
-                player.GetComponent<AirCastFeedback>();
+                player.GetComponentInChildren<AirCastFeedback>(true);
 
             if (oldCastFeedback != null &&
                 oldCastFeedback.enabled)
