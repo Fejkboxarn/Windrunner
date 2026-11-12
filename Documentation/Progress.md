@@ -46,6 +46,15 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 - `movement-authority-fixed-PlayMode`: **3/3 passed**, exit 0. New fixture compared all 360 intermediate displacement steps and collision flags against direct CharacterController.Move, including floor/wall contacts. Existing motor, material and animation takeover tests passed.
 - Serialized-contract gate: passed; no serialized content or field changes.
 - `movement-authority-EditMode`: **21/21 passed**, exit 0. Movement stage ready for local checkpoint; next is engine time ownership.
+- Checkpoint: `5f4f6645`.
+
+### Autonomous continuation — time ownership
+
+- TimeScaleArbiter owns disposable nested pause and slowdown requests; UnityTimeAuthority is the single engine-clock writer in owned runtime. HitStopEnvelope preserves the original standalone quality/hold/recovery equations.
+- Deliberate overlap correction: pause dominates slowdowns and freezes hit-stop/impact-hold clocks, ability execution, camera and FOV recovery. Releasing/disabling one owner cannot restore stale time or override another owner. Unpaused hit-stop presentation still uses original clocks.
+- `time-authority-EditMode`: **24/24 passed**, exit 0; includes nested requests, fixed-step restoration and 400 legacy-envelope scenarios.
+- `time-authority-PlayMode`: **4/4 passed**, exit 0; actual pause menu + two hit-stop sources + nested pause + source disable + recovery tested, alongside previous physics/animation/material gates.
+- Serialized-contract gate passed; no scene/assets/serialized fields changed. See `TimeOwnership.md` for policy and limits.
 
 Completed this pass: structural repository audit and dependency graph; durable guidance/plan; executable baseline; immutable runtime UI material ownership; remaining motor simulation extraction; feedback failure isolation; animation subscription lifetime fix; scene composition/reference and animation takeover gates. No pushes, scene migrations, asset deletion, obsolete-code removal or automatic animation activation.
 

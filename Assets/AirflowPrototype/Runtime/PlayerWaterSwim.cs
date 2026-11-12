@@ -89,6 +89,7 @@ namespace AirflowPrototype
 
         private void Update()
         {
+            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused) return;
             if (controller == null ||
                 settings == null)
             {

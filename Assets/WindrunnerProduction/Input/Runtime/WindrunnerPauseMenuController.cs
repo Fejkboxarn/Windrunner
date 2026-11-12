@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
+using Windrunner.Production.Core;
+using Windrunner.Production.Unity;
 
 namespace Windrunner.Production.Input
 {
@@ -16,7 +18,7 @@ namespace Windrunner.Production.Input
         private readonly List<Button> bindingRows = new List<Button>();
         private CursorLockMode previousLock;
         private bool previousVisibility;
-        private float previousTimeScale = 1f;
+        private TimeScaleArbiter.Request pauseRequest;
         private bool paused;
 
         public bool IsPaused => paused;
@@ -73,8 +75,7 @@ namespace Windrunner.Production.Input
             paused = true;
             previousLock = Cursor.lockState;
             previousVisibility = Cursor.visible;
-            previousTimeScale = Time.timeScale;
-            Time.timeScale = 0f;
+            pauseRequest = UnityTimeAuthority.Pause();
             input.SetMenuOpen(true);
             if (view != null && view.Panel != null)
             {
@@ -96,7 +97,8 @@ namespace Windrunner.Production.Input
             if (uiModule != null) uiModule.enabled = false;
             if (view != null && view.Panel != null) view.Panel.SetActive(false);
             input.SetMenuOpen(false);
-            Time.timeScale = previousTimeScale;
+            pauseRequest?.Dispose();
+            pauseRequest = null;
             Cursor.lockState = previousLock;
             Cursor.visible = previousVisibility;
         }

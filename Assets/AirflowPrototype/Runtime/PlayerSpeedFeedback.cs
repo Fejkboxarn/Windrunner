@@ -121,6 +121,7 @@ namespace AirflowPrototype
 
         private void LateUpdate()
         {
+            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused) return;
             if (targetCamera == null ||
                 motor == null ||
                 settings == null)

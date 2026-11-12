@@ -93,6 +93,7 @@ namespace AirflowPrototype
 
         private void Update()
         {
+            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused) return;
             if (motor == null || input == null || airPower == null || settings == null)
             {
                 Session.CancelAutoDash();

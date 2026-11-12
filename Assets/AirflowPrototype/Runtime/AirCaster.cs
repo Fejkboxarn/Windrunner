@@ -169,6 +169,7 @@ namespace AirflowPrototype
 
         private void Update()
         {
+            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused) return;
             ResolveCastOrigin();
 
             if (input == null ||

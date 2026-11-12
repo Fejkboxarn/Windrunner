@@ -254,6 +254,11 @@ namespace AirflowPrototype
 
         private void Update()
         {
+            if (Windrunner.Production.Unity.UnityTimeAuthority.IsPaused)
+            {
+                FinishFrame();
+                return;
+            }
             if (targetCamera == null)
                 targetCamera = Camera.main;
 
