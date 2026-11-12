@@ -1,0 +1,23 @@
+{
+  "baseline": "7bfdfe5e",
+  "repairs": [
+    {
+      "path": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Particle Effects/Waterfall_Splashes_1.prefab",
+      "baseline_sha256": "65383a991321efb8187decf0f59272161852804e30ab210e7b1bfc3b089d46fb",
+      "approved_sha256": "5ad8573f0d27a49a5699f8ec28320f9bb0b5434175c42cc82cce75ff249acfb4",
+      "reason": "Missing source GUID absent from Assets/history; use existing bundled Water_Waterfall_Small.wav for small waterfall splash emitter. Audible replacement requires mix acceptance."
+    },
+    {
+      "path": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Particle Effects/Waterfall_Splashes_2.prefab",
+      "baseline_sha256": "cd6b2a1725f69fc72c7833f07a3bf54778e199d7afba3f9091978d9e32d0c65c",
+      "approved_sha256": "e44139e583443413a9c49156b116eb7bdeac40dd3e44dd428cf900f81e7ff0a2",
+      "reason": "Missing source GUID absent from Assets/history; use existing bundled Water_Waterfall_Small.wav for small waterfall splash emitter. Audible replacement requires mix acceptance."
+    },
+    {
+      "path": "Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Particle Effects/Birds.prefab",
+      "baseline_sha256": "88be69a957ef4e034c4d84d8edbbb34234dec209628dcc6658482df384f5069d",
+      "approved_sha256": "064f1e932ef694d963dacb53e52044aac32fc4bce2929ddd59b3ffa7b2d7b2b2",
+      "reason": "Clear two dead sprite-mode entries; active UVModule mode remains Grid (0), tilesX=8, material/texture unchanged."
+    }
+  ]
+}

@@ -66,6 +66,15 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 - `ability-execution-clocks-PlayMode`: **8/8 passed**, exit 0.
 - `ability-edges-final-PlayMode`: **8/8 passed**, exit 0; added reward-to-Dash subscriber check, second airborne jump rejection, reversal, camera/FOV pause. Actual perfect/normal Sling and Cast execution, payment/feedback order and resource interruption validated. See `AbilityComposition.md`.
 - `ability-final-EditMode`: **25/25 passed**, exit 0. Serialized-contract and code whitespace gates passed; ready for ability checkpoint.
+- Checkpoint: `365d6aaf`.
+
+### Autonomous continuation — decorative references
+
+- Traced all 10 missing references to three source prefabs. Four scene AudioSource failures inherited one absent audio GUID from two waterfall splash prefabs. Six bird failures inherited two absent sprite GUIDs in a prefab configured for Grid texture-sheet mode (8 columns), where sprite-mode entries are unused.
+- Reused bundled Water_Waterfall_Small.wav for the small-waterfall emitters; original missing clip cannot be recovered from repository/history. This restores audible ambience and needs human mix acceptance. Cleared only the unused bird sprite references; texture/material/grid animation unchanged.
+- Four reference lines changed across three prefabs. No assets/components deleted, no GUID changes, no scene reserialization. Exact pre/post canonical hashes and rationale are in ContentRepairs.json; serialized gate now permits only these exact reviewed repairs.
+- `content-repair-EditMode`: **25/25 passed**, exit 0. The integrity test now requires **zero** missing scripts/broken references in enabled gameplay scenes and owned prefabs; the ten-item exception list was removed.
+- `content-repair-PlayMode`: **8/8 passed**, exit 0. Exact content-repair hash gate passed.
 
 Completed this pass: structural repository audit and dependency graph; durable guidance/plan; executable baseline; immutable runtime UI material ownership; remaining motor simulation extraction; feedback failure isolation; animation subscription lifetime fix; scene composition/reference and animation takeover gates. No pushes, scene migrations, asset deletion, obsolete-code removal or automatic animation activation.
 

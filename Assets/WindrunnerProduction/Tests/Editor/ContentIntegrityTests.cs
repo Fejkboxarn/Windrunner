@@ -66,7 +66,7 @@ namespace Windrunner.Production.Tests
         }
 
         [Test]
-        public void GameplaySceneAndOwnedPrefabsHaveOnlyRecordedBaselineReferenceIssues()
+        public void GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences()
         {
             var failures = new List<string>();
             var setup = EditorSceneManager.GetSceneManagerSetup();
@@ -91,19 +91,7 @@ namespace Windrunner.Production.Tests
                 if (setup.Length > 0) EditorSceneManager.RestoreSceneManagerSetup(setup);
                 else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             }
-            // Explicit 5P content debt, not a claim that references are clean.
-            // Multiset equality detects additions AND removal (which requires updating this record).
-            const string scenePath = "Assets/AirflowPrototype/Generated/Batch1_Playground.unity: ";
-            var known = new List<string>();
-            for (int i = 0; i < 2; i++)
-            {
-                known.Add(scenePath + "Waterfall_Splashes_1/AudioSource.m_Resource");
-                known.Add(scenePath + "Waterfall_Splashes_2/AudioSource.m_Resource");
-            }
-            foreach (var name in new[] { "Birds", "Birds (1)", "Birds (2)" })
-                for (int i = 0; i < 2; i++)
-                    known.Add(scenePath + name + "/ParticleSystem.UVModule.sprites.Array.data[" + i + "].sprite");
-            CollectionAssert.AreEquivalent(known, failures, "Reference debt must match the recorded 5P baseline exactly.");
+            Assert.That(failures, Is.Empty, string.Join("\n", failures));
         }
 
         private static void Audit(GameObject root, string path, List<string> failures)
