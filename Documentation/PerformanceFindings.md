@@ -28,3 +28,30 @@ Executed twice in Unity Editor on NVIDIA GeForce RTX 5070 Ti / Direct3D11. Enabl
 Both profiling tests passed (1/1 each). Variation includes Editor/Test Runner work; these samples do not prove an optimization or establish a shipping FPS budget. No bottleneck was sufficiently attributed to justify a new performance rewrite. There is measurable frame allocation, not zero allocation. Full traversal, GPU timing, player builds and call-stack attribution remain outstanding.
 
 Reproduce: `Tools/Run-UnityTests.ps1 -Platform PlayMode -Rendered -Filter RenderedSceneProfileTests -Label <fresh-label>`. Ordinary suites exclude the Profiling category. Actual capture JSON is included in TestResults.json and local Logs/ProductionMigration/rendered-profile-*.json.
+
+## Traversal and lifecycle scenarios (two executed rendered runs)
+
+Unity 6000.6.2f1, Intel Core Ultra 7 265KF, RTX 5070 Ti. `traversal-scenarios` and `traversal-scenarios-repeat` each passed 1/1, exercising eight actual regression scenarios with native Main Thread, GC Allocated In Frame and Total Used Memory counters. Nested test iterators are measured frame by frame. Fixed simulation time is used by ability fixtures; wall time comes from Stopwatch, not simulated delta time.
+
+These include assertions/reflection, transient scene loading, Editor rendering and test infrastructure. Simple ability fixtures are not the full art scene. Full scene animation and reload are included separately. Rendering is enabled but only the earlier 1280x720 idle capture validates pixels. No GPU duration, standalone-player frame budget, leak conclusion, zero-allocation claim or causal optimization is inferred.
+
+| Scenario | Samples | Median main ms | p95 main ms | Median GC bytes | p95 GC bytes | Peak process used MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| cast-perfect-projectile-reward (09:52:37) | 45 | 6.021 | 6.036 | 133,784 | 145,126 | 3106.1 |
+| cast-perfect-projectile-reward (09:53:36) | 45 | 6.019 | 6.059 | 135,319 | 142,994 | 3101.3 |
+| dash-deplete-reward-reactivate-interrupt (09:52:37) | 28 | 6.020 | 6.060 | 129,179 | 141,135 | 3105.7 |
+| dash-deplete-reward-reactivate-interrupt (09:53:36) | 28 | 6.021 | 6.030 | 132,539 | 141,749 | 3100.9 |
+| live-animation-actions-restoration (09:52:27) | 239 | 6.022 | 6.819 | 121,584 | 137,636 | 3281.6 |
+| live-animation-actions-restoration (09:53:25) | 239 | 6.022 | 6.523 | 123,733 | 138,480 | 3273.8 |
+| movement-jump-reversal-pause (09:52:27) | 214 | 0.215 | 0.525 | 853 | 901 | 607.0 |
+| movement-jump-reversal-pause (09:53:25) | 214 | 0.235 | 0.603 | 853 | 901 | 598.8 |
+| scene-reload-ui-handoff (09:52:35) | 7 | 6.030 | 253.594 | 100,713 | 504,428 | 3604.1 |
+| scene-reload-ui-handoff (09:53:33) | 7 | 8.386 | 231.229 | 101,026 | 504,725 | 3601.8 |
+| sling-cancel-pause-normal-release (09:52:37) | 65 | 6.021 | 6.043 | 133,477 | 144,222 | 3105.7 |
+| sling-cancel-pause-normal-release (09:53:35) | 65 | 6.021 | 6.044 | 134,688 | 144,529 | 3100.8 |
+| sling-charge-perfect-traverse-impact-launch (09:52:36) | 65 | 6.021 | 6.051 | 130,714 | 143,608 | 3104.3 |
+| sling-charge-perfect-traverse-impact-launch (09:53:35) | 65 | 6.021 | 6.054 | 134,398 | 142,687 | 3099.7 |
+| water-swim-pause-exit-recovery (09:52:38) | 38 | 6.021 | 6.094 | 131,925 | 140,521 | 3106.7 |
+| water-swim-pause-exit-recovery (09:53:36) | 38 | 6.021 | 6.035 | 129,793 | 142,687 | 3101.8 |
+
+Reproduce with `Tools/Run-UnityTests.ps1 -Platform PlayMode -Rendered -Filter TraversalScenarioProfileTests -Label <fresh-label>`. Highest reload/animation spikes include import/loading and test work. The measured costs justify follow-up native allocation call-stack and player captures, not an unverified gameplay rewrite. Water samples show nonzero allocations; cached water mesh arrays and triangle traversal do not establish attribution to swimming. High node counts, pool saturation and target-hardware GPU budgets remain performance acceptance work.

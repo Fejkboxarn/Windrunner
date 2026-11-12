@@ -114,6 +114,31 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride()
+        {
+            var decoy = new GameObject("Other player main camera").AddComponent<Camera>();
+            decoy.tag = "MainCamera";
+            foreach (string name in new[] { "AirCastFeedback", "AirPresentationController", "AirTargetChargeUI", "AirTargetIndicator" })
+            {
+                var presentation = Add(player, name);
+                var field = presentation.GetType().GetField("targetCamera", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That(field.GetValue(presentation), Is.SameAs(camera), name + " must use its ability owner.");
+                field.SetValue(presentation, decoy);
+                Call(presentation, "Awake");
+                Assert.That(field.GetValue(presentation), Is.SameAs(decoy), "Explicit override remains authoritative.");
+                UnityEngine.Object.Destroy(presentation);
+                yield return null;
+            }
+            var cameraField = caster.GetType().GetField("targetCamera", BindingFlags.Instance | BindingFlags.NonPublic);
+            cameraField.SetValue(caster, null);
+            var unbound = Add(player, "AirCastFeedback");
+            Assert.That(unbound.GetType().GetField("targetCamera", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(unbound), Is.Null,
+                "An unbound owner must not borrow the other player's main camera.");
+            UnityEngine.Object.Destroy(unbound); UnityEngine.Object.Destroy(decoy.gameObject);
+            yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator SwimmingPausesExitsAndRecoversThroughWaterRemoval()
         {
             var water = new GameObject("Test water");

@@ -61,7 +61,7 @@ namespace AirflowPrototype
                 hitSystem = GetComponent<AirFlowHitSystem>();
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = caster != null ? caster.ViewCamera : Camera.main;
 
             ResolveCastOrigin();
             Rebuild();

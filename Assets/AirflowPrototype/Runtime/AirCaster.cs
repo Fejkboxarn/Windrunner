@@ -5,6 +5,7 @@ namespace AirflowPrototype
 {
     public sealed class AirCaster : MonoBehaviour
     {
+        public Camera ViewCamera => targetCamera;
         [SerializeField] private PlayerInputReader input;
         [SerializeField] private AirTargeter targeter;
         [SerializeField] private Camera targetCamera;

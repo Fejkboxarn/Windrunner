@@ -27,7 +27,7 @@ namespace AirflowPrototype
                 targeter = GetComponentInParent<AirTargeter>();
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = targeter != null ? targeter.ViewCamera : Camera.main;
 
             _texture = Texture2D.whiteTexture;
         }

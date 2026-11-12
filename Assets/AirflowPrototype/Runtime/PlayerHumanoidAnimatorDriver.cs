@@ -839,7 +839,7 @@ namespace AirflowPrototype
             }
 
             if (movementCamera == null)
-                movementCamera = Camera.main;
+                movementCamera = motor != null ? motor.ViewCamera : Camera.main;
 
             if (animator == null)
             {

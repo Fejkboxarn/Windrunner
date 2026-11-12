@@ -95,7 +95,7 @@ namespace AirflowPrototype
             }
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = slingController != null ? slingController.ViewCamera : Camera.main;
         }
 
         private void Subscribe()

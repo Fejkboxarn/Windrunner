@@ -18,6 +18,7 @@ namespace AirflowPrototype
     /// </summary>
     public sealed class AirTargeter : MonoBehaviour
     {
+        public Camera ViewCamera => targetCamera;
         public readonly struct CandidateScore
         {
             public CandidateScore(

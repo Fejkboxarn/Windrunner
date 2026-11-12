@@ -8,6 +8,7 @@ namespace AirflowPrototype
     [RequireComponent(typeof(CharacterController))]
     public sealed class AirSlingController : MonoBehaviour
     {
+        public Camera ViewCamera => targetCamera;
         [SerializeField] private PlayerMotor motor;
         [SerializeField] private CharacterController controller;
         [SerializeField] private AirSlingTargeter slingTargeter;

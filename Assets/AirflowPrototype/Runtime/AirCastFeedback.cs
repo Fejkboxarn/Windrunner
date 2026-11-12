@@ -25,7 +25,7 @@ namespace AirflowPrototype
                 caster = GetComponentInParent<AirCaster>();
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = caster != null ? caster.ViewCamera : Camera.main;
 
             _white = Texture2D.whiteTexture;
         }

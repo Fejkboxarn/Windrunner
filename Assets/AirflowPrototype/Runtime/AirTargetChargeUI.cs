@@ -83,7 +83,7 @@ namespace AirflowPrototype
                 caster = GetComponent<AirCaster>();
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = caster != null ? caster.ViewCamera : Camera.main;
         }
 
         private void Subscribe()

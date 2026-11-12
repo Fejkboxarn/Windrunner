@@ -1,0 +1,165 @@
+{
+  "AirCastFeedback": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs"
+    ]
+  },
+  "AirPresentationController": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs",
+      "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs"
+    ]
+  },
+  "AirTargetChargeUI": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+      "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs"
+    ]
+  },
+  "AirSlingTargetChargeUI": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirSlingBatch18Setup.cs"
+    ]
+  },
+  "AirTargetIndicator": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs"
+    ]
+  },
+  "PlayerHumanoidAnimatorDriver": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+      "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs"
+    ]
+  },
+  "PlayerGroundedFootIK": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs"
+    ]
+  },
+  "PlayerInputStartupRepair": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs"
+    ]
+  },
+  "AirNodeIdleHover": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": []
+  },
+  "AirPowerProgressBarUI": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirPowerProgressBarSetup.cs",
+      "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs",
+      "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs"
+    ]
+  },
+  "AirChimeTrial": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirChimeBatch13Setup.cs",
+      "Assets/AirflowPrototype/Runtime/AirChime.cs",
+      "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs"
+    ]
+  },
+  "AutumnPostProcessController": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirVisualBatch14Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirVisualBatch14v1Setup.cs"
+    ]
+  },
+  "PlayerWindFeedback": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/AirFeedbackBatch7Setup.cs"
+    ]
+  },
+  "AirflowPortableAnimationBridge": {
+    "serialized_assets": [
+      "Assets/AirflowPrototype/Generated/Batch1_Playground.unity"
+    ],
+    "source_callers": [
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs",
+      "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs"
+    ]
+  },
+  "MM_6D_Shake.asset": {
+    "path": "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset",
+    "serialized_referencers": [
+      "Assets/Feel/MMFeedbacks/Demos/MMFeedbacksDemo/MMF_PlayerDemo.unity"
+    ],
+    "script_guids": [
+      "b7f59e54f2bfd184b9dd451a678d089b"
+    ]
+  },
+  "MMDefaultPostProcessingProfile.asset": {
+    "path": "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset",
+    "serialized_referencers": [
+      "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab"
+    ],
+    "script_guids": [
+      "8e6292b2c06870d4495f009f912b9600"
+    ]
+  },
+  "MMDefaultPostProcessingVolume.prefab": {
+    "path": "Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab",
+    "serialized_referencers": [],
+    "script_guids": [
+      "8b9a305e18de0c04dbd257a21cd47087"
+    ]
+  }
+}

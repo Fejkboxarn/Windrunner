@@ -8,8 +8,9 @@
     "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs": "74d86f0a901ec63d25ff08497d01bf29853fd82f492390e365ce1a256770d378",
     "Assets/AirflowPrototype/Editor/WindrunnerPlaceholderActionSetup.cs": "4be9a37fd7b0421da93e8027bd7c6bd94bd5f64956f0fff856e7d1f9c02dea05",
     "Assets/AirflowPrototype/Runtime/AbilityResourcePolicy.cs": "1df2f53046e7e8fa56495a0fc40f4752bbcc3371cf24ce33d62e827843b1bddd",
+    "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs": "4e6d59cbb68884f013dae6b229d01d75017e14568db96162df79ac432a124f52",
     "Assets/AirflowPrototype/Runtime/AirCastSession.cs": "52370a78fe86ac70ce797b10a9701d97fb4105c138e6ccbb3d6daeb93da9e084",
-    "Assets/AirflowPrototype/Runtime/AirCaster.cs": "b90905771fe0e5ba7660a1fa4baace8fa7592e4e13c47944ea3132d3b1c3e8df",
+    "Assets/AirflowPrototype/Runtime/AirCaster.cs": "ce7ed8719f4510318b5a2e883213bdabf08fd5cc476697d9e7d446f0315ba855",
     "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs": "2fba2ee8470bcb6c14ac76b8b46d658c57bd43637e7922e22d7217dc6d521689",
     "Assets/AirflowPrototype/Runtime/AirDash.cs": "de87a89f7c25d073dc6a0b05a7fd4ce7e2ef4d2b5483807a3d9b6c0d247c282d",
     "Assets/AirflowPrototype/Runtime/AirDashSession.cs": "4ffcce855c3cfe6c9d6e3933fa5c1d7fbb71fe91db27aa736e5cd8523e4d4814",
@@ -18,16 +19,21 @@
     "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs": "8a622cbd186c88ede1d28fbf502f4fe1890c0cda973a46e7e86044a56939ddf7",
     "Assets/AirflowPrototype/Runtime/AirPower.cs": "ef596959caf079fe0e360073bc4e43333d39ca8e8f733dc0577ee9390e09a511",
     "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs": "4d0e27f346143ef2c7200055ad4a34dcc55fb4a702e864277d39b28805785a36",
-    "Assets/AirflowPrototype/Runtime/AirSlingController.cs": "faa270dde18709ccbb43445eded26fc4091db6c40f68b8a1142a25c987f72695",
+    "Assets/AirflowPrototype/Runtime/AirPresentationController.cs": "89c31c348681e14828e09c802f5def8b152e65533729675e6f83eab3460066b2",
+    "Assets/AirflowPrototype/Runtime/AirSlingController.cs": "8637761e185c8e36cd88f138c7da5c8fd504a9ab63e219267926a92825681aa3",
     "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs": "559a6b23939631c9685e3ff0887ca3d0dd912adfa8d56aa6bc9a6e72d3e99772",
     "Assets/AirflowPrototype/Runtime/AirSlingPresentation.cs": "d08c2750474be967bb851fa0f0338410afb2e12179c07b99a008733b781b7d39",
+    "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs": "8206e160ac7cb95a79e3bd92fb5e3a721cff89ece0786f359137df416c2996a4",
     "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs": "becdd4d9b4036a9c888738cd632d7c5b6b3b81a10f157fa241dcea27cc0c5695",
-    "Assets/AirflowPrototype/Runtime/AirTargeter.cs": "ac41837203ccc75fdea1f17d496e42e1996d0d0695f71dab9d28fb7fc6c5e846",
+    "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs": "16833e0a172a20f5e776d1e6ff3e3259dd055a7f872d3094185bf2d82a9c2743",
+    "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs": "d7f590d1633b968783c7d8c23da171c7a29883a6a63633b663efc393be413759",
+    "Assets/AirflowPrototype/Runtime/AirTargeter.cs": "846e71c4dec53e606b2200cb447af4265a3eebe2239e5243c833f02cc759974b",
     "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs": "2b22d1db736061d5c56b0baa3eb655832a505d19fa423e2891c61a205e98d79f",
     "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs": "7eb3cfac45439a903d362c326f59b6c0d65b05a8dae92e5156a2b727cc8c976d",
     "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs": "1704e3a42a62a4ab0116f5077269e09bf5c4789adcc96ea1f06a2621c6b27657",
     "Assets/AirflowPrototype/Runtime/HitStopEnvelope.cs": "c0480d913259804ab448a5ef13b0df6ec2723541bf09a440d55302b0dd5dbd16",
     "Assets/AirflowPrototype/Runtime/PlayerDisplacementAuthority.cs": "19f077ae3442a8adc7d12ba5f4787330fd54f3aa972e9ab35b0728dff97444fd",
+    "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs": "71fdb9d9c7d07b26dbf51a8bf947cf143cb811f100fe755a1287f388a9a10194",
     "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs": "960680fb916f7c73c39eaabea766cbda258b882c81887bf01d542a1a10a9af60",
     "Assets/AirflowPrototype/Runtime/PlayerMotor.cs": "57856d9311c559e504789cbfe6193786c16c22fe1450b5ac025e7252bf7a0e36",
     "Assets/AirflowPrototype/Runtime/PlayerMotorSimulation.cs": "a691b401a5cf357dd886b8633d97e98acd80c933f2a5e1f073cc33a6d8182c6f",
@@ -55,11 +61,12 @@
     "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs": "6e84548a6412f3725cd2c859458aa715fdc45671b11d69acd059dfc33e7766d1",
     "Assets/WindrunnerProduction/Tests/Editor/TimeScaleArbitrationTests.cs": "90f7daaf5c432aa9c8a678acf662e38c7412c6901bfac5a3e0b671c10a936c29",
     "Assets/WindrunnerProduction/Tests/Editor/Windrunner.Production.Tests.Editor.asmdef": "a1f318fd72a669a17d175f8197e69b24883e2db69f705c38e953e0e9707065f3",
-    "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs": "2798301bcff88d9f8ee76f68cb5f25b002345dcb550dbebea43b608fbc98ca11",
+    "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs": "8c0825c6b3638ed3bceffe1ef613240313dd27a06c5d3e162cd978f07d358c78",
     "Assets/WindrunnerProduction/Tests/PlayMode/DisplacementAuthorityTests.cs": "29f89b7aa39a3ee362aa7f8190cc18e9539b77ac39179d63ba68419d42f44cc8",
     "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs": "e78c54eb473466192242820306de315e917779af6feac5c7be72e66cbbfda049",
     "Assets/WindrunnerProduction/Tests/PlayMode/RenderedSceneProfileTests.cs": "1cc63f597f6c525ef60c6d34aef0713e79e83a0eaa3e37acac2f40bb83511c17",
     "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs": "c23ec444fbde91e05918be760d0f2cac14fd3056adef5907930d7e2f35080be2",
+    "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs": "d385f389f7c0dd66a347263e4043417c37470aa72fb911cb5c35842930b1d3cd",
     "Assets/WindrunnerProduction/Tests/PlayMode/Windrunner.Production.Tests.PlayMode.asmdef": "7a18e6b057029b4bd253632e1c9bf360e4b8d718d61b323aa4f3f8cd4ee69082"
   },
   "runs": [
@@ -6388,6 +6395,322 @@
           "failure": null
         }
       ]
+    },
+    {
+      "label": "traversal-scenarios-PlayMode",
+      "xml_sha256": "04bf2cdabfdc9791be985e1f350efbc67ff55961d2e7ba466378d272ea2df3e1",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "11,3930449",
+      "start-time": "2026-11-12 09:52:27Z",
+      "end-time": "2026-11-12 09:52:38Z",
+      "tests": [
+        {
+          "name": "TraversalAndLifecycleMeasurements",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "traversal-scenarios-repeat-PlayMode",
+      "xml_sha256": "c17c4676a758d8b26fbef5ff5cd09918f595b68682444c1ac5d6969a8aa50f18",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "11,3258417",
+      "start-time": "2026-11-12 09:53:25Z",
+      "end-time": "2026-11-12 09:53:36Z",
+      "tests": [
+        {
+          "name": "TraversalAndLifecycleMeasurements",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "presentation-owner-final-PlayMode",
+      "xml_sha256": "870337081db7e8b38ac3daa8efdefcc19edafbb833f6492ed96a788421ac47af",
+      "result": "Passed",
+      "total": "19",
+      "passed": "19",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "11,7082412",
+      "start-time": "2026-11-12 09:54:27Z",
+      "end-time": "2026-11-12 09:54:39Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "integrated-actions-final-EditMode",
+      "xml_sha256": "0e07483cdd47a5a8a64ff4b995881de0f5c852ad6874a02acba1aa916d03ecd3",
+      "result": "Passed",
+      "total": "31",
+      "passed": "31",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "6,6054439",
+      "start-time": "2026-11-12 09:55:21Z",
+      "end-time": "2026-11-12 09:55:28Z",
+      "tests": [
+        {
+          "name": "GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InstalledLocomotionHandlesReversalsAirborneAndLandingWithNormalizedWeights",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NonInterruptibleActionStillAllowsExplicitCancellationAndFreshReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PriorityLoopCancellationAndMissingSlotsHaveDeterministicRecovery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationObservationUnbindsPreviousServiceAndDisposes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisposedAnimationCannotResubscribeToFeedback",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirDashStateParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirCastReleaseParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirPowerStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirTargetSelectionParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorSimulationChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAbilityCompositionChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerPlanarParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingChargeParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingDashParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingFlowParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingPathParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingTargetParityChecks\",\"RunScoringChecks\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackObservationPreservesPublishOrderAndDisposalStopsDelivery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriberFailureDoesNotSuppressLaterObservers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriptionChangesApplyToNextPublish",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PauseSwitchesMapsWithoutChangingAuthoringAsset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "StateTransitionsExitBeforeEnterAndDisposeOnce",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MeasureResourceUiReadAndFeedbackDispatch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "HitStopMatchesLegacyCurveAndFreezesDuringPause",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(1.0f,0.02f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(0.5f,0.01f)",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
     }
   ],
   "builds": [
@@ -6503,6 +6826,7 @@
     "export-rc1-warnings.log": "5594099d2876d66897102abcdfae7db529ef9f06bce4b5bf84dcb8f391de3d70",
     "input-lifecycle-after-PlayMode.log": "c3fb37728bd1a44f2a21c51ae85aca3faaecd453fcd018c821649a50b68c902f",
     "input-lifecycle-before-PlayMode.log": "60a49714a6a473d854aa626790fcc6857de2bab91aef7c2bce9b568d399d9a9a",
+    "integrated-actions-final-EditMode.log": "0591b34d930bafb56367817b88d0ee4a36ca9dfe34267955bd3a15c976fc65b5",
     "material-ownership-EditMode.log": "83536a00ee0cdebd75af9887655ff1106ae958953bb361c896826077c6f8283b",
     "material-ownership-PlayMode.log": "a645677cc382c20a05787fded7e181ed05bb9deece0c2784f1b3e59ddb66088f",
     "migration-20261112-build.log": "8b6a77b6180aac31ba5c77464de60c3acd4be7a0dfd4b8e4dd0356ae729c812c",
@@ -6526,6 +6850,7 @@
     "placeholder-transitions-install.log": "aab53c7eaa987ac344c964648362490251ee0fb61aa03ae47f01baef010c4c9c",
     "player-bindings-EditMode.log": "d260c7685fd6266fd17d0f55f18c5b8c228c59eab4d948f5461c553974cc78f1",
     "player-bindings-PlayMode.log": "358be831a04a86eaf82ffc6b57ee2dc5cb8f42039aa92cfe49790449f5c70031",
+    "presentation-owner-final-PlayMode.log": "83065e234905af6bae275c309b14515bc7759249745784d60604419956ac750a",
     "rendered-baseline-PlayMode.log": "47076c859203f252fb7d8e8c41447e1e1859da707222b573531565219eac1664",
     "rendered-repeat-PlayMode.log": "312b073eb3d9563dcacdc042fdd346bb8c1209dda644b7c37366f3e9535e418b",
     "resume-profile-stage-EditMode.log": "10700bc4b6e622a414abaa0749ed979aa6b67ec255f3390da4e792d55067f340",
@@ -6545,6 +6870,8 @@
     "sling-presentation-PlayMode.log": "99c655e7688bc6e0733ffaf371cd34f9fc87bd19adb9b3c8f3967893358f83bf",
     "time-authority-EditMode.log": "8f539e902a81e03aada5e619d262c10b3f0e40968d1b5f88da9fc40e01c9750d",
     "time-authority-PlayMode.log": "d03fbe93d50dd2e28a0f7aefc4542a243d95ee7dff969c1bb061aa2c3964a746",
+    "traversal-scenarios-PlayMode.log": "a711f0953f3a68f955e042d2e3717f1ad1e98fb6e6e3866b2966110f050f4600",
+    "traversal-scenarios-repeat-PlayMode.log": "6393705a9a422f7fd34458476bd5e54a10ee72763b5ac5c46255377438394721",
     "ui-profile-after-PlayMode.log": "26bcaad0284c2535fbc5bfc3cf8c9797a709f7561c2168fb22ae04b3fa80f655",
     "water-device-final-EditMode.log": "994bfeb56884b73fdbfd6d38093d2ec33048e3e6232eb0f69ad319a96d3619cd",
     "water-device-final-PlayMode.log": "b5e384d03bcfd162910f08e5ccf3f29502f77346cbdc701b684b983644b173ee",
@@ -6580,6 +6907,246 @@
       "p95FrameMs": 7.0044007152318954,
       "medianMainThreadMs": 6.1894,
       "medianGcBytes": 3570.0
+    },
+    {
+      "scenario": "cast-perfect-projectile-reward",
+      "utc": "2026-11-12T09:52:37.9005891Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 45,
+      "medianWallMs": 6.0288,
+      "p95WallMs": 6.831300000000001,
+      "medianMainThreadMs": 6.0207,
+      "p95MainThreadMs": 6.0359,
+      "medianGcBytes": 133784,
+      "p95GcBytes": 145126,
+      "peakTotalUsedBytes": 3256950994
+    },
+    {
+      "scenario": "cast-perfect-projectile-reward",
+      "utc": "2026-11-12T09:53:36.3572112Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 45,
+      "medianWallMs": 6.0091,
+      "p95WallMs": 6.8368,
+      "medianMainThreadMs": 6.0189,
+      "p95MainThreadMs": 6.0592,
+      "medianGcBytes": 135319,
+      "p95GcBytes": 142994,
+      "peakTotalUsedBytes": 3251943319
+    },
+    {
+      "scenario": "dash-deplete-reward-reactivate-interrupt",
+      "utc": "2026-11-12T09:52:37.7017612Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 28,
+      "medianWallMs": 6.0248,
+      "p95WallMs": 6.2523,
+      "medianMainThreadMs": 6.0198,
+      "p95MainThreadMs": 6.0602,
+      "medianGcBytes": 129179,
+      "p95GcBytes": 141135,
+      "peakTotalUsedBytes": 3256513575
+    },
+    {
+      "scenario": "dash-deplete-reward-reactivate-interrupt",
+      "utc": "2026-11-12T09:53:36.1574328Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 28,
+      "medianWallMs": 6.0228,
+      "p95WallMs": 6.2376000000000005,
+      "medianMainThreadMs": 6.0206,
+      "p95MainThreadMs": 6.0305,
+      "medianGcBytes": 132539,
+      "p95GcBytes": 141749,
+      "peakTotalUsedBytes": 3251505908
+    },
+    {
+      "scenario": "live-animation-actions-restoration",
+      "utc": "2026-11-12T09:52:27.2079590Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 239,
+      "medianWallMs": 6.036300000000001,
+      "p95WallMs": 7.0757,
+      "medianMainThreadMs": 6.0218,
+      "p95MainThreadMs": 6.8194,
+      "medianGcBytes": 121584,
+      "p95GcBytes": 137636,
+      "peakTotalUsedBytes": 3440997596
+    },
+    {
+      "scenario": "live-animation-actions-restoration",
+      "utc": "2026-11-12T09:53:25.7364998Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 239,
+      "medianWallMs": 6.0177000000000005,
+      "p95WallMs": 6.5068,
+      "medianMainThreadMs": 6.0219,
+      "p95MainThreadMs": 6.523,
+      "medianGcBytes": 123733,
+      "p95GcBytes": 138480,
+      "peakTotalUsedBytes": 3432815604
+    },
+    {
+      "scenario": "movement-jump-reversal-pause",
+      "utc": "2026-11-12T09:52:27.0818523Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 214,
+      "medianWallMs": 0.21350000000000002,
+      "p95WallMs": 0.5356000000000001,
+      "medianMainThreadMs": 0.2154,
+      "p95MainThreadMs": 0.5249,
+      "medianGcBytes": 853,
+      "p95GcBytes": 901,
+      "peakTotalUsedBytes": 636435312
+    },
+    {
+      "scenario": "movement-jump-reversal-pause",
+      "utc": "2026-11-12T09:53:25.6066738Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 214,
+      "medianWallMs": 0.2325,
+      "p95WallMs": 0.5652,
+      "medianMainThreadMs": 0.2354,
+      "p95MainThreadMs": 0.6034,
+      "medianGcBytes": 853,
+      "p95GcBytes": 901,
+      "peakTotalUsedBytes": 627858785
+    },
+    {
+      "scenario": "scene-reload-ui-handoff",
+      "utc": "2026-11-12T09:52:35.3711432Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 7,
+      "medianWallMs": 47.7638,
+      "p95WallMs": 617.2136,
+      "medianMainThreadMs": 6.0302,
+      "p95MainThreadMs": 253.5935,
+      "medianGcBytes": 100713,
+      "p95GcBytes": 504428,
+      "peakTotalUsedBytes": 3779164728
+    },
+    {
+      "scenario": "scene-reload-ui-handoff",
+      "utc": "2026-11-12T09:53:33.9254524Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 7,
+      "medianWallMs": 48.5537,
+      "p95WallMs": 561.2133,
+      "medianMainThreadMs": 8.3858,
+      "p95MainThreadMs": 231.2289,
+      "medianGcBytes": 101026,
+      "p95GcBytes": 504725,
+      "peakTotalUsedBytes": 3776806761
+    },
+    {
+      "scenario": "sling-cancel-pause-normal-release",
+      "utc": "2026-11-12T09:52:37.2805923Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 65,
+      "medianWallMs": 6.0242,
+      "p95WallMs": 6.2039,
+      "medianMainThreadMs": 6.0209,
+      "p95MainThreadMs": 6.0428,
+      "medianGcBytes": 133477,
+      "p95GcBytes": 144222,
+      "peakTotalUsedBytes": 3256574961
+    },
+    {
+      "scenario": "sling-cancel-pause-normal-release",
+      "utc": "2026-11-12T09:53:35.7386090Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 65,
+      "medianWallMs": 6.0200000000000005,
+      "p95WallMs": 6.233700000000001,
+      "medianMainThreadMs": 6.021,
+      "p95MainThreadMs": 6.0438,
+      "medianGcBytes": 134688,
+      "p95GcBytes": 144529,
+      "peakTotalUsedBytes": 3251436222
+    },
+    {
+      "scenario": "sling-charge-perfect-traverse-impact-launch",
+      "utc": "2026-11-12T09:52:36.8460904Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 65,
+      "medianWallMs": 6.010000000000001,
+      "p95WallMs": 6.9553,
+      "medianMainThreadMs": 6.0213,
+      "p95MainThreadMs": 6.0514,
+      "medianGcBytes": 130714,
+      "p95GcBytes": 143608,
+      "peakTotalUsedBytes": 3255142429
+    },
+    {
+      "scenario": "sling-charge-perfect-traverse-impact-launch",
+      "utc": "2026-11-12T09:53:35.3153726Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 65,
+      "medianWallMs": 6.0079,
+      "p95WallMs": 6.630800000000001,
+      "medianMainThreadMs": 6.0214,
+      "p95MainThreadMs": 6.0545,
+      "medianGcBytes": 134398,
+      "p95GcBytes": 142687,
+      "peakTotalUsedBytes": 3250253538
+    },
+    {
+      "scenario": "water-swim-pause-exit-recovery",
+      "utc": "2026-11-12T09:52:38.2019186Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 38,
+      "medianWallMs": 6.0309,
+      "p95WallMs": 6.408,
+      "medianMainThreadMs": 6.0208,
+      "p95MainThreadMs": 6.094,
+      "medianGcBytes": 131925,
+      "p95GcBytes": 140521,
+      "peakTotalUsedBytes": 3257646214
+    },
+    {
+      "scenario": "water-swim-pause-exit-recovery",
+      "utc": "2026-11-12T09:53:36.6613375Z",
+      "cpu": "Intel(R) Core(TM) Ultra 7 265KF",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti",
+      "unity": "6000.6.2f1",
+      "samples": 38,
+      "medianWallMs": 6.0278,
+      "p95WallMs": 6.197500000000001,
+      "medianMainThreadMs": 6.021,
+      "p95MainThreadMs": 6.0345,
+      "medianGcBytes": 129793,
+      "p95GcBytes": 142687,
+      "peakTotalUsedBytes": 3252495555
     }
   ]
 }
