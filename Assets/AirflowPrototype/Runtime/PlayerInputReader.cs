@@ -81,8 +81,10 @@ namespace AirflowPrototype
 
         private void Awake()
         {
-            if (!UsesProductionInput)
-                BuildActions();
+            // Existing scenes compose against the early input host once;
+            // cameras/abilities subsequently consume this player's binding.
+            if (Production != null) BindProductionInput(Production);
+            else BuildActions();
         }
 
         private void OnEnable()

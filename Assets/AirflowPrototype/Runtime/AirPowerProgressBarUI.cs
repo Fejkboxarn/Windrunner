@@ -49,7 +49,10 @@ namespace AirflowPrototype
         [Tooltip(
             "Retained for existing serialized assets. The typed AirPower API supplies its own maximum.")]
         [Min(0.01f)]
+        // Retained only for the existing serialized schema; AirPower owns capacity.
+#pragma warning disable CS0414
         [SerializeField, HideInInspector] private float fallbackMaximumAirPower = 100f;
+#pragma warning restore CS0414
 
         [Header("Refresh")]
         [Tooltip(

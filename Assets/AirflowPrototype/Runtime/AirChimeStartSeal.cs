@@ -11,7 +11,6 @@ namespace AirflowPrototype
         private BoxCollider _trigger;
         private LineRenderer _ring;
         private Material _runtimeMaterial;
-        private bool _playerInside;
 
         public void Configure(
             AirChimeTrial newTrial,
@@ -91,24 +90,12 @@ namespace AirflowPrototype
             if (motor == null)
                 return;
 
-            _playerInside = true;
-
             if (trial != null &&
                 !trial.IsActive)
             {
                 trial.StartTrial(
                     motor);
             }
-        }
-
-        private void OnTriggerExit(
-            Collider other)
-        {
-            PlayerMotor motor =
-                other.GetComponentInParent<PlayerMotor>();
-
-            if (motor != null)
-                _playerInside = false;
         }
 
         private void BuildIfNeeded()

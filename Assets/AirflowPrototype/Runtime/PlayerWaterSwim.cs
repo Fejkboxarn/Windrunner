@@ -40,11 +40,11 @@ namespace AirflowPrototype
         {
             motor = newMotor;
             input = newMotor != null
-                ? newMotor.GetComponent<PlayerInputReader>()
+                ? newMotor.Input
                 : GetComponent<PlayerInputReader>();
             controller =
                 newMotor != null
-                    ? newMotor.GetComponent<CharacterController>()
+                    ? newMotor.Displacement.Controller
                     : GetComponent<CharacterController>();
 
             settings = newSettings;

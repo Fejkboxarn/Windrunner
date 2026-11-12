@@ -33,6 +33,8 @@ result["builds"] = [json.loads(path.read_text(encoding="utf-8-sig"))
                     for path in sorted(logs.glob("*-build.json"))]
 result["player_smoke_runs"] = [json.loads(path.read_text(encoding="utf-8-sig"))
                                for path in sorted(logs.glob("*-player.json"))]
+result["rendered_profiles"] = [json.loads(path.read_text(encoding="utf-8-sig"))
+                               for path in sorted(logs.glob("rendered-profile-*.json"))]
 result["evidence_log_sha256"] = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                                  for path in sorted(logs.glob("*.log"))}
 destination.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

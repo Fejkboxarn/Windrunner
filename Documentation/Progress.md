@@ -4,6 +4,8 @@ Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 ## Current handoff
 
+Resumed after usage-limit interruption at `67938aea`. The uncommitted profiling/warning stage was preserved and inspected. `resume-profile-stage-EditMode` **26/26** and `resume-profile-stage-PlayMode` **14/14** passed, exit 0. Two earlier rendered profiling runs each passed 1/1; native frame allocation calibration succeeded. BuildWarnings.md/JSON classify all 21 original RC1 build warnings. Current code has not yet been packaged as RC2.
+
 Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayMode** (`input-lifecycle-after`), both Unity exit 0. Ordered movement, nested time ownership, ability composition, decorative references, typed UI binding and input teardown are implemented. Windows candidate packaging is recorded below. Overall production architecture migration remains incomplete; manual acceptance and the next implementation scope are at the end of this file. TestResults.json preserves actual runs, including failures, and source hashes.
 
 ## Historical first-pass record
@@ -126,6 +128,14 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 - Added real water mesh/swimming tests covering entry, pause, removed-water exit grace, recovery and disable. Device removal at a short charge initially passed (`water-device`: 13/13), but perfect-window removal reproduced an unintended paid Sling release (`device-perfect-before`: 12/13, exit 2).
 - Input service now tracks participating devices and publishes an interruption generation on removal/disconnection/disable. Sling and Cast cancel charging before release processing when it changes. Subscriptions are removed on disposal. This is an intentional correction: device loss must not fire a perfect ability.
 - `device-perfect-after`: 13/13 passed. `water-device-final-PlayMode`: **14/14 passed**, exit 0, including Cast cancellation without projectile and successful input after reconnection. `water-device-final-EditMode`: **26/26 passed**, exit 0. Serialized-contract gate passed.
+
+### Post-RC1: profiling, warning audit and ownership cleanup
+
+- Water/device checkpoint: `67938aea`.
+- RenderedSceneProfileTests captures actual nonblack 1280x720 scene output on RTX 5070 Ti/DX11, with warmup and calibrated native frame allocations. Both runs passed. Median frame times 6.492/6.192 ms; p95 7.263/7.004 ms; frame allocations 4,596/3,570 bytes. Editor/Test Runner overhead prevents attribution or a shipping FPS claim. See PerformanceFindings.md.
+- Exported the original RC1 BuildReport: all 21 warnings classified, including three missing-script vendor Resources not covered by gameplay scene integrity checks. Build tool now records exact warning messages. No vendor resources deleted.
+- Reader binds the early production host once at Awake; swimming uses the motor's configured input/controller. Removed only unused nonserialized trial state; retained serialized UI legacy capacity with narrowly scoped warning suppression.
+- Architecture inventory scans 205 owned runtime sources: 21 discovery sites, 8 global-service accesses, one physical Move boundary, and pose/material ownership candidates. These are review signals, not proof that components are obsolete.
 
 1. Explicit per-player bindings for camera/input/presentation, eliminating cross-player fallback searches with multiple-composition coverage. Current scene composition is verified; global services still assume one local player.
 2. Further separate Sling presentation orchestration while preserving synchronous motor -> Sling (300) -> swimming (1000) steps. Expand water overlap, obstruction, destroyed-target and device-removal/reconnection coverage.

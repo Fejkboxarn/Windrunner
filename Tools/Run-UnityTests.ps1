@@ -1,6 +1,8 @@
 param(
     [ValidateSet('EditMode', 'PlayMode')][string]$Platform = 'EditMode',
-    [string]$Label = 'regression'
+    [string]$Label = 'regression',
+    [switch]$Rendered,
+    [string]$Filter = ''
 )
 $ErrorActionPreference = 'Stop'
 $project = Split-Path $PSScriptRoot -Parent
@@ -15,7 +17,10 @@ New-Item -ItemType Directory -Path $results -Force | Out-Null
 $xml = Join-Path $results "$Label-$Platform.xml"
 $log = Join-Path $results "$Label-$Platform.log"
 if ((Test-Path -LiteralPath $xml) -or (Test-Path -LiteralPath $log)) { throw 'Use a fresh label to avoid overwriting validation evidence.' }
-$arguments = @('-batchmode', '-nographics', '-projectPath', "`"$project`"", '-runTests', '-testPlatform', $Platform, '-testResults', "`"$xml`"", '-logFile', "`"$log`"")
+$arguments = @('-batchmode', '-projectPath', "`"$project`"", '-runTests', '-testPlatform', $Platform, '-testResults', "`"$xml`"", '-logFile', "`"$log`"")
+if (!$Rendered) { $arguments += '-nographics' }
+if ($Filter) { $arguments += @('-testFilter', $Filter) }
+else { $arguments += @('-testCategory', '!Profiling') }
 $process = Start-Process -FilePath $editor -ArgumentList $arguments -WindowStyle Hidden -PassThru
 $process.WaitForExit()
 if (!(Test-Path -LiteralPath $xml)) { throw "Unity exited $($process.ExitCode) without test results. Inspect $log" }

@@ -17,6 +17,7 @@ namespace AirflowPrototype.Editor
             public int errors, warnings;
             public double seconds;
             public ulong bytes;
+            public string[] warningMessages;
         }
 
         public static void BuildWindows()
@@ -43,12 +44,24 @@ namespace AirflowPrototype.Editor
                 result = summary.result.ToString(), outputPath = summary.outputPath,
                 unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
                 errors = (int)summary.totalErrors, warnings = (int)summary.totalWarnings,
-                seconds = summary.totalTime.TotalSeconds, bytes = summary.totalSize
+                seconds = summary.totalTime.TotalSeconds, bytes = summary.totalSize,
+                warningMessages = report.steps.SelectMany(step => step.messages)
+                    .Where(message => message.type == LogType.Warning).Select(message => message.content).ToArray()
             };
             Directory.CreateDirectory("Logs/ProductionMigration");
             File.WriteAllText("Logs/ProductionMigration/" + label + "-build.json", JsonUtility.ToJson(result, true));
             if (summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Windows build failed; inspect the build log/report.");
             Debug.Log("[Windrunner Candidate] Build succeeded: " + summary.outputPath);
+        }
+
+        public static void ExportLatestWarnings()
+        {
+            var report = BuildReport.GetLatestReport();
+            if (report == null) throw new InvalidOperationException("No previous build report.");
+            var lines = report.steps.SelectMany(step => step.messages)
+                .Where(message => message.type == LogType.Warning).Select(message => message.content);
+            File.WriteAllLines("Logs/ProductionMigration/rc1-warning-messages.txt", lines);
+            Debug.Log("Exported previous build warning messages: " + report.summary.totalWarnings);
         }
     }
 }
