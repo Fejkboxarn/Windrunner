@@ -225,8 +225,7 @@ namespace AirflowPrototype
         private void ResolveOptionalReferences()
         {
             if (targetCamera == null)
-                targetCamera = motor != null && motor.ViewTransform != null
-                    ? motor.ViewTransform.GetComponent<Camera>() : Camera.main;
+                targetCamera = motor != null ? motor.ViewCamera : Camera.main;
 
             if (perfectTimingFeedback == null)
             {
@@ -272,7 +271,7 @@ namespace AirflowPrototype
                 return;
             }
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = motor != null ? motor.ViewCamera : Camera.main;
 
             if (motor == null ||
                 controller == null ||

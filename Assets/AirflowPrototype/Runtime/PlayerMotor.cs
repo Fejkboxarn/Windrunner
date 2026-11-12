@@ -14,6 +14,7 @@ namespace AirflowPrototype
         private PlayerMotorSimulation _simulation;
         public PlayerInputReader Input => input != null ? input : (input = GetComponent<PlayerInputReader>());
         public Transform ViewTransform => cameraTransform;
+        public Camera ViewCamera => cameraTransform != null ? cameraTransform.GetComponent<Camera>() : null;
         private PlayerDisplacementAuthority _displacement;
 
         public PlayerDisplacementAuthority Displacement

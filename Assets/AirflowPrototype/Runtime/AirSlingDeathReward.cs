@@ -105,10 +105,10 @@ namespace AirflowPrototype
             if (health == null)
                 health = GetComponent<AirSlingNodeHealth>();
 
-            if (airPower == null)
+            if (airPower == null && playerTransform != null)
             {
                 airPower =
-                    FindAnyObjectByType<AirPower>();
+                    playerTransform.GetComponent<AirPower>();
             }
 
             if (playerTransform == null &&

@@ -142,7 +142,10 @@ namespace AirflowPrototype
                 targeter = GetComponent<AirTargeter>();
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+            {
+                var owner = GetComponent<PlayerMotor>();
+                targetCamera = owner != null ? owner.ViewCamera : Camera.main;
+            }
 
             if (settings != null)
                 settings.SynchronizeCompatibilityFields();

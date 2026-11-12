@@ -93,7 +93,7 @@ namespace AirflowPrototype
                 motor = GetComponent<PlayerMotor>();
 
             if (targetCamera == null)
-                targetCamera = Camera.main;
+                targetCamera = motor != null ? motor.ViewCamera : Camera.main;
         }
 
         private void Update()

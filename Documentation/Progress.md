@@ -115,6 +115,13 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 - Bridge and emitter expose non-owning BindFeedbackService APIs; explicit null means unbound, not global fallback. Emitter rebind/disable/re-enable disposes and recreates exactly one subscription set. No clips/mappings or graph startup settings changed.
 - `animation-player-ownership-EditMode`: **27/27 passed**. `animation-player-ownership-PlayMode`: **15/15 passed**, both exit 0. Existing live graph takeover/restoration and traversal checks remain green. Serialized-contract gate passed.
 
+### Resumed: camera and death-reward scope
+
+- Animation ownership checkpoint: `4bb6c7e8`.
+- Verified serialized camera and Sling death-reward references before modifying fallbacks (`explicit-scene-baseline-EditMode`: 27/27 passed). Targeters, Cast, Sling, hit/reward feedback now prefer their motor's view; a configured motor with no view no longer captures another player's MainCamera. Explicit serialized camera overrides remain authoritative.
+- Death reward resolves missing resource only from its specified player, never an arbitrary scene resource. Two-player Play Mode delivery test confirms recipient isolation. Added destroyed-target cancellation during charge and paid traversal, including baseline no-refund semantics and external-velocity cleanup.
+- `scoped-camera-rewards-PlayMode`: 16/16 passed; `scoped-ownership-final-PlayMode`: **17/17 passed**; `scoped-ownership-final-EditMode`: **27/27 passed**, all exit 0. Serialized-contract gate passed.
+
 ### Post-RC1: scoped player bindings
 
 - Added explicit non-owning input-service binding on PlayerInputReader. Disposed bindings remain inert; they never silently switch to the global player. Existing unbound scenes retain their compatibility host fallback.

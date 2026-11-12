@@ -178,6 +178,47 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch()
+        {
+            int canceled = 0, launched = 0;
+            Observe(sling, "SlingCanceled", () => canceled++);
+            Observe(sling, "SlingLaunched", () => launched++);
+            node = new GameObject("Charge target"); node.transform.position = new Vector3(0, 2, 8); Add(node, "AirSlingNode");
+            yield return Frames(3); Keys(Key.F); yield return Frames(3);
+            UnityEngine.Object.Destroy(node); yield return Frames(2);
+            Assert.That(Get(sling, "IsCharging"), Is.EqualTo(false));
+            Assert.That(Get(power, "Current"), Is.EqualTo(100f));
+            Keys(); yield return Frames(2);
+            node = new GameObject("Traversal target"); node.transform.position = new Vector3(0, 2, 8); Add(node, "AirSlingNode");
+            yield return Frames(3); Keys(Key.F); yield return Frames(19); Keys(); yield return Frames(1);
+            Assert.That(Get(power, "Current"), Is.EqualTo(85f));
+            UnityEngine.Object.Destroy(node); yield return Frames(3);
+            Assert.That(Get(sling, "IsSlinging"), Is.EqualTo(false));
+            Assert.That(Get(motor, "HasExternalTraversalVelocity"), Is.EqualTo(false));
+            Assert.That(canceled, Is.EqualTo(2)); Assert.That(launched, Is.Zero);
+            Assert.That(Get(power, "Current"), Is.EqualTo(85f), "Committed cost is not refunded by baseline cancellation.");
+        }
+
+        [UnityTest]
+        public IEnumerator SlingDeathRewardUsesOnlyItsConfiguredPlayer()
+        {
+            var otherPlayer = new GameObject("Other resource owner");
+            var otherPower = Add(otherPlayer, "AirPower"); Call(otherPower, "Configure", movement, true);
+            Call(power, "Spend", 80f); Call(otherPower, "Spend", 80f);
+            node = new GameObject("Reward node"); var slingNode = Add(node, "AirSlingNode");
+            var health = Add(node, "AirSlingNodeHealth");
+            var reward = Add(node, "AirSlingDeathReward");
+            var rewardSettings = Asset("AirFlowHitSettings"); Set(rewardSettings, "returnStreamDuration", 0.05f);
+            Call(reward, "Configure", slingNode, health, otherPower, otherPlayer.transform, rewardSettings, null);
+            int delivered = 0; Observe(reward, "RewardDelivered", () => delivered++);
+            Call(health, "TakeDamage", 100);
+            yield return Frames(12);
+            Assert.That(delivered, Is.EqualTo(1));
+            Assert.That(Get(power, "Current"), Is.EqualTo(20f));
+            Assert.That((float)Get(otherPower, "Current"), Is.GreaterThan(20f));
+        }
+
+        [UnityTest]
         public IEnumerator ExplicitFeedbackBindingRebindsAndReleasesSubscriptions()
         {
             using (var first = new Windrunner.Production.Feedback.FeedbackService(null, null, null, null, null, false))

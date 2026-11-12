@@ -64,8 +64,8 @@ namespace AirflowPrototype
 
         private void ResolveCameraFeedback()
         {
-            Camera camera =
-                Camera.main;
+            PlayerMotor owner = playerTransform != null ? playerTransform.GetComponent<PlayerMotor>() : null;
+            Camera camera = owner != null ? owner.ViewCamera : Camera.main;
 
             if (camera == null)
                 return;

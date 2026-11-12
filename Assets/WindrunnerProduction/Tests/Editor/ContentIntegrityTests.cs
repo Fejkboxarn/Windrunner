@@ -47,6 +47,20 @@ namespace Windrunner.Production.Tests
                 CheckReference(components["AirFlowHitSystem"], "airPower", components["AirPower"]);
                 CheckReference(components["AirflowPortableAnimationBridge"], "motor", motor);
                 CheckReference(components["AirflowPortableAnimationBridge"], "sling", components["AirSlingController"]);
+                var view = (Transform)motor.GetType().GetProperty("ViewTransform").GetValue(motor);
+                Assert.That(view, Is.Not.Null);
+                var camera = view.GetComponent<Camera>();
+                Assert.That(camera, Is.Not.Null);
+                foreach (var name in new[] { "AirCaster", "AirTargeter", "AirSlingTargeter", "AirSlingController" })
+                    CheckReference(components[name], "targetCamera", camera);
+                var rewardType = Type.GetType("AirflowPrototype.AirSlingDeathReward, Assembly-CSharp", true);
+                var rewards = UnityEngine.Object.FindObjectsByType(rewardType, FindObjectsInactive.Include, FindObjectsSortMode.None);
+                Assert.That(rewards.Length, Is.GreaterThan(0));
+                foreach (Component reward in rewards)
+                {
+                    CheckReference(reward, "airPower", components["AirPower"]);
+                    CheckReference(reward, "playerTransform", motor.transform);
+                }
             }
             finally
             {

@@ -46,7 +46,7 @@ namespace AirflowPrototype
                 airPower = GetComponent<AirPower>();
 
             if (referenceCamera == null)
-                referenceCamera = Camera.main;
+                referenceCamera = motor != null ? motor.ViewCamera : Camera.main;
         }
 
         private void OnEnable()
