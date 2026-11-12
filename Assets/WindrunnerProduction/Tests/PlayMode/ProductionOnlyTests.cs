@@ -17,15 +17,8 @@ namespace Windrunner.Production.Tests
             try
             {
                 Assert.That((bool)bridgeType.GetProperty("ProductionOnlyReady").GetValue(bridge),Is.True);
-                foreach(string name in new[]{"PlayerHumanoidAnimatorDriver","PlayerCustomAnimationDriver","PlayerRunningArmPoseController","PlayerProceduralKnifeFlick","PlayerDualThrowPose","PlayerGroundedFootIK","PlayerInputStartupRepair"})
-                {
-                    var type=Type.GetType("AirflowPrototype."+name+", Assembly-CSharp",true);
-                    foreach(Behaviour legacy in UnityEngine.Object.FindObjectsByType(type,FindObjectsInactive.Include,FindObjectsSortMode.None))
-                    { Assert.That(legacy.enabled,Is.False,name);UnityEngine.Object.Destroy(legacy); }
-                }
-                yield return null;
                 foreach(string name in new[]{"PlayerHumanoidAnimatorDriver","PlayerCustomAnimationDriver","PlayerRunningArmPoseController","PlayerProceduralKnifeFlick","PlayerDualThrowPose","PlayerGroundedFootIK","PlayerInputStartupRepair","AirCastFeedback","AirTargetIndicator","AirChargeVisual"})
-                    Assert.That(UnityEngine.Object.FindObjectsByType(Type.GetType("AirflowPrototype."+name+", Assembly-CSharp",true),FindObjectsInactive.Include,FindObjectsSortMode.None),Is.Empty,name+" must be absent from the production scene.");
+                    Assert.That(Type.GetType("AirflowPrototype."+name+", Assembly-CSharp",false),Is.Null,name+" source type must be retired, not merely disabled.");
                 bridgeType.GetMethod("StopPortable").Invoke(bridge,null);
                 Assert.That((bool)bridgeType.GetMethod("TryStartPortable").Invoke(bridge,null),Is.True);
                 var animator=(Animator)bridgeType.GetProperty("HumanoidAnimator").GetValue(bridge);

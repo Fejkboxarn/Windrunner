@@ -20,12 +20,6 @@ namespace AirflowPrototype
         [SerializeField] private Animator humanoidAnimator;
         [SerializeField] private Camera referenceCamera;
         [SerializeField] private Transform optionalWorldLookTarget;
-        [SerializeField] private PlayerHumanoidAnimatorDriver legacyHumanoid;
-        [SerializeField] private PlayerCustomAnimationDriver legacyCustom;
-        [SerializeField] private PlayerRunningArmPoseController legacyArms;
-        [SerializeField] private PlayerProceduralKnifeFlick legacyKnife;
-        [SerializeField] private PlayerDualThrowPose legacyThrow;
-        [SerializeField] private PlayerGroundedFootIK legacyFootIK;
 
         private WindrunnerAnimationSession session;
         private IFeedbackService connectedFeedback;
@@ -53,8 +47,6 @@ namespace AirflowPrototype
             {
                 if(profile == null || !profile.productionOnly || !PortableActive || humanoidAnimator == null ||
                    humanoidAnimator.runtimeAnimatorController != null || humanoidAnimator.applyRootMotion) return false;
-                foreach(var writer in new Behaviour[] {legacyHumanoid,legacyCustom,legacyArms,legacyKnife,legacyThrow,legacyFootIK})
-                    if(writer != null && writer.enabled) return false;
                 var visuals=motor != null ? motor.GetComponent<PlayerMovementVisuals>() : null;
                 return visuals == null || !visuals.LegacyProceduralAnimationEnabled;
             }
@@ -62,21 +54,14 @@ namespace AirflowPrototype
         public string LastError => session != null ? session.LastError : "Not initialized";
 
         public void Configure(WindrunnerAnimationProfile newProfile, PlayerMotor newMotor,
-            AirSlingController newSling, Animator newAnimator, Camera newCamera,
-            PlayerHumanoidAnimatorDriver newLegacyHumanoid)
+            AirSlingController newSling, Animator newAnimator, Camera newCamera)
         {
             profile = newProfile;
             motor = newMotor;
             sling = newSling;
             humanoidAnimator = newAnimator;
             referenceCamera = newCamera;
-            legacyHumanoid = newLegacyHumanoid;
-            if (motor == null) return;
-            legacyCustom = motor.GetComponent<PlayerCustomAnimationDriver>();
-            legacyArms = motor.GetComponent<PlayerRunningArmPoseController>();
-            legacyKnife = motor.GetComponent<PlayerProceduralKnifeFlick>();
-            legacyThrow = motor.GetComponent<PlayerDualThrowPose>();
-            legacyFootIK = motor.GetComponentInChildren<PlayerGroundedFootIK>(true);
+
         }
 
         private void Start()
@@ -110,11 +95,7 @@ namespace AirflowPrototype
         {
             if (session != null) return;
             session = new WindrunnerAnimationSession(humanoidAnimator, profile,
-                new Behaviour[]
-                {
-                    legacyHumanoid, legacyCustom, legacyArms, legacyKnife,
-                    legacyThrow, legacyFootIK
-                }, motor != null ? motor.transform : transform);
+                Array.Empty<Behaviour>(), motor != null ? motor.transform : transform);
             session.MontageSignalRaised += OnMontageSignal;
             hadGroundedSample = false;
             previousForward = humanoidAnimator != null

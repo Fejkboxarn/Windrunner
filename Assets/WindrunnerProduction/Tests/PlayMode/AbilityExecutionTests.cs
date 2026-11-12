@@ -118,7 +118,7 @@ namespace Windrunner.Production.Tests
         {
             var decoy = new GameObject("Other player main camera").AddComponent<Camera>();
             decoy.tag = "MainCamera";
-            foreach (string name in new[] { "AirCastFeedback", "AirPresentationController", "AirTargetChargeUI", "AirTargetIndicator" })
+            foreach (string name in new[] { "AirPresentationController", "AirTargetChargeUI" })
             {
                 var presentation = Add(player, name);
                 var field = presentation.GetType().GetField("targetCamera", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -131,7 +131,7 @@ namespace Windrunner.Production.Tests
             }
             var cameraField = caster.GetType().GetField("targetCamera", BindingFlags.Instance | BindingFlags.NonPublic);
             cameraField.SetValue(caster, null);
-            var unbound = Add(player, "AirCastFeedback");
+            var unbound = Add(player, "AirTargetChargeUI");
             Assert.That(unbound.GetType().GetField("targetCamera", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(unbound), Is.Null,
                 "An unbound owner must not borrow the other player's main camera.");
             UnityEngine.Object.Destroy(unbound); UnityEngine.Object.Destroy(decoy.gameObject);

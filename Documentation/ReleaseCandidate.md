@@ -1,62 +1,50 @@
-# Integrated architecture release candidate
+# Integrated production-only character candidate
 
-Branch: production-refactor. Implementation checkpoints: 05ba46c1 (portable action phases and placeholder integration), 9354f251 (remaining player presentation camera bindings and scenario profiling). Earlier checkpoints remain in Git and Progress.md. No push, merge or history rewrite.
+Branch: production-refactor. Starting checkpoint 9a604f4a; Studio checkpoint fee61215; production-only composition checkpoint dac51246. Final retirement checkpoint is the commit containing this report (see Git log). No push, merge or history rewrite.
 
-Final executable: `D:/Fork/Windrunner/Builds/migration-rc3-final-20261112/Windrunner.exe`.
+Executable: `D:/Fork/Windrunner/Builds/production-clean-20261112/Windrunner.exe`, Unity 6000.6.2f1, Windows Mono. This supersedes the earlier RC3 executable and includes the waterfall correction. It is a validation candidate, not production-readiness sign-off.
 
-## Change inventory
+## Delivered changes
 
-- Application/service lifetime, input/rebinding/device interruption, nested pause/hit-stop arbitration and scene/UI reload composition.
-- Motor numerical rules, synchronous displacement authority, jump/flow/steering; preserved motor/Sling/swim ordering.
-- Cast/Dash sessions, resource spend/reward policy, Sling charge/path/phase logic and synchronous presentation collaborator.
-- Explicit player input/feedback/camera ownership; source-filtered action events and isolated reward recipients.
-- Existing portable animation framework extended with deterministic action priority, restart/interruption, speed, masks, phase looping/cancellation and per-character profiles. Compatible existing clips integrated; safe reserved slots for missing content. One portable graph owner per Animator, tested suspension/restoration of configured legacy writers.
-- Named locomotion/action Inspector workflow, clip inventory and replacement guide.
-- Ten decorative reference repairs from earlier stages; exact-hash allowance for those repairs and three animation profile changes. Existing GUIDs and gameplay scene/prefab references preserved.
-- Expanded deterministic, real-component, lifecycle, reference and performance regression tooling. Native allocation calibration replaces the failed per-thread allocation inference.
+- Tools > Windrunner > Character Tuning: one searchable categorized window over existing independent module profiles. Isolated drafts, safe live-preview allowlist, explicit asset Save, Undo/Revert, loaded-default comparison, validation, Petra preset, independent profile duplication and compatible future-character binding application. No monolithic runtime configuration or per-frame asset searches.
+- Portable animation automatically owns Petra by default. Production-only stop/failure cannot reactivate hidden legacy animation. Existing compatible placeholder clips remain; missing actions keep a valid portable fallback. Diagnostics check actual live ownership.
+- Ten obsolete pose/input-repair/overlay components and their ten runtime types removed; seventeen dependent historic installers/custom Editors plus the completed placeholder installer removed. Detached legacy player controller removed after caller/GUID audit. Scene incoming references and obsolete serialized fields cleared. Exact file list, hashes and reasons: SourceRetirements.json and RetiredProductionComponents.json.
+- Studio Editor files grouped with original GUIDs. Existing runtime assembly boundaries, numerical tuning, clips, Avatar, gameplay GameObjects, node controllers and third-party assets preserved. Required PlayerMovementVisuals event/bank/lean responsibilities retained.
+- Extended regression coverage for profile parity, draft/source isolation, actual save/Undo, no-op asset bytes, invalid configuration, production startup/stop/re-enable and absence of retired runtime types.
+- Earlier production service/input/time ownership, ordered movement, ability sessions/resources, Sling presentation collaborator, explicit camera/feedback ownership and waterfall fix remain integrated.
 
 ## Executed validation
 
-| Check | Actual result |
+| Check | Result |
 |---|---|
-| integrated-actions-final Edit Mode | 31/31 passed, Unity exit 0 |
-| presentation-owner-final Play Mode | 19/19 passed, Unity exit 0 |
-| traversal-scenarios and repeat, rendered | 1/1 each passed; eight scenarios per run |
-| Serialized contracts against 7bfdfe5e | Passed; allowlisted profile/decorative changes only |
-| Diff whitespace | Passed |
-| Windows migration-rc3-actions-20261112 | Succeeded, zero errors, 24 warnings, 32.39 s |
-| That build's headless and DX11 startup | Both survived 15 seconds, initialized, no matched runtime errors |
-| Final Windows migration-rc3-final-20261112 (tooltip corrected) | Succeeded, zero errors, 24 warnings, 25.77 s; 1,222,130,750 bytes |
+| Unity compilation | Passed through Test Runner and final Windows build |
+| legacy-source-retirement Edit Mode | 32/32 passed, exit 0 |
+| legacy-source-retirement Play Mode | 22/22 passed, exit 0 |
+| production-clean-references Edit Mode, after controller removal | 32/32 passed, exit 0 |
+| production-clean-traversal, rendered Play Mode | 1/1 passed, eight real scenarios |
+| production-rendered-baseline | 1/1 passed, native allocation calibration |
+| Serialized baseline contracts and retired GUID search | Zero failures / zero remaining retired GUID users |
+| Exact final candidate headless and DX11 startup | Both survived 15 seconds, initialized, no matched errors; intentional harness termination |
+| Windows production-clean-20261112 | Succeeded, 0 errors, 24 warnings; 24.1062 s; 1,212,117,318 bytes |
 
-Full suites cover motor/target rules, action timing/priority/fallbacks, ownership/lifecycle, water entry/exit/pause, device disconnection/reconnection, interrupted Cast/Sling, perfect traversal/release, Dash depletion/reward/reactivation, nested interruptions, feedback ordering/listener failure and loaded scene/prefab integrity. Successful hardware interaction and visual quality are not inferred. The only source change after these suites is an Inspector tooltip correction; the final build below recompiles it.
+Full suites cover deterministic motor/target/resource rules, jump/air transitions/reversals, normal/perfect/canceled Sling, perfect Cast/projectile/reward, Dash depletion/reactivation/interruption, water entry/exit/pause, simulated device loss/reconnect, nested time interruptions, feedback listener failures/order, graph ownership/lifecycle, loaded scene/prefab integrity and waterfall source/reload configuration. These tests do not certify audible output, hardware behavior or visual quality.
 
-TestResults.json retains failures as well as successful runs, test/source/log hashes, build warnings and player reports. Raw logs and binaries remain local ignored artifacts. Prior graph fan-out, ownership-guard, transition-slot and private-field failures were corrected, not omitted.
+TestResults.json preserves all actual runs, including corrected failures, source/XML/log hashes, build warnings and startup/profile reports. Local raw evidence is under Logs/ProductionMigration. Detailed performance and final startup results are in PerformanceFindings.md and Progress.md.
 
-Final candidate headless and rendered DX11 startup both survived 15 seconds with initialization confirmed and no matched runtime errors. Harness termination is deliberate; graceful shutdown and interactive gameplay are not tested by this smoke check.
+## Warnings, retained systems and remaining gates
 
-## Performance
+The final build retains 24 classified warnings: imported mesh settings, three ordered-search API warnings, Unity/vendor shader issues and three optional FEEL Resources with missing integration scripts. Warning subjects match the preceding candidate; shader variant keyword details differ. See BuildWarnings.md and exact build messages in TestResults.json. Zero broken gameplay references does not mean zero missing scripts in optional vendor Resources.
 
-PerformanceFindings.md contains both idle rendered captures and repeated movement/reversal/jump, action graph, UI reload, Sling, Dash, Cast and swimming measurements. Native Editor CPU/GC/memory counters include test costs and cannot attribute allocations to gameplay. The standalone DX11 startup/idle sample used 10.766 aggregate CPU seconds over 15 wall seconds, peak working set 958.96 MiB and ending private memory 2456.24 MiB; startup work is included. These are process measures, not frame rate, GPU timing, a leak test or a target budget. No speculative optimization was justified by this sample.
+LegacyRetirementInventory.json classifies 264 owned scripts and owned data assets; 1,163 external scripts are retained. Unknown/reflected authoring entry points are not declared obsolete. Live compatibility widget/service adapters and clip-authoring profiles remain with caller evidence and retirement conditions in LegacyRetirement.md. There is no remaining hidden legacy player pose authority in the installed production scene. No known critical implementation blocker remains within the tested single-player scope; general multiplayer bootstrap and automatic rig importing are not provided.
 
-## Completion and remaining work
+Missing authored content: dedicated Cast charge/release, Dash and Sling-charge clips, exact backward-start/turn-in-place clips. Safe portable fallbacks exist; clips were not fabricated. Placeholder visual acceptance remains required.
 
-Core single-player architectural implementation is integrated; no known unresolved critical engineering defect was identified by the executed audit/tests. **Production readiness and visual/gameplay acceptance are not signed off.**
+Performance: calibrated rendered Editor baseline median 6.1655 ms, p95 6.9400 ms, median native frame allocation 2,664 bytes. Eight rendered traversal/lifecycle scenarios were rerun after source retirement. Editor/fixture overhead is included; these are not shipping FPS, GPU budgets or causal optimization evidence. Target-player allocation call stacks, sustained memory/reload and node/FEEL/Inspector stress remain follow-up measurements.
 
-- Noncritical engineering debt: retained standalone legacy discovery/installers, three ordered-search API warnings, imported mesh compatibility warnings, vendor shader upgrade warnings, optional FEEL template Resources. All 24 warning entries remain documented; none is claimed fixed by a cache change.
-- Missing content: dedicated Cast charge/release, Dash and Sling-charge clips; exact backward-start and turn-in-place clips. Safe fallbacks exist. DoubleJumpFlip presents the existing flip reward; no new double-jump mechanic was introduced.
-- Acceptance-dependent migration: automatic portable activation and retirement of legacy humanoid/procedural/overlay components. Existing compatible clips require character-specific visual assessment, especially landing variants and full-body action masks.
-- Performance follow-up: target-hardware player frame/GPU budgets, allocation call stacks, node-count/FEEL saturation, cloth, and large-selection Inspector stress. Existing samples establish reproducibility, not shipping optimization completion.
+## Manual acceptance and authoring
 
-## Manual Unity/player acceptance checklist
+Start with [CharacterTuningStudio.md](CharacterTuningStudio.md) for exact Petra/future-character authoring steps, then [ProductionOnlyAcceptance.md](ProductionOnlyAcceptance.md) for eight numbered checks covering automatic animation ownership, gameplay/ability parity, stop/re-enable, live tuning, explicit persistence/Undo, independent presets, feedback/audio and performance. [ManualAcceptanceGuide.md](ManualAcceptanceGuide.md) retains the eleven broad RC3 gameplay checks.
 
-Practical numbered steps, expected results, failures and setup: [ManualAcceptanceGuide.md](ManualAcceptanceGuide.md). User reports 8/11 areas tested without significant gameplay differences; the specific areas are not identified, so individual items remain unassigned. Waterfall audio failed manual acceptance; see [WaterfallAudioRegression.md](WaterfallAudioRegression.md) for the targeted correction and required audible retest. The old RC3 binary does not contain this subsequent fix. Architecture is frozen except targeted regression fixes and validation tooling.
+All new manual checks remain **not tested** until recorded by a person. The earlier unspecified 8/11 encouraging RC3 observations do not certify this newly enabled animation owner. Particularly inspect foot placement, landing/action masks, missing-clip fallbacks, waterfall near/far attenuation, real gamepad/rebinding, Play Mode Save/Undo and variant preset GUI operation. Use independent variant assets/scenes for destructive tuning experiments.
 
-- Compare acceleration/friction/reversals, air momentum, jump/coyote/buffer timing and gravity with 5P.
-- Manual/reward Dash chains; normal/perfect/blocked/canceled Sling and Cast; collisions/occlusion/target destruction and reward order.
-- Water entry/exit and ability overlap on authored water meshes.
-- Camera bank/FOV/sensitivity, pause during hit-stop/impact hold, rebind persistence and real gamepad reconnect.
-- Portable takeover, jump/fall/landing, flip and Sling travel/impact/launch; action interruption/masks; stop/disable/re-enable restoration. Approve visual parity before enabling automatic takeover or removing legacy components.
-- Shader/art appearance, particle dagger mesh, waterfall/audio mix, FEEL visibility/audibility, UI overlap and scene reload.
-- Rendered Windows traversal and performance on target hardware; sustained reload/memory checks.
-
-Reproduce with fresh labels using Run-UnityTests.ps1, Build-UnityCandidate.ps1, Smoke-UnityCandidate.ps1 (optional -Rendered), verify_serialized_contracts.py and Record-MigrationResults.py. Never start a second Editor against the project.
+Reproduce with fresh labels using Run-UnityTests.ps1, Build-UnityCandidate.ps1, Smoke-UnityCandidate.ps1 (also -Rendered), verify_serialized_contracts.py, audit_retirement.py and Record-MigrationResults.py. Never run a second Editor against the same project.

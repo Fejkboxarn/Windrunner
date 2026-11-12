@@ -1,0 +1,431 @@
+{
+  "baseline": "7bfdfe5e",
+  "scripts": [
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+      "guid": "0de8c9b4493c8bb4c9ca37c39e00859e",
+      "baseline_sha256": "5b6a0b7e3a2438a5130a3e7f704e810380df483d1ccc0fe7af4546a53711d52a",
+      "meta_baseline_sha256": "410d4420bcada5d5ef5d0941b0973b4d95056d374a9d54bfc120a8bd999ffc22",
+      "pre_removal_sha256": "5b6a0b7e3a2438a5130a3e7f704e810380df483d1ccc0fe7af4546a53711d52a",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+      "guid": "ee99fb7cef168ed4bb007c499f6cf547",
+      "baseline_sha256": "c1ed50260bafbad286b0cdb5db07821afd11dfbb4991f9b0f5695f189b1662a5",
+      "meta_baseline_sha256": "a0727fdd32658b2eb2a7d4cda6d52ef9f7e98ee779a160733ce62d8ac792d8e0",
+      "pre_removal_sha256": "c1ed50260bafbad286b0cdb5db07821afd11dfbb4991f9b0f5695f189b1662a5",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
+      "guid": "cef2dd7ea62eb4d418ece98fb929fcc5",
+      "baseline_sha256": "f8a968791e96b971dee7e6154f109465477609f3d22f504e41cec10f05999b02",
+      "meta_baseline_sha256": "dd29ed7623a265d2bde1d24d1f86ba0dddaad4278821c3ae9e22be0d50e4963d",
+      "pre_removal_sha256": "045cbe19764ff509b07d813cbf1c482c0ca393e91d18ca92ebe047a1214eea01",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+      "guid": "d99595119f0f4ae4f8a8ccf6d1a262f2",
+      "baseline_sha256": "c7916d1407a37b73fa4e05ffd9d24ef44ce9916d2dce272e874a936bea6c532c",
+      "meta_baseline_sha256": "7c958ddd3583be5d22c674624d41b6d8fa9f9a187cd2e0c83761a1fb7d9bb7c3",
+      "pre_removal_sha256": "c7916d1407a37b73fa4e05ffd9d24ef44ce9916d2dce272e874a936bea6c532c",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+      "guid": "be682b642ec095b47a21d2236b0f3ff2",
+      "baseline_sha256": "f55a63b8ef7aeab814aba676effe7c5070816b7124eaf644ae2b755ce01f420c",
+      "meta_baseline_sha256": "17e8f2869ccfa8832a13f595c5b8bbd040ad62475b145b4c6f57f9ba29908cf3",
+      "pre_removal_sha256": "f55a63b8ef7aeab814aba676effe7c5070816b7124eaf644ae2b755ce01f420c",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "guid": "8738b2c3170aa2d4ca4796681219d34e",
+      "baseline_sha256": "7147096a6bdc4d0919b76c4f52dde88d2f519620e3a1d1c885ff251b8dda4128",
+      "meta_baseline_sha256": "be1b25c3836e1d82462f54f8051c490f7f3768bd27583a68204d54bf41325339",
+      "pre_removal_sha256": "7147096a6bdc4d0919b76c4f52dde88d2f519620e3a1d1c885ff251b8dda4128",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
+      "guid": "9b08802405f947c45961ca598c95ad79",
+      "baseline_sha256": "0806c8cc9095b90a12c28fbb459586089cac4bd3eced0c3b3f50de6ce2441b45",
+      "meta_baseline_sha256": "cb9d2393354b5091ad9d2512fcc32bd35714dddabf9c70709539241dcb7c5625",
+      "pre_removal_sha256": "b1c728167391f45ff39c41c2156c1b48bfcc80dcbb43c900c3608c042904c9e8",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+        "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+      "guid": "b8ec0c0f7d54d5e4ca96cfc02a2ff6f1",
+      "baseline_sha256": "be41992dd36462d35b5aeea69e74c2e043d319cff7170905a8024c5956584dd2",
+      "meta_baseline_sha256": "9c6293794011de336d75a6848855f7193ffa4d2b8c44153df4d4016f16bec1b5",
+      "pre_removal_sha256": "1567736fcb9dff5bdeecdee03b2820a567a5fb52b64479ffdfa72783802c5c39",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+      "guid": "77a1ac8ce3427dc4cb59a86c101dbfc8",
+      "baseline_sha256": "84c782e0dd004b4efebcd86590323ed2b28f86ac30ae09b14fddb108831f698a",
+      "meta_baseline_sha256": "49ec24bfc5bdeafb56e652f533064db2c3338cc26ea0b0c5c0ead39ffa71887f",
+      "pre_removal_sha256": "84c782e0dd004b4efebcd86590323ed2b28f86ac30ae09b14fddb108831f698a",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+      "guid": "a3376a04f35144546baf3c6eae82ffe6",
+      "baseline_sha256": "aa50dbda1040b06e8e89932eab0e0acb918f1f6bee31787bd44a6ed8e2ab7806",
+      "meta_baseline_sha256": "10bd8c8cfa7133805b6e8e2aa2a9754562f4c75307e1711624a20648ba25e08f",
+      "pre_removal_sha256": "aa50dbda1040b06e8e89932eab0e0acb918f1f6bee31787bd44a6ed8e2ab7806",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+      "guid": "7563df32cf49d7c49b24e4d1c29b0a29",
+      "baseline_sha256": "a5436011501eab5ad30883f44e78001360999237056a68021b54dd8a0b59d417",
+      "meta_baseline_sha256": "e4f0bd6a709d15b69a0cee7481fac1b449a35f0ff37bf2a1976482ea0c0fe0d2",
+      "pre_removal_sha256": "a5436011501eab5ad30883f44e78001360999237056a68021b54dd8a0b59d417",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+      "guid": "6e65d464d9a769e478ce769c0c02c158",
+      "baseline_sha256": "2c55884d9b2317be4efb3d015cccdbd985b009d55dc30e11a8196a51e2673d0f",
+      "meta_baseline_sha256": "f69ea2c08adeaeaea06fe78abf5bd12a7ce4d504768c5975dc5f0995c23f5c47",
+      "pre_removal_sha256": "2c55884d9b2317be4efb3d015cccdbd985b009d55dc30e11a8196a51e2673d0f",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+      "guid": "666d469f08c630047b42a631436be79f",
+      "baseline_sha256": "f9e98ab03019aaed9dcb1f50705a86858ae2e96c90c697a40ce25e757e3d365d",
+      "meta_baseline_sha256": "94ff938beb7552d433662419fb796399283cf80da308761f34cf57a2182eddd5",
+      "pre_removal_sha256": "f9e98ab03019aaed9dcb1f50705a86858ae2e96c90c697a40ce25e757e3d365d",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+      "guid": "4f5eed2dc83e0794e9f4338f9f1ccc84",
+      "baseline_sha256": "ff5833d950e2f61419aae90202ae157866e8ede539dfd2e403e31a042d17393d",
+      "meta_baseline_sha256": "949bc687208e66bade1441eada342f3a81c3d8b3e439dd6a8d5ebcbcc41bd900",
+      "pre_removal_sha256": "ff5833d950e2f61419aae90202ae157866e8ede539dfd2e403e31a042d17393d",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+      "guid": "d0449271fa965314c886ed93f48055cd",
+      "baseline_sha256": "64551581034940fc3fbc9c2d8e66e8505eab6b36e3fce3bc3d5c62482560e61f",
+      "meta_baseline_sha256": "142419bd783d6f4025df504fb7535587a5d606db6b4b40af54e79ccb0a9182d0",
+      "pre_removal_sha256": "64551581034940fc3fbc9c2d8e66e8505eab6b36e3fce3bc3d5c62482560e61f",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+      "guid": "e7402831dd701164fbf46f18002b1957",
+      "baseline_sha256": "a4b1b5f7ac0846854247ea458b337d49bdb38ea9dceabbee3bd1057ffd3adc4e",
+      "meta_baseline_sha256": "46abb215e7c40b6233ed0202bcb085f77ca22357ba4718a8c05872af477eea85",
+      "pre_removal_sha256": "24d899c535c3cfe4a41642b10151335909ead03c5fd5e7e05e149c0ad3881baf",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Editor/ProductionSetupMenu.cs",
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
+      "guid": "8070eed46e58e1542aeaec084ea06c5f",
+      "baseline_sha256": "63b873336da47bd3c971e9332aa1619c065500e08a7faee09b232f1924d59aa2",
+      "meta_baseline_sha256": "1087d36e0872dd04448b0511aa1ed12acb1ad876ccbb7fee6a7cf9bb273404bc",
+      "pre_removal_sha256": "63b873336da47bd3c971e9332aa1619c065500e08a7faee09b232f1924d59aa2",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+      "guid": "540bac89ef467e945bdeea642dd70878",
+      "baseline_sha256": "521fe5de5fe3cbfbc1802a45468b67a25bf91c86b375bc6ccb2f3e6b75a7ec75",
+      "meta_baseline_sha256": "45a3ac9bc1d2169843649aa04a470304bab52431b92518af689d20ceb8af6ba0",
+      "pre_removal_sha256": "521fe5de5fe3cbfbc1802a45468b67a25bf91c86b375bc6ccb2f3e6b75a7ec75",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+      "guid": "ca8b0121c916e144cb377acfa05baad1",
+      "baseline_sha256": "f7ca98da1983578f6c7a41514c15629ffb3cbae32992614367d6e6e3ecbf5d96",
+      "meta_baseline_sha256": "fdd47e4fd91092927ade2e8729b4aa4a9e9f8e0967e4f46acaaeda33abd743a2",
+      "pre_removal_sha256": "f7ca98da1983578f6c7a41514c15629ffb3cbae32992614367d6e6e3ecbf5d96",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
+      "guid": "53846960a0bc61243be92b401d8c41d0",
+      "baseline_sha256": "7c0c10ba942bdc2f3d5231f1fc05cbeb3677d167ec3bf42e025309622d384c02",
+      "meta_baseline_sha256": "65de68effbf4010cbdee49e0a99e18e5bdcc8468d7d75dac709dba98775ff99d",
+      "pre_removal_sha256": "7c0c10ba942bdc2f3d5231f1fc05cbeb3677d167ec3bf42e025309622d384c02",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+        "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+      "guid": "c508d84599325444eadfc7d7f3101be0",
+      "baseline_sha256": "9956559a1b3b503a27b21a6108c6df2567e2abd04f5154dbd9865f67537eab51",
+      "meta_baseline_sha256": "0a973847daaadb2e6a55a5532a508106c2bd0df6def22ff260ef2a1cc3ef358e",
+      "pre_removal_sha256": "9956559a1b3b503a27b21a6108c6df2567e2abd04f5154dbd9865f67537eab51",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+      "guid": "5eabb050772c3504da83365497421b34",
+      "baseline_sha256": "ef67cc429773ef4f102864ca419de05793f652e03d705f11bacb160405bd23e8",
+      "meta_baseline_sha256": "25d8df70d0d59112e091235508f7d1c89b6d93523e47ee5610a5b13a719729b0",
+      "pre_removal_sha256": "ef67cc429773ef4f102864ca419de05793f652e03d705f11bacb160405bd23e8",
+      "serialized_references": [],
+      "source_callers": [
+        "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+        "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+        "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+        "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterCompositionAudit.cs",
+        "Assets/AirflowPrototype/Editor/CharacterTuning/CharacterProductionDiagnostics.cs"
+      ],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+      "guid": "31dae39a073d09945810815759c066b7",
+      "baseline_sha256": "c9d9a8bf93866e8e295eef0a7a5cbf34a94e9950e7580edd1271898ad9d380da",
+      "meta_baseline_sha256": "387ef5c08ed6cb0ae9f6a51ada059a7ee59700939e13584ec7191ab2fa3806e2",
+      "pre_removal_sha256": "c9d9a8bf93866e8e295eef0a7a5cbf34a94e9950e7580edd1271898ad9d380da",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+      "guid": "1c2af832910418d4494bf2ab690baa97",
+      "baseline_sha256": "0562cb54e4dd4ca4a47e473492897b965e9b5ea498f5965c8549653a1f63dc0c",
+      "meta_baseline_sha256": "e778df83e1fdf2937edb347af11853a3fc5adf1bff97cce0a51adb249d6eb0dd",
+      "pre_removal_sha256": "0562cb54e4dd4ca4a47e473492897b965e9b5ea498f5965c8549653a1f63dc0c",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "guid": "63edb337c12c4db1b0c8ef2077f3f0c8",
+      "baseline_sha256": "254d52b0ea9a12c3077e2ad7a3050c95ab31b9df9091e86751182a7439936609",
+      "meta_baseline_sha256": "a2339012d93d58389018509292027ca6a38c2de80f01efe8b1d10f328e73246c",
+      "pre_removal_sha256": "3c87ca0b77e09cb27f800a394351e1b9329c486902c5a6c87e2110188ba2ee5d",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "guid": "47119b7de48a411881104f7714fb2ca0",
+      "baseline_sha256": "c69b71c71f4732293a3b682ea04fd6d147298176eba541e860d8263e5aa7267d",
+      "meta_baseline_sha256": "69abec8aa965e004691f464ac8c9f176b8b2307e5feea3a6b5c0d90a77d4842b",
+      "pre_removal_sha256": "99ae5d1ce61e063df85b26509318f4bde14f667b6e55f08bfc25af5356b0f0a4",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "guid": "936e3565c3394ce3b6279f140cfef66e",
+      "baseline_sha256": "cadf82a89044ee7c601d8561ad25a636b2ccc29e740b82f3c82d2dfe87ed632b",
+      "meta_baseline_sha256": "27a1720715d38f42e9ed0e81e0ce28d4b50007e6cd08921f78034997025f5ec6",
+      "pre_removal_sha256": "3e869b5d4297b06f3085795e304847c0368f794dc0944a0b6653161464e0be8d",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Production-only runtime parity and zero serialized asset users; remove closed legacy source/tool group and update remaining callers."
+    }
+  ],
+  "field_removals": [
+    {
+      "path": "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+      "baseline_sha256": "fb6aadf2aee307056d9c51be60a708b779ffc19b6815e4e3c12623c7068e4914",
+      "approved_sha256": "5be3adffff5f0e10b6feafa57faa21a30c284fd36d7e317a913286c4ec8ac3c0",
+      "removed_fields": [
+        [
+          "PlayerCustomAnimationDriver",
+          "legacyCustom"
+        ],
+        [
+          "PlayerDualThrowPose",
+          "legacyThrow"
+        ],
+        [
+          "PlayerGroundedFootIK",
+          "legacyFootIK"
+        ],
+        [
+          "PlayerHumanoidAnimatorDriver",
+          "legacyHumanoid"
+        ],
+        [
+          "PlayerProceduralKnifeFlick",
+          "legacyKnife"
+        ],
+        [
+          "PlayerRunningArmPoseController",
+          "legacyArms"
+        ]
+      ],
+      "reason": "Retired concrete legacy animation dependencies; all scene references were null before removal, production-only parity validated."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+      "baseline_sha256": "a77aaf063ced4e280d7d07c00309d8b35fc8769c7b1cbe9423e4bea92151289a",
+      "approved_sha256": "af3230647a16f19a1f97a5c71bbbdf43390adb912c8a0d86fde311347fc95485",
+      "removed_fields": [
+        [
+          "PlayerCustomAnimationDriver",
+          "customAnimationDriver"
+        ],
+        [
+          "PlayerHumanoidAnimatorDriver",
+          "humanoidAnimatorDriver"
+        ]
+      ],
+      "reason": "Retired concrete legacy animation dependencies; all scene references were null before removal, production-only parity validated."
+    }
+  ],
+  "assets": [
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch19_PlayerHumanoid.controller",
+      "baseline_sha256": "899e08144b4d9bb69ede350959be247799785753a6c4f1de7089b1bd84dbc4d8",
+      "pre_removal_sha256": "899e08144b4d9bb69ede350959be247799785753a6c4f1de7089b1bd84dbc4d8",
+      "guid": "245a55b81fb7d7b4a831b9e92679df31",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Detached player controller; zero remaining GUID users or name/path source callers after closed installer retirement. Portable graph passed 22/22 Play Mode tests without this controller. Clips and Avatar retained."
+    },
+    {
+      "path": "Assets/AirflowPrototype/Generated/Batch19_PlayerHumanoid.controller.meta",
+      "baseline_sha256": "685d9a27022cf688c99eeeebcabb91cfca45c8b453163dc768e537db1f9c9e7a",
+      "pre_removal_sha256": "685d9a27022cf688c99eeeebcabb91cfca45c8b453163dc768e537db1f9c9e7a",
+      "guid": "245a55b81fb7d7b4a831b9e92679df31",
+      "serialized_references": [],
+      "source_callers": [],
+      "reason": "Detached player controller; zero remaining GUID users or name/path source callers after closed installer retirement. Portable graph passed 22/22 Play Mode tests without this controller. Clips and Avatar retained."
+    }
+  ]
+}

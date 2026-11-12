@@ -17,10 +17,6 @@ namespace AirflowPrototype
         [Header("Animation Hierarchy")]
         [SerializeField] private Transform flipPivot;
 
-        [Header("Optional Custom Clips")]
-        [SerializeField] private PlayerCustomAnimationDriver customAnimationDriver;
-        [SerializeField] private PlayerHumanoidAnimatorDriver humanoidAnimatorDriver;
-
         [Header("Legacy Procedural Animation Toggles")]
         [Tooltip(
             "Disables the older procedural presentation as a group. " +
@@ -155,12 +151,6 @@ namespace AirflowPrototype
             }
         }
 
-        public void ConfigureCustomAnimationDriver(
-            PlayerCustomAnimationDriver driver)
-        {
-            customAnimationDriver = driver;
-        }
-
         public void ConfigureFlipPivot(
             Transform newFlipPivot)
         {
@@ -199,15 +189,6 @@ namespace AirflowPrototype
 
             if (hitSystem == null)
                 hitSystem = GetComponent<AirFlowHitSystem>();
-
-            if (customAnimationDriver == null)
-                customAnimationDriver = GetComponent<PlayerCustomAnimationDriver>();
-
-            if (humanoidAnimatorDriver == null)
-            {
-                humanoidAnimatorDriver =
-                    GetComponent<PlayerHumanoidAnimatorDriver>();
-            }
 
             CaptureBasePose();
             CaptureFlipPivot();
@@ -647,13 +628,8 @@ namespace AirflowPrototype
                         speed)
                     : 0f;
 
-            bool useProceduralIdle =
-                customAnimationDriver == null ||
-                !customAnimationDriver.HasCustomIdle;
-
             float idleWeight =
                 grounded &&
-                useProceduralIdle &&
                 IdleBreathingEnabled
                     ? 1f -
                       Mathf.Clamp01(
@@ -743,12 +719,7 @@ namespace AirflowPrototype
                         move01));
             }
 
-            bool useProceduralLocomotion =
-                customAnimationDriver == null ||
-                !customAnimationDriver.HasCustomLocomotion;
-
-            if (!useProceduralLocomotion ||
-                !WalkRunWobbleEnabled)
+            if (!WalkRunWobbleEnabled)
             {
                 return;
             }
@@ -810,22 +781,9 @@ namespace AirflowPrototype
             ref Vector3 scaleMultiplier,
             ref float animationPitch)
         {
-            bool customJump =
-                customAnimationDriver != null &&
-                customAnimationDriver.HasCustomJump;
-
-            bool customFall =
-                customAnimationDriver != null &&
-                customAnimationDriver.HasCustomFall;
-
-            bool customLand =
-                customAnimationDriver != null &&
-                customAnimationDriver.HasCustomLand;
-
             if (_takeoffRemaining > 0f)
             {
-                if (!customJump &&
-                    TakeoffLandingSquashEnabled)
+                if (TakeoffLandingSquashEnabled)
                 {
                     float duration =
                         Mathf.Max(
@@ -888,13 +846,11 @@ namespace AirflowPrototype
 
                 bool useRisingProcedural =
                     AirborneSquashStretchEnabled &&
-                    vertical >= 0f &&
-                    !customJump;
+                    vertical >= 0f;
 
                 bool useFallingProcedural =
                     AirborneSquashStretchEnabled &&
-                    vertical < 0f &&
-                    !customFall;
+                    vertical < 0f;
 
                 if (useRisingProcedural)
                 {
@@ -967,8 +923,7 @@ namespace AirflowPrototype
                     _landingRemaining /
                     duration;
 
-                if (!customLand &&
-                    TakeoffLandingSquashEnabled)
+                if (TakeoffLandingSquashEnabled)
                 {
                     float compression =
                         Mathf.Sin(
@@ -1032,17 +987,7 @@ namespace AirflowPrototype
                         0.1f,
                         _activeFlipDuration));
 
-            bool customFlip =
-                customAnimationDriver != null &&
-                customAnimationDriver.HasCustomFlip(0);
-
-            bool authoredDoubleJump =
-                humanoidAnimatorDriver != null &&
-                humanoidAnimatorDriver.HasAuthoredDoubleJump;
-
             if (ProceduralFlipEnabled &&
-                !customFlip &&
-                !authoredDoubleJump &&
                 flipPivot != null &&
                 _flipPivotCaptured)
             {

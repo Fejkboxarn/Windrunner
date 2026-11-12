@@ -192,7 +192,8 @@ namespace Windrunner.Production.Tests
             var enabledStates = new System.Collections.Generic.List<bool>();
             foreach (var name in new[] { "legacyHumanoid", "legacyCustom", "legacyArms", "legacyKnife", "legacyThrow", "legacyFootIK" })
             {
-                var writer = (Behaviour)animationType.GetField(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(animation);
+                var field = animationType.GetField(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var writer = field != null ? (Behaviour)field.GetValue(animation) : null;
                 if (writer == null) continue;
                 writers.Add(writer);
                 enabledStates.Add(writer.enabled);

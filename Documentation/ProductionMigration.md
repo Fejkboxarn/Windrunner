@@ -1,5 +1,12 @@
 # Windrunner production architecture
 
+## Current authoritative status (2026-11-12)
+
+The Character Tuning Studio and automatic production-only portable animation are implemented. See CharacterTuningStudio.md for authoring, SourceRetirements.json/LegacyRetirement.md for verified removals, and ReleaseCandidate.md for final evidence. Older stage descriptions below are historical planning, not the installed state: portable auto-start is enabled, ten old components and their source/tool dependency group are removed, and missing action clips use portable fallbacks. Waterfall substitution was reverted by 9a604f4a; the original localized ambience remains.
+
+Outstanding gates are manual production-only pose/gameplay and Studio acceptance, real device/audio tests and target-player performance attribution. Unknown vendor/authoring entries are retained conservatively; their classification is not proof of redundancy. No critical implementation blocker is known within the executed single-player scope; this is not production-readiness sign-off.
+
+
 ## Character tuning and production-only continuation
 
 Current authoring entry: Tools > Windrunner > Character Tuning. Existing module profiles, isolated drafts/live preview, explicit Save, presets and duplication are implemented. Petra now starts the portable graph automatically with no legacy controller fallback. Ten legacy/overlay components were retired after production-only tests; retained compatibility source/tooling and removal conditions are listed in LegacyRetirement.md. The earlier automatic-takeover-off instructions below are historical, not the current configuration. See ProductionOnlyAcceptance.md for the new manual gate.

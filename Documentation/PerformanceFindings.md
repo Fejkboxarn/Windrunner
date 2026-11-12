@@ -57,3 +57,24 @@ These include assertions/reflection, transient scene loading, Editor rendering a
 Reproduce with `Tools/Run-UnityTests.ps1 -Platform PlayMode -Rendered -Filter TraversalScenarioProfileTests -Label <fresh-label>`. Highest reload/animation spikes include import/loading and test work. The measured costs justify follow-up native allocation call-stack and player captures, not an unverified gameplay rewrite. Water samples show nonzero allocations; cached water mesh arrays and triangle traversal do not establish attribution to swimming. High node counts, pool saturation and target-hardware GPU budgets remain performance acceptance work.
 
 Final RC3 standalone startup/idle (15 s, DX11/RTX 5070 Ti): aggregate process CPU 10.53125 s, peak working set 1,012,662,272 bytes, ending private memory 2,609,991,680 bytes. Run passed initialization/error checks. No input, pixel assertion, GPU timing or graceful-shutdown test; process totals include startup and do not establish gameplay frame budgets. Reproduce with Smoke-UnityCandidate.ps1 -Label <existing-build-label> -Rendered on fresh evidence paths.
+
+## Production-only character and source retirement (2026-11-12)
+
+The production-rendered-baseline test passed 1/1 with 180 samples at 1280x720, DX11/RTX 5070 Ti: median wall 6.165497 ms, p95 6.940002 ms, median main thread 6.1708 ms, median native frame GC 2,664 bytes. Its 1 MiB calibration recorded 1,054,260 bytes. This validates the counter, not zero allocations. Raw evidence: rendered-profile-20261112-115117.json.
+
+After physically retiring the legacy runtime/source/controller group, production-clean-traversal passed 1/1 with the eight scenarios below. These are rendered Editor measurements including fixtures/assertions/loading; not isolated gameplay costs or player FPS. No causal optimization or visual parity is claimed by comparing different runs.
+
+| Scenario | Samples | Median main ms | p95 main ms | Median GC bytes | p95 GC bytes |
+|---|---:|---:|---:|---:|---:|
+| cast-perfect-projectile-reward | 45 | 6.022 | 6.033 | 144,222 | 152,563 |
+| dash-deplete-reward-reactivate-interrupt | 28 | 6.021 | 6.031 | 141,442 | 150,362 |
+| live-animation-actions-restoration | 239 | 6.022 | 6.372 | 136,465 | 146,434 |
+| movement-jump-reversal-pause | 214 | 0.203 | 0.389 | 853 | 889 |
+| scene-reload-ui-handoff | 7 | 6.036 | 249.547 | 113,914 | 503,628 |
+| sling-cancel-pause-normal-release | 65 | 6.023 | 6.032 | 146,678 | 152,818 |
+| sling-charge-perfect-traverse-impact-launch | 65 | 6.021 | 6.038 | 139,003 | 146,968 |
+| water-swim-pause-exit-recovery | 38 | 6.025 | 6.036 | 138,696 | 147,582 |
+
+Reload spikes warrant player allocation/call-stack investigation, not an unmeasured gameplay rewrite. Remaining performance gates: target-player CPU/GPU budgets, sustained memory/reload traces, node/feedback saturation and large-selection Studio responsiveness.
+
+Final production-clean-20261112 standalone DX11 startup/idle: survived 15 s, process CPU 10.875 s, peak working set 987,619,328 bytes, ending private memory 2,579,845,120 bytes. Headless also passed. These include initialization/idle and intentional harness termination, not gameplay frame or graceful-shutdown validation.

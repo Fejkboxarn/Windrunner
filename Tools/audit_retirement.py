@@ -38,6 +38,8 @@ for folder in ('AirflowPrototype','WindrunnerProduction','PortableAnimation'):
 removed=subprocess.check_output(['git','diff','--name-only','--diff-filter=D','9a604f4','--','Assets'],cwd=root,text=True).splitlines()
 retired=root/'Documentation/RetiredProductionComponents.json'
 report=dict(scanned_text_assets=total,owned_scripts=owned,owned_data_assets=data,external_script_packages_retained=external,removed_files=removed,retired_scene_components=json.loads(retired.read_text()) if retired.exists() else [],notes='Initial audit performed before deletion. Current inventory includes reviewed retirements. Source mentions include comments/tooling; unknown dynamic reflection/resource callers remain a removal risk. Third-party assets are retained, not declared obsolete.')
-report['removed_classification']=[dict(path=p,classification='obsolete',reason='Completed one-off placeholder installer, no current source callers or serialized GUID users; content remains editable through the Studio.') for p in removed]
+retirement_report=json.loads((root/'Documentation/SourceRetirements.json').read_text())
+retirement_reasons={r['path']:r['reason'] for group in ('scripts','assets') for r in retirement_report.get(group,[])}
+report['removed_classification']=[dict(path=p,classification='obsolete',reason=retirement_reasons.get(p,retirement_reasons.get(p.removesuffix('.meta'),'Completed one-off placeholder installer; no callers or serialized GUID users.'))) for p in removed]
 (root/'Documentation/LegacyRetirementInventory.json').write_text(json.dumps(report,indent=2)+'\n')
 print(f'{len(owned)} owned scripts inventoried; {sum(external.values())} external scripts retained; {total} text assets searched.')
