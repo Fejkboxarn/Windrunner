@@ -1,5 +1,9 @@
 # Windrunner production architecture
 
+## Current integrated candidate status
+
+The latest implementation supersedes historical open-item descriptions below: portable action phases and compatible placeholders are integrated, remaining owner-scoped presentation camera paths are fixed, and representative traversal/lifecycle profiling executed twice. See AnimationWorkflow.md, ArchitectureReview.md and ReleaseCandidate.md for the current completion boundary. Automatic portable takeover and legacy retirement still require manual visual acceptance. Optional vendor template warnings and missing authored clips are noncritical debt, not missing core architecture.
+
 ## Baseline and scope
 
 Audited 2026-11-12 at `7bfdfe5e`, branch `production-refactor`, initially clean. This is the user-confirmed 5P baseline (commit message `5J?`). No 5Q source labels or delivery documentation found. No tower-defense project/reference is available in this repository; reuse neutral lifecycle patterns without inventing its conventions. Unity 6000.6.2f1 (770e33f6875c) is installed. URP 17.6.0, Input System 1.20.0, Test Framework 1.8.0 are declared.

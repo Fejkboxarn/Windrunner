@@ -16,7 +16,7 @@ namespace PortableAnimation
         [Min(0.001f)] public float blendInSeconds = 0.08f;
         [Min(0.001f)] public float blendOutSeconds = 0.14f;
         [Min(0)] public int priority;
-        [Tooltip("When false, this action is rejected if a higher-priority action is currently playing.")]
+        [Tooltip("Allow a request for this same action to restart its clip while it is active. Priority and interruption policy still apply.")]
         public bool allowSameActionRestart;
         [Min(0.01f)] public float playbackSpeed = 1f;
         [Tooltip("Loop this phase until its configured end/cancel event.")]

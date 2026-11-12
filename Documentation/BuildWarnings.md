@@ -18,3 +18,7 @@ Project-owned compiler warnings are separate: removed the unused nonserialized A
 Subsequent builds record every warning message in their JSON report. Incremental compiler/shader caches change emitted counts; a lower count alone is not proof that warnings were resolved.
 
 RC2 completed with **24 warnings**: the same 21 importer/vendor/shader entries plus three project-owned CS0618 entries in AirChimeTrial, AutumnPostProcessController and PlayerWindFeedback for legacy FindFirstObjectByType fallback calls. Their selected-object ordering was retained for compatibility; they are explicitly unresolved, not hidden or counted as fixed. Exact RC2 messages are in TestResults.json's build report.
+
+Optional-template dependency review: MM_6D_Shake is referenced by a vendor demo and conditionally loaded by the absent Cinemachine integration; the postprocessing prefab/profile form an unused template pair loaded only by guarded Editor setup. Neither optional package is installed. Classify these three as **low/noncritical packaging debt for the current URP game**, not an architecture blocker. CompatibilityDependencies.json records referencers. Assets remain intact; future activation requires compatible dependencies.
+
+Final RC3 (`migration-rc3-final-20261112`) again emits 24 entries: the 21 reviewed importer/vendor/shader warnings plus three project-owned ordered-search deprecations. No new warning category. Zero build errors. Full verbatim warnings are retained in TestResults.json.
