@@ -5,12 +5,18 @@ using Windrunner.Production.Feedback;
 
 namespace Windrunner.Production.Animation
 {
+    public enum WindrunnerAnimationOperation { Play, Cancel }
     [Serializable]
     public sealed class WindrunnerAnimationActionBinding
     {
         public FeedbackKey feedbackEvent;
         [Tooltip("Index in the portable montage profile. -1 means observe only.")]
         public int montageSlot = -1;
+        public WindrunnerAnimationOperation operation;
+        [Tooltip("Optional phase slot canceled before playing this action. -1 leaves other phases alone.")]
+        public int cancelBeforePlaySlot = -1;
+        [Tooltip("Cancel the active phase in this group before processing the event. Empty leaves other phases alone.")]
+        public string cancelGroup = "";
     }
 
     /// <summary>
@@ -140,10 +146,15 @@ namespace Windrunner.Production.Animation
             foreach (WindrunnerAnimationActionBinding binding in actionBindings)
             {
                 if (binding == null) continue;
+                if (!useStandaloneCharacterGraph && (binding.operation != WindrunnerAnimationOperation.Play ||
+                    binding.cancelBeforePlaySlot >= 0 || !string.IsNullOrEmpty(binding.cancelGroup)))
+                    throw new InvalidOperationException("Phase cancellation requires the standalone character graph.");
                 if (binding.montageSlot < -1 || binding.montageSlot >= actionCount)
                     throw new InvalidOperationException("Invalid action slot for " +
                         binding.feedbackEvent + ": " + binding.montageSlot +
                         ". Available actions=" + actionCount);
+                if (binding.cancelBeforePlaySlot < -1 || binding.cancelBeforePlaySlot >= actionCount)
+                    throw new InvalidOperationException("Invalid phase cancellation slot for " + binding.feedbackEvent);
                 if (!seen.Add(binding.feedbackEvent))
                     throw new InvalidOperationException(
                         "Duplicate semantic binding for " + binding.feedbackEvent);

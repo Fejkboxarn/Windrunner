@@ -14,7 +14,8 @@ namespace Windrunner.Production.Feedback
         SlingChargeStarted = 40, SlingCommitted = 41, SlingCanceled = 42,
         SlingDashStarted = 43, SlingImpact = 44, SlingLaunched = 45,
         SlingPerfect = 46, SlingInitialBoost = 47,
-        AirPowerDepleted = 50, AirPowerRecovered = 51
+        AirPowerDepleted = 50, AirPowerRecovered = 51,
+        DashStarted = 60, DashStopped = 61
     }
 
     public enum FeedbackCategory

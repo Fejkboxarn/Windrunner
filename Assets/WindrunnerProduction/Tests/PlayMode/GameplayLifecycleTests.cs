@@ -202,6 +202,41 @@ namespace Windrunner.Production.Tests
             foreach (var writer in writers) Assert.That(writer.enabled, Is.False, writer.GetType().Name);
             Assert.That(animator.runtimeAnimatorController, Is.Null);
             Assert.That(animator.applyRootMotion, Is.False);
+            var existingSession = animationType.GetField("session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(animation);
+            var duplicateSession = Activator.CreateInstance(existingSession.GetType(), new object[] {
+                animator, animationType.GetProperty("Profile").GetValue(animation), writers.ToArray(), player.transform });
+            try
+            {
+                Assert.That((bool)duplicateSession.GetType().GetMethod("TryStartPortable").Invoke(duplicateSession, null), Is.False,
+                    "A second session cannot take an already-owned Animator.");
+                Assert.That((bool)animationType.GetProperty("PortableActive").GetValue(animation), Is.True);
+            }
+            finally { ((IDisposable)duplicateSession).Dispose(); }
+            using (var actions = new Windrunner.Production.Feedback.FeedbackService(null, null, null, null, null, false))
+            {
+                animationType.GetMethod("BindFeedbackService").Invoke(animation, new object[] { actions });
+                var session = animationType.GetField("session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(animation);
+                var activeAction = session.GetType().GetProperty("ActiveMontage");
+                var request = Windrunner.Production.Feedback.FeedbackRequest.At(player.transform);
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.SlingDashStarted, request);
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("SlingTravel"));
+                for (int i = 0; i < 10; i++) yield return null;
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.SlingImpact, request);
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("SlingImpact"));
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.Flip, request);
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.SlingLaunched, request);
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("DoubleJumpFlip"), "Sling end must not cancel the launch flip.");
+                int blocked = (int)session.GetType().GetProperty("BlockedActions").GetValue(session);
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.CastReleased, request);
+                Assert.That((int)session.GetType().GetProperty("BlockedActions").GetValue(session), Is.EqualTo(blocked + 1));
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("DoubleJumpFlip"), "Missing Cast clip must not replace a compatible action.");
+                for (float deadline = Time.realtimeSinceStartup + 4f;
+                    Time.realtimeSinceStartup < deadline && (string)activeAction.GetValue(session) != "None";) yield return null;
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("None"), "One-shot must complete.");
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.SlingDashStarted, request);
+                actions.Publish(Windrunner.Production.Feedback.FeedbackKey.SlingCanceled, request);
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("None"));
+            }
             animationType.GetMethod("StopPortable").Invoke(animation, null);
             Assert.That(animator.runtimeAnimatorController, Is.SameAs(originalController));
             Assert.That(animator.fireEvents, Is.EqualTo(originalEvents));

@@ -12,4 +12,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853b6254808b4655807061fc23f04bb1, type: 3}
   m_Name: WindrunnerActionClips
   m_EditorClassIdentifier: PortableAnimation.Runtime::PortableAnimation.PortableCharacterActionProfile
-  actions: []
+  actions:
+  - id: DoubleJumpFlip
+    group: Flip
+    clip: {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
+    mask: {fileID: 0}
+    blendInSeconds: 0.001
+    blendOutSeconds: 0.14
+    priority: 40
+    allowSameActionRestart: 1
+    playbackSpeed: 1
+    loopUntilCanceled: 0
+    interruptible: 1
+  - id: SlingTravel
+    group: Sling
+    clip: {fileID: 7400000, guid: 1005921774b245f4bb59b1a34983a4b2, type: 2}
+    mask: {fileID: 0}
+    blendInSeconds: 0.04
+    blendOutSeconds: 0.14
+    priority: 20
+    allowSameActionRestart: 0
+    playbackSpeed: 1
+    loopUntilCanceled: 1
+    interruptible: 1
+  - id: SlingImpact
+    group: Sling
+    clip: {fileID: 7400000, guid: 27997fec0f45f0d4f9043f1c8215f191, type: 2}
+    mask: {fileID: 0}
+    blendInSeconds: 0.04
+    blendOutSeconds: 0.14
+    priority: 30
+    allowSameActionRestart: 0
+    playbackSpeed: 1
+    loopUntilCanceled: 0
+    interruptible: 1
+  - id: CastCharge
+    group: Cast
+    clip: {fileID: 0}
+    mask: {fileID: 0}
+    blendInSeconds: 0.04
+    blendOutSeconds: 0.14
+    priority: 10
+    allowSameActionRestart: 0
+    playbackSpeed: 1
+    loopUntilCanceled: 1
+    interruptible: 1
+  - id: CastRelease
+    group: Cast
+    clip: {fileID: 0}
+    mask: {fileID: 0}
+    blendInSeconds: 0.04
+    blendOutSeconds: 0.14
+    priority: 40
+    allowSameActionRestart: 0
+    playbackSpeed: 1
+    loopUntilCanceled: 0
+    interruptible: 1
+  - id: AirDash
+    group: Dash
+    clip: {fileID: 0}
+    mask: {fileID: 0}
+    blendInSeconds: 0.04
+    blendOutSeconds: 0.14
+    priority: 15
+    allowSameActionRestart: 0
+    playbackSpeed: 1
+    loopUntilCanceled: 1
+    interruptible: 1
+  - id: SlingCharge
+    group: Sling
+    clip: {fileID: 0}
+    mask: {fileID: 0}
+    blendInSeconds: 0.04
+    blendOutSeconds: 0.14
+    priority: 20
+    allowSameActionRestart: 0
+    playbackSpeed: 1
+    loopUntilCanceled: 1
+    interruptible: 1

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using PortableAnimation;
 using UnityEngine;
 using Windrunner.Production.Feedback;
@@ -46,6 +47,10 @@ namespace Windrunner.Production.Animation
     /// </summary>
     public sealed class WindrunnerAnimationSession : IDisposable
     {
+        // Weak keys track only portable graph ownership, not gameplay players.
+        // Animator.hasBoundPlayables also includes the legacy controller graph.
+        private static readonly ConditionalWeakTable<Animator, WindrunnerAnimationSession> Owners =
+            new ConditionalWeakTable<Animator, WindrunnerAnimationSession>();
         private readonly struct SuspendedBehaviour
         {
             public readonly Behaviour Component;
@@ -133,6 +138,14 @@ namespace Windrunner.Production.Animation
                 {
                     if (standaloneGraph != null)
                     {
+                        standaloneGraph.CancelGroup(binding.cancelGroup);
+                        if (binding.operation == WindrunnerAnimationOperation.Cancel)
+                        {
+                            standaloneGraph.CancelAction(binding.montageSlot);
+                            return;
+                        }
+                        if (binding.cancelBeforePlaySlot >= 0)
+                            standaloneGraph.CancelAction(binding.cancelBeforePlaySlot);
                         if (standaloneGraph.RequestAction(binding.montageSlot))
                             StartedActions++;
                         else BlockedActions++;
@@ -166,6 +179,11 @@ namespace Windrunner.Production.Animation
                 return false;
             }
             if (PortableActive) return true;
+            if (animator != null && Owners.TryGetValue(animator, out var owner) && !ReferenceEquals(owner, this))
+            {
+                LastError = "This Animator already has a portable pose owner.";
+                return false;
+            }
             if (animator == null || animator.avatar == null ||
                 !animator.avatar.isValid || !animator.avatar.isHuman || !animator.isHuman)
             {
@@ -187,6 +205,7 @@ namespace Windrunner.Production.Animation
             suspended.Clear();
             try
             {
+                Owners.Add(animator, this);
                 var seen = new HashSet<Behaviour>();
                 foreach (Behaviour writer in legacyWriters)
                 {
@@ -303,6 +322,8 @@ namespace Windrunner.Production.Animation
                 animator.applyRootMotion = legacyRootMotion;
             }
             ownsAnimator = false;
+            if (!ReferenceEquals(animator, null) && Owners.TryGetValue(animator, out var owner) && ReferenceEquals(owner, this))
+                Owners.Remove(animator);
             for (int i = suspended.Count - 1; i >= 0; i--)
                 if (suspended[i].Component != null)
                     suspended[i].Component.enabled = suspended[i].WasEnabled;

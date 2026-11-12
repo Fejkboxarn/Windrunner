@@ -17,18 +17,15 @@ namespace PortableAnimation
         private readonly PortableCharacterActionProfile actionProfile;
         private readonly AvatarMask fullBodyMask;
         private PlayableGraph graph;
-        private AnimationLayerMixerPlayable layers;
-        private AnimationMixerPlayable actions;
+        private AnimationLayerMixerPlayable actions;
         private AnimationClipPlayable[] clips;
-        private int activeIndex = -1;
-        private float actionTime;
-        private float actionWeight;
+        private readonly PortableActionPlayback playback;
         private int lastFrame = -1;
 
         public bool IsValid => graph.IsValid();
         public int LiveActionCount => actionProfile != null ? actionProfile.Count : 0;
-        public string ActiveAction => activeIndex < 0 ? "None" :
-            actionProfile.Action(activeIndex).id;
+        public string ActiveAction => playback.ActiveIndex < 0 ? "None" :
+            actionProfile.Action(playback.ActiveIndex).id;
         public float IdleBlend => ground.IdleBlend;
         public float WalkBlend => ground.WalkBlend;
         public float RunBlend => ground.RunBlend;
@@ -44,6 +41,15 @@ namespace PortableAnimation
             motionProfile.AssertStandaloneValid();
             optionalActions?.AssertValid();
             actionProfile = optionalActions;
+            var timings = new PortableActionPlayback.Timing[LiveActionCount];
+            for (int i = 0; i < timings.Length; i++)
+            {
+                var action = actionProfile.Action(i);
+                timings[i] = new PortableActionPlayback.Timing(action.clip != null ? action.clip.length : 0f,
+                    action.playbackSpeed, action.blendInSeconds, action.blendOutSeconds, action.priority,
+                    action.IsPlayable, action.loopUntilCanceled, action.allowSameActionRestart, action.interruptible);
+            }
+            playback = new PortableActionPlayback(timings);
             fullBodyMask = new AvatarMask();
             for (int i = 0; i < (int)AvatarMaskBodyPart.LastBodyPart; i++)
                 fullBodyMask.SetHumanoidBodyPartActive((AvatarMaskBodyPart)i, true);
@@ -58,28 +64,27 @@ namespace PortableAnimation
 
                 if (LiveActionCount > 0)
                 {
-                    actions = AnimationMixerPlayable.Create(graph, LiveActionCount);
+                    actions = AnimationLayerMixerPlayable.Create(graph, LiveActionCount + 1);
+                    graph.Connect(ground.Output, 0, actions, 0);
+                    actions.SetInputWeight(0, 1f);
                     clips = new AnimationClipPlayable[LiveActionCount];
                     for (int i = 0; i < LiveActionCount; i++)
                     {
+                        if (!actionProfile.Action(i).IsPlayable) continue;
                         clips[i] = AnimationClipPlayable.Create(graph,
                             actionProfile.Action(i).clip);
                         clips[i].SetSpeed(0d);
                         clips[i].SetTime(0d);
-                        if (!graph.Connect(clips[i], 0, actions, i))
+                        // A single tree: each action keeps its own masked layer
+                        // while outgoing phases fade back toward locomotion.
+                        actions.SetLayerMaskFromAvatarMask((uint)(i + 1), actionProfile.Action(i).mask != null
+                            ? actionProfile.Action(i).mask : fullBodyMask);
+                        if (!graph.Connect(clips[i], 0, actions, i + 1))
                             throw new InvalidOperationException(
                                 "Action layer could not connect clip " + i);
-                        actions.SetInputWeight(i, 0f);
+                        actions.SetInputWeight(i + 1, 0f);
                     }
-                    layers = AnimationLayerMixerPlayable.Create(graph, 2);
-                    if (!graph.Connect(ground.Output, 0, layers, 0) ||
-                        !graph.Connect(actions, 0, layers, 1))
-                        throw new InvalidOperationException(
-                            "Standalone character layers could not connect.");
-                    layers.SetInputWeight(0, 1f);
-                    layers.SetInputWeight(1, 0f);
-                    layers.SetLayerAdditive(1, false);
-                    finalPose = layers;
+                    finalPose = actions;
                 }
 
                 var output = AnimationPlayableOutput.Create(graph,
@@ -101,25 +106,8 @@ namespace PortableAnimation
             if (!graph.IsValid() || actionProfile == null || index < 0 ||
                 index >= actionProfile.Count)
                 return false;
-            PortableCharacterAction next = actionProfile.Action(index);
-            if (activeIndex >= 0)
-            {
-                PortableCharacterAction previous = actionProfile.Action(activeIndex);
-                if (previous.priority > next.priority ||
-                    (index == activeIndex && !next.allowSameActionRestart))
-                    return false;
-            }
-
-            activeIndex = index;
-            actionTime = 0f;
-            actionWeight = 0f;
-            for (int i = 0; i < clips.Length; i++)
-                actions.SetInputWeight(i, i == index ? 1f : 0f);
+            if (!playback.Request(index)) return false;
             clips[index].SetTime(0d);
-            if (next.mask != null)
-                layers.SetLayerMaskFromAvatarMask(1, next.mask);
-            else
-                layers.SetLayerMaskFromAvatarMask(1, fullBodyMask);
             return true;
         }
 
@@ -133,24 +121,24 @@ namespace PortableAnimation
             graph.Evaluate(motion.Locomotion.DeltaTime);
         }
 
+        public void CancelAction(int index = -1) => playback.Cancel(index);
+        public void CancelGroup(string group)
+        {
+            if (string.IsNullOrEmpty(group)) return;
+            for (int i = 0; i < LiveActionCount; i++)
+                if (actionProfile.Action(i).group == group) playback.Cancel(i);
+        }
+
         private void UpdateAction(float dt)
         {
-            if (activeIndex < 0) return;
-            PortableCharacterAction action = actionProfile.Action(activeIndex);
-            actionTime = Mathf.Max(0f, actionTime + dt);
-            float length = action.clip.length;
-            if (actionTime >= length)
+            if (LiveActionCount == 0) return;
+            playback.Tick(dt);
+            for (int i = 0; i < clips.Length; i++)
             {
-                activeIndex = -1;
-                actionWeight = 0f;
-                layers.SetInputWeight(1, 0f);
-                return;
+                if (!clips[i].IsValid()) continue;
+                clips[i].SetTime(playback.ClipTime(i));
+                actions.SetInputWeight(i + 1, Mathf.Clamp01(playback.Weight(i)));
             }
-            float fadeIn = Mathf.Clamp01(actionTime / action.blendInSeconds);
-            float fadeOut = Mathf.Clamp01((length - actionTime) / action.blendOutSeconds);
-            actionWeight = Mathf.Min(fadeIn, fadeOut);
-            clips[activeIndex].SetTime(actionTime);
-            layers.SetInputWeight(1, actionWeight);
         }
 
         public void Dispose()

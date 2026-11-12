@@ -173,3 +173,11 @@ Required in-engine acceptance: full movement/jump/momentum comparison, manual an
 
 Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps1 -Label <fresh-label>` and again with `-Platform PlayMode`, with no Editor running. Run `python Tools/verify_serialized_contracts.py`. Detailed results/source fingerprints are in `TestResults.json`; full XML/logs remain locally under `Logs/ProductionMigration/`.
 - Remaining work and manual acceptance matrix: `ProductionMigration.md`.
+
+### Placeholder action integration and graph ownership
+
+- Extended the existing portable action graph with deterministic priority/interruption, phase groups, looping, speed, masks and cancellation. Added source-scoped Dash events and configurable Inspector workflows; no parallel animation framework.
+- Reused audited compatible flip/Sling and start/stop/pivot/fall/landing clips. Cast, Dash and Sling-charge slots safely remain unassigned. Automatic takeover remains disabled for visual acceptance; legacy writers remain recoverable. See AnimationWorkflow.md and AnimationClipInventory.json. Three profile asset changes are hash-allowlisted; scene/prefab GUIDs unchanged.
+- Edit Mode animation-transitions-final: **31/31 passed**. Play Mode animation-owner-registry: **18/18 passed**, exit 0. Includes live placeholder graph, missing actions, priority/cancel rules, independent profile overrides, transitions, duplicate portable-owner rejection and restoration. Serialized-contract audit passed.
+- Preserved failed experiments: private legacy field compile failure; initial graph fan-out error; missing transition-slot test; Animator.hasBoundPlayables incorrectly rejecting the legacy controller. Fixed with actual clip collection, single layer mixer, compatible optional transitions, and weak per-Animator portable ownership registry. All results retained in TestResults.json.
+- Remaining: representative scenario profiling, vendor/caller review and refreshed integrated Windows candidate; visual action/landing parity remains manual. Earlier empty-action-profile blocker statements are superseded by this stage.

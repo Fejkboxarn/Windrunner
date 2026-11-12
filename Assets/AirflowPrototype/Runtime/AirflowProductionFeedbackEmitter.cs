@@ -69,7 +69,7 @@ namespace AirflowPrototype
             }
             if (service == null) return;
             adapter = new AirflowProductionFeedbackAdapter(transform, service,
-                movement, caster, sling, hits, airPower);
+                movement, caster, sling, hits, airPower, GetComponent<AirDash>());
         }
 
         private void StopObserving()

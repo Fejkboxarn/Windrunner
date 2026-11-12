@@ -1,6 +1,6 @@
 {
   "name": "Windrunner.Production.Tests.Editor",
-  "references": ["Windrunner.Production.Runtime", "Windrunner.Production.Input", "Windrunner.Production.Feedback", "Windrunner.Production.Animation", "Unity.InputSystem"],
+  "references": ["Windrunner.Production.Runtime", "Windrunner.Production.Input", "Windrunner.Production.Feedback", "Windrunner.Production.Animation", "PortableAnimation.Runtime", "Unity.InputSystem"],
   "includePlatforms": ["Editor"],
   "optionalUnityReferences": ["TestAssemblies"]
 }

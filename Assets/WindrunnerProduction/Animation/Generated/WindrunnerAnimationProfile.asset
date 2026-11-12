@@ -28,12 +28,57 @@ MonoBehaviour:
   enableNativeAimOffset: 0
   actionBindings:
   - feedbackEvent: 13
-    montageSlot: -1
-  - feedbackEvent: 22
-    montageSlot: -1
+    montageSlot: 0
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup:
+  - feedbackEvent: 40
+    montageSlot: 6
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup: Sling
   - feedbackEvent: 43
-    montageSlot: -1
+    montageSlot: 1
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup: Sling
   - feedbackEvent: 44
-    montageSlot: -1
+    montageSlot: 2
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup: Sling
   - feedbackEvent: 45
-    montageSlot: -1
+    montageSlot: 2
+    operation: 1
+    cancelBeforePlaySlot: -1
+    cancelGroup: Sling
+  - feedbackEvent: 42
+    montageSlot: 1
+    operation: 1
+    cancelBeforePlaySlot: -1
+    cancelGroup: Sling
+  - feedbackEvent: 20
+    montageSlot: 3
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup: Cast
+  - feedbackEvent: 22
+    montageSlot: 4
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup: Cast
+  - feedbackEvent: 21
+    montageSlot: 3
+    operation: 1
+    cancelBeforePlaySlot: -1
+    cancelGroup: Cast
+  - feedbackEvent: 60
+    montageSlot: 5
+    operation: 0
+    cancelBeforePlaySlot: -1
+    cancelGroup:
+  - feedbackEvent: 61
+    montageSlot: 5
+    operation: 1
+    cancelBeforePlaySlot: -1
+    cancelGroup: Dash

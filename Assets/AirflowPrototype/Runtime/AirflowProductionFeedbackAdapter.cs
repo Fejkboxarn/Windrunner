@@ -17,11 +17,12 @@ namespace AirflowPrototype
         private readonly AirSlingController sling;
         private readonly AirFlowHitSystem hits;
         private readonly AirPower airPower;
+        private readonly AirDash dash;
         private bool disposed;
 
         public AirflowProductionFeedbackAdapter(Transform source, IFeedbackService feedback,
             PlayerMovementVisuals movement, AirCaster caster, AirSlingController sling,
-            AirFlowHitSystem hits, AirPower airPower)
+            AirFlowHitSystem hits, AirPower airPower, AirDash dash = null)
         {
             this.source = source;
             this.feedback = feedback;
@@ -30,6 +31,7 @@ namespace AirflowPrototype
             this.sling = sling;
             this.hits = hits;
             this.airPower = airPower;
+            this.dash = dash;
             Subscribe();
         }
 
@@ -47,6 +49,7 @@ namespace AirflowPrototype
 
         private void Subscribe()
         {
+            if (dash != null) { dash.DashStarted += OnDashStarted; dash.DashStopped += OnDashStopped; }
             if (movement != null)
             {
                 movement.Footstep += OnFootstep;
@@ -88,6 +91,8 @@ namespace AirflowPrototype
 
         private void OnFootstep(float intensity) => Emit(FeedbackKey.Footstep, null, intensity);
         private void OnJump() => Emit(FeedbackKey.Jump);
+        private void OnDashStarted() => Emit(FeedbackKey.DashStarted);
+        private void OnDashStopped() => Emit(FeedbackKey.DashStopped);
         private void OnLand(float intensity) => Emit(FeedbackKey.Land, null, intensity);
         private void OnFlip(int variant, float intensity) => Emit(FeedbackKey.Flip, null, intensity);
         private void OnCastCharge() => Emit(FeedbackKey.CastChargeStarted);
@@ -124,6 +129,7 @@ namespace AirflowPrototype
         {
             if (disposed) return;
             disposed = true;
+            if (dash != null) { dash.DashStarted -= OnDashStarted; dash.DashStopped -= OnDashStopped; }
             if (movement != null)
             {
                 movement.Footstep -= OnFootstep;

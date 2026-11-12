@@ -18,6 +18,24 @@
       "baseline_sha256": "88be69a957ef4e034c4d84d8edbbb34234dec209628dcc6658482df384f5069d",
       "approved_sha256": "064f1e932ef694d963dacb53e52044aac32fc4bce2929ddd59b3ffa7b2d7b2b2",
       "reason": "Clear two dead sprite-mode entries; active UVModule mode remains Grid (0), tilesX=8, material/texture unchanged."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset",
+      "baseline_sha256": "74aaee047dfcfd3011e9dc78acd9cc68fd1d4fe15f93da9007213f243b08a306",
+      "approved_sha256": "25bb70e2708d28165d160495276e9d3977ff4937c5d4264bdd2df62e3e27b840",
+      "reason": "User-authorized placeholder action integration. Reuses audited Humanoid flip/Sling clips, reserves missing Cast/Dash/start slots, preserves GUID and automatic-start setting."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset",
+      "baseline_sha256": "d8d5418908d6f3d388e93add4b3cf71cc600bda03a55bf835ff7f5f5b3ef0f47",
+      "approved_sha256": "6d57c2a00fae34537b9dc610d99985580634b800e5f2201cdd755587a29d917e",
+      "reason": "User-authorized placeholder action integration. Reuses audited Humanoid flip/Sling clips, reserves missing Cast/Dash/start slots, preserves GUID and automatic-start setting."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset",
+      "baseline_sha256": "94170bfffec3bc97b76f63bbc629ef1cc965dcc9be47a9eab569318f0d84bfdb",
+      "approved_sha256": "93d35d69c4269cbdbdd71c1befe08df2f03b4fac6b5d9a62d67e315fcd41a95f",
+      "reason": "User-authorized completion of empty start/stop/pivot/fall/landing slots with audited compatible placeholder clips. Existing locomotion assignments and tuning retained."
     }
   ]
 }
