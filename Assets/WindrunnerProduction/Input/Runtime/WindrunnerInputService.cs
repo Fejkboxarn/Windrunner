@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,8 @@ namespace Windrunner.Production.Input
         private InputActionRebindingExtensions.RebindingOperation activeRebind;
         private bool disposed;
         private bool menuOpen;
+        private readonly HashSet<InputDevice> gameplayDevices = new HashSet<InputDevice>();
+        public int InterruptionVersion { get; private set; }
 
         public event Action BindingsChanged;
         public InputActionAsset Actions { get { return actions; } }
@@ -49,6 +52,21 @@ namespace Windrunner.Production.Input
             system.Enable();
             gameplay.Enable();
             ui.Disable();
+            gameplay.actionTriggered += TrackGameplayDevice;
+            InputSystem.onDeviceChange += OnDeviceChange;
+        }
+
+        private void TrackGameplayDevice(InputAction.CallbackContext context)
+        {
+            if (context.started || context.performed)
+                gameplayDevices.Add(context.control.device);
+        }
+
+        private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            if (change != InputDeviceChange.Removed && change != InputDeviceChange.Disconnected &&
+                change != InputDeviceChange.Disabled) return;
+            if (gameplayDevices.Remove(device)) InterruptionVersion++;
         }
 
         public InputAction GetAction(string map, string name)
@@ -186,6 +204,9 @@ namespace Windrunner.Production.Input
         {
             if (disposed) return;
             disposed = true;
+            InputSystem.onDeviceChange -= OnDeviceChange;
+            gameplay.actionTriggered -= TrackGameplayDevice;
+            gameplayDevices.Clear();
             // Close the service before cancellation invokes client callbacks;
             // they must not be able to create a new operation during teardown.
             try { CancelRebind(); }

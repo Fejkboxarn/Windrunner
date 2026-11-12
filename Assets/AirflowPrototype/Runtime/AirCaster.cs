@@ -13,6 +13,7 @@ namespace AirflowPrototype
 
         private readonly AirCastSession<AirNode> session = new AirCastSession<AirNode>();
         private bool wasPaused;
+        private int chargeInputVersion;
 
         public bool IsCharging => session.IsCharging;
         public float ChargeTime => session.ChargeTime;
@@ -184,6 +185,12 @@ namespace AirflowPrototype
                 if (session.IsCharging && !input.CastHeld) CancelCharge();
             }
 
+            if (session.IsCharging && chargeInputVersion != input.InterruptionVersion)
+            {
+                CancelCharge();
+                return;
+            }
+
             if (input.CastPressedThisFrame)
                 BeginCharge();
 
@@ -219,6 +226,7 @@ namespace AirflowPrototype
             }
 
             session.Begin(target);
+            chargeInputVersion = input.InterruptionVersion;
 
             ChargeStarted?.Invoke();
 

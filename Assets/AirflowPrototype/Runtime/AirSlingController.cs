@@ -36,6 +36,7 @@ namespace AirflowPrototype
         private AirSlingNode _trackedTarget;
         private PlayerInputReader playerInput;
         private bool wasPaused;
+        private int chargeInputVersion;
 
         // Batch 5I: all phase and numerical substate are owned by one regular
         // C# object. This component remains the Unity/physics/event adapter.
@@ -283,7 +284,13 @@ namespace AirflowPrototype
             }
 
             if (playerInput == null && motor != null)
-                playerInput = motor.GetComponent<PlayerInputReader>();
+                playerInput = motor.Input;
+            if (FlowState.IsCharging && playerInput != null && chargeInputVersion != playerInput.InterruptionVersion)
+            {
+                CancelSling();
+                FinishFrame();
+                return;
+            }
             if (wasPaused)
             {
                 wasPaused = false;
@@ -343,6 +350,7 @@ namespace AirflowPrototype
         {
             _trackedTarget = target;
             FlowState.BeginCharge();
+            chargeInputVersion = playerInput != null ? playerInput.InterruptionVersion : 0;
 
             _trackedTarget.SetSelected(
                 true);

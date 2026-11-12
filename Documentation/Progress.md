@@ -120,6 +120,13 @@ Final automated suites: **26/26 EditMode** (`candidate-final`) and **10/10 PlayM
 - `sling-presentation-PlayMode`: **11/11 passed**, exit 0. `sling-presentation-EditMode`: **26/26 passed**, exit 0. Full charge/path/impact/launch and event-order regressions passed. Serialized content unchanged.
 - Authored animation audit: WindrunnerActionClips.asset contains `actions: []`; five profile mappings remain -1. Existing locomotion clips do not establish equivalent action mappings. Activation/legacy retirement is blocked by missing authored action configuration; unrelated architecture/testing can continue.
 
+### Post-RC1: water and interrupted input
+
+- Sling presentation checkpoint: `154d0154`.
+- Added real water mesh/swimming tests covering entry, pause, removed-water exit grace, recovery and disable. Device removal at a short charge initially passed (`water-device`: 13/13), but perfect-window removal reproduced an unintended paid Sling release (`device-perfect-before`: 12/13, exit 2).
+- Input service now tracks participating devices and publishes an interruption generation on removal/disconnection/disable. Sling and Cast cancel charging before release processing when it changes. Subscriptions are removed on disposal. This is an intentional correction: device loss must not fire a perfect ability.
+- `device-perfect-after`: 13/13 passed. `water-device-final-PlayMode`: **14/14 passed**, exit 0, including Cast cancellation without projectile and successful input after reconnection. `water-device-final-EditMode`: **26/26 passed**, exit 0. Serialized-contract gate passed.
+
 1. Explicit per-player bindings for camera/input/presentation, eliminating cross-player fallback searches with multiple-composition coverage. Current scene composition is verified; global services still assume one local player.
 2. Further separate Sling presentation orchestration while preserving synchronous motor -> Sling (300) -> swimming (1000) steps. Expand water overlap, obstruction, destroyed-target and device-removal/reconnection coverage.
 3. Author/test portable action mappings (all five currently -1; auto-start false). Keep legacy humanoid fallback until visual and gameplay parity passes. Do not invent mappings or remove a functioning writer without an authored replacement.

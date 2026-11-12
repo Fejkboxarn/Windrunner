@@ -114,6 +114,70 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator SwimmingPausesExitsAndRecoversThroughWaterRemoval()
+        {
+            var water = new GameObject("Test water");
+            var mesh = new Mesh(); assets.Add(mesh);
+            mesh.vertices = new[] { new Vector3(-20, 0, -20), new Vector3(20, 0, -20), new Vector3(20, 0, 20), new Vector3(-20, 0, 20) };
+            mesh.triangles = new[] { 0, 2, 1, 0, 3, 2 }; mesh.RecalculateBounds();
+            water.AddComponent<MeshFilter>().sharedMesh = mesh; water.transform.position = Vector3.up * 1.5f;
+            Add(water, "AirWaterSurface");
+            var swim = Add(player, "PlayerWaterSwim"); var swimSettings = Asset("WaterSwimSettings");
+            Call(swim, "Configure", motor, swimSettings);
+            int changes = 0; Observe(swim, "SwimmingChanged", () => changes++);
+            yield return Frames(8);
+            Assert.That(Get(swim, "IsSwimming"), Is.EqualTo(true));
+            Assert.That(Get(swim, "CurrentWaterSurfaceY"), Is.EqualTo(1.5f));
+            using (var pause = UnityTimeAuthority.Pause())
+            {
+                var position = player.transform.position;
+                Keys(Key.LeftCtrl); yield return Frames(5);
+                Assert.That(player.transform.position, Is.EqualTo(position));
+                water.SetActive(false); yield return Frames(5);
+                Assert.That(Get(swim, "IsSwimming"), Is.EqualTo(true));
+            }
+            Keys(); yield return Frames(12);
+            Assert.That(Get(swim, "IsSwimming"), Is.EqualTo(false));
+            water.SetActive(true); yield return Frames(8);
+            Assert.That(Get(swim, "IsSwimming"), Is.EqualTo(true));
+            ((Behaviour)swim).enabled = false;
+            Assert.That(Get(swim, "IsSwimming"), Is.EqualTo(false));
+            Assert.That(changes, Is.EqualTo(4));
+        }
+
+        [UnityTest]
+        public IEnumerator DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge()
+        {
+            node = new GameObject("Sling node"); node.transform.position = new Vector3(0, 2, 8); Add(node, "AirSlingNode");
+            yield return Frames(3);
+            Keys(Key.F); yield return Frames(19);
+            Assert.That(Get(sling, "IsCharging"), Is.EqualTo(true));
+            InputSystem.RemoveDevice(keyboard); yield return Frames(3);
+            Assert.That(Get(sling, "IsCharging"), Is.EqualTo(false));
+            Assert.That(Get(power, "Current"), Is.EqualTo(100f));
+            InputSystem.AddDevice(keyboard); Keys(); yield return Frames(2);
+            Keys(Key.F); yield return Frames(3);
+            Assert.That(Get(sling, "IsCharging"), Is.EqualTo(true));
+            Call(sling, "CancelSling");
+        }
+
+        [UnityTest]
+        public IEnumerator DisconnectedCastInputCancelsWithoutProjectileAndRecovers()
+        {
+            node = new GameObject("Air node"); node.transform.position = new Vector3(0, 2, 8); Add(node, "AirNode");
+            yield return Frames(3);
+            int releases = 0; Observe(caster, "PulseReleased", () => releases++);
+            MouseButton(true); yield return Frames(18);
+            Assert.That(Get(caster, "IsCharging"), Is.EqualTo(true));
+            InputSystem.RemoveDevice(mouse); yield return Frames(3);
+            Assert.That(Get(caster, "IsCharging"), Is.EqualTo(false));
+            Assert.That(releases, Is.Zero);
+            InputSystem.AddDevice(mouse); MouseButton(false); yield return Frames(2);
+            MouseButton(true); yield return Frames(18); MouseButton(false); yield return Frames(2);
+            Assert.That(releases, Is.EqualTo(1));
+        }
+
+        [UnityTest]
         public IEnumerator ExplicitPlayerInputBindingStaysIsolatedThroughDisposal()
         {
             var template = WindrunnerInputActionsFactory.CreateDefaults(); assets.Add(template);

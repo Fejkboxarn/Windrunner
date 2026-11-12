@@ -22,6 +22,7 @@ namespace AirflowPrototype
             (WindrunnerInputHost.Active != null ? WindrunnerInputHost.Active.Input : null);
         public float MouseSensitivity => Production != null ? Production.MouseSensitivity : 1f;
         public float StickSensitivity => Production != null ? Production.StickSensitivity : 1f;
+        public int InterruptionVersion => Production != null ? Production.InterruptionVersion : 0;
 
         // The composition owner retains service lifetime. A disposed binding
         // remains bound and inert rather than silently switching players.
