@@ -14,6 +14,7 @@ namespace Windrunner.Production.Progression
         public bool persistent, allowInput = true, allowAbilityHit, allowTraversal;
         [Min(0.1f)] public float range = 3;
         public string requiredCompletedQuest;
+        public string requiredUnlockId;
         public RaceHost race;
         public PuzzleHost puzzle;
         public UnityEvent succeeded;
@@ -23,7 +24,8 @@ namespace Windrunner.Production.Progression
                 (actor.Input != null && actor.Input.IsGameplayBlocked)) return false;
             if (channel == InteractionChannel.Input && !allowInput || channel == InteractionChannel.AbilityHit && !allowAbilityHit || channel == InteractionChannel.Traversal && !allowTraversal) return false;
             if ((actor.Position - transform.position).sqrMagnitude > range * range) return false;
-            return string.IsNullOrEmpty(requiredCompletedQuest) || actor.Service.Status(requiredCompletedQuest) == QuestStatus.Completed;
+            return (string.IsNullOrEmpty(requiredCompletedQuest) || actor.Service.Status(requiredCompletedQuest) == QuestStatus.Completed) &&
+                (string.IsNullOrEmpty(requiredUnlockId) || actor.Service.HasUnlock(requiredUnlockId));
         }
         public bool TryUse(ProgressionActor actor, InteractionChannel channel, string occurrence = null)
         {

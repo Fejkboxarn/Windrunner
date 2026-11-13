@@ -14,8 +14,7 @@ namespace Windrunner.Production.Progression
         public string playerId = "local-player";
         public string saveSlot = "progression";
         public ProgressionService Service { get; private set; }
-        private IFeedbackService feedback;
-        private int completedCount, rewardCount;
+        public Windrunner.Production.Input.WindrunnerInputService Input { get; private set; }
         private void Awake()
         {
             if (project == null || catalog == null) { Debug.LogError("ProgressionHost requires explicit ProjectRoot and catalog.", this); enabled = false; return; }
@@ -29,28 +28,24 @@ namespace Windrunner.Production.Progression
                         new FileProgressionStore(Path.Combine(Application.persistentDataPath, saveSlot + ".json")));
                     root.Runtime.Services.Register(service);
                 }
-                if (service.PlayerId != playerId) throw new InvalidOperationException("Progression host/player mismatch.");
-                Service = service; root.Runtime.Services.TryGet(out feedback);
-                ObserveCounts(); Service.Changed += OnChanged; Service.ListenerFailed += LogFailure;
+                if (service.PlayerId != playerId || !service.MatchesDefinitions(catalog.definitions)) throw new InvalidOperationException("Progression host/player/catalog mismatch.");
+                Service = service;
+                if (!root.Runtime.Services.TryGet<ProgressionFeedbackObserver>(out var observer))
+                {
+                    root.Runtime.Services.TryGet<IFeedbackService>(out var feedback);
+                    if (feedback != null) root.Runtime.Services.Register(new ProgressionFeedbackObserver(service, feedback, root.transform));
+                }
+                root.Runtime.Services.TryGet<Windrunner.Production.Input.WindrunnerInputService>(out var input);
+                Input = input;
+                Service.ListenerFailed += LogFailure;
             }
             catch (Exception ex) { Debug.LogException(ex, this); enabled = false; }
-        }
-        private void ObserveCounts()
-        {
-            var snapshot = Service.Snapshot();
-            completedCount = snapshot.quests.FindAll(q => q.status == QuestStatus.Completed).Count; rewardCount = snapshot.rewards.Count;
-        }
-        private void OnChanged()
-        {
-            int beforeQuests = completedCount, beforeRewards = rewardCount; ObserveCounts();
-            if (completedCount > beforeQuests) feedback?.Publish(FeedbackKey.QuestCompleted, FeedbackRequest.At(transform));
-            if (rewardCount > beforeRewards) feedback?.Publish(FeedbackKey.ProgressionRewardGranted, FeedbackRequest.At(transform));
         }
         private void LogFailure(Exception ex) => Debug.LogException(ex, this);
         private void OnDestroy()
         {
             if (Service == null) return;
-            Service.Changed -= OnChanged; Service.ListenerFailed -= LogFailure; Service = null;
+            Service.ListenerFailed -= LogFailure; Service = null;
         }
     }
 }

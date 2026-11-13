@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Windrunner.Production.Progression
@@ -24,6 +25,15 @@ namespace Windrunner.Production.Progression
             if (state.quests == null || state.relationships == null || state.rewards == null || state.cutscenes == null ||
                 state.persistentFacts == null || state.challenges == null || state.puzzles == null || state.equipmentReferences == null)
                 throw new InvalidDataException("Incomplete progression save.");
+            if (state.quests.Any(q => q == null || string.IsNullOrWhiteSpace(q.id) || q.objectives == null ||
+                !Enum.IsDefined(typeof(QuestStatus), q.status) || q.objectives.Any(o => o == null || o.count < 0 || o.occurrences == null || o.targets == null)) ||
+                state.quests.Select(q => q.id).Distinct().Count() != state.quests.Count ||
+                state.relationships.Any(r => r == null || r.rank < 0 || r.chapters == null) ||
+                state.rewards.Any(r => r == null || r.amount <= 0) ||
+                state.cutscenes.Any(c => c == null || !Enum.IsDefined(typeof(CinematicStatus), c.status)) ||
+                state.challenges.Any(c => c == null || c.successfulAttempts == null) ||
+                state.puzzles.Any(p => p == null || p.mechanisms == null) || state.persistentFacts.Any(f => f == null))
+                throw new InvalidDataException("Invalid progression records.");
             foreach (var c in state.cutscenes)
                 if (c.status == CinematicStatus.Playing) c.status = CinematicStatus.Pending;
             return state;

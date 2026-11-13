@@ -108,6 +108,7 @@ namespace Windrunner.Production.Tests
                 s.Accept("a1"); Assert.IsTrue(s.Snapshot().quests.Any(q => q.id == "retired"));
                 Assert.Throws<InvalidDataException>(() => ProgressionCodec.Decode("{\"schemaVersion\":99,\"playerId\":\"player\"}"));
                 Assert.Throws<InvalidDataException>(() => ProgressionCodec.Decode("invalid"));
+                Assert.Throws<InvalidDataException>(() => ProgressionCodec.Decode("{\"schemaVersion\":1,\"playerId\":\"player\",\"quests\":[null]}"));
             }
             finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }
         }

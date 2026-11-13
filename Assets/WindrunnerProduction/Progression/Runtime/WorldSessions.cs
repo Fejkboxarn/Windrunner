@@ -64,7 +64,7 @@ namespace Windrunner.Production.Progression
         public bool Begin()
         {
             if (Status == PuzzleStatus.Solved || Status == PuzzleStatus.Active || !progression.ChallengeAvailable(definition.challengeId)) return false;
-            Status = PuzzleStatus.Ready; attempt = Guid.NewGuid().ToString("N"); elapsed = 0; Changed?.Invoke(); return true;
+            Status = activated.Count > 0 ? PuzzleStatus.Active : PuzzleStatus.Ready; attempt = Guid.NewGuid().ToString("N"); elapsed = 0; Changed?.Invoke(); return true;
         }
         public bool Activate(string mechanism, string playerId, string region = null)
         {

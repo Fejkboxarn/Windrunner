@@ -11,7 +11,7 @@ namespace Windrunner.Production.Progression
         private ProgressionService injected;
         private WindrunnerInputService injectedInput;
         public ProgressionService Service => injected ?? host?.Service;
-        public WindrunnerInputService Input => injectedInput ?? inputHost?.Input;
+        public WindrunnerInputService Input => injectedInput ?? host?.Input ?? inputHost?.Input;
         public Vector3 Position => interactionOrigin != null ? interactionOrigin.position : transform.position;
         public void Bind(ProgressionService service, WindrunnerInputService input) { injected = service; injectedInput = input; }
     }

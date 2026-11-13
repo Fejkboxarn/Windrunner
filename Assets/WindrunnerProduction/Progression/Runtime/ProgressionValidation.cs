@@ -11,7 +11,7 @@ namespace Windrunner.Production.Progression
             var errors = new List<string>();
             var ids = new HashSet<string>(StringComparer.Ordinal);
             Action<string, string> id = (value, location) => {
-                if (string.IsNullOrWhiteSpace(value) || !ids.Add(value)) errors.Add(location + ": missing/duplicate stable ID '" + value + "'.");
+                if (string.IsNullOrWhiteSpace(value) || value.Any(c => !char.IsLetterOrDigit(c) && c != '-' && c != '_' && c != '.') || !ids.Add(value)) errors.Add(location + ": invalid/duplicate stable ID '" + value + "' (letters, digits, . _ - only).");
             };
             foreach (var q in d.quests) id(q.id, "Quest");
             foreach (var r in d.relationships) id(r.id, "Relationship");
@@ -54,6 +54,15 @@ namespace Windrunner.Production.Progression
                 else if (!string.IsNullOrEmpty(q.characterId) || !string.IsNullOrEmpty(q.chapterId)) errors.Add(q.id + ": optional quest cannot own relationship progression.");
             }
             if (Cycle(d.quests.Select(x => x.id), x => d.quests.First(q => q.id == x).requiresQuests)) errors.Add("Quests: circular prerequisites.");
+            if (Cycle(d.quests.Select(x => x.id), x => {
+                var result = new List<string>(d.quests.First(q => q.id == x).requiresQuests);
+                foreach (var owner in d.relationships)
+                {
+                    int index = owner.chapters.FindIndex(c => c.questId == x);
+                    if (index > 0) result.Add(owner.chapters[index - 1].questId);
+                }
+                return result;
+            })) errors.Add("Quests/chapters: circular availability dependencies.");
             foreach (var r in d.relationships)
             {
                 var chapterIds = new HashSet<string>();
@@ -65,6 +74,8 @@ namespace Windrunner.Production.Progression
                     if (!d.cutscenes.Any(x => x.id == c.cutsceneId)) errors.Add(r.id + "/" + c.id + ": missing required cutscene.");
                     if (d.relationships.SelectMany(x => x.chapters).Count(x => x.cutsceneId == c.cutsceneId) > 1) errors.Add(c.id + ": rank-up cutscene must have a unique completion record.");
                     rewards(c.rewards, r.id + "/" + c.id);
+                    var quest = d.quests.Find(q => q.id == c.questId);
+                    if (quest != null && quest.rewards.Intersect(c.rewards).Any()) errors.Add(r.id + "/" + c.id + ": same reward assigned to both chapter and quest turn-in.");
                 }
             }
             foreach (var c in d.challenges)

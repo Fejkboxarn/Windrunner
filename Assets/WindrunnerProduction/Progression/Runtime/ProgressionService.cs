@@ -15,6 +15,8 @@ namespace Windrunner.Production.Progression
         public event Action Changed;
         public event Action<Exception> ListenerFailed;
         public string PlayerId => state.playerId;
+        public bool MatchesDefinitions(ProgressionDefinitions candidate) => UnityEngine.JsonUtility.ToJson(definitions) == UnityEngine.JsonUtility.ToJson(candidate);
+        public bool HasUnlock(string contentId) => state.rewards.Any(r => r.kind == "unlock" && r.contentId == contentId);
         public ProgressionState Snapshot() => ProgressionCodec.Copy(state);
         public ProgressionService(ProgressionDefinitions definitions, string playerId, IProgressionStore store,
             Dictionary<string, IObjectiveEvaluator> evaluators = null)

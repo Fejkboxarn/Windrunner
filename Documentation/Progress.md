@@ -6,6 +6,8 @@ Baseline aa9e9d58 verified clean; branch feature/progression-framework. Hardenin
 
 Stage 1 checkpoint 3ffce279. World integration: progression-world-compile and progression-world-final Edit Mode **40/40** each; progression-world and progression-world-final Play Mode **28/28** each, exit 0. Real physics checkpoint, range checks, quest evaluation, independent race/puzzle rules and cinematic nested-pause restoration execute. Initial progression-world compile failed on an incorrect test-only Input System named parameter; corrected, original log retained. Serialized gate passed; no existing scene/prefab/profile edits. Next: Studio/journal/fixtures and expanded integration validation.
 
+Stage 2 checkpoint 769a1b00. Stage 3 adds searchable Progression Studio with Undo/validated save/remapped duplication, keyboard-first journal/HUD and explicit missing-content fallback, persistent-root input handoff and one registry-owned feedback observer. An isolated engineering fixture contains two independent chapter definitions, a race, switch puzzle and one-second marker Timeline, excluded from shipping build settings. progression-studio-final: **41/41 Edit Mode, 29/29 Play Mode**, exit 0. Initial scene-generation and fixture-lifecycle failures plus fixes are preserved in ProgressionValidation.md/TestResults.json. Existing serialized contracts passed. No existing gameplay scene, prefab or profile changed. Next: final robustness, profiling and Windows verification.
+
 Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 ## Current handoff
