@@ -86,6 +86,22 @@ namespace AirflowPrototype.Editor
                     if(temporary.maxGroundSpeed!=initial+2 || EditorUtility.IsDirty(temporary))throw new Exception("Explicit save failed to persist.");
                     Undo.FlushUndoRecordObjects();Undo.PerformUndo();
                     if(temporary.maxGroundSpeed!=initial)throw new Exception("Saved value was not undoable.");
+                    Undo.ClearUndo(temporary);
+                    var preset=ScriptableObject.CreateInstance<CharacterTuningPreset>();
+                    preset.bindings.Add(new CharacterTuningPreset.Binding{ownerPath="",componentType=typeof(PlayerMotor).AssemblyQualifiedName,propertyPath="settings",profile=temporary});
+                    try
+                    {
+                        using(var so=new SerializedObject(motor)){so.FindProperty("settings").objectReferenceValue=null;so.ApplyModifiedPropertiesWithoutUndo();}
+                        using(var empty=new CharacterTuningSession(owner))empty.ApplyPreset(preset);
+                        if(motor.Settings!=temporary)throw new Exception("Preset failed to assign null profile slot.");
+                        Undo.PerformUndo();if(motor.Settings!=null)throw new Exception("Preset Undo failed.");
+                        temporary.gravity=-1;
+                        try{using(var empty=new CharacterTuningSession(owner))empty.ApplyPreset(preset);throw new Exception("Invalid preset accepted");}
+                        catch(InvalidOperationException){if(motor.Settings!=null)throw new Exception("Rejected preset left binding changed");}
+                        temporary.gravity=source.gravity;
+                    }
+                    finally{UnityEngine.Object.DestroyImmediate(preset);Undo.ClearUndo(motor);}
+
                 }
             }
             finally {Undo.ClearUndo(temporary);UnityEngine.Object.DestroyImmediate(owner);AssetDatabase.DeleteAsset(path);}

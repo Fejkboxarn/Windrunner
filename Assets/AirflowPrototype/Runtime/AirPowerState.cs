@@ -12,6 +12,7 @@ namespace AirflowPrototype
         private float _current;
         private float _lastSpendTime = float.NegativeInfinity;
         private bool _depletedLockout;
+        private float _capacity = float.NaN;
 
         public float Current => _current;
         public bool IsDepletedLocked => _depletedLockout;
@@ -23,8 +24,23 @@ namespace AirflowPrototype
         // Matches the old AirPower.Awake: initial fill deliberately does not emit Changed.
         public void Initialize(float max)
         {
+            _capacity = max;
             if (_current <= 0f)
                 _current = max;
+        }
+
+        // Capacity edits preserve absolute energy, clamped downward; restoring
+        // capacity never refunds spending. A capacity change always notifies UI.
+        public void ReconcileCapacity(float max, float restartFraction)
+        {
+            if(float.IsNaN(_capacity)){_capacity=max;return;}
+            if(Mathf.Approximately(_capacity,max))return;
+            _capacity=max;
+            _current=Mathf.Clamp(_current,0f,max);
+            bool recovered=_depletedLockout && _current>=max*restartFraction;
+            if(recovered)_depletedLockout=false;
+            Changed?.Invoke(_current,max);
+            if(recovered)RecoveredFromDepletion?.Invoke();
         }
 
         public void Tick(
@@ -36,6 +52,7 @@ namespace AirflowPrototype
             float passiveRecoveryPerSecond,
             float dashRestartFraction)
         {
+            ReconcileCapacity(max, dashRestartFraction);
             if (passiveRecoveryEnabled &&
                 now - _lastSpendTime >= passiveRecoveryDelay &&
                 _current < max)
@@ -99,6 +116,7 @@ namespace AirflowPrototype
         // Also used by Configure(refill:true), which must NOT reset depletion lockout.
         public void SetCurrent(float value, float max)
         {
+            _capacity = max;
             float next = Mathf.Clamp(value, 0f, max);
             if (Mathf.Approximately(next, _current))
                 return;

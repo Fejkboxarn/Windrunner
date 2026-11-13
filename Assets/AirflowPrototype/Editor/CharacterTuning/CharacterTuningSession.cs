@@ -21,12 +21,28 @@ namespace AirflowPrototype.Editor
         {
             public MonoBehaviour Owner;
             public string Path, OwnerPath;
+            public Type ProfileType;
             public Entry Entry;
         }
         public readonly List<Entry> Entries = new List<Entry>();
         public readonly List<Binding> Bindings = new List<Binding>();
         public readonly GameObject Character;
         public bool Previewing { get; private set; }
+        private double nextPreviewCheck;
+        public string PreviewIssue { get; private set; }
+        private void WatchPreview()
+        {
+            if(!Previewing || EditorApplication.timeSinceStartup<nextPreviewCheck)return;
+            nextPreviewCheck=EditorApplication.timeSinceStartup+0.1;
+            ValidatePreview();
+        }
+        public void ValidatePreview()
+        {
+            if(!Previewing)return;
+            var errors=Validate();
+            if(errors.Count>0){PreviewIssue=string.Join("\n",errors);Preview(false);}
+            foreach(var power in Character.GetComponentsInChildren<AirPower>(true))power.ReconcileCapacity();
+        }
         private static readonly HashSet<string> LiveTypes = new HashSet<string> {
             "AirflowMovementSettings", "AirSlingSettings", "AirCastSettings", "AirTargetingSettings", "AirFlowHitSettings", "WaterSwimSettings" };
         public CharacterTuningSession(GameObject character)
@@ -43,20 +59,29 @@ namespace AirflowPrototype.Editor
                     var property = serialized.GetIterator();
                     while(property.NextVisible(true))
                     {
-                        if(property.propertyType != SerializedPropertyType.ObjectReference || !(property.objectReferenceValue is ScriptableObject source) || !Supported(source)) continue;
-                        var entry = Add(source);
+                        if(property.propertyType != SerializedPropertyType.ObjectReference)continue;
+                        var source=property.objectReferenceValue as ScriptableObject;
+                        var fieldType=owner.GetType().GetField(property.name,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic)?.FieldType;
+                        var profileType=source!=null?source.GetType():fieldType;
+                        if(profileType==null || !typeof(ScriptableObject).IsAssignableFrom(profileType) || !SupportedType(profileType))continue;
+                        var entry = source!=null?Add(source):null;
                         string ownerPath = owner.transform.IsChildOf(character.transform) || owner.transform==character.transform
                             ? AnimationUtility.CalculateTransformPath(owner.transform, character.transform)
                             : "@camera/" + AnimationUtility.CalculateTransformPath(owner.transform, motor.ViewCamera.transform);
-                        Bindings.Add(new Binding { Owner=owner, Path=property.propertyPath, OwnerPath=ownerPath, Entry=entry });
-                        entry.Owners.Add(ownerPath + " : " + owner.GetType().Name + "." + property.propertyPath);
+                        Bindings.Add(new Binding { Owner=owner, Path=property.propertyPath, OwnerPath=ownerPath, Entry=entry, ProfileType=profileType });
+                        entry?.Owners.Add(ownerPath + " : " + owner.GetType().Name + "." + property.propertyPath);
                     }
                 }
             }
+            Undo.undoRedoPerformed+=ValidatePreview;EditorApplication.update+=WatchPreview;
         }
         private static bool Supported(ScriptableObject source)
         {
-            string ns=source.GetType().Namespace ?? "";
+            return SupportedType(source.GetType());
+        }
+        private static bool SupportedType(Type type)
+        {
+            string ns=type.Namespace ?? "";
             return ns.StartsWith("AirflowPrototype") || ns.StartsWith("Windrunner") || ns.StartsWith("PortableAnimation");
         }
         private Entry Add(ScriptableObject source)
@@ -133,8 +158,8 @@ namespace AirflowPrototype.Editor
             if(Entries.Count==0) errors.Add("No supported character module profiles found. Select the player root.");
             if(Character.GetComponent<PlayerMotor>() is PlayerMotor motor && motor.Settings==null) errors.Add("PlayerMotor has no movement profile.");
             var motorBinding=Bindings.Find(b=>b.Owner is PlayerMotor && b.Path=="settings");
-            if(motorBinding!=null)
-                foreach(var b in Bindings.Where(b=>b.Path=="settings" && b.Entry.Source is AirflowMovementSettings))
+            if(motorBinding?.Entry!=null)
+                foreach(var b in Bindings.Where(b=>b.Path=="settings" && b.Entry!=null && b.Entry.Source is AirflowMovementSettings))
                     if(b.Entry.Source!=motorBinding.Entry.Source)errors.Add("Conflicting movement/resource/camera profile on "+b.Owner.GetType().Name+"; expected the motor's shared character module.");
             foreach(var component in Character.GetComponents<MonoBehaviour>())
             {
@@ -152,7 +177,7 @@ namespace AirflowPrototype.Editor
             if(enable && Validate().Count!=0) throw new InvalidOperationException(string.Join("\n",Validate()));
             foreach(var binding in Bindings)
             {
-                if(binding.Owner==null || !binding.Entry.PreviewSafe) continue;
+                if(binding.Owner==null || binding.Entry==null || !binding.Entry.PreviewSafe) continue;
                 using(var serialized=new SerializedObject(binding.Owner))
                 {
                     var property=serialized.FindProperty(binding.Path);
@@ -165,13 +190,16 @@ namespace AirflowPrototype.Editor
                 }
             }
             Previewing=enable;
+            if(enable)PreviewIssue=null;
+            foreach(var power in Character.GetComponentsInChildren<AirPower>(true))power.ReconcileCapacity();
         }
         public void Revert()
         {
             foreach(var e in Entries) { Undo.RecordObject(e.Draft,"Revert character draft"); EditorUtility.CopySerialized(e.Baseline,e.Draft); e.Draft.hideFlags=HideFlags.HideAndDontSave; }
+            ValidatePreview();
         }
         public string SaveRestriction => Application.isPlaying && Entries.Any(e=>!e.PreviewSafe && Content(e.Draft)!=Content(e.Baseline))
-            ? "Restart-only profiles changed. Stop Play Mode before saving these changes; use an Edit Mode draft for animation/pool authoring." : null;
+            ? "Restart-only profiles changed: Save is blocked in Play Mode. Revert these drafts and author in Edit Mode. Stopping Play discards unsaved drafts." : null;
         public void Save() => SaveTransaction(null);
         // The callback is used by Editor regression checks to verify rollback after a write.
         internal void SaveTransaction(Action<int> afterPersist)
@@ -205,14 +233,49 @@ namespace AirflowPrototype.Editor
         }
         public static string Content(ScriptableObject profile) => System.Text.RegularExpressions.Regex.Replace(
             EditorJsonUtility.ToJson(profile), "\"m_ObjectHideFlags\":\\s*\\d+", "\"m_ObjectHideFlags\":0");
+        public void ApplyPreset(CharacterTuningPreset preset)
+        {
+            if(Application.isPlaying)throw new InvalidOperationException("Apply presets only in Edit Mode.");
+            if(preset==null)throw new ArgumentNullException(nameof(preset));
+            var proposed=new List<(Binding binding,ScriptableObject value,Object original)>();
+            var seen=new HashSet<Binding>();
+            foreach(var p in preset.bindings)
+            {
+                var matches=Bindings.Where(b=>b.OwnerPath==p.ownerPath && b.Owner.GetType().AssemblyQualifiedName==p.componentType && b.Path==p.propertyPath).ToArray();
+                if(matches.Length!=1 || p.profile==null || !matches[0].ProfileType.IsInstanceOfType(p.profile) || !EditorUtility.IsPersistent(p.profile))
+                    throw new InvalidOperationException("Missing, ambiguous or incompatible preset binding: "+p.ownerPath+" / "+p.propertyPath);
+                var b=matches[0];if(!seen.Add(b))throw new InvalidOperationException("Duplicate preset binding: "+p.propertyPath);
+                using(var so=new SerializedObject(b.Owner))proposed.Add((b,p.profile,so.FindProperty(b.Path).objectReferenceValue));
+            }
+            // Validate the whole candidate composition with temporary reference
+            // assignment, restoring exact bindings even if validation throws.
+            try
+            {
+                foreach(var p in proposed)SetBinding(p.binding,p.value);
+                using(var candidate=new CharacterTuningSession(Character))
+                {var errors=candidate.Validate();if(errors.Count>0)throw new InvalidOperationException(string.Join("\n",errors));}
+            }
+            finally{foreach(var p in proposed)SetBinding(p.binding,p.original);}
+            Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();Undo.SetCurrentGroupName("Apply character preset");
+            try
+            {
+                Undo.RecordObjects(proposed.Select(p=>(Object)p.binding.Owner).Distinct().ToArray(),"Apply character preset");
+                foreach(var p in proposed){SetBinding(p.binding,p.value);PrefabUtility.RecordPrefabInstancePropertyModifications(p.binding.Owner);}
+                Undo.FlushUndoRecordObjects();Undo.CollapseUndoOperations(group);
+            }
+            catch{Undo.RevertAllDownToGroup(group);foreach(var p in proposed)SetBinding(p.binding,p.original);throw;}
+        }
+        private static void SetBinding(Binding binding,Object value)
+        {using(var so=new SerializedObject(binding.Owner)){so.FindProperty(binding.Path).objectReferenceValue=value;so.ApplyModifiedPropertiesWithoutUndo();}}
         public CharacterTuningPreset Capture(string name)
         {
             var preset=ScriptableObject.CreateInstance<CharacterTuningPreset>(); preset.characterName=name;
-            foreach(var b in Bindings) preset.bindings.Add(new CharacterTuningPreset.Binding {ownerPath=b.OwnerPath, componentType=b.Owner.GetType().AssemblyQualifiedName,propertyPath=b.Path,profile=b.Entry.Source});
+            foreach(var b in Bindings.Where(b=>b.Entry!=null)) preset.bindings.Add(new CharacterTuningPreset.Binding {ownerPath=b.OwnerPath, componentType=b.Owner.GetType().AssemblyQualifiedName,propertyPath=b.Path,profile=b.Entry.Source});
             return preset;
         }
         public void Dispose()
         {
+            Undo.undoRedoPerformed-=ValidatePreview;EditorApplication.update-=WatchPreview;
             Preview(false);
             foreach(var e in Entries) {Object.DestroyImmediate(e.Draft);Object.DestroyImmediate(e.Baseline);}
             Entries.Clear();Bindings.Clear();

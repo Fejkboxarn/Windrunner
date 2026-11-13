@@ -45,6 +45,26 @@ namespace Windrunner.Production.Tests
                 Assert.That((bool)bridgeType.GetProperty("ProductionOnlyReady").GetValue(bridge),Is.True,"Rejected save must leave active graph intact.");
                 sessionType.GetMethod("Revert").Invoke(session,null);
                 Assert.That((float)speed.GetValue(draft),Is.EqualTo(baseline));
+                var powerType=Type.GetType("AirflowPrototype.AirPower, Assembly-CSharp",true);var power=motor.GetComponent(powerType);
+                powerType.GetMethod("Refill").Invoke(power,null);
+                int capacityNotifications=0;Action<float,float> changed=(current,max)=>capacityNotifications++;
+                powerType.GetEvent("Changed").AddEventHandler(power,changed);
+                draft.GetType().GetField("maxAirPower").SetValue(draft,40f);
+                yield return null;
+                Assert.That((float)powerType.GetProperty("Current").GetValue(power),Is.EqualTo(40f));
+                Assert.That(capacityNotifications,Is.EqualTo(1));
+                sessionType.GetMethod("Revert").Invoke(session,null);
+                Assert.That((float)powerType.GetProperty("Current").GetValue(power),Is.EqualTo(40f),"Capacity restoration never refunds energy.");
+                Assert.That(capacityNotifications,Is.EqualTo(2));
+                powerType.GetEvent("Changed").RemoveEventHandler(power,changed);
+                // Undo restores an invalid historical draft; validation must stop preview immediately.
+                UnityEditor.Undo.FlushUndoRecordObjects();UnityEditor.Undo.IncrementCurrentGroup();
+                var pitch=draft.GetType().GetField("minCameraPitch");pitch.SetValue(draft,100f);
+                UnityEditor.Undo.RegisterCompleteObjectUndo(draft,"Correct invalid draft");pitch.SetValue(draft,-28f);UnityEditor.Undo.FlushUndoRecordObjects();
+                UnityEditor.Undo.PerformUndo();
+                Assert.That((bool)sessionType.GetProperty("Previewing").GetValue(session),Is.False);
+                Assert.That(settings.GetValue(motor),Is.SameAs(original));
+                UnityEditor.Undo.ClearUndo(draft);
                 sessionType.GetMethod("Preview").Invoke(session,new object[]{false});Assert.That(settings.GetValue(motor),Is.SameAs(original));
             }
             finally {((IDisposable)session).Dispose();UnityEngine.Object.Destroy(other);if(ProjectRoot.Active!=null)UnityEngine.Object.Destroy(ProjectRoot.Active.gameObject);}

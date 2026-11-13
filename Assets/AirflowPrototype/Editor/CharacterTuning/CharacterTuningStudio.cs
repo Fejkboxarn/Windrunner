@@ -15,6 +15,7 @@ namespace AirflowPrototype.Editor
         private string search="", category="All", message="";
         private Vector2 scroll;
         private bool changesOnly;
+        private AirSlingDeathReward[] encounterRewards=Array.Empty<AirSlingDeathReward>();
         private static readonly string[] Categories={"All","Movement","Jumping","Aerial","Air Dash","Air Sling","Air Cast","Camera","Animation","Resources","Feedback","Water","Other"};
         [MenuItem("Tools/Windrunner/Character Tuning")]
         public static void Open() => GetWindow<CharacterTuningStudio>("Character Tuning");
@@ -26,7 +27,7 @@ namespace AirflowPrototype.Editor
             if(state==PlayModeStateChange.ExitingPlayMode || state==PlayModeStateChange.ExitingEditMode) {session?.Dispose();session=null;message="Mode changed: unsaved drafts discarded; saved assets are unchanged.";}
             Repaint();
         }
-        private void Reload() { session?.Dispose();session=character!=null?new CharacterTuningSession(character):null; }
+        private void Reload() { session?.Dispose();session=character!=null?new CharacterTuningSession(character):null;encounterRewards=Object.FindObjectsByType<AirSlingDeathReward>(FindObjectsInactive.Include,FindObjectsSortMode.None); }
         private void Do(Action action) {try {action();message="Operation completed.";}catch(Exception e){message=e.Message;Debug.LogWarning("[Character Tuning] "+e.Message);} }
         private void OnGUI()
         {
@@ -57,6 +58,8 @@ namespace AirflowPrototype.Editor
                 if(preview!=session.Previewing)Do(()=>session.Preview(preview));
             }
             EditorGUILayout.HelpBox("Live: movement/jump/camera/resource values, Dash, Sling, Cast, targeting and water. Animation graphs, feedback/audio pools and other cached modules require explicit Save and a new Play session. Revert/closing restores references. Play-mode component and node overrides are never saved by this window. Baseline comparison is against the loaded authored values, not guessed C# defaults.",MessageType.None);
+            if(!string.IsNullOrEmpty(session.PreviewIssue))EditorGUILayout.HelpBox("Preview stopped: "+session.PreviewIssue,MessageType.Warning);
+            DrawScopeAndSceneControls();
             search=EditorGUILayout.TextField("Search name / owner / tooltip",search);
             changesOnly=EditorGUILayout.Toggle("Compare: changed values only",changesOnly);
             category=Categories[EditorGUILayout.Popup("Category",Array.IndexOf(Categories,category),Categories)];
@@ -75,6 +78,7 @@ namespace AirflowPrototype.Editor
                     {
                         enter=false;
                         if(property.name=="m_Script")continue;
+                        if(entry.Source is AirCastSettings && new[]{"unchargedRingRadius","chargedRingRadius","ringRotationSpeed","ringWidth"}.Contains(property.name))continue;
                         var field=entry.Draft.GetType().GetField(property.name,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
                         var header=field?.GetCustomAttribute<HeaderAttribute>();if(header!=null)section=header.header;
                         string group=Group(entry.Source.GetType().Name,section);
@@ -87,7 +91,8 @@ namespace AirflowPrototype.Editor
                         if(!shown){EditorGUILayout.Space();EditorGUILayout.LabelField(entry.Source.name+" â€” "+entry.Source.GetType().Name,EditorStyles.boldLabel);EditorGUILayout.LabelField(owner.Length>0?owner:"Referenced module of another profile",EditorStyles.wordWrappedMiniLabel);EditorGUILayout.LabelField(AssetDatabase.GetAssetPath(entry.Source),EditorStyles.miniLabel);shown=true;}
                         string unit=Units(property.name,section);
                         string tooltip=property.tooltip+"\nOwner: "+owner+"\nUnits: "+unit+"\nLoaded baseline: "+Value(original);
-                        EditorGUILayout.PropertyField(property,new GUIContent(property.displayName+" ["+group+"]",tooltip),true);
+                        using(new EditorGUI.DisabledScope(Application.isPlaying && !entry.PreviewSafe))
+                            EditorGUILayout.PropertyField(property,new GUIContent(property.displayName+" ["+group+"]",tooltip),true);
                         if(changed)EditorGUILayout.LabelField("Loaded baseline: "+Value(original),EditorStyles.miniLabel);
                     }
                     edited|=serialized.ApplyModifiedProperties();
@@ -98,6 +103,35 @@ namespace AirflowPrototype.Editor
             {
                 var issues=session.Validate();
                 if(issues.Count>0){session.Preview(false);message="Live preview stopped: "+string.Join("\n",issues);}
+            }
+        }
+        private bool showScope;
+        private void DrawScopeAndSceneControls()
+        {
+            showScope=EditorGUILayout.Foldout(showScope,"Effective values, encounter overrides and scene presentation",true);
+            if(!showScope)return;
+            var motor=character.GetComponent<PlayerMotor>();var reader=character.GetComponent<PlayerInputReader>();
+            if(motor!=null && motor.Settings!=null && reader!=null)
+                EditorGUILayout.LabelField($"Camera effective sensitivity: mouse {motor.Settings.mouseSensitivity*reader.MouseSensitivity:G4}; stick {motor.Settings.gamepadLookDegreesPerSecond*reader.StickSensitivity:G4} deg/s (profile × user preference).");
+            EditorGUILayout.HelpBox("Draft reward policy applies only to listed character/camera owners. Encounter-owned node death rewards below are excluded from preview and presets. Node timing/health overrides remain encounter authoring. Global feedback catalog, voice limits and user input preferences remain service-owned.",MessageType.Info);
+            foreach(var reward in encounterRewards.Where(r=>r!=null))
+                using(var so=new SerializedObject(reward))
+                {
+                    var power=so.FindProperty("airPower").objectReferenceValue as AirPower;
+                    if(power==null || power.gameObject!=character)continue;
+                    var settings=so.FindProperty("flowSettings").objectReferenceValue as AirFlowHitSettings;
+                    float multiplier=so.FindProperty("airPowerRewardMultiplier").floatValue;
+                    EditorGUILayout.LabelField(reward.name+" — encounter reward: "+(settings!=null?(settings.airPowerRestore*multiplier).ToString("G4")+" AirPower; "+settings.name:"MISSING profile"));
+                }
+            var trails=character.GetComponentInChildren<PlayerHandAirTrails>(true);
+            if(trails==null)return;
+            EditorGUILayout.HelpBox("Hand-trail scene overrides: Edit Mode only. These edits use standard Unity Undo and require Save Scene/Prefab; they are separate from module draft Save and are not copied by profile presets.",MessageType.None);
+            using(new EditorGUI.DisabledScope(Application.isPlaying))
+            using(var so=new SerializedObject(trails))
+            {
+                foreach(string name in new[]{"airNodeEmitDuration","airNodeFadeDuration","slingImpactEmitDuration","slingImpactFadeDuration","trailMaterial","startWidth","endWidth","minimumVertexDistance","cornerVertices","capVertices","trailColor","scaleAirNodeWidthByRewardIntensity","minimumRewardWidthMultiplier"})
+                    EditorGUILayout.PropertyField(so.FindProperty(name),true);
+                if(!Application.isPlaying && so.ApplyModifiedProperties())PrefabUtility.RecordPrefabInstancePropertyModifications(trails);
             }
         }
         internal static string Group(string type,string section)
@@ -149,29 +183,31 @@ namespace AirflowPrototype.Editor
             if(Application.isPlaying)throw new InvalidOperationException("Apply character binding presets only in Edit Mode.");
             if(character==null)throw new InvalidOperationException("Select the target character first.");
             if(session==null)Reload();
-            var matches=new List<(CharacterTuningSession.Binding,CharacterTuningPreset.Binding)>();
-            foreach(var b in preset.bindings)
-            {
-                var match=session.Bindings.Find(x=>x.OwnerPath==b.ownerPath && x.Owner.GetType().AssemblyQualifiedName==b.componentType && x.Path==b.propertyPath);
-                if(match==null || b.profile==null || match.Entry.Source.GetType()!=b.profile.GetType())throw new InvalidOperationException("Missing/incompatible preset binding: "+b.ownerPath+" / "+b.propertyPath);
-                matches.Add((match,b));
-            }
-            foreach(var pair in matches)
-            {
-                Undo.RecordObject(pair.Item1.Owner,"Apply character preset");using(var so=new SerializedObject(pair.Item1.Owner)){so.FindProperty(pair.Item1.Path).objectReferenceValue=pair.Item2.profile;so.ApplyModifiedProperties();PrefabUtility.RecordPrefabInstancePropertyModifications(pair.Item1.Owner);}
-            }
+            session.ApplyPreset(preset);
             Reload();
         }
         private void Duplicate()
         {
             if(Application.isPlaying)throw new InvalidOperationException("Duplicate presets in Edit Mode.");
+            var errors=session.Validate();if(errors.Count>0)throw new InvalidOperationException(string.Join("\n",errors));
             string path=EditorUtility.SaveFilePanelInProject("Duplicate character profile set",character.name+"Variant","asset","Creates a preset and independent module profiles beside it.");if(string.IsNullOrEmpty(path))return;
+            if(AssetDatabase.LoadMainAssetAtPath(path)!=null)throw new InvalidOperationException("Choose a new preset path; existing assets are never replaced.");
             string folder=path.Substring(0,path.Length-6)+"Profiles";if(AssetDatabase.IsValidFolder(folder))throw new InvalidOperationException("Choose a new name; profile folder already exists.");
             int slash=folder.LastIndexOf('/');AssetDatabase.CreateFolder(folder.Substring(0,slash),folder.Substring(slash+1));
+            try
+            {
             var copies=new Dictionary<ScriptableObject,ScriptableObject>();
             foreach(var e in session.Entries){var copy=Object.Instantiate(e.Draft);copy.hideFlags=HideFlags.None;copy.name=e.Source.name;AssetDatabase.CreateAsset(copy,AssetDatabase.GenerateUniqueAssetPath(folder+"/"+copy.name+".asset"));copies.Add(e.Source,copy);}
             foreach(var copy in copies.Values)using(var so=new SerializedObject(copy)){var p=so.GetIterator();while(p.Next(true))if(p.propertyType==SerializedPropertyType.ObjectReference && p.objectReferenceValue is ScriptableObject source && copies.TryGetValue(source,out var child))p.objectReferenceValue=child;so.ApplyModifiedPropertiesWithoutUndo();AssetDatabase.SaveAssetIfDirty(copy);}
             var result=session.Capture(character.name+" Variant");foreach(var b in result.bindings)b.profile=copies[b.profile];AssetDatabase.CreateAsset(result,path);AssetDatabase.SaveAssetIfDirty(result);preset=result;
+            }
+            catch
+            {
+                // Only this operation's newly created output folder is removed.
+                if(AssetDatabase.LoadMainAssetAtPath(path)!=null)AssetDatabase.DeleteAsset(path);
+                AssetDatabase.DeleteAsset(folder);
+                throw;
+            }
         }
     }
 }

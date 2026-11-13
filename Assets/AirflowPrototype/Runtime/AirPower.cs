@@ -14,7 +14,9 @@ namespace AirflowPrototype
         private AirPowerState _state;
         private AirPowerState State => _state ?? (_state = new AirPowerState());
 
-        public float Current => State.Current;
+        public void ReconcileCapacity()
+        { if(settings!=null)State.ReconcileCapacity(settings.maxAirPower,settings.dashRestartFraction); }
+        public float Current { get { ReconcileCapacity();return State.Current; } }
         public float Max => settings != null ? settings.maxAirPower : 0f;
         public float Normalized => Max > 0f ? Mathf.Clamp01(Current / Max) : 0f;
         public bool IsDepletedLocked => State.IsDepletedLocked;
@@ -22,7 +24,7 @@ namespace AirflowPrototype
         public bool CanStartDash =>
             settings != null &&
             !State.IsDepletedLocked &&
-            State.Current > 0.001f;
+            Current > 0.001f;
 
         public event Action<float, float> Changed
         {
@@ -75,6 +77,7 @@ namespace AirflowPrototype
             if (settings == null || amount <= 0f)
                 return true;
 
+            ReconcileCapacity();
             return State.Spend(amount, Time.time, settings.maxAirPower);
         }
 
