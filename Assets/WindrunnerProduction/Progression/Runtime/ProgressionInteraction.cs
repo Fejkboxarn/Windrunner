@@ -19,13 +19,24 @@ namespace Windrunner.Production.Progression
         public PuzzleHost puzzle;
         public UnityEvent succeeded;
         public bool CanUse(ProgressionActor actor, InteractionChannel channel)
+            => string.IsNullOrEmpty(RejectionReason(actor, channel));
+        public string RejectionReason(ProgressionActor actor, InteractionChannel channel)
         {
-            if (!isActiveAndEnabled || actor == null || actor.Service == null || string.IsNullOrWhiteSpace(stableId) ||
-                (actor.Input != null && actor.Input.IsGameplayBlocked)) return false;
-            if (channel == InteractionChannel.Input && !allowInput || channel == InteractionChannel.AbilityHit && !allowAbilityHit || channel == InteractionChannel.Traversal && !allowTraversal) return false;
-            if ((actor.Position - transform.position).sqrMagnitude > range * range) return false;
-            return (string.IsNullOrEmpty(requiredCompletedQuest) || actor.Service.Status(requiredCompletedQuest) == QuestStatus.Completed) &&
-                (string.IsNullOrEmpty(requiredUnlockId) || actor.Service.HasUnlock(requiredUnlockId));
+            if (!isActiveAndEnabled) return "Station disabled.";
+            if (actor == null || actor.Service == null) return "Player progression binding missing.";
+            if (string.IsNullOrWhiteSpace(stableId)) return "Station identity missing.";
+            if (actor.Input != null && actor.Input.IsGameplayBlocked) return "Gameplay input is blocked by a menu or cinematic.";
+            if (channel == InteractionChannel.Input && !allowInput || channel == InteractionChannel.AbilityHit && !allowAbilityHit || channel == InteractionChannel.Traversal && !allowTraversal) return "This interaction channel is not allowed.";
+            if ((actor.Position - transform.position).sqrMagnitude > range * range) return "Move closer (range " + range.ToString("0.0") + " m).";
+            if (!string.IsNullOrEmpty(requiredCompletedQuest) && actor.Service.Status(requiredCompletedQuest) != QuestStatus.Completed) return "Required quest is not completed: " + requiredCompletedQuest;
+            if (!string.IsNullOrEmpty(requiredUnlockId) && !actor.Service.HasUnlock(requiredUnlockId)) return "Required unlock missing: " + requiredUnlockId;
+            if (command == InteractionCommand.AcceptQuest && actor.Service.Status(definitionId) != QuestStatus.Available) return "Quest is " + actor.Service.Status(definitionId) + ".";
+            if (command == InteractionCommand.TurnInQuest && actor.Service.Status(definitionId) != QuestStatus.ReadyToTurnIn) return "Quest is " + actor.Service.Status(definitionId) + "; finish its objectives first.";
+            if (command == InteractionCommand.StartRace && race == null) return "Race binding missing.";
+            if (command == InteractionCommand.StartRace && race.Session?.Status == AttemptStatus.Active) return "Race already active; cross the checkpoint and finish gates.";
+            if ((command == InteractionCommand.PuzzleMechanism || command == InteractionCommand.PuzzleDestination) && puzzle == null) return "Puzzle binding missing.";
+            if (puzzle != null && puzzle.Session?.Status == PuzzleStatus.Solved) return "Puzzle solved.";
+            return null;
         }
         public bool TryUse(ProgressionActor actor, InteractionChannel channel, string occurrence = null)
         {

@@ -15,6 +15,7 @@ namespace Windrunner.Production.Progression
         public string saveSlot = "progression";
         public ProgressionService Service { get; private set; }
         public Windrunner.Production.Input.WindrunnerInputService Input { get; private set; }
+        public Windrunner.Production.Input.WindrunnerInputHost InputOwner { get; private set; }
         private void Awake()
         {
             if (project == null || catalog == null) { Debug.LogError("ProgressionHost requires explicit ProjectRoot and catalog.", this); enabled = false; return; }
@@ -37,6 +38,7 @@ namespace Windrunner.Production.Progression
                 }
                 root.Runtime.Services.TryGet<Windrunner.Production.Input.WindrunnerInputService>(out var input);
                 Input = input;
+                InputOwner = root.GetComponent<Windrunner.Production.Input.WindrunnerInputHost>();
                 Service.ListenerFailed += LogFailure;
             }
             catch (Exception ex) { Debug.LogException(ex, this); enabled = false; }

@@ -16,8 +16,7 @@ namespace Windrunner.Production.Input
         private readonly WindrunnerPauseMenuView view;
         private readonly InputSystemUIInputModule uiModule;
         private readonly List<Button> bindingRows = new List<Button>();
-        private CursorLockMode previousLock;
-        private bool previousVisibility;
+        private IDisposable cursorRequest;
         private TimeScaleArbiter.Request pauseRequest;
         private bool paused;
 
@@ -73,8 +72,7 @@ namespace Windrunner.Production.Input
         {
             if (paused || input.IsRebinding) return;
             paused = true;
-            previousLock = Cursor.lockState;
-            previousVisibility = Cursor.visible;
+            cursorRequest = UnityCursorAuthority.Menu();
             pauseRequest = UnityTimeAuthority.Pause();
             input.SetMenuOpen(true);
             if (view != null && view.Panel != null)
@@ -99,8 +97,7 @@ namespace Windrunner.Production.Input
             input.SetMenuOpen(false);
             pauseRequest?.Dispose();
             pauseRequest = null;
-            Cursor.lockState = previousLock;
-            Cursor.visible = previousVisibility;
+            cursorRequest?.Dispose(); cursorRequest = null;
         }
 
         private void ResetBindings()

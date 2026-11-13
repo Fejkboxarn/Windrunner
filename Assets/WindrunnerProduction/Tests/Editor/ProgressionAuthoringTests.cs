@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
@@ -12,6 +13,39 @@ namespace Windrunner.Production.Tests
 {
     public sealed class ProgressionAuthoringTests
     {
+        [Test] public void FixtureResetPreservesNormalSaveAndRetainsPreviousEngineeringGeneration()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), "Windrunner-fixture-reset-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(directory);
+            string normal = Path.Combine(directory, "progression.json"), fixture = Path.Combine(directory, ProgressionFixtureGuide.Slot + ".json");
+            try
+            {
+                File.WriteAllText(normal, "normal-player-save-sentinel");
+                var previous = new ProgressionState { playerId = "engineering-fixture" };
+                previous.relationships.Add(new RelationshipRecord { id = "fixture-a", rank = 1 });
+                new FileProgressionStore(fixture).Commit(previous); string before = File.ReadAllText(fixture);
+                Assert.Throws<InvalidOperationException>(() => ProgressionFixtureGuide.ResetIsolatedSave(directory, ProgressionFixtureGuide.ScenePath, "progression", "engineering-fixture"));
+                Assert.AreEqual(before, File.ReadAllText(fixture));
+                ProgressionFixtureGuide.ResetIsolatedSave(directory, ProgressionFixtureGuide.ScenePath, ProgressionFixtureGuide.Slot, "engineering-fixture");
+                Assert.IsEmpty(new FileProgressionStore(fixture).Load().relationships);
+                Assert.AreEqual(before, File.ReadAllText(fixture + ".bak")); Assert.AreEqual("normal-player-save-sentinel", File.ReadAllText(normal));
+            }
+            finally
+            {
+                foreach (string file in Directory.GetFiles(directory)) File.Delete(file);
+                Directory.Delete(directory);
+            }
+        }
+        [Test] public void FixtureUpgradePreservesStableIdentitiesAndRejectsNonFixtureReset()
+        {
+            Type("ProgressionFixtureUsabilitySetup").GetMethod("Upgrade").Invoke(null, null);
+            Assert.IsTrue(ProgressionFixtureGuide.IsFixtureIdentity(ProgressionFixtureGuide.ScenePath, ProgressionFixtureGuide.Slot, "engineering-fixture"));
+            Assert.IsFalse(ProgressionFixtureGuide.IsFixtureIdentity(ProgressionFixtureGuide.ScenePath, "progression", "engineering-fixture"));
+            Assert.IsFalse(ProgressionFixtureGuide.IsFixtureIdentity("Assets/AirflowPrototype/Generated/Batch1_Playground.unity", ProgressionFixtureGuide.Slot, "engineering-fixture"));
+            var catalog = AssetDatabase.LoadAssetAtPath<ProgressionCatalog>("Assets/WindrunnerProduction/Progression/Fixtures/FixtureCatalog.asset");
+            Assert.IsTrue(catalog.definitions.quests.Any(q => q.id == "fixture-a-quest"));
+            Assert.IsTrue(catalog.definitions.quests.Any(q => q.id == "fixture-b-quest"));
+        }
         [Test] public void AuthoredFixtureHasNoBrokenSerializedReferences()
         {
             var setup = EditorSceneManager.GetSceneManagerSetup();

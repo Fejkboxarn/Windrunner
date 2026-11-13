@@ -25,6 +25,7 @@ namespace Windrunner.Production.Input
         public WindrunnerPauseMenuView PauseView => pauseView;
         public InputSystemUIInputModule UiModule => uiModule;
         public bool IsPaused => menu != null && menu.IsPaused;
+        public void SetPaused(bool paused) { if (paused) menu?.Pause(); else menu?.Resume(); }
 
         private WindrunnerPauseMenuController menu;
         private readonly List<InputActionReference> uiActionReferences = new List<InputActionReference>();

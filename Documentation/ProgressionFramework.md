@@ -1,5 +1,7 @@
 # Progression framework implementation
 
+Latest continuation: fixture/journal usability corrections from `5761575b` are documented in ProgressionFixtureUsability.md. They preserve the existing quest/service architecture and accepted playground; use that numbered in-Unity guide for current acceptance. Earlier implementation records below remain historical evidence.
+
 Baseline: aa9e9d58, verified clean on 2026-11-13. Feature branch: feature/progression-framework. Character Tuning hardening is retained, not repeated. Existing production input preferences are the only installed persistence; progression uses a separate versioned save owned by the existing ProjectRuntime service registry.
 
 ## Implementation stages

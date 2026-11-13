@@ -1,5 +1,9 @@
 # Windrunner progression framework candidate — 2026-11-13
 
+## Usability correction continuation
+
+The original automated candidate below did not constitute manual usability acceptance. ProgressionFixtureUsability.md documents the corrected two-column journal, real input/targeting fixes, readable fixture stations, scoped pause/cursor handling, isolated reset and current testing guide. Its validation supersedes the original journal/fixture evidence below. The older executable paths below do not include these changes; see the continuation evidence for a newer fixture build.
+
 Branch: feature/progression-framework. Verified baseline: aa9e9d58. Earlier hardening checkpoints af3ed592 and 4590c687 are ancestors and remain intact. Local checkpoints: 3ffce279 (rules/persistence), 769a1b00 (world/control integration), f45cdb8b (Studio/journal/fixture), followed by the checkpoint containing this report. Nothing pushed or merged.
 
 ## Delivered implementation
