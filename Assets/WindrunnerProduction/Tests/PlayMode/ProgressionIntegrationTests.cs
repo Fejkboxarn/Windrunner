@@ -100,5 +100,46 @@ namespace Windrunner.Production.Tests
             Assert.IsTrue(input.GetAction("Gameplay", "Move").enabled); Assert.IsNotEmpty(input.ProgressionBindingLabel("Interact"));
             Assert.AreEqual(Guid.Parse("049b391b-de56-4308-97d9-5ed03661bda8"), id);
         }
+        [UnityTest] public IEnumerator RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime()
+        {
+            var d = new ProgressionDefinitions(); d.quests.Add(new QuestDefinition { id = "cast-quest", kind = QuestKind.Optional,
+                groups = new List<ObjectiveGroup> { new ObjectiveGroup { id = "g", objectives = new List<ObjectiveDefinition> {
+                    new ObjectiveDefinition { id = "o", kind = FactKind.Interaction, definitionId = "cast-switch", count = 2 } } } } });
+            var actor = Actor(d); service.Accept("cast-quest");
+            Type T(string name) => Type.GetType("AirflowPrototype." + name + ", Assembly-CSharp", true);
+            var caster = actor.gameObject.AddComponent(T("AirCaster")) as Behaviour; caster.enabled = false;
+            var target = New("Cast switch"); target.transform.position = Vector3.forward;
+            var node = target.AddComponent(T("AirNode")); var interaction = target.AddComponent<ProgressionInteraction>();
+            interaction.stableId = "first-object"; interaction.definitionId = "cast-switch"; interaction.allowAbilityHit = true; interaction.persistent = true;
+            var adapterType = T("AirflowProgressionAdapter"); var adapter = (Behaviour)actor.gameObject.AddComponent(adapterType); adapter.enabled = false;
+            adapterType.GetField("actor").SetValue(adapter, actor); adapterType.GetField("caster").SetValue(adapter, caster);
+            var bindingType = adapterType.GetNestedType("CastTarget"); var binding = Activator.CreateInstance(bindingType);
+            bindingType.GetField("node").SetValue(binding, node); bindingType.GetField("interaction").SetValue(binding, interaction);
+            var bindings = Array.CreateInstance(bindingType, 1); bindings.SetValue(binding, 0); adapterType.GetField("castTargets").SetValue(adapter, bindings); adapter.enabled = true;
+            var settings = Keep(ScriptableObject.CreateInstance(T("AirCastSettings")));
+            var spawn = T("AirPulseProjectile").GetMethod("Spawn");
+            void Fire() => spawn.Invoke(null, new object[] { caster, node, Vector3.zero, Vector3.forward, 1f, true, settings });
+            Fire(); Fire(); yield return new WaitForSeconds(0.3f);
+            Assert.AreEqual(1, service.Snapshot().quests.Single().objectives.Single().count);
+            adapter.enabled = false; interaction.stableId = "second-object"; Fire(); yield return new WaitForSeconds(0.3f);
+            Assert.AreEqual(1, service.Snapshot().quests.Single().objectives.Single().count);
+            adapter.enabled = true; Fire(); yield return new WaitForSeconds(0.3f);
+            Assert.AreEqual(QuestStatus.ReadyToTurnIn, service.Status("cast-quest"));
+            yield return new WaitForSeconds(1);
+            Assert.AreEqual(0, Object.FindObjectsByType(T("AirPulseProjectile"), FindObjectsSortMode.None).Length);
+        }
+        [UnityTest] public IEnumerator UniqueCollectionPresentationRestoresFromPersistentFacts()
+        {
+            var actor = Actor(new ProgressionDefinitions()); var collectible = New("Unique collectible");
+            var interaction = collectible.AddComponent<ProgressionInteraction>(); interaction.stableId = "unique-object"; interaction.definitionId = "artifact";
+            interaction.factKind = FactKind.ItemCollected; interaction.persistent = true;
+            var view = New("Persistent collection observer").AddComponent<ProgressionFactView>(); view.actor = actor; view.stableObjectId = interaction.stableId; view.presentation = collectible;
+            yield return null; Assert.IsTrue(collectible.activeSelf);
+            Assert.IsTrue(interaction.TryUse(actor, InteractionChannel.Input)); Assert.IsFalse(collectible.activeSelf);
+            view.enabled = false; collectible.SetActive(true); view.enabled = true; Assert.IsFalse(collectible.activeSelf);
+            Assert.AreEqual(1, service.Snapshot().persistentFacts.Count);
+            var store = new MemoryProgressionStore(); store.Commit(service.Snapshot()); using var restored = new ProgressionService(new ProgressionDefinitions(), "test", store);
+            Assert.IsTrue(restored.HasPersistentFact(FactKind.ItemCollected, "unique-object"));
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace Windrunner.Production.Tests
         {
             var d = Definitions(); var store = new MemoryProgressionStore(); using var s = new ProgressionService(d, "p", store);
             var race = new RaceSession(d.races[0], s); Assert.IsFalse(race.Start()); s.DiscoverChallenge("race-challenge");
+            d.races[0].timeLimit = 999; // Authoring mutations cannot change an already constructed session.
             Assert.IsTrue(race.Start()); Assert.IsFalse(race.Reach("finish", "p")); Assert.IsFalse(race.Reach("first", "other"));
             race.Tick(11); Assert.AreEqual(AttemptStatus.Failed, race.Status); Assert.IsEmpty(s.Snapshot().rewards);
             race.Start(); race.Tick(0); Assert.AreEqual(0, race.Elapsed); race.Tick(3); race.Reach("branch", "p");

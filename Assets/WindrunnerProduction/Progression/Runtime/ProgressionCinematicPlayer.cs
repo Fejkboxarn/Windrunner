@@ -44,7 +44,8 @@ namespace Windrunner.Production.Progression
         public bool Skip()
         {
             if (!IsPlaying || playing == null || !playing.allowSkip) return false;
-            if (!session.Finish(true)) return false;
+            try { if (!session.Finish(true)) return false; }
+            catch (Exception ex) { StopAndRecover(); Debug.LogException(ex, this); return false; }
             director.stopped -= Stopped; director.Stop(); playing = null; return true;
         }
         public bool AcknowledgeMissingContent(string id)
@@ -59,9 +60,13 @@ namespace Windrunner.Production.Progression
         {
             director.stopped -= Stopped;
             // An external early stop is interruption, not a watched record.
-            if (IsPlaying && stopped.time + 0.05 >= stopped.duration) session.Finish(false);
-            else session?.Interrupt();
-            playing = null;
+            try
+            {
+                if (IsPlaying && stopped.duration > 0 && stopped.time >= stopped.duration) session.Finish(false);
+                else session?.Interrupt();
+            }
+            catch (Exception ex) { Debug.LogException(ex, this); }
+            finally { playing = null; }
         }
         private void Update()
         {
@@ -71,7 +76,8 @@ namespace Windrunner.Production.Progression
             if (pausedByMenu) { director.Resume(); pausedByMenu = false; }
             if (director.duration > 0 && !double.IsInfinity(director.duration) && director.time >= director.duration)
             {
-                if (session.Finish(false)) { director.stopped -= Stopped; director.Stop(); playing = null; }
+                try { if (session.Finish(false)) { director.stopped -= Stopped; director.Stop(); playing = null; } }
+                catch (Exception ex) { StopAndRecover(); Debug.LogException(ex, this); }
                 return;
             }
             if (actor.Input.ProgressionPressed("Skip")) Skip();
@@ -79,7 +85,9 @@ namespace Windrunner.Production.Progression
         private void StopAndRecover()
         {
             if (director != null) { director.stopped -= Stopped; director.Stop(); }
-            session?.Interrupt(); playing = null; pausedByMenu = false;
+            try { session?.Interrupt(); }
+            catch (Exception ex) { Debug.LogException(ex, this); }
+            finally { playing = null; pausedByMenu = false; }
         }
         private void OnDisable() => StopAndRecover();
         public IDisposable Acquire() => new ControlLease(actor, gameplayCamera, cinematicCamera);

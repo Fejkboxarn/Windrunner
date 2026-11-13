@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using Windrunner.Production.Input;
@@ -28,6 +29,13 @@ namespace Windrunner.Production.Tests
             rootObject.SetActive(true);
             var store = new MemoryProgressionStore();
             var service = new ProgressionService(catalog.definitions, "engineering-fixture", store); root.Runtime.Services.Register(service);
+            var originalSettings = InputSystem.settings; var flags = originalSettings.hideFlags;
+            if (flags == HideFlags.HideAndDontSave) originalSettings.hideFlags = HideFlags.DontSave;
+            var testSettings = Object.Instantiate(originalSettings); testSettings.hideFlags = HideFlags.DontSave;
+            testSettings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+            testSettings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            InputSystem.settings = testSettings; var keyboard = InputSystem.AddDevice<Keyboard>();
+            float capture = Time.captureDeltaTime; Time.captureDeltaTime = 1f / 60;
             try
             {
                 yield return EditorSceneManager.LoadSceneAsyncInPlayMode(path, new LoadSceneParameters(LoadSceneMode.Single)); yield return null;
@@ -43,6 +51,13 @@ namespace Windrunner.Production.Tests
                 // Actual authored world interaction; move into its validated range, no evaluator injection.
                 actor.transform.position = new Vector3(0, 0.2f, 3); Physics.SyncTransforms();
                 Assert.IsTrue(interactions.Single(x => x.name == "World switch").TryUse(actor, InteractionChannel.Input));
+                var race = Object.FindFirstObjectByType<RaceHost>(); Assert.IsTrue(race.StartAttempt(actor));
+                actor.transform.position = new Vector3(0, 0.2f, 7); Physics.SyncTransforms();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.W));
+                for (int frame = 0; frame < 240 && race.Session.Status == AttemptStatus.Active; frame++) yield return null;
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState()); yield return null;
+                Assert.AreEqual(AttemptStatus.Succeeded, race.Session.Status, "Actual production motor must cross both authored trigger planes.");
+                Assert.AreEqual(QuestStatus.ReadyToTurnIn, service.Status("fixture-a-quest"));
                 service.Track("fixture-a-quest"); service.Track("fixture-b-quest");
                 Assert.AreEqual(QuestStatus.ReadyToTurnIn, service.Status("fixture-b-quest"));
                 actor.transform.position = new Vector3(2, 0.2f, 23); Physics.SyncTransforms(); yield return new WaitForSeconds(0.2f);
@@ -56,13 +71,20 @@ namespace Windrunner.Production.Tests
                 Assert.IsFalse(inputHost.Input.IsGameplayBlocked); Assert.Greater(Time.timeScale, 0);
                 yield return EditorSceneManager.LoadSceneAsyncInPlayMode(path, new LoadSceneParameters(LoadSceneMode.Single)); yield return null;
                 Assert.AreSame(service, Object.FindFirstObjectByType<ProgressionActor>().Service);
+                Assert.AreEqual("", typeof(ProgressionJournal).GetField("notification", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                    .GetValue(Object.FindFirstObjectByType<ProgressionJournal>()), "Reload must not replay old completion notifications.");
                 Assert.AreEqual(1, Object.FindObjectsByType<ProjectRoot>(FindObjectsSortMode.None).Length);
                 Assert.AreEqual(PuzzleStatus.Solved, Object.FindFirstObjectByType<PuzzleHost>().Session.Status);
                 Assert.AreEqual(QuestStatus.Completed, service.Status("fixture-b-quest")); Assert.IsFalse(service.TurnIn("fixture-b-quest"));
                 using var loaded = new ProgressionService(catalog.definitions, "engineering-fixture", store);
                 Assert.AreEqual(service.Snapshot().relationships.Count, loaded.Snapshot().relationships.Count);
             }
-            finally { if (rootObject != null) Object.Destroy(rootObject); }
+            finally
+            {
+                Time.captureDeltaTime = capture;
+                InputSystem.RemoveDevice(keyboard); InputSystem.settings = originalSettings; originalSettings.hideFlags = flags; Object.Destroy(testSettings);
+                if (rootObject != null) Object.Destroy(rootObject);
+            }
             yield return null;
             var empty = SceneManager.CreateScene("Progression fixture teardown"); SceneManager.SetActiveScene(empty);
             var scene = SceneManager.GetSceneByPath(path); if (scene.IsValid()) yield return SceneManager.UnloadSceneAsync(scene);

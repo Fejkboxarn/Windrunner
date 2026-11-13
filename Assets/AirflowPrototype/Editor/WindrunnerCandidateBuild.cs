@@ -18,6 +18,7 @@ namespace AirflowPrototype.Editor
             public double seconds;
             public ulong bytes;
             public string[] warningMessages;
+            public string[] scenes;
         }
 
         public static void BuildWindows()
@@ -29,6 +30,8 @@ namespace AirflowPrototype.Editor
             string folder = Path.GetFullPath(Path.Combine("Builds", label));
             if (Directory.Exists(folder)) throw new InvalidOperationException("Use a fresh build label; existing artifacts are never overwritten.");
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
+            if (arguments.Contains("-windrunnerProgressionFixture"))
+                scenes = new[] { "Assets/WindrunnerProduction/Progression/Fixtures/ProgressionFixture.unity" };
             if (scenes.Length == 0) throw new InvalidOperationException("No enabled scenes.");
             Directory.CreateDirectory(folder);
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
@@ -45,6 +48,7 @@ namespace AirflowPrototype.Editor
                 unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
                 errors = (int)summary.totalErrors, warnings = (int)summary.totalWarnings,
                 seconds = summary.totalTime.TotalSeconds, bytes = summary.totalSize,
+                scenes = scenes,
                 warningMessages = report.steps.SelectMany(step => step.messages)
                     .Where(message => message.type == LogType.Warning).Select(message => message.content).ToArray()
             };

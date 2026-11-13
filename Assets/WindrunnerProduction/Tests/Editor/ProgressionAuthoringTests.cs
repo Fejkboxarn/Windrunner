@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using Windrunner.Production.Progression;
 using Object = UnityEngine.Object;
@@ -11,6 +12,32 @@ namespace Windrunner.Production.Tests
 {
     public sealed class ProgressionAuthoringTests
     {
+        [Test] public void AuthoredFixtureHasNoBrokenSerializedReferences()
+        {
+            var setup = EditorSceneManager.GetSceneManagerSetup();
+            try
+            {
+                var scene = EditorSceneManager.OpenScene("Assets/WindrunnerProduction/Progression/Fixtures/ProgressionFixture.unity", OpenSceneMode.Single);
+                var issues = (System.Collections.Generic.List<string>)Type("ProgressionSceneValidation").GetMethod("Validate").Invoke(null, new object[] { scene });
+                Assert.IsEmpty(issues, string.Join("\n", issues));
+                foreach (var root in scene.GetRootGameObjects()) foreach (var transform in root.GetComponentsInChildren<Transform>(true))
+                {
+                    Assert.AreEqual(0, GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(transform.gameObject), transform.name);
+                    foreach (var component in transform.GetComponents<Component>())
+                    {
+                        Assert.IsNotNull(component);
+                        using var serialized = new SerializedObject(component); var property = serialized.GetIterator();
+                        while (property.Next(true)) if (property.propertyType == SerializedPropertyType.ObjectReference && property.objectReferenceEntityIdValue != default)
+                            Assert.IsNotNull(property.objectReferenceValue, transform.name + "/" + component.GetType().Name + "/" + property.propertyPath);
+                    }
+                }
+            }
+            finally
+            {
+                if (setup.Length > 0 && setup.All(s => !string.IsNullOrEmpty(s.path))) EditorSceneManager.RestoreSceneManagerSetup(setup);
+                else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            }
+        }
         private static Type Type(string name) => AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType("AirflowPrototype.EditorTools." + name)).First(t => t != null);
         [Test] public void FixtureAndStudioCopyHaveValidReferencesAndIndependentStableIds()
         {

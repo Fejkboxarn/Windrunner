@@ -25,7 +25,8 @@ namespace Windrunner.Production.Progression
         public bool Finish(bool skipped)
         {
             if (Current == null) return false;
-            if (!replay && !progression.ResolveCutscene(Current, skipped)) return false;
+            try { if (!replay && !progression.ResolveCutscene(Current, skipped)) return false; }
+            catch { Release(); throw; } // Storage failure must not strand gameplay control.
             Release(); return true;
         }
         public void Interrupt()

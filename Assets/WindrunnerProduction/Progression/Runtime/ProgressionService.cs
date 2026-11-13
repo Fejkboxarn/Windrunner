@@ -17,6 +17,7 @@ namespace Windrunner.Production.Progression
         public string PlayerId => state.playerId;
         public bool MatchesDefinitions(ProgressionDefinitions candidate) => UnityEngine.JsonUtility.ToJson(definitions) == UnityEngine.JsonUtility.ToJson(candidate);
         public bool HasUnlock(string contentId) => state.rewards.Any(r => r.kind == "unlock" && r.contentId == contentId);
+        public bool HasPersistentFact(FactKind kind, string targetId) => state.persistentFacts.Any(f => f.kind == kind && f.targetId == targetId);
         public ProgressionState Snapshot() => ProgressionCodec.Copy(state);
         public ProgressionService(ProgressionDefinitions definitions, string playerId, IProgressionStore store,
             Dictionary<string, IObjectiveEvaluator> evaluators = null)
@@ -178,7 +179,8 @@ namespace Windrunner.Production.Progression
         }
         public bool StartCutscene(string id, bool replay = false) => Commit(s => {
             var c = s.cutscenes.Find(x => x.id == id);
-            if (c == null || s.cutscenes.Any(x => x.status == CinematicStatus.Playing) || (!replay && c.status != CinematicStatus.Pending)) return false;
+            if (c == null || s.cutscenes.Any(x => x.status == CinematicStatus.Playing) || (!replay && c.status != CinematicStatus.Pending) ||
+                (replay && c.status != CinematicStatus.Watched && c.status != CinematicStatus.Skipped)) return false;
             // Replay is presentation-only; keep previously resolved durable records resolved.
             if (!replay) c.status = CinematicStatus.Playing;
             return true;

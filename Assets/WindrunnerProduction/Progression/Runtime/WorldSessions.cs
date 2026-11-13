@@ -13,7 +13,12 @@ namespace Windrunner.Production.Progression
         public AttemptStatus Status { get; private set; } = AttemptStatus.Ready;
         public int NextCheckpoint { get; private set; }
         public float Elapsed { get; private set; }
-        public RaceSession(RaceDefinition definition, ProgressionService progression) { this.definition = definition; this.progression = progression; }
+        public RaceSession(RaceDefinition definition, ProgressionService progression)
+        {
+            this.definition = new RaceDefinition { id = definition.id, challengeId = definition.challengeId, timeLimit = definition.timeLimit,
+                checkpoints = definition.checkpoints.Select(s => new RaceStep { alternatives = new List<string>(s.alternatives) }).ToList() };
+            this.progression = progression;
+        }
         public bool Start()
         {
             if (Status == AttemptStatus.Active || !progression.ChallengeAvailable(definition.challengeId)) return false;
@@ -38,6 +43,7 @@ namespace Windrunner.Production.Progression
             NextCheckpoint++; return true;
         }
         public void Cancel() { if (Status == AttemptStatus.Active) Status = AttemptStatus.Canceled; }
+        public void Fail() { if (Status == AttemptStatus.Active) Status = AttemptStatus.Failed; }
     }
     public sealed class PuzzleSession
     {
@@ -46,12 +52,16 @@ namespace Windrunner.Production.Progression
         private readonly List<string> activated = new List<string>();
         private string attempt;
         private float elapsed;
+        private bool retryBlocked;
         public PuzzleStatus Status { get; private set; }
         public IReadOnlyList<string> Activated => activated.AsReadOnly();
         public event Action Changed;
         public PuzzleSession(PuzzleDefinition definition, ProgressionService progression)
         {
-            this.definition = definition; this.progression = progression;
+            this.definition = new PuzzleDefinition { id = definition.id, challengeId = definition.challengeId, mechanisms = new List<string>(definition.mechanisms),
+                ordered = definition.ordered, permanent = definition.permanent, persistPartial = definition.persistPartial,
+                resetOnExit = definition.resetOnExit, retry = definition.retry, timeWindow = definition.timeWindow, destinationId = definition.destinationId };
+            this.progression = progression;
             var record = progression.Snapshot().puzzles.Find(x => x.id == definition.id);
             if (record != null && definition.permanent && record.solved)
             { activated.AddRange(definition.mechanisms); Status = PuzzleStatus.Solved; }
@@ -63,7 +73,7 @@ namespace Windrunner.Production.Progression
         }
         public bool Begin()
         {
-            if (Status == PuzzleStatus.Solved || Status == PuzzleStatus.Active || !progression.ChallengeAvailable(definition.challengeId)) return false;
+            if (retryBlocked || Status == PuzzleStatus.Solved || Status == PuzzleStatus.Active || !progression.ChallengeAvailable(definition.challengeId)) return false;
             Status = activated.Count > 0 ? PuzzleStatus.Active : PuzzleStatus.Ready; attempt = Guid.NewGuid().ToString("N"); elapsed = 0; Changed?.Invoke(); return true;
         }
         public bool Activate(string mechanism, string playerId, string region = null)
@@ -97,6 +107,7 @@ namespace Windrunner.Production.Progression
             if (definition.persistPartial) progression.SavePuzzle(definition.id, false, Array.Empty<string>());
             Status = PuzzleStatus.Resetting; activated.Clear(); elapsed = 0; Changed?.Invoke();
             Status = leaving || !definition.retry ? PuzzleStatus.Dormant : PuzzleStatus.Ready;
+            retryBlocked = !leaving && !definition.retry;
             attempt = Guid.NewGuid().ToString("N"); Changed?.Invoke();
         }
     }

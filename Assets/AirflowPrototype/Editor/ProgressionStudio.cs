@@ -115,6 +115,8 @@ namespace AirflowPrototype.EditorTools
                 var asset = AssetDatabase.LoadAssetAtPath<ProgressionCatalog>(AssetDatabase.GUIDToAssetPath(guid));
                 foreach (string issue in ValidateCatalog(asset, true)) { Debug.LogWarning(issue, asset); count++; }
             }
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+                foreach (string issue in ProgressionSceneValidation.Validate(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i))) { Debug.LogWarning(issue); count++; }
             Debug.Log("Progression validation: " + count + " authoring/content issues. Scene binding checks run before Play.");
         }
         [InitializeOnLoadMethod] private static void InstallPlayGuard()
@@ -125,6 +127,8 @@ namespace AirflowPrototype.EditorTools
         {
             if (state != PlayModeStateChange.ExitingEditMode) return;
             bool invalid = false;
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+                foreach (string issue in ProgressionSceneValidation.Validate(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i))) { Debug.LogError(issue); invalid = true; }
             foreach (var host in Resources.FindObjectsOfTypeAll<ProgressionHost>())
             {
                 if (!host.gameObject.scene.IsValid() || EditorUtility.IsPersistent(host)) continue;

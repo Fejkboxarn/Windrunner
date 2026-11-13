@@ -20,6 +20,8 @@ namespace Windrunner.Production.Progression
         }
         public bool Reach(string checkpoint, ProgressionActor actor) => actor != null && actor.Service == owner &&
             Session != null && Session.Reach(checkpoint, owner.PlayerId, regionId);
+        public void FailAttempt(ProgressionActor actor) { if (actor != null && actor.Service == owner) Session?.Fail(); }
+        public void CancelAttempt(ProgressionActor actor) { if (actor != null && actor.Service == owner) Session?.Cancel(); }
         private void Update() => Session?.Tick(Time.deltaTime);
         private void OnDisable() => Session?.Cancel();
     }

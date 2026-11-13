@@ -32,6 +32,7 @@ namespace Windrunner.Production.Progression
         private void Refresh()
         {
             if (service == null) return;
+            bool previouslyBound = snapshot != null;
             snapshot = service.Snapshot(); questIds.Clear(); var text = new StringBuilder();
             foreach (var q in catalog.definitions.quests)
             {
@@ -65,7 +66,7 @@ namespace Windrunner.Production.Progression
                 hud = compact.ToString();
             }
             int completed = snapshot.quests.FindAll(q => q.status == QuestStatus.Completed).Count;
-            if (completed > lastCompleted || snapshot.rewards.Count > lastRewards)
+            if (previouslyBound && (completed > lastCompleted || snapshot.rewards.Count > lastRewards))
             { notification = "Progression updated — quest complete / reward unlocked"; notificationUntil = Time.unscaledTime + 4; }
             lastCompleted = completed; lastRewards = snapshot.rewards.Count;
         }
