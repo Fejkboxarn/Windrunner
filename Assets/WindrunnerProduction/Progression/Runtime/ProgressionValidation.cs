@@ -75,7 +75,7 @@ namespace Windrunner.Production.Progression
             }
             foreach (var r in d.races)
             {
-                if (!d.challenges.Any(c => c.id == r.challengeId && c.resultKind == FactKind.RaceCompleted)) errors.Add(r.id + ": missing race challenge.");
+                if (!d.challenges.Any(c => c.id == r.challengeId && (c.resultKind == FactKind.RaceCompleted || c.resultKind == FactKind.TraversalCompleted))) errors.Add(r.id + ": missing race/traversal challenge.");
                 if (r.timeLimit < 0 || r.checkpoints.Count == 0 || r.checkpoints.Any(s => s.alternatives.Count == 0 || s.alternatives.Any(string.IsNullOrWhiteSpace))) errors.Add(r.id + ": invalid checkpoint/time configuration.");
                 var checkpoints = r.checkpoints.SelectMany(s => s.alternatives).ToList();
                 if (checkpoints.Distinct().Count() != checkpoints.Count) errors.Add(r.id + ": duplicate checkpoint identity.");

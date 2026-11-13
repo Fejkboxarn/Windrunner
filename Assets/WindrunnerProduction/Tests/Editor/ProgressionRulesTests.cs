@@ -67,7 +67,8 @@ namespace Windrunner.Production.Tests
             using (var s = new ProgressionService(d, "player", new MemoryProgressionStore()))
             {
                 s.Accept("a1"); s.Observe(Fact()); Assert.IsFalse(s.Observe(Fact()));
-                Assert.IsFalse(s.Observe(Fact("second", "switch"))); s.Observe(Fact("third", "different"));
+                s.Observe(Fact("second", "switch")); s.Observe(Fact("third", "different"));
+                Assert.IsFalse(s.Observe(Fact("third", "different")));
                 Assert.AreEqual(QuestStatus.Active, s.Status("a1")); s.Observe(Fact("fourth")); Assert.AreEqual(QuestStatus.ReadyToTurnIn, s.Status("a1"));
             }
             q.groups.RemoveAt(1); var o = q.groups[0].objectives[0]; o.count = 1; o.credit = CreditPolicy.PersistentRetroactive;

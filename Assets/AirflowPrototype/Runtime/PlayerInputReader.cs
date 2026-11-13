@@ -32,7 +32,7 @@ namespace AirflowPrototype
             _gameplay?.Disable();
         }
         public bool UsesProductionInput => Production != null;
-        public bool IsGameplaySuspended => Production != null && Production.IsMenuOpen;
+        public bool IsGameplaySuspended => Production != null && Production.IsGameplayBlocked;
 
         public Vector2 Move => Production != null ? Production.Axis("Move") :
             (_move != null ? _move.ReadValue<Vector2>() : Vector2.zero);

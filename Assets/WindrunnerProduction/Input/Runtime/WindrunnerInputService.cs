@@ -19,12 +19,15 @@ namespace Windrunner.Production.Input
         private InputActionRebindingExtensions.RebindingOperation activeRebind;
         private bool disposed;
         private bool menuOpen;
+        private int gameplayBlocks;
+        private InputActionMap progression;
         private readonly HashSet<InputDevice> gameplayDevices = new HashSet<InputDevice>();
         public int InterruptionVersion { get; private set; }
 
         public event Action BindingsChanged;
         public InputActionAsset Actions { get { return actions; } }
         public bool IsMenuOpen { get { return menuOpen; } }
+        public bool IsGameplayBlocked => menuOpen || gameplayBlocks > 0;
         public bool IsRebinding { get { return activeRebind != null; } }
         public float MouseSensitivity { get; private set; }
         public float StickSensitivity { get; private set; }
@@ -39,6 +42,13 @@ namespace Windrunner.Production.Input
             gameplay = RequireMap("Gameplay");
             system = RequireMap("System");
             ui = RequireMap("UI");
+            // Runtime-only extension with stable IDs; existing authoring assets remain untouched.
+            progression = actions.FindActionMap("Progression", false);
+            if (progression == null)
+            {
+                progression = InputActionMap.FromJson(ProgressionActionsJson)[0];
+                actions.AddActionMap(progression);
+            }
 
             string json = PlayerPrefs.GetString(OverridesKey, string.Empty);
             if (!string.IsNullOrEmpty(json))
@@ -50,6 +60,7 @@ namespace Windrunner.Production.Input
             MouseSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(MouseKey, 1f), 0.1f, 5f);
             StickSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(StickKey, 1f), 0.1f, 5f);
             system.Enable();
+            progression.Enable();
             gameplay.Enable();
             ui.Disable();
             gameplay.actionTriggered += TrackGameplayDevice;
@@ -76,13 +87,32 @@ namespace Windrunner.Production.Input
             return actionMap != null ? actionMap.FindAction(name, false) : null;
         }
 
-        public bool ButtonHeld(string name) => !menuOpen && GetAction("Gameplay", name)?.IsPressed() == true;
-        public bool ButtonPressed(string name) => !menuOpen && GetAction("Gameplay", name)?.WasPressedThisFrame() == true;
-        public bool ButtonReleased(string name) => !menuOpen && GetAction("Gameplay", name)?.WasReleasedThisFrame() == true;
+        public bool ButtonHeld(string name) => !IsGameplayBlocked && GetAction("Gameplay", name)?.IsPressed() == true;
+        public bool ButtonPressed(string name) => !IsGameplayBlocked && GetAction("Gameplay", name)?.WasPressedThisFrame() == true;
+        public bool ButtonReleased(string name) => !IsGameplayBlocked && GetAction("Gameplay", name)?.WasReleasedThisFrame() == true;
+        public bool ProgressionPressed(string name) => !IsRebinding && GetAction("Progression", name)?.WasPressedThisFrame() == true;
+        public string ProgressionBindingLabel(string name) => GetAction("Progression", name)?.GetBindingDisplayString() ?? string.Empty;
+        public IDisposable BlockGameplay()
+        {
+            if (disposed) throw new ObjectDisposedException(nameof(WindrunnerInputService));
+            gameplayBlocks++; InterruptionVersion++; ApplyGameplayMap();
+            return new GameplayBlock(this);
+        }
+        private sealed class GameplayBlock : IDisposable
+        {
+            private WindrunnerInputService owner;
+            public GameplayBlock(WindrunnerInputService owner) { this.owner = owner; }
+            public void Dispose() { if (owner == null) return; var service = owner; owner = null; service.gameplayBlocks--; service.ApplyGameplayMap(); }
+        }
+        private void ApplyGameplayMap()
+        {
+            if (disposed) return;
+            if (IsGameplayBlocked) gameplay.Disable(); else gameplay.Enable();
+        }
 
         public Vector2 Axis(string name)
         {
-            InputAction action = !menuOpen ? GetAction("Gameplay", name) : null;
+            InputAction action = !IsGameplayBlocked ? GetAction("Gameplay", name) : null;
             return action != null ? action.ReadValue<Vector2>() : Vector2.zero;
         }
 
@@ -91,7 +121,7 @@ namespace Windrunner.Production.Input
             get
             {
                 InputAction action = GetAction("Gameplay", "Look");
-                return !menuOpen && action != null && action.activeControl != null &&
+                return !IsGameplayBlocked && action != null && action.activeControl != null &&
                        action.activeControl.device is Pointer;
             }
         }
@@ -110,7 +140,7 @@ namespace Windrunner.Production.Input
             else
             {
                 ui.Disable();
-                gameplay.Enable();
+                ApplyGameplayMap();
             }
         }
 
@@ -159,8 +189,8 @@ namespace Windrunner.Production.Input
             // A map reports disabled when its sole action is suspended for
             // rebinding. Restore from our ownership policy, not that transient
             // aggregate state, and never enable gameplay behind an open menu.
-            bool mapShouldBeEnabled = action.actionMap == system ||
-                (action.actionMap == gameplay && !menuOpen) ||
+            bool mapShouldBeEnabled = action.actionMap == system || action.actionMap == progression ||
+                (action.actionMap == gameplay && !IsGameplayBlocked) ||
                 (action.actionMap == ui && menuOpen);
             if (!disposed && previouslyEnabled && mapShouldBeEnabled)
                 action.Enable();
@@ -199,6 +229,10 @@ namespace Windrunner.Production.Input
             if (map == null) throw new InvalidOperationException("Missing Windrunner action map: " + name);
             return map;
         }
+
+        private const string ProgressionActionsJson = @"{""maps"":[{""name"":""Progression"",""id"":""977b9ff5-e34e-43dc-9985-4cf61bd291d0"",
+""actions"":[{""name"":""Interact"",""type"":""Button"",""id"":""049b391b-de56-4308-97d9-5ed03661bda8""},{""name"":""Journal"",""type"":""Button"",""id"":""e490bef8-7078-4552-b25c-c7cf9b16b815""},{""name"":""Skip"",""type"":""Button"",""id"":""cb8c2bc2-7f26-4ec3-b012-b39de8f4da99""}],
+""bindings"":[{""action"":""Interact"",""path"":""<Keyboard>/e"",""id"":""b29e12b7-c460-4500-8e05-3feea66b1e19""},{""action"":""Interact"",""path"":""<Gamepad>/buttonWest"",""id"":""7ef004f1-f5a4-4343-a27d-e973657d322e""},{""action"":""Journal"",""path"":""<Keyboard>/j"",""id"":""0e316ca4-4f80-49f5-a497-eb1117c493f4""},{""action"":""Skip"",""path"":""<Keyboard>/enter"",""id"":""b54f8f6b-ee0b-4b5e-b466-bb1b35f668eb""}]}]}";
 
         public void Dispose()
         {

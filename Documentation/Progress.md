@@ -4,6 +4,8 @@
 
 Baseline aa9e9d58 verified clean; branch feature/progression-framework. Hardening work is retained. Stage 1 definitions/state/rules/persistence implemented; progression-foundation Edit Mode **37/37** and existing Play Mode **25/25**, exit 0. Serialized contract and whitespace checks passed. See ProgressionFramework.md for the staged scope; no complete-framework claim yet.
 
+Stage 1 checkpoint 3ffce279. World integration: progression-world-compile and progression-world-final Edit Mode **40/40** each; progression-world and progression-world-final Play Mode **28/28** each, exit 0. Real physics checkpoint, range checks, quest evaluation, independent race/puzzle rules and cinematic nested-pause restoration execute. Initial progression-world compile failed on an incorrect test-only Input System named parameter; corrected, original log retained. Serialized gate passed; no existing scene/prefab/profile edits. Next: Studio/journal/fixtures and expanded integration validation.
+
 Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 ## Current handoff

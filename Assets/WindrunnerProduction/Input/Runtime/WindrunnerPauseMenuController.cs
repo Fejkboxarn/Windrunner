@@ -118,7 +118,7 @@ namespace Windrunner.Production.Input
                 if (row != null) UnityEngine.Object.Destroy(row.gameObject);
             bindingRows.Clear();
 
-            foreach (string mapName in new[] { "Gameplay", "System", "UI" })
+            foreach (string mapName in new[] { "Gameplay", "System", "UI", "Progression" })
             {
                 InputActionMap map = input.Actions.FindActionMap(mapName, false);
                 if (map == null) continue;
@@ -148,7 +148,7 @@ namespace Windrunner.Production.Input
         {
             if (input.Actions == null) return;
             int rowIndex = 0;
-            foreach (string mapName in new[] { "Gameplay", "System", "UI" })
+            foreach (string mapName in new[] { "Gameplay", "System", "UI", "Progression" })
             {
                 InputActionMap map = input.Actions.FindActionMap(mapName, false);
                 if (map == null) continue;

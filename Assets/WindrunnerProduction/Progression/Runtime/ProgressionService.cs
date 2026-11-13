@@ -19,7 +19,8 @@ namespace Windrunner.Production.Progression
         public ProgressionService(ProgressionDefinitions definitions, string playerId, IProgressionStore store,
             Dictionary<string, IObjectiveEvaluator> evaluators = null)
         {
-            this.definitions = definitions ?? throw new ArgumentNullException(nameof(definitions));
+            if (definitions == null) throw new ArgumentNullException(nameof(definitions));
+            this.definitions = UnityEngine.JsonUtility.FromJson<ProgressionDefinitions>(UnityEngine.JsonUtility.ToJson(definitions));
             this.store = store ?? throw new ArgumentNullException(nameof(store));
             this.evaluators = evaluators == null ? new Dictionary<string, IObjectiveEvaluator>() : new Dictionary<string, IObjectiveEvaluator>(evaluators);
             this.evaluators["fact"] = new FactObjectiveEvaluator();
@@ -29,6 +30,16 @@ namespace Windrunner.Production.Progression
             state = store.Load() ?? new ProgressionState { playerId = playerId };
             if (state.playerId != playerId) throw new ArgumentException("Save belongs to another player.");
             foreach (var c in state.cutscenes) if (c.status == CinematicStatus.Playing) c.status = CinematicStatus.Pending;
+            foreach (var q in this.definitions.quests)
+            {
+                var record = state.quests.Find(x => x.id == q.id);
+                if (record == null || record.status == QuestStatus.Completed) continue;
+                if (record.receivedOccurrences == null) record.receivedOccurrences = new List<string>();
+                foreach (var o in q.groups.SelectMany(g => g.objectives))
+                    if (!record.objectives.Any(x => x.id == o.id)) record.objectives.Add(new ObjectiveRecord { id = o.id });
+                // New objectives on installed content cannot retain a stale ReadyToTurnIn record.
+                if (!q.groups.All(g => GroupComplete(g, record))) record.status = QuestStatus.Active;
+            }
         }
         private bool Commit(Func<ProgressionState, bool> operation)
         {
@@ -97,6 +108,8 @@ namespace Windrunner.Production.Progression
             {
                 var r = s.quests.Find(x => x.id == q.id && x.status == QuestStatus.Active);
                 if (r == null) continue;
+                if (r.receivedOccurrences.Contains(fact.occurrenceId) || !q.groups.SelectMany(g => g.objectives).Any(o => evaluators[o.evaluator].Matches(o, fact))) continue;
+                r.receivedOccurrences.Add(fact.occurrenceId); changed = true;
                 // Snapshot unlocked groups: one occurrence cannot open and satisfy a later sequential stage.
                 var open = q.groups.Where(g => g.requiresGroups.All(pre => GroupComplete(q.groups.Find(x => x.id == pre), r))).ToArray();
                 foreach (var g in open) foreach (var o in g.objectives) changed |= Credit(o, r, fact);
@@ -190,16 +203,22 @@ namespace Windrunner.Production.Progression
             var r = state.challenges.Find(x => x.id == id);
             return d != null && r != null && r.discovered && (!r.completed || d.replayable) && d.requiresQuests.All(x => Completed(state, x));
         }
-        internal bool CompleteChallenge(string id, string attempt, float seconds, string region) => Commit(s => {
+        internal bool CompleteChallenge(string id, string attempt, float seconds, string region, PuzzleDefinition puzzle = null) => Commit(s => {
             if (!ChallengeAvailable(id) || string.IsNullOrWhiteSpace(attempt) || seconds < 0 || float.IsNaN(seconds) || float.IsInfinity(seconds)) return false;
             var d = definitions.challenges.Find(x => x.id == id); var r = s.challenges.Find(x => x.id == id);
             if (r.successfulAttempts.Contains(attempt)) return false;
             r.successfulAttempts.Add(attempt);
             if (!r.completed || seconds < r.personalBest) r.personalBest = seconds;
             r.completed = true; Grant(s, "challenge/" + id, d.firstClearRewards);
+            if (puzzle != null && puzzle.permanent)
+            {
+                var record = s.puzzles.Find(x => x.id == puzzle.id);
+                if (record == null) { record = new PuzzleRecord { id = puzzle.id }; s.puzzles.Add(record); }
+                record.solved = true; record.mechanisms = new List<string>(puzzle.mechanisms);
+            }
             Observe(s, new GameplayFact { playerId = s.playerId, occurrenceId = "challenge/" + id + "/" + attempt, attemptId = attempt,
                 definitionId = id, targetId = id, regionId = region, kind = d.resultKind, seconds = seconds, verified = true,
-                persistent = d.resultKind == FactKind.PuzzleCompleted }); return true;
+                persistent = puzzle != null && puzzle.permanent }); return true;
         });
         internal bool SavePuzzle(string id, bool solved, IEnumerable<string> mechanisms) => Commit(s => {
             var r = s.puzzles.Find(x => x.id == id);

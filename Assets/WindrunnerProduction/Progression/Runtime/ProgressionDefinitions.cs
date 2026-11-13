@@ -114,9 +114,4 @@ namespace Windrunner.Production.Progression
         public List<RaceDefinition> races = new List<RaceDefinition>();
         public List<PuzzleDefinition> puzzles = new List<PuzzleDefinition>();
     }
-    [CreateAssetMenu(menuName = "Windrunner/Progression/Catalog")]
-    public sealed class ProgressionCatalog : ScriptableObject
-    {
-        public ProgressionDefinitions definitions = new ProgressionDefinitions();
-    }
 }

@@ -21,6 +21,7 @@ namespace Windrunner.Production.Progression
     {
         public string id;
         public QuestStatus status;
+        public List<string> receivedOccurrences = new List<string>();
         public List<ObjectiveRecord> objectives = new List<ObjectiveRecord>();
     }
     [Serializable] public sealed class RelationshipRecord
