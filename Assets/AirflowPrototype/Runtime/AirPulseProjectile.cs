@@ -6,7 +6,14 @@ namespace AirflowPrototype
     {
         private AirCaster _owner;
         private AirNode _target;
-        private AirCastSettings _settings;
+        // Launch-time values outlive Editor preview drafts and never change mid-flight.
+        private readonly struct LaunchSettings
+        {
+            public readonly float Speed, Lifetime, HitRadius;
+            public LaunchSettings(AirCastSettings settings)
+            { Speed = settings.pulseSpeed; Lifetime = settings.pulseLifetime; HitRadius = settings.nodeHitRadius; }
+        }
+        private LaunchSettings _launch;
         private Vector3 _direction;
         private float _charge01;
         private float _age;
@@ -52,7 +59,7 @@ namespace AirflowPrototype
                 ? direction.normalized
                 : transform.forward;
             _charge01 = charge01;
-            _settings = settings;
+            _launch = new LaunchSettings(settings);
 
             _trail = gameObject.AddComponent<TrailRenderer>();
             _trail.time = settings.trailLifetime;
@@ -87,7 +94,7 @@ namespace AirflowPrototype
 
         private void Update()
         {
-            if (_resolved || _settings == null)
+            if (_resolved)
                 return;
 
             float dt = Time.deltaTime;
@@ -95,7 +102,7 @@ namespace AirflowPrototype
 
             Vector3 previous = transform.position;
             Vector3 next =
-                previous + _direction * (_settings.pulseSpeed * dt);
+                previous + _direction * (_launch.Speed * dt);
 
             transform.position = next;
 
@@ -112,15 +119,15 @@ namespace AirflowPrototype
                         previous,
                         next);
 
-                if (distanceNow <= _settings.nodeHitRadius ||
-                    segmentDistance <= _settings.nodeHitRadius)
+                if (distanceNow <= _launch.HitRadius ||
+                    segmentDistance <= _launch.HitRadius)
                 {
                     ResolveHit();
                     return;
                 }
             }
 
-            if (_age >= _settings.pulseLifetime)
+            if (_age >= _launch.Lifetime)
                 ResolveMiss();
         }
 

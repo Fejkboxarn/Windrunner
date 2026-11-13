@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -74,6 +75,41 @@ namespace AirflowPrototype.Editor
         }
         public List<string> Validate()
         {
+            // Validate the entire proposed graph, never a parent draft against
+            // its unchanged authored child. Restore reference identities afterward.
+            for (int i=0;i<Entries.Count;i++)
+                using(var so=new SerializedObject(Entries[i].Draft))
+                {
+                    var p=so.GetIterator();
+                    while(p.Next(true))
+                        if(p.propertyType==SerializedPropertyType.ObjectReference && p.objectReferenceValue is ScriptableObject child && Supported(child) && !Entries.Any(e=>e.Draft==child)) Add(child);
+                }
+            var restored=new List<(ScriptableObject owner,string path,Object value)>();
+            try
+            {
+                foreach(var e in Entries)
+                    using(var so=new SerializedObject(e.Draft))
+                    {
+                        var p=so.GetIterator();
+                        while(p.Next(true))
+                        {
+                            if(p.propertyType!=SerializedPropertyType.ObjectReference)continue;
+                            var child=Entries.Find(x=>x.Source==p.objectReferenceValue);
+                            if(child==null)continue;
+                            restored.Add((e.Draft,p.propertyPath,p.objectReferenceValue));p.objectReferenceValue=child.Draft;
+                        }
+                        so.ApplyModifiedPropertiesWithoutUndo();
+                    }
+                return ValidateProposedGraph();
+            }
+            finally
+            {
+                foreach(var r in restored)using(var so=new SerializedObject(r.owner))
+                {so.FindProperty(r.path).objectReferenceValue=r.value;so.ApplyModifiedPropertiesWithoutUndo();}
+            }
+        }
+        private List<string> ValidateProposedGraph()
+        {
             var errors=new List<string>();
             foreach(var entry in Entries)
             {
@@ -90,7 +126,7 @@ namespace AirflowPrototype.Editor
                 if(entry.Draft is Windrunner.Production.Animation.WindrunnerAnimationProfile animation &&
                     !animation.ValidateForLiveGraph(out string reason)) errors.Add(entry.Source.name+": "+reason);
                 bool standaloneGround=Entries.Any(e=>e.Draft is Windrunner.Production.Animation.WindrunnerAnimationProfile p &&
-                    p.useStandaloneCharacterGraph && p.standaloneGroundProfile==entry.Source);
+                    p.useStandaloneCharacterGraph && p.standaloneGroundProfile==entry.Draft);
                 var validate=type.GetMethod(standaloneGround?"AssertStandaloneValid":"AssertValid",Type.EmptyTypes);
                 if(validate!=null)try{validate.Invoke(entry.Draft,null);}catch(Exception ex){errors.Add(entry.Source.name+": "+(ex.InnerException??ex).Message);}
             }
@@ -134,17 +170,37 @@ namespace AirflowPrototype.Editor
         {
             foreach(var e in Entries) { Undo.RecordObject(e.Draft,"Revert character draft"); EditorUtility.CopySerialized(e.Baseline,e.Draft); e.Draft.hideFlags=HideFlags.HideAndDontSave; }
         }
-        public void Save()
+        public string SaveRestriction => Application.isPlaying && Entries.Any(e=>!e.PreviewSafe && Content(e.Draft)!=Content(e.Baseline))
+            ? "Restart-only profiles changed. Stop Play Mode before saving these changes; use an Edit Mode draft for animation/pool authoring." : null;
+        public void Save() => SaveTransaction(null);
+        // The callback is used by Editor regression checks to verify rollback after a write.
+        internal void SaveTransaction(Action<int> afterPersist)
         {
             var errors=Validate(); if(errors.Count>0) throw new InvalidOperationException(string.Join("\n",errors));
+            if(SaveRestriction!=null)throw new InvalidOperationException(SaveRestriction);
             foreach(var e in Entries) if(EditorJsonUtility.ToJson(e.Source)!=e.SavedJson) throw new InvalidOperationException(e.Source.name+" changed outside this session. Reload before saving to avoid overwriting it.");
-            foreach(var e in Entries)
+            var changed=Entries.Where(e=>Content(e.Draft)!=Content(e.Baseline)).ToArray();
+            var bytes=new Dictionary<Entry,byte[]>();var paths=new Dictionary<Entry,string>();
+            foreach(var e in changed)
             {
-                if(Content(e.Draft)==Content(e.Baseline)) continue;
-                Undo.RecordObject(e.Source,"Save character tuning");
-                var flags=e.Source.hideFlags; EditorUtility.CopySerialized(e.Draft,e.Source); e.Source.hideFlags=flags;
-                EditorUtility.SetDirty(e.Source); AssetDatabase.SaveAssetIfDirty(e.Source);
-                e.SavedJson=EditorJsonUtility.ToJson(e.Source); EditorUtility.CopySerialized(e.Source,e.Baseline); e.Baseline.hideFlags=HideFlags.HideAndDontSave;
+                string path=AssetDatabase.GetAssetPath(e.Source);
+                if(string.IsNullOrEmpty(path)||!File.Exists(path)||!AssetDatabase.IsOpenForEdit(e.Source))throw new InvalidOperationException("Profile is not an editable persistent asset: "+e.Source.name);
+                paths[e]=path;bytes[e]=File.ReadAllBytes(path);
+            }
+            Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();Undo.SetCurrentGroupName("Save character tuning");
+            try
+            {
+                foreach(var e in changed)
+                {Undo.RecordObject(e.Source,"Save character tuning");var flags=e.Source.hideFlags;EditorUtility.CopySerialized(e.Draft,e.Source);e.Source.hideFlags=flags;EditorUtility.SetDirty(e.Source);}
+                for(int i=0;i<changed.Length;i++){AssetDatabase.SaveAssetIfDirty(changed[i].Source);afterPersist?.Invoke(i);}
+                Undo.FlushUndoRecordObjects();Undo.CollapseUndoOperations(group);
+                foreach(var e in changed){e.SavedJson=EditorJsonUtility.ToJson(e.Source);EditorUtility.CopySerialized(e.Source,e.Baseline);e.Baseline.hideFlags=HideFlags.HideAndDontSave;}
+            }
+            catch
+            {
+                Undo.FlushUndoRecordObjects();Undo.RevertAllDownToGroup(group);
+                foreach(var e in changed){EditorJsonUtility.FromJsonOverwrite(e.SavedJson,e.Source);File.WriteAllBytes(paths[e],bytes[e]);EditorUtility.ClearDirty(e.Source);}
+                throw;
             }
         }
         public static string Content(ScriptableObject profile) => System.Text.RegularExpressions.Regex.Replace(

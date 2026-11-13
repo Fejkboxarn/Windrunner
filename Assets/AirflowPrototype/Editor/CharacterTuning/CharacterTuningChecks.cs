@@ -36,6 +36,19 @@ namespace AirflowPrototype.Editor
                     var preset=session.Capture("Petra");
                     if(preset.bindings.Count!=session.Bindings.Count || preset.bindings.Any(b=>b.profile==null))throw new Exception("Preset lost a binding.");
                     UnityEngine.Object.DestroyImmediate(preset);
+                    var animation=session.Entries.Single(e=>e.Draft is Windrunner.Production.Animation.WindrunnerAnimationProfile);
+                    var profile=(Windrunner.Production.Animation.WindrunnerAnimationProfile)animation.Draft;
+                    var actions=session.Entries.Single(e=>e.Source==profile.standaloneActionProfile);
+                    int count=profile.standaloneActionProfile.Count;
+                    using(var so=new SerializedObject(actions.Draft))
+                    {so.FindProperty("actions").arraySize=count-1;so.ApplyModifiedPropertiesWithoutUndo();}
+                    if(session.Validate().Count==0)throw new Exception("Removed referenced action slot was accepted against original child.");
+                    session.Revert();
+                    using(var so=new SerializedObject(actions.Draft))
+                    {var list=so.FindProperty("actions");list.arraySize=count+1;list.GetArrayElementAtIndex(count).FindPropertyRelative("id").stringValue="Additional reserved action";so.ApplyModifiedPropertiesWithoutUndo();}
+                    profile.actionBindings[0].montageSlot=count;
+                    if(session.Validate().Count!=0)throw new Exception("New action and binding were not validated together: "+string.Join(";",session.Validate()));
+                    session.Revert();
                     // Unchanged save must be a no-op for every authored asset.
                     var bytes=session.Entries.ToDictionary(e=>e.Source,e=>File.ReadAllBytes(AssetDatabase.GetAssetPath(e.Source)));
                     session.Save();
@@ -65,6 +78,10 @@ namespace AirflowPrototype.Editor
                 {
                     var draft=(AirflowMovementSettings)session.Entries.Single().Draft;draft.maxGroundSpeed=initial+2;
                     if(temporary.maxGroundSpeed!=initial)throw new Exception("Draft leaked before Save.");
+                    byte[] before=File.ReadAllBytes(path);
+                    try{session.SaveTransaction(_=>throw new InvalidOperationException("Injected persistence failure"));throw new Exception("Rollback seam did not run");}
+                    catch(InvalidOperationException ex){if(ex.Message!="Injected persistence failure")throw;}
+                    if(temporary.maxGroundSpeed!=initial || !before.SequenceEqual(File.ReadAllBytes(path)))throw new Exception("Failed save left partial memory/disk changes.");
                     session.Save();
                     if(temporary.maxGroundSpeed!=initial+2 || EditorUtility.IsDirty(temporary))throw new Exception("Explicit save failed to persist.");
                     Undo.FlushUndoRecordObjects();Undo.PerformUndo();

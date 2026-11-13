@@ -46,7 +46,8 @@ namespace AirflowPrototype.Editor
                 if(GUILayout.Button("Validate")) {var issues=session.Validate();message=issues.Count==0?"Profile ranges and cross-field checks passed. Missing action clips use production fallback; visual parity still requires testing.":string.Join("\n",issues);}
                 if(GUILayout.Button("Production-only audit")){var issues=CharacterProductionDiagnostics.Validate(character);message=issues.Count==0?"Production composition valid"+(Application.isPlaying?"; portable owner active.":"; enter Play to check active ownership."):string.Join("\n",issues);}
                 if(GUILayout.Button("Revert drafts"))Do(session.Revert);
-                if(GUILayout.Button("Save changes to assets"))Do(session.Save);
+                using(new EditorGUI.DisabledScope(session.SaveRestriction!=null))
+                    if(GUILayout.Button("Save changes to assets"))Do(session.Save);
                 if(GUILayout.Button("Capture preset"))Do(Capture);
                 if(GUILayout.Button("Duplicate character profiles"))Do(Duplicate);
             }
@@ -59,6 +60,7 @@ namespace AirflowPrototype.Editor
             search=EditorGUILayout.TextField("Search name / owner / tooltip",search);
             changesOnly=EditorGUILayout.Toggle("Compare: changed values only",changesOnly);
             category=Categories[EditorGUILayout.Popup("Category",Array.IndexOf(Categories,category),Categories)];
+            if(session.SaveRestriction!=null)EditorGUILayout.HelpBox(session.SaveRestriction,MessageType.Warning);
             if(!string.IsNullOrEmpty(message))EditorGUILayout.LabelField(message,EditorStyles.wordWrappedLabel);
             scroll=EditorGUILayout.BeginScrollView(scroll);
             bool edited=false;

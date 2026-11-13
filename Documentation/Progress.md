@@ -244,3 +244,11 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 - Exact final candidate headless and DX11 startup each survived 15 seconds, initialized and logged no matched errors. Rendered process CPU 10.875 s, peak working set 987,619,328 bytes, ending private memory 2,579,845,120 bytes. Harness deliberately ends its process; no graceful-shutdown/gameplay claim.
 - Final serialized gate and retired-GUID scan passed with zero failures/users. All numerical profile defaults and important assets retained. TestResults.json refreshed with actual results including failures. Final whitespace check passed.
 - Engineering implementation for the requested Studio/production-only cleanup is integrated; retained live adapters/authoring data and uncertain vendor content have explicit retirement conditions. Manual ProductionOnlyAcceptance.md remains not tested; do not infer its completion from earlier RC3 observations. Target-player performance attribution and authored animation polish remain follow-up gates. Resume with that checklist, not repeated migration work.
+
+### Reliability hardening: P1 boundary fixes (2026-11-13)
+
+- Started clean at eeeb4ba4. Scope excludes IK, procedural foot placement, broad cleanup and gameplay retuning.
+- Cast projectiles snapshot launch speed/lifetime/hit radius; preview disposal cannot strand them. Real Play Mode regression verifies two simultaneous hit/miss projectiles survive draft changes/destruction, deliver exactly one reward and clean up.
+- Studio and session reject Play Mode saves when any restart-only module changed, before mutation. Nested profile validation remaps a proposed draft graph temporarily, supporting added slots and rejecting removed referenced slots. Save validates all entries first, groups Undo and restores memory and exact file bytes on failure.
+- Edit Mode hardening-p1: **32/32 passed**, exit 0 (includes injected persistence-failure rollback, child removal/addition and actual Save/Undo). Play Mode hardening-p1: **23/23 passed**, exit 0, including active production graph remaining valid after rejected save.
+- Initial launch was blocked by running Editors; user closed them before validation. No second Editor was launched. Next: P2 resource/preset/preview reliability and animation state recovery.

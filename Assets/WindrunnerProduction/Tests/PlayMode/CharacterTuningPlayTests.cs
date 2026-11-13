@@ -30,6 +30,19 @@ namespace Windrunner.Production.Tests
                 for(int i=0;i<4;i++)yield return null;
                 Assert.That((float)speed.GetValue(settings.GetValue(motor)),Is.EqualTo(baseline+1));
                 Assert.That(UnityEditor.EditorJsonUtility.ToJson(original),Is.EqualTo(originalJson));
+                var entries=(System.Collections.IEnumerable)sessionType.GetField("Entries").GetValue(session);
+                foreach(var entry in entries)
+                {
+                    var animation=(ScriptableObject)entry.GetType().GetField("Draft").GetValue(entry);
+                    if(animation.GetType().Name!="WindrunnerAnimationProfile")continue;
+                    animation.GetType().GetField("motionSpeedMultiplier").SetValue(animation,1.25f);
+                }
+                var failure=Assert.Throws<System.Reflection.TargetInvocationException>(()=>sessionType.GetMethod("Save").Invoke(session,null));
+                Assert.That(failure.InnerException,Is.TypeOf<InvalidOperationException>());
+                var bridgeType=Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp",true);
+                var bridge=motor.GetComponent(bridgeType);
+                yield return null;
+                Assert.That((bool)bridgeType.GetProperty("ProductionOnlyReady").GetValue(bridge),Is.True,"Rejected save must leave active graph intact.");
                 sessionType.GetMethod("Revert").Invoke(session,null);
                 Assert.That((float)speed.GetValue(draft),Is.EqualTo(baseline));
                 sessionType.GetMethod("Preview").Invoke(session,new object[]{false});Assert.That(settings.GetValue(motor),Is.SameAs(original));

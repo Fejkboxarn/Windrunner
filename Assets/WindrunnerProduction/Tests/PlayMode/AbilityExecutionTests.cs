@@ -114,6 +114,38 @@ namespace Windrunner.Production.Tests
         }
 
         [UnityTest]
+        public IEnumerator PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards()
+        {
+#if UNITY_EDITOR
+            var rewards=Asset("AirFlowHitSettings");Set(rewards,"returnStreamDuration",0.03f);
+            var flow=Add(player,"AirFlowHitSystem");Call(flow,"Configure",caster,motor,power,camera,rewards);
+            Call(power,"Spend",50f);
+            node=new GameObject("Flight target");node.transform.position=new Vector3(0,2,4);var target=Add(node,"AirNode");
+            Set(castSettings,"pulseSpeed",20f);Set(castSettings,"pulseLifetime",0.5f);
+            int hits=0,misses=0,delivered=0;Observe(caster,"PulseHit",()=>hits++);Observe(caster,"PulseMissed",()=>misses++);Observe(flow,"RewardDelivered",()=>delivered++);
+            var sessionType=Type.GetType("AirflowPrototype.Editor.CharacterTuningSession, Assembly-CSharp-Editor",true);
+            var session=Activator.CreateInstance(sessionType,new object[]{player});
+            var projectileType=T("AirPulseProjectile");
+            try
+            {
+                Call(session,"Preview",true);
+                var draft=(ScriptableObject)Get(caster,"Settings");
+                projectileType.GetMethod("Spawn").Invoke(null,new object[]{caster,target,new Vector3(0,2,0),Vector3.forward,1f,true,draft});
+                projectileType.GetMethod("Spawn").Invoke(null,new object[]{caster,null,new Vector3(3,2,0),Vector3.forward,1f,true,draft});
+                yield return Frames(2);
+                Set(draft,"pulseSpeed",0f);Set(draft,"pulseLifetime",100f);
+            }
+            finally{((IDisposable)session).Dispose();}
+            yield return Frames(60);
+            Assert.That(hits,Is.EqualTo(1));Assert.That(misses,Is.EqualTo(1));Assert.That(delivered,Is.EqualTo(1));
+            Assert.That((float)Get(power,"Current"),Is.GreaterThan(50f));
+            Assert.That(UnityEngine.Object.FindObjectsByType(projectileType,FindObjectsSortMode.None),Is.Empty,"Both hit and expired projectile must clean up after preview disposal.");
+#else
+            Assert.Ignore("Editor tuning regression");yield break;
+#endif
+        }
+
+        [UnityTest]
         public IEnumerator PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride()
         {
             var decoy = new GameObject("Other player main camera").AddComponent<Camera>();
