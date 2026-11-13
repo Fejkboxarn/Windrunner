@@ -211,6 +211,13 @@ namespace AirflowPrototype.Editor
             var bytes=new Dictionary<Entry,byte[]>();var paths=new Dictionary<Entry,string>();
             foreach(var e in changed)
             {
+                using(var so=new SerializedObject(e.Draft))
+                {
+                    var reference=so.GetIterator();
+                    while(reference.Next(true))
+                        if(reference.propertyType==SerializedPropertyType.ObjectReference && reference.objectReferenceValue!=null && !EditorUtility.IsPersistent(reference.objectReferenceValue))
+                            throw new InvalidOperationException("Cannot persist a temporary/scene reference: "+e.Source.name+" / "+reference.propertyPath);
+                }
                 string path=AssetDatabase.GetAssetPath(e.Source);
                 if(string.IsNullOrEmpty(path)||!File.Exists(path)||!AssetDatabase.IsOpenForEdit(e.Source))throw new InvalidOperationException("Profile is not an editable persistent asset: "+e.Source.name);
                 paths[e]=path;bytes[e]=File.ReadAllBytes(path);
@@ -267,6 +274,29 @@ namespace AirflowPrototype.Editor
         }
         private static void SetBinding(Binding binding,Object value)
         {using(var so=new SerializedObject(binding.Owner)){so.FindProperty(binding.Path).objectReferenceValue=value;so.ApplyModifiedPropertiesWithoutUndo();}}
+        public CharacterTuningPreset DuplicateProfiles(string path)
+        {
+            if(Application.isPlaying)throw new InvalidOperationException("Duplicate only in Edit Mode.");
+            if(!path.StartsWith("Assets/",StringComparison.Ordinal) || !path.EndsWith(".asset",StringComparison.Ordinal) || path.Split('/').Contains(".."))throw new InvalidOperationException("Choose an asset path inside Assets.");
+            var errors=Validate();if(errors.Count>0)throw new InvalidOperationException(string.Join("\n",errors));
+            if(AssetDatabase.LoadMainAssetAtPath(path)!=null)throw new InvalidOperationException("Choose a new preset path; existing assets are never replaced.");
+            string folder=path.Substring(0,path.Length-6)+"Profiles";if(AssetDatabase.IsValidFolder(folder))throw new InvalidOperationException("Choose a new name; profile folder already exists.");
+            int slash=folder.LastIndexOf('/');AssetDatabase.CreateFolder(folder.Substring(0,slash),folder.Substring(slash+1));
+            try
+            {
+            var copies=new Dictionary<ScriptableObject,ScriptableObject>();
+            foreach(var e in Entries){var copy=Object.Instantiate(e.Draft);copy.hideFlags=HideFlags.None;copy.name=e.Source.name;AssetDatabase.CreateAsset(copy,AssetDatabase.GenerateUniqueAssetPath(folder+"/"+copy.name+".asset"));copies.Add(e.Source,copy);}
+            foreach(var copy in copies.Values)using(var so=new SerializedObject(copy)){var p=so.GetIterator();while(p.Next(true))if(p.propertyType==SerializedPropertyType.ObjectReference && p.objectReferenceValue is ScriptableObject source && copies.TryGetValue(source,out var child))p.objectReferenceValue=child;so.ApplyModifiedPropertiesWithoutUndo();AssetDatabase.SaveAssetIfDirty(copy);}
+            var result=Capture(Character.name+" Variant");foreach(var b in result.bindings)b.profile=copies[b.profile];AssetDatabase.CreateAsset(result,path);AssetDatabase.SaveAssetIfDirty(result);return result;
+            }
+            catch
+            {
+                // Only this operation's newly created output folder is removed.
+                if(AssetDatabase.LoadMainAssetAtPath(path)!=null)AssetDatabase.DeleteAsset(path);
+                AssetDatabase.DeleteAsset(folder);
+                throw;
+            }
+        }
         public CharacterTuningPreset Capture(string name)
         {
             var preset=ScriptableObject.CreateInstance<CharacterTuningPreset>(); preset.characterName=name;

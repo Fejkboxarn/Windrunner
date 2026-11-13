@@ -63,6 +63,7 @@ namespace AirflowPrototype
         // forward through the node instead of bouncing backward.
         private Vector3 _incomingForwardDirection;
 
+        public AirSlingPhase PresentationPhase => FlowState.Phase;
         public bool IsCharging => FlowState.IsCharging;
 
         public bool IsSlinging => FlowState.IsSlinging;

@@ -20,6 +20,9 @@ namespace Windrunner.Production.Tests
             public string utc, gpu, api, unity;
             public int width = 1280, height = 720, frames = 180;
             public bool allocationCounterCalibrated;
+            public string pacing;
+            public int targetFrameRate, vSync;
+            public double medianGpuMs = -1;
             public long calibrationBytes;
             public double medianFrameMs, p95FrameMs, medianMainThreadMs, medianGcBytes;
         }
@@ -29,6 +32,10 @@ namespace Windrunner.Production.Tests
         {
             Assert.That(SystemInfo.graphicsDeviceType, Is.Not.EqualTo(GraphicsDeviceType.Null), "Run with -Rendered.");
             yield return SceneManager.LoadSceneAsync("Assets/AirflowPrototype/Generated/Batch1_Playground.unity");
+            yield return null; // Allow scene frame-cap startup to complete.
+            int previousCap=Application.targetFrameRate,previousVsync=QualitySettings.vSyncCount;
+            bool uncapped=Array.IndexOf(Environment.GetCommandLineArgs(),"-windrunnerUncappedProfile")>=0;
+            if(uncapped){Application.targetFrameRate=-1;QualitySettings.vSyncCount=0;}
             var camera = Camera.main;
             Assert.That(camera, Is.Not.Null);
             var texture = new RenderTexture(1280, 720, 24);
@@ -36,8 +43,9 @@ namespace Windrunner.Production.Tests
             var originalActive = RenderTexture.active;
             var probe = new Texture2D(16, 16, TextureFormat.RGB24, false);
             var result = new Result { utc = DateTime.UtcNow.ToString("O"), gpu = SystemInfo.graphicsDeviceName,
-                api = SystemInfo.graphicsDeviceType.ToString(), unity = Application.unityVersion };
+                api = SystemInfo.graphicsDeviceType.ToString(), unity = Application.unityVersion, pacing=uncapped?"uncapped":"scene cap", targetFrameRate=Application.targetFrameRate,vSync=QualitySettings.vSyncCount };
             using (var gc = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Allocated In Frame", 4))
+            using (var gpu = ProfilerRecorder.StartNew(ProfilerCategory.Render, "GPU Frame Time", 4))
             using (var main = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 4))
             {
                 try
@@ -58,6 +66,7 @@ namespace Windrunner.Production.Tests
                     GC.KeepAlive(calibration);
                     result.allocationCounterCalibrated = result.calibrationBytes >= calibration.Length;
                     Assert.That(result.allocationCounterCalibrated, Is.True, "Counter must observe the retained 1 MiB calibration allocation.");
+                    var gpuTimes=new double[result.frames];
                     var frames = new double[result.frames]; var cpu = new double[result.frames]; var bytes = new double[result.frames];
                     for (int i = 0; i < 20; i++) yield return null;
                     for (int i = 0; i < result.frames; i++)
@@ -66,7 +75,9 @@ namespace Windrunner.Production.Tests
                         frames[i] = Time.unscaledDeltaTime * 1000.0;
                         cpu[i] = main.Valid ? main.LastValue / 1000000.0 : -1;
                         bytes[i] = gc.LastValue;
+                        gpuTimes[i]=gpu.Valid && gpu.LastValue>0?gpu.LastValue/1000000.0:-1;
                     }
+                    Array.Sort(gpuTimes);result.medianGpuMs=gpuTimes[result.frames/2];
                     Array.Sort(frames); Array.Sort(cpu); Array.Sort(bytes);
                     result.medianFrameMs = frames[result.frames / 2]; result.p95FrameMs = frames[(int)(result.frames * 0.95)];
                     result.medianMainThreadMs = cpu[result.frames / 2]; result.medianGcBytes = bytes[result.frames / 2];
@@ -76,6 +87,7 @@ namespace Windrunner.Production.Tests
                 }
                 finally
                 {
+                    Application.targetFrameRate=previousCap;QualitySettings.vSyncCount=previousVsync;
                     camera.targetTexture = previous; RenderTexture.active = originalActive;
                     UnityEngine.Object.Destroy(texture); UnityEngine.Object.Destroy(probe);
                     if (Windrunner.Production.Unity.ProjectRoot.Active != null)

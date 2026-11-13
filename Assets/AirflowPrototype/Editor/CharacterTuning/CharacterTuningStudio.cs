@@ -191,23 +191,7 @@ namespace AirflowPrototype.Editor
             if(Application.isPlaying)throw new InvalidOperationException("Duplicate presets in Edit Mode.");
             var errors=session.Validate();if(errors.Count>0)throw new InvalidOperationException(string.Join("\n",errors));
             string path=EditorUtility.SaveFilePanelInProject("Duplicate character profile set",character.name+"Variant","asset","Creates a preset and independent module profiles beside it.");if(string.IsNullOrEmpty(path))return;
-            if(AssetDatabase.LoadMainAssetAtPath(path)!=null)throw new InvalidOperationException("Choose a new preset path; existing assets are never replaced.");
-            string folder=path.Substring(0,path.Length-6)+"Profiles";if(AssetDatabase.IsValidFolder(folder))throw new InvalidOperationException("Choose a new name; profile folder already exists.");
-            int slash=folder.LastIndexOf('/');AssetDatabase.CreateFolder(folder.Substring(0,slash),folder.Substring(slash+1));
-            try
-            {
-            var copies=new Dictionary<ScriptableObject,ScriptableObject>();
-            foreach(var e in session.Entries){var copy=Object.Instantiate(e.Draft);copy.hideFlags=HideFlags.None;copy.name=e.Source.name;AssetDatabase.CreateAsset(copy,AssetDatabase.GenerateUniqueAssetPath(folder+"/"+copy.name+".asset"));copies.Add(e.Source,copy);}
-            foreach(var copy in copies.Values)using(var so=new SerializedObject(copy)){var p=so.GetIterator();while(p.Next(true))if(p.propertyType==SerializedPropertyType.ObjectReference && p.objectReferenceValue is ScriptableObject source && copies.TryGetValue(source,out var child))p.objectReferenceValue=child;so.ApplyModifiedPropertiesWithoutUndo();AssetDatabase.SaveAssetIfDirty(copy);}
-            var result=session.Capture(character.name+" Variant");foreach(var b in result.bindings)b.profile=copies[b.profile];AssetDatabase.CreateAsset(result,path);AssetDatabase.SaveAssetIfDirty(result);preset=result;
-            }
-            catch
-            {
-                // Only this operation's newly created output folder is removed.
-                if(AssetDatabase.LoadMainAssetAtPath(path)!=null)AssetDatabase.DeleteAsset(path);
-                AssetDatabase.DeleteAsset(folder);
-                throw;
-            }
+            preset=session.DuplicateProfiles(path);
         }
     }
 }

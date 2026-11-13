@@ -78,3 +78,30 @@ After physically retiring the legacy runtime/source/controller group, production
 Reload spikes warrant player allocation/call-stack investigation, not an unmeasured gameplay rewrite. Remaining performance gates: target-player CPU/GPU budgets, sustained memory/reload traces, node/feedback saturation and large-selection Studio responsiveness.
 
 Final production-clean-20261112 standalone DX11 startup/idle: survived 15 s, process CPU 10.875 s, peak working set 987,619,328 bytes, ending private memory 2,579,845,120 bytes. Headless also passed. These include initialization/idle and intentional harness termination, not gameplay frame or graceful-shutdown validation.
+
+## Hardening measurements — 2026-11-13
+
+Same 1280x720 DX11/RTX 5070 Ti Editor fixture, 180 sampled frames, native allocation calibration 1,054,260 bytes for a retained 1 MiB allocation. Both tests passed. The harness now records/restores pacing and supports -Uncapped; no scene/project frame-cap asset was changed.
+
+| Pacing | Target / VSync | Median frame ms | p95 frame ms | Median main-thread ms | Median frame GC bytes | GPU ms |
+|---|---|---:|---:|---:|---:|---|
+| Scene cap | 166 / 0 | 6.4399 | 7.1635 | 6.4260 | 4,716 | Unavailable |
+| Uncapped | -1 / 0 | 5.8349 | 6.2504 | 5.8183 | 2,664 | Unavailable |
+
+The GPU recorder supplied no usable duration (-1), not zero GPU work. These are pacing comparisons, not an optimization or shipping-FPS claim. Allocation variation is not attributed to a code improvement. The existing runtime debug component still owns the 166 cap; relocation to a shipping graphics-settings owner is deferred to avoid changing gameplay/application policy during this hardening pass.
+
+Targeted batches: 20 samples after warmup, real bound component methods. CPU excludes object/mesh setup; frame GC and peak total used memory include Editor/fixture overhead. Targeting uses configured fixture LOS with no obstruction mask; dense obstructed geometry needs a separate capture. Projectile spawning and capacity edits include reflection overhead, explicitly labeled.
+
+| Hotspot | Operations/sample | Median batch ms | p95 batch ms | Median frame GC bytes | Peak used bytes |
+|---|---:|---:|---:|---:|---:|
+| capacity-change-reflection | 100 | 0.0281 | 0.0308 | 2,381 | 629,526,324 |
+| projectile-create-expire-reflection | 10 | 0.4669 | 0.5469 | 44,421 | 629,320,750 |
+| targeting-10 | 100 | 0.8331 | 0.9022 | 381 | 626,685,213 |
+| targeting-100 | 100 | 8.7657 | 9.4830 | 381 | 627,207,169 |
+| water-triangles-2 | 100 | 0.0316 | 0.0399 | 381 | 627,261,429 |
+| water-triangles-512 | 100 | 2.2515 | 2.2930 | 381 | 627,503,297 |
+| water-triangles-8192 | 100 | 35.0610 | 35.7589 | 381 | 628,118,693 |
+
+The measured scale is credible: 100-target selection costs about 0.0877 ms per fixture query versus 0.0083 ms for ten targets; water queries rise to about 0.3506 ms per query for 8,192 triangles versus 0.000316 ms for two. These establish synthetic scaling, not authored-level attribution. Prioritize a spatially bounded water query/index only if actual surface complexity/player captures justify it. Ten projectile creations cost about 0.467 ms in this fixture and all expire/clean up; pooling remains a measured follow-up, not an implemented optimization. Resource capacity reconciliation is small in this sample. No change to runtime algorithms was justified from these samples alone.
+
+Remaining: standalone target-player CPU/GPU captures, production routes, dense LOS fallback counts, multi-surface overlap, sustained memory/reload traces and Studio window GUI profiling. Fresh labels preserve raw evidence. Reproduce hotspot run with -Rendered -Filter TargetWaterProjectileAndCapacityHotspots; the synchronous CPU batches do not infer FPS from frame pacing.

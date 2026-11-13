@@ -113,6 +113,88 @@ namespace Windrunner.Production.Tests
             yield return null;
         }
 
+        private delegate bool WaterQuery(Vector3 point,float padding,out float y);
+        [Serializable] private sealed class HotspotResult
+        {
+            public string scenario,utc,scope="Rendered Editor fixture; CPU batch excludes setup; frame GC/memory includes fixture and Editor overhead";
+            public int operationsPerSample,samples=20;
+            public double medianBatchMs,p95BatchMs;
+            public long medianFrameGcBytes,peakUsedBytes;
+        }
+        private static IEnumerator MeasureHotspot(string name,int operations,Action batch)
+        {
+            var result=new HotspotResult{scenario=name,operationsPerSample=operations,utc=DateTime.UtcNow.ToString("O")};
+            var cpu=new double[20];var gcSamples=new long[20];
+            using(var gc=global::Unity.Profiling.ProfilerRecorder.StartNew(global::Unity.Profiling.ProfilerCategory.Memory,"GC Allocated In Frame",4))
+            using(var memory=global::Unity.Profiling.ProfilerRecorder.StartNew(global::Unity.Profiling.ProfilerCategory.Memory,"Total Used Memory",4))
+            {
+                Assert.That(gc.Valid && memory.Valid,Is.True);
+                batch();yield return Frames(20); // Warm managed/JIT/native creation paths.
+                for(int sample=0;sample<20;sample++)
+                {
+                    var clock=System.Diagnostics.Stopwatch.StartNew();batch();clock.Stop();cpu[sample]=clock.Elapsed.TotalMilliseconds;
+                    yield return null;gcSamples[sample]=gc.LastValue;result.peakUsedBytes=Math.Max(result.peakUsedBytes,memory.LastValue);
+                    yield return Frames(20);
+                }
+            }
+            Array.Sort(cpu);Array.Sort(gcSamples);result.medianBatchMs=cpu[10];result.p95BatchMs=cpu[19];result.medianFrameGcBytes=gcSamples[10];
+            System.IO.File.WriteAllText("Logs/ProductionMigration/rendered-profile-hotspot-"+name+"-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss")+".json",JsonUtility.ToJson(result,true));
+        }
+        [UnityTest,Category("Profiling")]
+        public IEnumerator TargetWaterProjectileAndCapacityHotspots()
+        {
+            Assert.That(SystemInfo.graphicsDeviceType,Is.Not.EqualTo(UnityEngine.Rendering.GraphicsDeviceType.Null));
+            var nodes=new List<GameObject>();
+            var targetUpdate=(Action)slingTargeter.GetType().GetMethod("Update",BindingFlags.NonPublic|BindingFlags.Instance).CreateDelegate(typeof(Action),slingTargeter);
+            foreach(int count in new[]{10,100})
+            {
+                while(nodes.Count<count){var go=new GameObject("Profile target");go.transform.position=new Vector3((nodes.Count%10-5)*0.4f,2,5+nodes.Count/10);Add(go,"AirSlingNode");nodes.Add(go);}
+                yield return MeasureHotspot("targeting-"+count,100,()=>{for(int i=0;i<100;i++)targetUpdate();});
+            }
+            foreach(var go in nodes)UnityEngine.Object.Destroy(go);yield return null;
+            foreach(int side in new[]{1,16,64})
+            {
+                var water=new GameObject("Profile water");var mesh=new Mesh();assets.Add(mesh);
+                var vertices=new Vector3[(side+1)*(side+1)];var triangles=new int[side*side*6];int at=0;
+                for(int z=0;z<=side;z++)for(int x=0;x<=side;x++)vertices[z*(side+1)+x]=new Vector3(x,1,z);
+                for(int z=0;z<side;z++)for(int x=0;x<side;x++){int v=z*(side+1)+x;triangles[at++]=v;triangles[at++]=v+side+1;triangles[at++]=v+1;triangles[at++]=v+1;triangles[at++]=v+side+1;triangles[at++]=v+side+2;}
+                mesh.vertices=vertices;mesh.triangles=triangles;mesh.RecalculateBounds();water.AddComponent<MeshFilter>().sharedMesh=mesh;
+                var surface=Add(water,"AirWaterSurface");var query=(WaterQuery)surface.GetType().GetMethod("TryGetSurfaceHeight").CreateDelegate(typeof(WaterQuery),surface);
+                var point=new Vector3(side*0.5f,0,side*0.5f);
+                yield return MeasureHotspot("water-triangles-"+(side*side*2),100,()=>{for(int i=0;i<100;i++)query(point,0,out _);});
+                UnityEngine.Object.Destroy(water);yield return null;
+            }
+            Set(castSettings,"pulseLifetime",0.1f);Set(castSettings,"trailLifetime",0.01f);
+            var spawn=T("AirPulseProjectile").GetMethod("Spawn");var args=new object[]{caster,null,Vector3.up*2,Vector3.forward,1f,false,castSettings};
+            yield return MeasureHotspot("projectile-create-expire-reflection",10,()=>{for(int i=0;i<10;i++)spawn.Invoke(null,args);});
+            yield return Frames(30);Assert.That(UnityEngine.Object.FindObjectsByType(T("AirPulseProjectile"),FindObjectsSortMode.None),Is.Empty);
+            var reconcile=(Action)power.GetType().GetMethod("ReconcileCapacity").CreateDelegate(typeof(Action),power);
+            var maximum=movement.GetType().GetField("maxAirPower");
+            yield return MeasureHotspot("capacity-change-reflection",100,()=>{for(int i=0;i<100;i++){maximum.SetValue(movement,i%2==0?80f:100f);reconcile();}});
+        }
+
+        [UnityTest]
+        public IEnumerator LiveMovementDraftChangesActualMotorSpeedAndRestores()
+        {
+#if UNITY_EDITOR
+            var sessionType=Type.GetType("AirflowPrototype.Editor.CharacterTuningSession, Assembly-CSharp-Editor",true);
+            var session=Activator.CreateInstance(sessionType,new object[]{player});
+            string original=UnityEditor.EditorJsonUtility.ToJson(movement);
+            try
+            {
+                Keys(Key.W);yield return Frames(90);float baseline=(float)Get(motor,"HorizontalSpeed");Assert.That(baseline,Is.GreaterThan(8f));
+                Call(session,"Preview",true);var draft=(ScriptableObject)Get(motor,"Settings");Set(draft,"maxGroundSpeed",4f);
+                yield return Frames(75);Assert.That((float)Get(motor,"HorizontalSpeed"),Is.InRange(3.9f,4.1f));
+                Call(session,"Preview",false);yield return Frames(75);
+                Assert.That((float)Get(motor,"HorizontalSpeed"),Is.EqualTo(baseline).Within(0.1f));
+                Assert.That(UnityEditor.EditorJsonUtility.ToJson(movement),Is.EqualTo(original));
+            }
+            finally{((IDisposable)session).Dispose();Keys();}
+#else
+            Assert.Ignore("Editor tuning regression");yield break;
+#endif
+        }
+
         [UnityTest]
         public IEnumerator PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards()
         {

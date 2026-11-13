@@ -57,6 +57,18 @@ namespace Windrunner.Production.Tests
                 Assert.That((float)powerType.GetProperty("Current").GetValue(power),Is.EqualTo(40f),"Capacity restoration never refunds energy.");
                 Assert.That(capacityNotifications,Is.EqualTo(2));
                 powerType.GetEvent("Changed").RemoveEventHandler(power,changed);
+                powerType.GetMethod("Spend").Invoke(power,new object[]{40f});
+                powerType.GetMethod("Restore").Invoke(power,new object[]{10f});
+                Assert.That((bool)powerType.GetProperty("IsDepletedLocked").GetValue(power),Is.True);
+                int recovered=0;Action onRecovered=()=>recovered++;
+                powerType.GetEvent("RecoveredFromDepletion").AddEventHandler(power,onRecovered);
+                draft.GetType().GetField("maxAirPower").SetValue(draft,50f);yield return null;
+                Assert.That((bool)powerType.GetProperty("IsDepletedLocked").GetValue(power),Is.False,"Capacity change must reconcile the restart threshold.");
+                Assert.That(recovered,Is.EqualTo(1));
+                sessionType.GetMethod("Revert").Invoke(session,null);
+                Assert.That((float)powerType.GetProperty("Current").GetValue(power),Is.EqualTo(10f));
+                Assert.That(recovered,Is.EqualTo(1));powerType.GetEvent("RecoveredFromDepletion").RemoveEventHandler(power,onRecovered);
+
                 // Undo restores an invalid historical draft; validation must stop preview immediately.
                 UnityEditor.Undo.FlushUndoRecordObjects();UnityEditor.Undo.IncrementCurrentGroup();
                 var pitch=draft.GetType().GetField("minCameraPitch");pitch.SetValue(draft,100f);
@@ -65,6 +77,14 @@ namespace Windrunner.Production.Tests
                 Assert.That((bool)sessionType.GetProperty("Previewing").GetValue(session),Is.False);
                 Assert.That(settings.GetValue(motor),Is.SameAs(original));
                 UnityEditor.Undo.ClearUndo(draft);
+                sessionType.GetMethod("Revert").Invoke(session,null);
+                sessionType.GetMethod("Preview").Invoke(session,new object[]{true});
+                pitch.SetValue(draft,100f); // External edit, no GUI/Undo callback.
+                float deadline=Time.realtimeSinceStartup+1f;
+                while((bool)sessionType.GetProperty("Previewing").GetValue(session) && Time.realtimeSinceStartup<deadline)yield return null;
+                Assert.That((bool)sessionType.GetProperty("Previewing").GetValue(session),Is.False,"Editor watcher must stop invalid external draft changes.");
+                Assert.That(settings.GetValue(motor),Is.SameAs(original));
+
                 sessionType.GetMethod("Preview").Invoke(session,new object[]{false});Assert.That(settings.GetValue(motor),Is.SameAs(original));
             }
             finally {((IDisposable)session).Dispose();UnityEngine.Object.Destroy(other);if(ProjectRoot.Active!=null)UnityEngine.Object.Destroy(ProjectRoot.Active.gameObject);}

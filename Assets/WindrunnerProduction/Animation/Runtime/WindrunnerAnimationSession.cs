@@ -117,6 +117,26 @@ namespace Windrunner.Production.Animation
             if (filterFeedbackSource && (feedbackSource == null || request.Source != feedbackSource)) return;
             ObservedEvents++;
             LastObservedEvent = key;
+            ApplyPresentationBinding(key);
+        }
+
+        // Reconstruct sustained presentation from current gameplay state. This
+        // never publishes feedback or invokes gameplay events/resources.
+        public void RecoverSustainedActions(FeedbackKey slingPhase, bool casting, bool dashing)
+        {
+            if(!PortableActive || disposed)return;
+            // A service rebind may have missed an end event. Clear only
+            // sustained groups; completed/transient flip actions are not replayed.
+            standaloneGraph?.CancelGroup("Sling");
+            standaloneGraph?.CancelGroup("Cast");
+            standaloneGraph?.CancelGroup("Dash");
+            if(dashing)ApplyPresentationBinding(FeedbackKey.DashStarted);
+            if(casting)ApplyPresentationBinding(FeedbackKey.CastChargeStarted);
+            if(slingPhase!=FeedbackKey.None)ApplyPresentationBinding(slingPhase);
+        }
+
+        private void ApplyPresentationBinding(FeedbackKey key)
+        {
             if (profile == null || profile.actionBindings == null) return;
             for (int i = 0; i < profile.actionBindings.Length; i++)
             {

@@ -114,6 +114,7 @@ namespace AirflowPrototype
             if (ReferenceEquals(connectedFeedback, service)) return;
             connectedFeedback = service;
             session.BindFeedback(service);
+            if(PortableActive)RecoverAbilityPresentation();
         }
 
         public bool TryStartPortable()
@@ -127,7 +128,7 @@ namespace AirflowPrototype
                 motor != null ? motor.GetComponent<PlayerMovementVisuals>() : null;
             if (visuals != null && visuals.LegacyProceduralAnimationEnabled)
             {
-                Debug.LogWarning("[Windrunner Animation] Kept legacy Animator: " +
+                Debug.LogWarning("[Windrunner Animation] Portable start rejected: " +
                                  "PlayerMovementVisuals still has legacy procedural animation " +
                                  "enabled. For an isolated live graph comparison, first turn on " +
                                  "'Disable All Legacy Procedural Animation' in that component. " +
@@ -135,12 +136,30 @@ namespace AirflowPrototype
                 return false;
             }
             if (session == null) CreateSession();
+            bool wasActive=PortableActive;
             bool started = session != null && session.TryStartPortable();
+            if(started && !wasActive)RecoverAbilityPresentation();
             Debug.Log(started ?
                 "[Windrunner Animation] Portable graph now owns the Humanoid Animator. " +
                 "Gameplay movement remains under PlayerMotor." :
-                "[Windrunner Animation] Kept legacy Animator: " + LastError, this);
+                "[Windrunner Animation] Portable start rejected: " + LastError, this);
             return started;
+        }
+
+        private void RecoverAbilityPresentation()
+        {
+            FeedbackKey phase=FeedbackKey.None;
+            if(sling!=null)
+                switch(sling.PresentationPhase)
+                {
+                    case AirSlingPhase.Charging:
+                    case AirSlingPhase.DelayBeforeDash:phase=FeedbackKey.SlingChargeStarted;break;
+                    case AirSlingPhase.DashingToNode:phase=FeedbackKey.SlingDashStarted;break;
+                    case AirSlingPhase.ImpactHold:phase=FeedbackKey.SlingImpact;break;
+                }
+            var caster=motor!=null?motor.GetComponent<AirCaster>():null;
+            var dash=motor!=null?motor.GetComponent<AirDash>():null;
+            session?.RecoverSustainedActions(phase,caster!=null && caster.IsCharging,dash!=null && dash.IsDashing);
         }
 
         public void StopPortable()

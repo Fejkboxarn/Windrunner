@@ -1,5 +1,10 @@
 # Windrunner production architecture
 
+## Latest reliability hardening (2026-11-13)
+
+The three P1 Studio/projectile defects from the readiness audit are fixed and regression-tested. Capacity semantics, null-slot validated presets/duplication, Undo/external preview validation and authoritative ability-animation recovery are integrated. See HardeningReport.md for exact implemented/deferred boundaries and manual checks; Progress.md/TestResults.json contain actual results. Prior narrative below is historical context. No IK/procedural foot-placement work or broad cleanup was performed.
+
+
 ## Current authoritative status (2026-11-12)
 
 The Character Tuning Studio and automatic production-only portable animation are implemented. See CharacterTuningStudio.md for authoring, SourceRetirements.json/LegacyRetirement.md for verified removals, and ReleaseCandidate.md for final evidence. Older stage descriptions below are historical planning, not the installed state: portable auto-start is enabled, ten old components and their source/tool dependency group are removed, and missing action clips use portable fallbacks. Waterfall substitution was reverted by 9a604f4a; the original localized ambience remains.

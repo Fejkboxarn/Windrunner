@@ -1,5 +1,15 @@
 # Integrated production-only character candidate
 
+## Latest hardening candidate (2026-11-13)
+
+Current executable: `D:/Fork/Windrunner/Builds/hardening-20261113/Windrunner.exe`. This supersedes the production-clean candidate described historically below. P1 projectile lifetime, restart-only Save and nested validation defects are fixed; P2 capacity/preset/preview reliability and authoritative ability-animation recovery are integrated. See HardeningReport.md for the complete change inventory, limitations and focused manual checklist.
+
+Final Edit Mode hardening-integrated **32/32 passed**. Final Play Mode hardening-capacity-final **25/25 passed**. Capped, uncapped and hotspot rendered captures each **1/1 passed**. Windows build **Succeeded**, 0 errors, 24 existing warning subjects, 30.3081 seconds, 1,212,118,854 bytes. Exact startup results are in Progress.md/TestResults.json. Serialization gate passed; no scenes, prefabs or authored gameplay profiles changed.
+
+This remains a manual-acceptance candidate. No IK/procedural foot placement or broad cleanup was performed. Missing authored content, real hardware/visual/audible acceptance and target-player GPU/performance budgets remain open. Performance evidence distinguishes pacing and fixture overhead; no optimization improvement is claimed.
+
+## Previous candidate record
+
 Branch: production-refactor. Starting checkpoint 9a604f4a; Studio checkpoint fee61215; production-only composition checkpoint dac51246. Final retirement checkpoint is the commit containing this report (see Git log). No push, merge or history rewrite.
 
 Executable: `D:/Fork/Windrunner/Builds/production-clean-20261112/Windrunner.exe`, Unity 6000.6.2f1, Windows Mono. This supersedes the earlier RC3 executable and includes the waterfall correction. It is a validation candidate, not production-readiness sign-off.

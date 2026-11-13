@@ -2,6 +2,7 @@ param(
     [ValidateSet('EditMode', 'PlayMode')][string]$Platform = 'EditMode',
     [string]$Label = 'regression',
     [switch]$Rendered,
+    [switch]$Uncapped,
     [string]$Filter = ''
 )
 $ErrorActionPreference = 'Stop'
@@ -20,6 +21,7 @@ $xml = Join-Path $results "$Label-$Platform.xml"
 $log = Join-Path $results "$Label-$Platform.log"
 if ((Test-Path -LiteralPath $xml) -or (Test-Path -LiteralPath $log)) { throw 'Use a fresh label to avoid overwriting validation evidence.' }
 $arguments = @('-batchmode', '-projectPath', "`"$project`"", '-runTests', '-testPlatform', $Platform, '-testResults', "`"$xml`"", '-logFile', "`"$log`"")
+if ($Uncapped) { $arguments += '-windrunnerUncappedProfile' }
 if (!$Rendered) { $arguments += '-nographics' }
 if ($Filter) { $arguments += @('-testFilter', $Filter) }
 else { $arguments += @('-testCategory', '!Profiling') }

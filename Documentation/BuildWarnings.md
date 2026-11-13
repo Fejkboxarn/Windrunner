@@ -24,3 +24,5 @@ Optional-template dependency review: MM_6D_Shake is referenced by a vendor demo 
 Final RC3 (`migration-rc3-final-20261112`) again emits 24 entries: the 21 reviewed importer/vendor/shader warnings plus three project-owned ordered-search deprecations. No new warning category. Zero build errors. Full verbatim warnings are retained in TestResults.json.
 
 Production-clean-20261112 retained 24 warning entries. Compared all messages with production-tuning-20261112: only three vendor shader compilation variant/keyword detail blocks differed; warning subjects, locations and count remained the same. No warning fix is inferred from variant/cache changes. Exact current messages are stored in TestResults.json.
+
+Hardening-20261113 succeeded with 24 warnings. First-line warning subjects match production-clean-20261112 exactly; vendor shader variant detail can differ. No warning cleanup or vendor content migration was performed.

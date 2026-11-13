@@ -49,6 +49,23 @@ namespace AirflowPrototype.Editor
                     profile.actionBindings[0].montageSlot=count;
                     if(session.Validate().Count!=0)throw new Exception("New action and binding were not validated together: "+string.Join(";",session.Validate()));
                     session.Revert();
+                    using(var so=new SerializedObject(actions.Draft)){so.FindProperty("actions").MoveArrayElement(0,1);so.ApplyModifiedPropertiesWithoutUndo();}
+                    foreach(var binding in profile.actionBindings)
+                    {if(binding.montageSlot==0)binding.montageSlot=1;else if(binding.montageSlot==1)binding.montageSlot=0;}
+                    if(session.Validate().Count!=0)throw new Exception("Coherent slot reordering was rejected.");
+                    session.Revert();profile.standaloneActionProfile=null;
+                    if(session.Validate().Count==0)throw new Exception("Incompatible action profile reference accepted.");
+                    session.Revert();
+                    string duplicatePath=AssetDatabase.GenerateUniqueAssetPath("Assets/AirflowPrototype/Generated/TuningDuplicateTest.asset");
+                    string duplicateFolder=duplicatePath.Substring(0,duplicatePath.Length-6)+"Profiles";
+                    try
+                    {
+                        var duplicate=session.DuplicateProfiles(duplicatePath);
+                        var duplicateAnimation=(Windrunner.Production.Animation.WindrunnerAnimationProfile)duplicate.bindings.Single(b=>b.profile is Windrunner.Production.Animation.WindrunnerAnimationProfile).profile;
+                        if(duplicateAnimation==profile || duplicateAnimation.standaloneActionProfile==profile.standaloneActionProfile || !AssetDatabase.GetAssetPath(duplicateAnimation.standaloneActionProfile).StartsWith(duplicateFolder))throw new Exception("Duplicated graph retained shared child configuration.");
+                        try{session.DuplicateProfiles(duplicatePath);throw new Exception("Existing duplicate output was replaced");}catch(InvalidOperationException){}
+                    }
+                    finally{AssetDatabase.DeleteAsset(duplicatePath);AssetDatabase.DeleteAsset(duplicateFolder);}
                     // Unchanged save must be a no-op for every authored asset.
                     var bytes=session.Entries.ToDictionary(e=>e.Source,e=>File.ReadAllBytes(AssetDatabase.GetAssetPath(e.Source)));
                     session.Save();
