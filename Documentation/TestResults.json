@@ -60,6 +60,12 @@
     "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs": "ae61c050a7b1a433e60a131fa65c18a7696718bf64ba8a0b2b40f4aa3d2c229f",
     "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputService.cs": "c8a95efafa345216939aceab5823b3038f12ad264ec9b898143af36212999d4f",
     "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs": "7282766b3dbe2a9e9a0456918605440b5acc4ee700a043b8295c141939053f46",
+    "Assets/WindrunnerProduction/Progression/Runtime/ProgressionDefinitions.cs": "05819d137f08eb5bc1a00b36a31fb44a8aa9dbaf46279907049da70edc444002",
+    "Assets/WindrunnerProduction/Progression/Runtime/ProgressionService.cs": "7a77c8affaa7858d5084fcf1c56715f547a7792093e882fd6ee0193a694da1fe",
+    "Assets/WindrunnerProduction/Progression/Runtime/ProgressionState.cs": "cf5602f6d61f59d3c3ac9e1dc7526eb908485e8fd835b0de6b483394e982638f",
+    "Assets/WindrunnerProduction/Progression/Runtime/ProgressionStore.cs": "8190ce7e2bd0a895bbe157b55956ed14dcf3e56fc30cf276a4f6c43aaf07a978",
+    "Assets/WindrunnerProduction/Progression/Runtime/ProgressionValidation.cs": "cdeac7690e192c059ec2186b61e12f36a36e19dc96728ecd255529ecc072b030",
+    "Assets/WindrunnerProduction/Progression/Runtime/Windrunner.Production.Progression.asmdef": "337b8b41f168050071d12d1d3524e6741c9ba0159c9e2867e7d21f5b22beb9b4",
     "Assets/WindrunnerProduction/Runtime/Core/TimeScaleArbiter.cs": "4627c7543d8865c915ff31910efe0da2f01e45021c3f4242311d520bd6ebe1f3",
     "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs": "99fb6aed82a5d6f1551398185292dd009b09174701690161d7bc3ab36a0a871b",
     "Assets/WindrunnerProduction/Runtime/Unity/UnityTimeAuthority.cs": "6eff740a358efd9815b8a15583ec691283b075ac42be07a73963857c69ec6ca4",
@@ -67,9 +73,10 @@
     "Assets/WindrunnerProduction/Tests/Editor/ContentIntegrityTests.cs": "1301bd122864bd42f2b4becc97e0e79fba6904fdc89fd5a6a4814205dcf72dd5",
     "Assets/WindrunnerProduction/Tests/Editor/PortableActionPlaybackTests.cs": "f8ed0a2ae3c51c0b6aa7e342c955a7fa879c6dac2a44e1357aafc9f8c3d59618",
     "Assets/WindrunnerProduction/Tests/Editor/ProductionRegressionTests.cs": "dbb9f349c2e85c19a03058e3354fc71b8318c4bbfd3c5da4e5f28c49a942494d",
+    "Assets/WindrunnerProduction/Tests/Editor/ProgressionRulesTests.cs": "d5a7b5c1712412ffe4f5b46ca231425d055a3acbd245f68ac4c2a5a98ebec599",
     "Assets/WindrunnerProduction/Tests/Editor/RuntimeAllocationTests.cs": "6e84548a6412f3725cd2c859458aa715fdc45671b11d69acd059dfc33e7766d1",
     "Assets/WindrunnerProduction/Tests/Editor/TimeScaleArbitrationTests.cs": "90f7daaf5c432aa9c8a678acf662e38c7412c6901bfac5a3e0b671c10a936c29",
-    "Assets/WindrunnerProduction/Tests/Editor/Windrunner.Production.Tests.Editor.asmdef": "a1f318fd72a669a17d175f8197e69b24883e2db69f705c38e953e0e9707065f3",
+    "Assets/WindrunnerProduction/Tests/Editor/Windrunner.Production.Tests.Editor.asmdef": "ac52ddb5aa1bd5a27e70d7e1ca8f40d651798dc24324ead6b308968880e95530",
     "Assets/WindrunnerProduction/Tests/PlayMode/AbilityExecutionTests.cs": "60623b847357495a9db5cf770e668e185994649e349baccc569259a739f18dc2",
     "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs": "0e0b4a6cf3bf5ccb0a426824a4ed8eb0428666c9a1efa023c3e8fdf48b057a56",
     "Assets/WindrunnerProduction/Tests/PlayMode/DisplacementAuthorityTests.cs": "29f89b7aa39a3ee362aa7f8190cc18e9539b77ac39179d63ba68419d42f44cc8",
@@ -79,7 +86,7 @@
     "Assets/WindrunnerProduction/Tests/PlayMode/TimeInterruptionTests.cs": "c23ec444fbde91e05918be760d0f2cac14fd3056adef5907930d7e2f35080be2",
     "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs": "d385f389f7c0dd66a347263e4043417c37470aa72fb911cb5c35842930b1d3cd",
     "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs": "8a0ea536bc219c0273d8f471ddef161a2e52ef93d3790e52171d0ab96a22fd03",
-    "Assets/WindrunnerProduction/Tests/PlayMode/Windrunner.Production.Tests.PlayMode.asmdef": "82a20eee98a29d50c3a1fd7993ad8f52883d14a0163fc906fcb97649ceb9248d"
+    "Assets/WindrunnerProduction/Tests/PlayMode/Windrunner.Production.Tests.PlayMode.asmdef": "69f34e2f9390743c2be39bcdcd14dbd1bcf8455e0ec744f835fbff991c8408e9"
   },
   "runs": [
     {
@@ -10916,6 +10923,344 @@
           "failure": null
         }
       ]
+    },
+    {
+      "label": "progression-foundation-EditMode",
+      "xml_sha256": "b8de1f4c19bda7b6cfbc1f1f00c80b6235ef13cfb5f3392f26c538424ef152dd",
+      "result": "Passed",
+      "total": "37",
+      "passed": "37",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "8,1224083",
+      "start-time": "2026-11-13 12:33:14Z",
+      "end-time": "2026-11-13 12:33:22Z",
+      "tests": [
+        {
+          "name": "ProfilesPreserveAuthoredValuesAndDraftsRemainIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InstalledLocomotionHandlesReversalsAirborneAndLandingWithNormalizedWeights",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NonInterruptibleActionStillAllowsExplicitCancellationAndFreshReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PriorityLoopCancellationAndMissingSlotsHaveDeterministicRecovery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationObservationUnbindsPreviousServiceAndDisposes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisposedAnimationCannotResubscribeToFeedback",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirDashStateParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirCastReleaseParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirPowerStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirTargetSelectionParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorSimulationChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAbilityCompositionChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerPlanarParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingChargeParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingDashParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingFlowParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingPathParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingTargetParityChecks\",\"RunScoringChecks\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackObservationPreservesPublishOrderAndDisposalStopsDelivery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriberFailureDoesNotSuppressLaterObservers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriptionChangesApplyToNextPublish",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PauseSwitchesMapsWithoutChangingAuthoringAsset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "StateTransitionsExitBeforeEnterAndDisposeOnce",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoringRejectsCyclesBadOwnershipAndMissingContent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FailedPersistenceIsAtomicAndListenersCannotSuppressCommittedState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "IndependentChaptersCommitOnceAndCutsceneGatesNextChapter",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ParallelSequentialUniqueAndRetroactivePolicies",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SaveVersionsUnknownContentAndFileReplacement",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MeasureResourceUiReadAndFeedbackDispatch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "HitStopMatchesLegacyCurveAndFreezesDuringPause",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(1.0f,0.02f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(0.5f,0.01f)",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "progression-foundation-PlayMode",
+      "xml_sha256": "03d3f5fca9d4f3e3cae7b631f869baf9656cf88250711ea26cdb24e00bfd7230",
+      "result": "Passed",
+      "total": "25",
+      "passed": "25",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "14,6158903",
+      "start-time": "2026-11-13 12:33:42Z",
+      "end-time": "2026-11-13 12:33:56Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
     }
   ],
   "builds": [
@@ -11408,6 +11753,8 @@
     "production-tuning-integrated-EditMode.log": "b429d09b123e2ea3981b070539547e7d8639fdc2373ee9c780c0573eb4e74345",
     "production-tuning-release-EditMode.log": "28954c6069a554bdf1472a3c28c2d2291316851810f1e1e7bb758ba7f33cf2cd",
     "production-tuning-release-PlayMode.log": "0a5457dca526fbeaa3a14d01c0f1c45c360cc9a5748da57631070c7e2c080921",
+    "progression-foundation-EditMode.log": "50525301f89b1148368b030e0eb8f1ff392040931320aab3db044a14e502f6b0",
+    "progression-foundation-PlayMode.log": "7635bdb4a8b28609fcbac9b629997bda323e0fd0cf4b8b841dc5a8a2c78f870b",
     "rendered-baseline-PlayMode.log": "47076c859203f252fb7d8e8c41447e1e1859da707222b573531565219eac1664",
     "rendered-repeat-PlayMode.log": "312b073eb3d9563dcacdc042fdd346bb8c1209dda644b7c37366f3e9535e418b",
     "resume-profile-stage-EditMode.log": "10700bc4b6e622a414abaa0749ed979aa6b67ec255f3390da4e792d55067f340",

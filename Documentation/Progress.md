@@ -1,5 +1,9 @@
 # Migration progress
 
+## Progression framework continuation (2026-11-13)
+
+Baseline aa9e9d58 verified clean; branch feature/progression-framework. Hardening work is retained. Stage 1 definitions/state/rules/persistence implemented; progression-foundation Edit Mode **37/37** and existing Play Mode **25/25**, exit 0. Serialized contract and whitespace checks passed. See ProgressionFramework.md for the staged scope; no complete-framework claim yet.
+
 Baseline: `7bfdfe5e` (5P), `production-refactor`, 2026-11-12.
 
 ## Current handoff

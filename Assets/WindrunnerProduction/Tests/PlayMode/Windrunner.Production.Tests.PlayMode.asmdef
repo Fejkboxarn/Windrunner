@@ -1,5 +1,15 @@
 {
   "name": "Windrunner.Production.Tests.PlayMode",
-  "references": ["Windrunner.Production.Runtime", "Windrunner.Production.Input", "Windrunner.Production.Feedback", "Unity.InputSystem", "Windrunner.Production.Animation", "PortableAnimation.Runtime"],
-  "optionalUnityReferences": ["TestAssemblies"]
+  "references": [
+    "Windrunner.Production.Runtime",
+    "Windrunner.Production.Input",
+    "Windrunner.Production.Feedback",
+    "Unity.InputSystem",
+    "Windrunner.Production.Animation",
+    "PortableAnimation.Runtime",
+    "Windrunner.Production.Progression"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
 }

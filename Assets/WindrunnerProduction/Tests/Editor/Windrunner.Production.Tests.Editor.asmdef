@@ -1,6 +1,18 @@
 {
   "name": "Windrunner.Production.Tests.Editor",
-  "references": ["Windrunner.Production.Runtime", "Windrunner.Production.Input", "Windrunner.Production.Feedback", "Windrunner.Production.Animation", "PortableAnimation.Runtime", "Unity.InputSystem"],
-  "includePlatforms": ["Editor"],
-  "optionalUnityReferences": ["TestAssemblies"]
+  "references": [
+    "Windrunner.Production.Runtime",
+    "Windrunner.Production.Input",
+    "Windrunner.Production.Feedback",
+    "Windrunner.Production.Animation",
+    "PortableAnimation.Runtime",
+    "Unity.InputSystem",
+    "Windrunner.Production.Progression"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
 }
