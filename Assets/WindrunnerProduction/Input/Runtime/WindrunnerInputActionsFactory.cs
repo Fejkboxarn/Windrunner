@@ -37,6 +37,8 @@ namespace Windrunner.Production.Input
             AddButton(gameplay, "SwimUp", "<Keyboard>/space", "<Gamepad>/buttonSouth");
             AddButton(gameplay, "SwimDown", "<Keyboard>/leftCtrl", "<Keyboard>/rightCtrl", "<Gamepad>/buttonEast");
             AddButton(gameplay, "RelockCursor", "<Mouse>/leftButton");
+            AddButton(gameplay, "DaggerAbility", "<Keyboard>/r", "<Gamepad>/dpad/left");
+            AddButton(gameplay, "DaggerArsenal", "<Keyboard>/i", "<Gamepad>/dpad/right");
 
             var system = asset.AddActionMap("System");
             AddButton(system, "Pause", "<Keyboard>/escape", "<Gamepad>/start");

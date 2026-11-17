@@ -48,6 +48,12 @@
       "baseline_sha256": "a484cd8298b5d85bd429311140966e2057694361cb0265aeba5d0c56b0818e48",
       "approved_sha256": "eff50bca4fef12e026f66b78d37bd0de5d44291adec4d696bbed27bea440a076",
       "reason": "Main menu milestone: prepend the dedicated title and reviewed production-world integration copy. The original scene entries, enabled flags and Input System reference are identical to 9e8f97c4. Zone 01 appends its own enabled scene entry; removing that one block reproduces the d74cbc03 build settings exactly."
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Input/Generated/WindrunnerGameplay.inputactions",
+      "baseline_sha256": "9205c5463d6cc34eb71d95d5d2b7bb20c6ffe97c7b5cf15a94de068bae82d3df",
+      "approved_sha256": "d409edc6e3f577869fa6a5ef4c899b248aa87b07fb1d63033ca0d532f566fbec",
+      "reason": "Dagger equipment adds two Gameplay actions and four bindings. Removing those entries reproduces the unified template exactly, including existing action and binding IDs."
     }
   ]
 }

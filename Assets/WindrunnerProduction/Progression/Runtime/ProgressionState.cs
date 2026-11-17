@@ -49,8 +49,31 @@ namespace Windrunner.Production.Progression
         public bool solved;
         public List<string> mechanisms = new List<string>();
     }
+    [Serializable] public sealed class DaggerCooldown
+    {
+        public string effectId;
+        public float remaining;
+    }
+    [Serializable] public sealed class DaggerLoadout
+    {
+        public bool initialized;
+        public string equipped;
+        public List<string> owned = new List<string>();
+        public List<DaggerCooldown> cooldowns = new List<DaggerCooldown>();
+        public float Remaining(string id) => cooldowns.Find(c=>c.effectId==id)?.remaining ?? 0f;
+        public void Advance(float seconds)
+        {
+            if(seconds<=0)return;
+            for(int i=cooldowns.Count-1;i>=0;i--)
+            {
+                cooldowns[i].remaining-=seconds;
+                if(cooldowns[i].remaining<=0)cooldowns.RemoveAt(i);
+            }
+        }
+    }
     [Serializable] public sealed class ProgressionState
     {
+        public DaggerLoadout daggers;
         public int schemaVersion = 1;
         public string playerId, trackedQuestId;
         public List<QuestRecord> quests = new List<QuestRecord>();

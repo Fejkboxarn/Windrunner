@@ -21,7 +21,7 @@ namespace Windrunner.MovementLab
                 rearmSeconds = burst ? new[]{.3f,.5f,.8f}[n] : 0
             };
         }
-        public OverdriveSettings overdrive = new OverdriveSettings();
+        [HideInInspector] public OverdriveSettings overdrive = new OverdriveSettings();
         [Min(100)] public float combinedSpeedCap = 200;
     }
 }

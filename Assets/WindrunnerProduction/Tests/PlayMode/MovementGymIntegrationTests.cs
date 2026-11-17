@@ -84,6 +84,7 @@ namespace Windrunner.Production.Tests
             var keyboard=InputSystem.AddDevice<Keyboard>();
             var pad=InputSystem.AddDevice<Gamepad>();
             float capture=Time.captureDeltaTime, fixedStep=Time.fixedDeltaTime,scale=Time.timeScale;
+            using var probe=new InputAction("Historical speed fixture",binding:"<Keyboard>/q");
             var results=new List<string>();
             const string path="Assets/MovementLab/MovementGym.unity";
             try
@@ -117,6 +118,12 @@ namespace Windrunner.Production.Tests
                 void Keys(params Key[] keys)=>InputSystem.QueueStateEvent(keyboard,new KeyboardState(keys));
                 var ability=(Component)Field(lab,"sling");
                 var aim=lab.GetComponent(Type.GetType("AirflowPrototype.AirSlingTargeter, Assembly-CSharp",true));
+                var probeField=lab.GetType().GetField("historicalProbeAction",BindingFlags.Instance|BindingFlags.NonPublic);
+                Assert.IsNull(probeField.GetValue(lab));
+                Assert.IsNull(input.Actions.FindAction("Gameplay/Overdrive"));
+                Keys(Key.Q);yield return null;yield return null;
+                Assert.AreEqual(Read(power,"Max"),Read(power,"Current"));
+                probe.Enable();probeField.SetValue(lab,probe);
                 var failures=new List<string>();
                 foreach(bool extreme in new[]{false,true})
                 for(int station=0;station<(extreme?9:10);station++)
@@ -222,12 +229,11 @@ namespace Windrunner.Production.Tests
                 var wind=(Component)volumes.GetValue(0);wind.gameObject.SetActive(true);
                 wind.transform.SetPositionAndRotation(start+forward*165,Quaternion.LookRotation(forward));
                 wind.transform.localScale=new Vector3(35,30,350);
-                var equipped = lab.GetType().GetField("experimentalPairEquipped");
-                equipped.SetValue(lab,false);
+                probe.Disable();
                 float full=(float)Read(power,"Current");
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.Q));yield return null; yield return null;
                 Assert.IsFalse((bool)Read(lab,"Boosting"));Assert.AreEqual(full,(float)Read(power,"Current"));
-                equipped.SetValue(lab,true);
+                probe.Enable();
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return null;
                 using var marker = global::Unity.Profiling.ProfilerRecorder.StartNew(global::Unity.Profiling.ProfilerCategory.Scripts,"MovementLab.ResolveInfluences");
                 foreach(int fps in new[]{30,60,120})

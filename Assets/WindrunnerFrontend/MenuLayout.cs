@@ -11,6 +11,7 @@ namespace Windrunner.Frontend
         private readonly Color ink=new Color(.91f,.95f,.93f), muted=new Color(.65f,.77f,.76f);
         internal readonly GameObject Root;
         private readonly Text heading,message;
+        private readonly GameObject brand,brandRule;
         private readonly ScrollRect scroll;
         private readonly RectTransform rows;
         private Button first;
@@ -40,9 +41,9 @@ namespace Windrunner.Frontend
             Root.AddComponent<GraphicRaycaster>();
             var background=Rect("Backdrop",Root.transform);Bounds(background,0,0,1,1);
             background.gameObject.AddComponent<Image>().color=new Color(.034f,.080f,.087f,.98f);
-            var rule=Rect("Accent",background);Bounds(rule,.075f,.54f,.14f,.545f);
+            var rule=Rect("Accent",background);brandRule=rule.gameObject;Bounds(rule,.075f,.54f,.14f,.545f);
             rule.gameObject.AddComponent<Image>().color=new Color(.92f,.69f,.35f);
-            var title=Label(background,"WINDRUNNER",59,ink);title.fontStyle=FontStyle.Bold;Bounds(title.rectTransform,.075f,.55f,.49f,.72f);
+            var title=Label(background,"WINDRUNNER",59,ink);brand=title.gameObject;title.fontStyle=FontStyle.Bold;Bounds(title.rectTransform,.075f,.55f,.49f,.72f);
             heading=Label(background,"",38,ink);Bounds(heading.rectTransform,.50f,.79f,.93f,.92f);
             message=Label(background,"",20,muted);Bounds(message.rectTransform,.075f,.25f,.41f,.52f);
             var view=Rect("Choices",background);Bounds(view,.50f,.10f,.93f,.78f);
@@ -119,6 +120,20 @@ namespace Windrunner.Frontend
             var controls=scroll.GetComponent<RectTransform>();Bounds(controls,.50f,.08f,.93f,.18f);
             return image;
         }
+        internal RawImage Portrait()
+        {
+            brand.SetActive(false);brandRule.SetActive(false);
+            var frame=Rect("Dagger portrait",Root.transform);
+            var image=frame.gameObject.AddComponent<RawImage>();image.raycastTarget=false;
+            var fit=frame.gameObject.AddComponent<AspectRatioFitter>();
+            fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=.75f;
+            // Constrain to a dedicated parent so the fitter cannot fill the whole menu.
+            var area=Rect("Portrait area",Root.transform);Bounds(area,.025f,.35f,.48f,.965f);
+            frame.SetParent(area,false);
+            Bounds(message.rectTransform,.05f,.055f,.465f,.34f);
+            return image;
+        }
+        internal void RestoreMessage(){brand.SetActive(true);brandRule.SetActive(true);Bounds(message.rectTransform,.075f,.25f,.41f,.52f);}
         internal void RestoreList()=>Bounds(scroll.GetComponent<RectTransform>(),.50f,.10f,.93f,.78f);
     }
 }

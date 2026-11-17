@@ -95,6 +95,26 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "DaggerAbility",
+                    "type": "Button",
+                    "id": "0017f2df-c4ac-5f66-b44f-e1bae2d96ae5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "DaggerArsenal",
+                    "type": "Button",
+                    "id": "de95c020-b09d-5189-9475-cc83adfa1358",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -392,6 +412,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "RelockCursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c69ab3d6-a7fd-562a-ba77-dcbe83af9686",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d354298-0aa9-58a4-a902-3c42ac148e11",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3aa88cd-3cc4-5cc3-ae98-eec05a949854",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerArsenal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6ea616b-329c-5ad2-8cce-57f38deb8967",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerArsenal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd73baac3d58474191b9ec703a34d41, type: 3}
+  m_Name: Farseer's Daggers
+  m_EditorClassIdentifier: Assembly-CSharp::Windrunner.Daggers.DaggerPair
+  id: farseer
+  displayName: Farseer's Daggers
+  description: Windglass blades that draw a second breath from the air.
+  icon: {fileID: 21300000, guid: fd2a3daee0cdc0b4398c7f813213b541, type: 3}
+  leftModel: {fileID: 8343154458665697743, guid: 129ece589c6de1d4bbf82b5eccd75e80, type: 3}
+  rightModel: {fileID: 8343154458665697743, guid: 129ece589c6de1d4bbf82b5eccd75e80, type: 3}
+  leftOffset: {x: 0, y: 0, z: 0}
+  rightOffset: {x: 0, y: 0, z: 0}
+  leftEuler: {x: 0, y: 0, z: 0}
+  rightEuler: {x: 0, y: 0, z: 0}
+  accent: {r: 0.4, g: 0.96, b: 1, a: 1}
+  activationVfx: {fileID: 2087630326872933022, guid: ee1973058d91d4c418e9d999618b89d5, type: 3}
+  unlockContentId: 
+  active: {fileID: 11400000, guid: 8d06390dc309cd54bbd0df8767100b6a, type: 2}
+  passives: []

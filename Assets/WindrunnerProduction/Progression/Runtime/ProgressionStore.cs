@@ -34,6 +34,13 @@ namespace Windrunner.Production.Progression
                 state.challenges.Any(c => c == null || c.successfulAttempts == null) ||
                 state.puzzles.Any(p => p == null || p.mechanisms == null) || state.persistentFacts.Any(f => f == null))
                 throw new InvalidDataException("Invalid progression records.");
+            var daggers=state.daggers;
+            if(daggers!=null && daggers.initialized &&
+                (daggers.owned==null || daggers.cooldowns==null || daggers.owned.Any(string.IsNullOrWhiteSpace) ||
+                 daggers.owned.Distinct().Count()!=daggers.owned.Count ||
+                 daggers.cooldowns.Any(c=>c==null || string.IsNullOrWhiteSpace(c.effectId) || !(c.remaining>=0) || float.IsInfinity(c.remaining)) ||
+                 daggers.cooldowns.Select(c=>c.effectId).Distinct().Count()!=daggers.cooldowns.Count))
+                throw new InvalidDataException("Invalid dagger loadout.");
             foreach (var c in state.cutscenes)
                 if (c.status == CinematicStatus.Playing) c.status = CinematicStatus.Pending;
             return state;

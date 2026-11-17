@@ -2,7 +2,7 @@ using UnityEngine;
 using AirflowPrototype;
 namespace Windrunner.MovementLab
 {
-    public enum LaneKind { Slopes, Jumps, Dash, Sling, AerialSteering, Momentum, Wind, HighSpeed, Overdrive, Combined }
+    public enum LaneKind { Slopes, Jumps, Dash, Sling, AerialSteering, Momentum, Wind, HighSpeed, Endurance, Combined }
     public enum LanePreset { Short, Medium, Long, Extreme }
 
     public sealed class GymLane : MonoBehaviour
@@ -33,7 +33,7 @@ namespace Windrunner.MovementLab
             LaneKind.Momentum => "Build speed, release Dash and coast across the stripe",
             LaneKind.Wind => "Run straight through each track and compare speeds",
             LaneKind.HighSpeed => "Accelerate down the long straight and brake beyond the stripe",
-            LaneKind.Overdrive => "Run, hold Overdrive and release at the finish",
+            LaneKind.Endurance => "Run the speed course and stop on the finish deck",
             _ => "Follow the relays uphill: jump, Dash, Sling and ride both winds"
         };
 

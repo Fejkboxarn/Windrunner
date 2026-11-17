@@ -19,6 +19,7 @@ namespace Windrunner.Frontend
         public ProjectRoot project;
         public WindrunnerInputHost input;
         public ProgressionCatalog catalog;
+        public Windrunner.Daggers.DaggerPlayer daggers;
         public CharacterController character;
         public Transform arrival;
         public PlayerOrbitCamera orbit;
@@ -80,6 +81,13 @@ namespace Windrunner.Frontend
             if(IsTitle || Busy || SlotId==null || Time.unscaledTime<nextSave || input.IsPaused)return;
             nextSave=Time.unscaledTime+60;
             try{Save();}catch(Exception e){Error=e.Message;Debug.LogWarning("Autosave failed: "+Error,this);}
+        }
+        private void OnApplicationQuit()
+        {
+            if(!Busy && SlotId!=null && Progression!=null)
+            {
+                try {Save();}catch(Exception e){Debug.LogWarning("Could not save on exit: "+e.Message,this);}
+            }
         }
         public void Save()
         {

@@ -18,6 +18,16 @@ namespace Windrunner.Production.Progression
         public bool MatchesDefinitions(ProgressionDefinitions candidate) => UnityEngine.JsonUtility.ToJson(definitions) == UnityEngine.JsonUtility.ToJson(candidate);
         public bool HasUnlock(string contentId) => state.rewards.Any(r => r.kind == "unlock" && r.contentId == contentId);
         public bool HasPersistentFact(FactKind kind, string targetId) => state.persistentFacts.Any(f => f.kind == kind && f.targetId == targetId);
+        public DaggerLoadout ReadDaggers()=>state.daggers==null?new DaggerLoadout():
+            UnityEngine.JsonUtility.FromJson<DaggerLoadout>(UnityEngine.JsonUtility.ToJson(state.daggers));
+        public string EquippedDagger=>state.daggers?.equipped;
+        public bool OwnsDagger(string id)=>state.daggers?.owned.Contains(id)==true;
+        public float DaggerCooldownRemaining(string effectId)=>state.daggers?.Remaining(effectId)??0f;
+        public void AdvanceDaggerCooldowns(float seconds)=>state.daggers?.Advance(seconds);
+        public void SaveDaggers(DaggerLoadout record)=>Commit(next=>{
+            next.daggers=UnityEngine.JsonUtility.FromJson<DaggerLoadout>(UnityEngine.JsonUtility.ToJson(record));
+            return true;
+        });
         public ProgressionState Snapshot() => ProgressionCodec.Copy(state);
         public ProgressionService(ProgressionDefinitions definitions, string playerId, IProgressionStore store,
             Dictionary<string, IObjectiveEvaluator> evaluators = null)

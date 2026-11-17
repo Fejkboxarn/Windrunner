@@ -18,13 +18,20 @@ namespace Windrunner.MovementLab
         public MovementLabProfile profile;
         public GymLane[] lanes;
         public WindTunnel[] volumes;
-        public bool experimentalPairEquipped = true, diagnostics = true;
+        public bool diagnostics = true;
         public float recoveryHeight = -25;
         public int destinationIndex;
         private PlayerOrbitCamera orbit;
         private WindContact[] contacts;
+#if UNITY_EDITOR
+        // Injected exclusively by the historical high-speed regression fixture.
+        internal InputAction historicalProbeAction;
         private readonly OverdriveSession drive = new OverdriveSession();
-        private InputAction overdrive, reset, overlay, flight, variant;
+        public bool Boosting => drive.Active;
+#else
+        public bool Boosting => false;
+#endif
+        private InputAction reset, overlay, flight, variant;
         private readonly InputAction[] stations = new InputAction[10];
         private int track;
         public bool Finished { get; private set; }
@@ -39,7 +46,6 @@ namespace Windrunner.MovementLab
         public int WindCount { get; private set; }
         public float LastWindDelta { get; private set; }
         public float WindGain { get; private set; }
-        public bool Boosting => drive.Active;
         public float Distance { get; private set; }
         public float Peak { get; private set; }
         private Vector3 lastPosition, lastVelocity;
@@ -59,15 +65,20 @@ namespace Windrunner.MovementLab
         private void Start()
         {
             var map = inputHost.Input.Actions.FindActionMap("Gameplay", true);
-            overdrive = map.FindAction("Overdrive", true);
             for(int i=0;i<stations.Length;i++) stations[i]=map.FindAction("Station"+(i+1),true);
             flight=map.FindAction("LabFlight",true);variant=map.FindAction("LabVariant",true);
             reset = map.FindAction("LabReset", true); overlay = map.FindAction("LabDiagnostics", true);
             orbit = motor.ViewCamera.GetComponent<PlayerOrbitCamera>();
             Teleport(destinationIndex);
         }
-        private void OnDisable() { if (motor != null && motor.MovementInfluence == Resolve) motor.MovementInfluence = null; drive.Interrupt(); }
-        private void OnApplicationFocus(bool focus) { if (!focus) drive.Interrupt(); }
+        private void OnDisable() { if (motor != null && motor.MovementInfluence == Resolve) motor.MovementInfluence = null; InterruptProbe(); }
+        private void InterruptProbe()
+        {
+#if UNITY_EDITOR
+            drive.Interrupt();
+#endif
+        }
+        private void OnApplicationFocus(bool focus) { if (!focus) InterruptProbe(); }
 
         private static readonly Unity.Profiling.ProfilerMarker influenceMarker = new Unity.Profiling.ProfilerMarker("MovementLab.ResolveInfluences");
         private Vector3 Resolve(Vector3 velocity, bool grounded, float dt)
@@ -82,11 +93,11 @@ namespace Windrunner.MovementLab
             float transitDt = previousDt; previousProbe = position; previousDt = dt;
             Vector3 wind = Vector3.zero;
             WindCount = 0; LastWindDelta = 0;
-            if (input == null || overdrive == null) return wind;
+            if (input == null) return wind;
             if (input.InterruptionVersion != interruption)
-            { drive.Interrupt(); interruption = input.InterruptionVersion; }
+            { InterruptProbe(); interruption = input.InterruptionVersion; }
             if (input.IsGameplayBlocked || sling.IsSlinging || motor.HasExternalTraversalVelocity)
-            { drive.Interrupt(); previousDt = 0; return wind; }
+            { InterruptProbe(); previousDt = 0; return wind; }
             for (int i = 0; i < volumes.Length; i++)
             {
                 var volume = volumes[i];
@@ -106,11 +117,16 @@ namespace Windrunner.MovementLab
             }
             wind = Vector3.ClampMagnitude(wind, Mathf.Max(0, profile.combinedSpeedCap - velocity.magnitude));
             LastWindDelta = wind.magnitude; WindGain += LastWindDelta;
-            float cost = drive.Request(profile.overdrive, overdrive.IsPressed(), experimentalPairEquipped && power.CanStartDash, power.Current, dt);
+#if UNITY_EDITOR
+            if(historicalProbeAction==null)return wind;
+            float cost = drive.Request(profile.overdrive, historicalProbeAction.IsPressed(), power.CanStartDash, power.Current, dt);
             if (cost <= 0) return wind;
             bool remaining = power.Spend(cost);
             var boost = drive.Apply(profile.overdrive, velocity + wind, grounded, cost, remaining);
             return wind + Vector3.ClampMagnitude(boost, Mathf.Max(0, profile.combinedSpeedCap - (velocity + wind).magnitude));
+#else
+            return wind;
+#endif
         }
         public void Teleport(int index)
         {
@@ -130,7 +146,7 @@ namespace Windrunner.MovementLab
             controller.enabled=true;
             orbit.ResetAfterTeleport(spawn.eulerAngles.y);
             previousProbe = transform.position; previousDt = 0;
-            System.Array.Clear(contacts, 0, contacts.Length); drive.Interrupt(); if(refill) power.Refill(); ResetSession();
+            System.Array.Clear(contacts, 0, contacts.Length); InterruptProbe(); if(refill) power.Refill(); ResetSession();
         }
         public void ResetSession()
         {
@@ -142,7 +158,7 @@ namespace Windrunner.MovementLab
         private void LateUpdate()
         {
             if (inputHost == null || inputHost.Input == null || reset == null || resumedFrame==Time.frameCount) return;
-            if (inputHost.Input.IsGameplayBlocked) { drive.Interrupt(); return; }
+            if (inputHost.Input.IsGameplayBlocked) { InterruptProbe(); return; }
             if (Time.deltaTime <= 0) return;
             for(int i=0;i<stations.Length;i++) if(stations[i].WasPressedThisFrame()) {Teleport(i);return;}
 #if UNITY_EDITOR || WINDRUNNER_MOVEMENT_LAB
@@ -190,7 +206,7 @@ namespace Windrunner.MovementLab
             display=lane.kind+" / "+lane.Difficulty+(Finished?"   FINISH":"")+"    "+lane.Instruction+"\n";
             for(int i=0;i<stations.Length;i++) display+=stations[i].GetBindingDisplayString()+" "+lanes[i].kind+(i==4 || i==9?"\n":"   ");
             display+=$"{flight.GetBindingDisplayString()} inspect   {reset.GetBindingDisplayString()} restart + refill   {overlay.GetBindingDisplayString()} diagnostics\n"+
-                $"{state}   {motor.HorizontalSpeed:F1} m/s   Peak {Peak:F1}   Power {power.Current:F0}/{power.Max:F0}   {overdrive.GetBindingDisplayString()} Overdrive {(Boosting?"ON":"off")}   Wind {(Time.time<burstUntil?"IMPULSE":WindCount>0?"continuous":"off")}";
+                $"{state}   {motor.HorizontalSpeed:F1} m/s   Peak {Peak:F1}   Power {power.Current:F0}/{power.Max:F0}   Wind {(Time.time<burstUntil?"IMPULSE":WindCount>0?"continuous":"off")}";
             string Speed(float sample)=>sample<0?"--":sample.ToString("F1");
             if(lane.kind==LaneKind.Wind) display+=$"\n{variant.GetBindingDisplayString()} change track: {new[]{"Dry","Continuous","Impulse"}[track]}    Entry {Speed(EntrySpeed)} / inside {Speed(InsideSpeed)} / exit {Speed(ExitSpeed)} m/s";
             if(diagnostics) display+=$"\nDistance {Distance:F0} m   Air {airborne:F1} s   Acceleration {acceleration:F1} m/s²";

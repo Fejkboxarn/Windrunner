@@ -97,16 +97,6 @@
                     "priority": 0
                 },
                 {
-                    "name": "Overdrive",
-                    "type": "Button",
-                    "id": "82caa776-3878-410e-bb74-0460a364f732",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
                     "name": "LabReset",
                     "type": "Button",
                     "id": "df488cd2-c068-417e-8a05-399dd3a6511d",
@@ -240,6 +230,26 @@
                     "name": "LabVariant",
                     "type": "Button",
                     "id": "a25b28f0-c1ac-421e-a29c-4ef92d0bc816",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "DaggerAbility",
+                    "type": "Button",
+                    "id": "0017f2df-c4ac-5f66-b44f-e1bae2d96ae5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "DaggerArsenal",
+                    "type": "Button",
+                    "id": "de95c020-b09d-5189-9475-cc83adfa1358",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -547,17 +557,6 @@
                 },
                 {
                     "name": "",
-                    "id": "51c48161-e42d-49f0-9fb2-fd32cfddb4af",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Overdrive",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f14efa7d-1c7d-4128-8255-7672629b665c",
                     "path": "<Keyboard>/f12",
                     "interactions": "",
@@ -575,17 +574,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "LabDiagnostics",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1de0eca7-a843-4b02-9a58-f929314ec282",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Overdrive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -718,6 +706,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "LabVariant",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c69ab3d6-a7fd-562a-ba77-dcbe83af9686",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d354298-0aa9-58a4-a902-3c42ac148e11",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3aa88cd-3cc4-5cc3-ae98-eec05a949854",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerArsenal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6ea616b-329c-5ad2-8cce-57f38deb8967",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DaggerArsenal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

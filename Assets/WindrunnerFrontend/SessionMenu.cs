@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Windrunner.Daggers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Video;
@@ -18,7 +19,10 @@ namespace Windrunner.Frontend
         private readonly DesktopPreferences prefs=new DesktopPreferences();
         private Action back;
         private int backFrame=-1;
-        private bool closing;
+        private bool closing, arsenalFromGameplay;
+        private DaggerPreview portrait;
+        private RawImage portraitSurface;
+        private DaggerPair inspected;
         private string selected;
         private DesktopOptions draft,previous;
         private bool preview;
@@ -42,7 +46,17 @@ namespace Windrunner.Frontend
             if(session.Busy || ui==null)return;
             if(picture!=null && replay.texture!=null)picture.texture=replay.texture;
             if(preview && Time.unscaledTime>=expires){Revert();Video();}
-            if(!session.input.IsPaused){ui.Root.SetActive(false);return;}
+            if(!session.input.IsPaused)
+            {
+                ClosePortrait();ui.Root.SetActive(false);
+                if(session.daggers && session.daggers.Equipment!=null && session.daggers.GameplayAllowed &&
+                    session.input.Input.ButtonPressed("DaggerArsenal"))
+                {
+                    session.input.SetPaused(true);backFrame=Time.frameCount;
+                    OpenArsenal(true);
+                }
+                return;
+            }
             if(!ui.Root.activeSelf){Home();backFrame=Time.frameCount;return;}
             if(!session.input.Input.IsRebinding && session.input.Input.GetAction("UI","Cancel")?.WasPressedThisFrame()==true)HandleBack();
             ui.RevealSelection();
@@ -55,6 +69,7 @@ namespace Windrunner.Frontend
         }
         private void Page(string title,string note,Action returnTo)
         {
+            if(title!="Dagger Arsenal")ClosePortrait();
             back=returnTo;ui.Begin(title,note);
         }
         private void End(bool addBack=true){if(addBack)ui.Choice("Back",()=>back?.Invoke());ui.Focus();}
@@ -80,11 +95,49 @@ namespace Windrunner.Frontend
             else
             {
                 Page("Paused",session.Error??Checkpoint,Resume);
-                ui.Choice("Resume",Resume);ui.Choice("Save game",()=>Slots("Save game"));
+                ui.Choice("Resume",Resume);if(session.daggers && session.daggers.Equipment!=null)ui.Choice("Dagger Arsenal",()=>OpenArsenal(false));ui.Choice("Save game",()=>Slots("Save game"));
                 ui.Choice("Load game",()=>Slots("Load game"));ui.Choice("Settings",Settings);
                 ui.Choice("Return to main menu",()=>Confirm("Return to main menu?",Checkpoint,session.ReturnToTitle,Home));
             }
             End(false);
+        }
+        private void OpenArsenal(bool fromGameplay)
+        {
+            arsenalFromGameplay=fromGameplay;
+            var equipment=session.daggers.Equipment;
+            inspected=equipment.Equipped??equipment.Catalog.pairs.FirstOrDefault(equipment.Owns);
+            ArsenalPage();
+        }
+        private void ArsenalBack(){ClosePortrait();if(arsenalFromGameplay)Resume();else Home();}
+        private void ArsenalPage()
+        {
+            var equipment=session.daggers.Equipment;
+            string detail=inspected?inspected.displayName+"\n"+inspected.description:"No daggers owned";
+            if(inspected && inspected.active)
+                detail+="\n\n"+inspected.active.displayName+" · "+inspected.active.cooldown+" s\n"+inspected.active.description+"\n"+equipment.Status(inspected);
+            else detail+="\nNo active ability";
+            if(inspected)foreach(var passive in inspected.passives)detail+="\n"+passive.displayName+" · "+passive.description;
+            Page("Dagger Arsenal",detail,ArsenalBack);
+            if(portrait==null)
+            {
+                portraitSurface=ui.Portrait();
+                portrait=new DaggerPreview(session.daggers,portraitSurface);
+            }
+            portrait.Select(inspected);
+            foreach(var pair in equipment.Catalog.pairs)
+                if(equipment.Owns(pair))
+                    ui.Choice((inspected==pair?"› ":"")+pair.displayName+(equipment.Equipped==pair?"   ·   Equipped":""),()=>{inspected=pair;ArsenalPage();});
+            ui.Choice("Equip",()=>{equipment.Equip(inspected);ArsenalPage();},inspected && equipment.Equipped!=inspected);
+            ui.Choice("Unequip",()=>{equipment.Equip(null);ArsenalPage();},equipment.Equipped);
+            ui.Choice("Rotate character",()=>portrait.Rotate(45));
+            End();
+        }
+        private void ClosePortrait()
+        {
+            if(portrait==null)return;
+            if(portraitSurface){portraitSurface.texture=null;Destroy(portraitSurface.transform.parent.gameObject);}
+            portrait.Dispose();portrait=null;portraitSurface=null;
+            if(ui.Root)ui.RestoreMessage();
         }
         private void Resume(){session.input.SetPaused(false);ui.Root.SetActive(false);}
         private void Quit()
@@ -253,7 +306,7 @@ namespace Windrunner.Frontend
         }
         private void OnDestroy()
         {
-            closing=true;
+            ClosePortrait();closing=true;
             if(session!=null && session.input!=null)session.input.HandleMenuBack=null;
             if(replay!=null){replay.loopPointReached-=ReplayEnded;replay.errorReceived-=ReplayFailed;}
             Revert();

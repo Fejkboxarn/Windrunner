@@ -7033,6 +7033,7 @@ GameObject:
   - component: {fileID: 863015131}
   - component: {fileID: 863015130}
   - component: {fileID: 863015129}
+  - component: {fileID: 2137784001}
   m_Layer: 2
   m_Name: Airflow Player
   m_TagString: Untagged
@@ -15792,6 +15793,7 @@ MonoBehaviour:
   character: {fileID: 863015094}
   arrival: {fileID: 912356162}
   orbit: {fileID: 1438593766}
+  daggers: {fileID: 2137784001}
 --- !u!1 &1938172987
 GameObject:
   m_ObjectHideFlags: 0
@@ -17350,6 +17352,24 @@ Terrain:
   m_EnableTreesAndDetailsRayTracing: 0
   m_EnableHeightmapLODFrustumCulling: 1
   m_TreeMotionVectorModeOverride: 3
+--- !u!114 &2137784001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863015090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5db5efecca22bd478f26bd1f2a1c103, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::Windrunner.Daggers.DaggerPlayer
+  session: {fileID: 1936097426}
+  catalog: {fileID: 11400000, guid: aa7c43773efbaf2429e5640cfc25ba4c, type: 2}
+  rig: {fileID: 1472093725}
+  power: {fileID: 863015098}
+  originalA: {fileID: 233443176}
+  originalB: {fileID: 328422304}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

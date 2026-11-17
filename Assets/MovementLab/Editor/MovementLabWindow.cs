@@ -35,7 +35,6 @@ namespace Windrunner.MovementLab.Editor
             {
                 if (GUILayout.Button("Teleport to selected section")) player.Teleport(Array.IndexOf(lanes,lane));
                 if (GUILayout.Button("Reset measurements")) player.ResetSession();
-                player.experimentalPairEquipped = EditorGUILayout.Toggle("Equip Overdrive pair", player.experimentalPairEquipped);
                 EditorGUILayout.HelpBox("Exit Play Mode to edit saved geometry and technique profiles.",MessageType.Info);
                 return;
             }
@@ -95,7 +94,7 @@ namespace Windrunner.MovementLab.Editor
                 EditorGUILayout.EndHorizontal();
             }
             var serialized = new SerializedObject(player.profile);
-            foreach (var field in new[]{"continuous","impulse","overdrive","combinedSpeedCap","flightSpeed","flightSprint"})
+            foreach (var field in new[]{"continuous","impulse","combinedSpeedCap","flightSpeed","flightSprint"})
                 EditorGUILayout.PropertyField(serialized.FindProperty(field),true);
             serialized.ApplyModifiedProperties();
             EditorGUILayout.EndScrollView();
