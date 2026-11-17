@@ -524,6 +524,18 @@ namespace AirflowPrototype
             return desired;
         }
 
+        public void ResetAfterTeleport(float yaw)
+        {
+            if (target == null) return;
+            _yaw = yaw;
+            _pitch = 16f;
+            _lastTargetPosition = target.position;
+            _hasTargetPosition = true;
+            _smoothedLookAhead = _lastTravelDirection = Vector3.zero;
+            _turnRoll = _smoothedPullback = _impactBack = _impactUp = _impactRoll = 0f;
+            SnapToDesiredPosition();
+        }
+
         private void SnapToDesiredPosition()
         {
             if (target == null ||

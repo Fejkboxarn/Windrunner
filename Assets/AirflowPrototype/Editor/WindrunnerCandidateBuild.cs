@@ -19,6 +19,7 @@ namespace AirflowPrototype.Editor
             public ulong bytes;
             public string[] warningMessages;
             public string[] scenes;
+            public bool development, gymFlight;
         }
 
         public static void BuildWindows()
@@ -29,11 +30,16 @@ namespace AirflowPrototype.Editor
             if (!Regex.IsMatch(label, "^[a-zA-Z0-9_-]+$")) throw new ArgumentException("Invalid build label.");
             string folder = Path.GetFullPath(Path.Combine("Builds", label));
             if (Directory.Exists(folder)) throw new InvalidOperationException("Use a fresh build label; existing artifacts are never overwritten.");
+            bool gym = arguments.Contains("-windrunnerMovementGym");
+            bool development = gym || arguments.Contains("-windrunnerDevelopment");
+            var targets = new[] { "-windrunnerMovementGym", "-windrunnerProgressionFixture", "-windrunnerMainMenu" };
+            if (targets.Count(arguments.Contains) > 1) throw new ArgumentException("Select one candidate scene set.");
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             if (arguments.Contains("-windrunnerProgressionFixture"))
                 scenes = new[] { "Assets/WindrunnerProduction/Progression/Fixtures/ProgressionFixture.unity" };
             if (arguments.Contains("-windrunnerMainMenu"))
                 scenes = new[] { Windrunner.Frontend.PlayerSession.TitleScene, Windrunner.Frontend.PlayerSession.ZoneScene, Windrunner.Frontend.PlayerSession.WorldScene };
+            if (gym) scenes = new[] { "Assets/MovementLab/MovementGym.unity" };
             if (scenes.Length == 0) throw new InvalidOperationException("No enabled scenes.");
             Directory.CreateDirectory(folder);
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
@@ -41,7 +47,8 @@ namespace AirflowPrototype.Editor
                 scenes = scenes,
                 locationPathName = Path.Combine(folder, "Windrunner.exe"),
                 target = BuildTarget.StandaloneWindows64,
-                options = BuildOptions.None
+                extraScriptingDefines = gym ? new[] { "WINDRUNNER_MOVEMENT_LAB" } : Array.Empty<string>(),
+                options = development ? BuildOptions.Development : BuildOptions.None
             });
             var summary = report.summary;
             var result = new Result
@@ -51,6 +58,7 @@ namespace AirflowPrototype.Editor
                 errors = (int)summary.totalErrors, warnings = (int)summary.totalWarnings,
                 seconds = summary.totalTime.TotalSeconds, bytes = summary.totalSize,
                 scenes = scenes,
+                development = development, gymFlight = gym,
                 warningMessages = report.steps.SelectMany(step => step.messages)
                     .Where(message => message.type == LogType.Warning).Select(message => message.content).ToArray()
             };

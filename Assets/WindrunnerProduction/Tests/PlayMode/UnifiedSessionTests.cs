@@ -20,8 +20,7 @@ namespace Windrunner.Production.Tests
     {
         [Test] public void DisposableGymRebindRoundTrip()
         {
-            var folder="Logs/ProductionMigration/";
-            var gym=InputActionAsset.FromJson(File.ReadAllText(folder+"integration-gym-input.json"));
+            var gym=InputActionAsset.FromJson(File.ReadAllText("Assets/MovementLab/MovementLabGameplay.inputactions"));
             var prod=InputActionAsset.FromJson(File.ReadAllText("Assets/WindrunnerProduction/Input/Generated/WindrunnerGameplay.inputactions"));
             string prefix="Windrunner.Audit."+Guid.NewGuid().ToString("N")+".";
             var save=typeof(WindrunnerInputService).GetMethod("SaveBindings",BindingFlags.NonPublic|BindingFlags.Instance);

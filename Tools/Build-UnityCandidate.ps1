@@ -1,5 +1,6 @@
-param([ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'candidate', [switch]$ProgressionFixture, [switch]$MainMenu)
+param([ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'candidate', [switch]$ProgressionFixture, [switch]$MainMenu, [switch]$MovementGym, [switch]$Development)
 $ErrorActionPreference = 'Stop'
+if (([int]$MainMenu.IsPresent + [int]$MovementGym.IsPresent + [int]$ProgressionFixture.IsPresent) -gt 1) { throw 'Select one candidate scene set.' }
 $project = Split-Path $PSScriptRoot -Parent
 & (Join-Path $PSScriptRoot 'Assert-UnityEditorClosed.ps1')
 $version = ((Get-Content (Join-Path $project 'ProjectSettings/ProjectVersion.txt') | Select-String '^m_EditorVersion:').Line -split ': ')[1]
@@ -9,10 +10,9 @@ $report = Join-Path $project "Logs/ProductionMigration/$Label-build.json"
 if ((Test-Path -LiteralPath $log) -or (Test-Path -LiteralPath $report) -or (Test-Path -LiteralPath (Join-Path $project "Builds/$Label"))) { throw 'Use a fresh label to preserve existing evidence/artifacts.' }
 $arguments = @('-batchmode', '-nographics', '-quit', '-projectPath', "`"$project`"", '-buildTarget', 'Win64', '-executeMethod', 'AirflowPrototype.Editor.WindrunnerCandidateBuild.BuildWindows', '-windrunnerBuildLabel', $Label, '-logFile', "`"$log`"")
 if ($ProgressionFixture) { $arguments += '-windrunnerProgressionFixture' }
-if ($MainMenu) {
-    if ($ProgressionFixture) { throw 'Select either the main menu or the fixture.' }
-    $arguments += '-windrunnerMainMenu'
-}
+if ($MainMenu) { $arguments += '-windrunnerMainMenu' }
+if ($MovementGym) { $arguments += '-windrunnerMovementGym' }
+if ($Development) { $arguments += '-windrunnerDevelopment' }
 $process = Start-Process -FilePath $editor -ArgumentList $arguments -WindowStyle Hidden -PassThru
 $process.WaitForExit()
 if (!(Test-Path -LiteralPath $report)) { throw "Build exited $($process.ExitCode) without report; inspect $log" }
