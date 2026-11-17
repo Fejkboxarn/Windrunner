@@ -42,6 +42,12 @@
       "baseline_sha256": "3e0f10a3ca94c45e084fd23e9a90f8e487215a4598fcefc3e44b4273acf3608d",
       "approved_sha256": "07fc3e7cfcb6839fb38a4dd3ecc8923f28942052832bd76a53ee69364ce385e9",
       "reason": "User-authorized production-only configuration: portable graph auto-start and no legacy fallback; legacy pose writers and redundant production input repair disabled. Existing numerical tuning, GUIDs, references and gameplay order preserved. Detach only the player legacy Animator controller override; retain Avatar and node Animator controllers. After 22/22 production-only Play tests, retire ten disabled legacy/overlay components and clear their incoming references; no GameObjects, transforms, rig assets or gameplay values removed. Remove eight now-null legacy field keys after retiring the concrete legacy type dependency group."
+    },
+    {
+      "path": "ProjectSettings/EditorBuildSettings.asset",
+      "baseline_sha256": "a484cd8298b5d85bd429311140966e2057694361cb0265aeba5d0c56b0818e48",
+      "approved_sha256": "dbe67a86d06fdc25ea427b0c5169b20a5dd2c4645abe4bb7007509c2e2375386",
+      "reason": "Main menu milestone: prepend the dedicated title and reviewed production-world integration copy. The original scene entries, enabled flags and Input System reference are identical to 9e8f97c4."
     }
   ]
 }

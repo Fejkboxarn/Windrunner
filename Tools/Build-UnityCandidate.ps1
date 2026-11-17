@@ -1,4 +1,4 @@
-param([ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'candidate', [switch]$ProgressionFixture)
+param([ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'candidate', [switch]$ProgressionFixture, [switch]$MainMenu)
 $ErrorActionPreference = 'Stop'
 $project = Split-Path $PSScriptRoot -Parent
 if (Get-Process Unity -ErrorAction SilentlyContinue | Where-Object { !$_.Path -or $_.Path -notmatch '[\\/]Unity Hub[\\/]resources[\\/]unity.exe$' }) { throw 'Close the running Unity Editor before building.' }
@@ -9,6 +9,10 @@ $report = Join-Path $project "Logs/ProductionMigration/$Label-build.json"
 if ((Test-Path -LiteralPath $log) -or (Test-Path -LiteralPath $report) -or (Test-Path -LiteralPath (Join-Path $project "Builds/$Label"))) { throw 'Use a fresh label to preserve existing evidence/artifacts.' }
 $arguments = @('-batchmode', '-nographics', '-quit', '-projectPath', "`"$project`"", '-buildTarget', 'Win64', '-executeMethod', 'AirflowPrototype.Editor.WindrunnerCandidateBuild.BuildWindows', '-windrunnerBuildLabel', $Label, '-logFile', "`"$log`"")
 if ($ProgressionFixture) { $arguments += '-windrunnerProgressionFixture' }
+if ($MainMenu) {
+    if ($ProgressionFixture) { throw 'Select either the main menu or the fixture.' }
+    $arguments += '-windrunnerMainMenu'
+}
 $process = Start-Process -FilePath $editor -ArgumentList $arguments -WindowStyle Hidden -PassThru
 $process.WaitForExit()
 if (!(Test-Path -LiteralPath $report)) { throw "Build exited $($process.ExitCode) without report; inspect $log" }

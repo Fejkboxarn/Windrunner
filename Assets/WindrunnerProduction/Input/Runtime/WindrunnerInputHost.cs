@@ -25,6 +25,7 @@ namespace Windrunner.Production.Input
         public WindrunnerPauseMenuView PauseView => pauseView;
         public InputSystemUIInputModule UiModule => uiModule;
         public bool IsPaused => menu != null && menu.IsPaused;
+        public System.Func<bool> HandleMenuBack { get; set; }
         public void SetPaused(bool paused) { if (paused) menu?.Pause(); else menu?.Resume(); }
 
         private WindrunnerPauseMenuController menu;
@@ -123,6 +124,7 @@ namespace Windrunner.Production.Input
 
         private void Update()
         {
+            if (Input != null && Input.PausePressedThisFrame && HandleMenuBack?.Invoke() == true) return;
             menu?.Tick();
         }
 

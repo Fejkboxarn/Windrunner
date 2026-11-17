@@ -32,6 +32,8 @@ namespace AirflowPrototype.Editor
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             if (arguments.Contains("-windrunnerProgressionFixture"))
                 scenes = new[] { "Assets/WindrunnerProduction/Progression/Fixtures/ProgressionFixture.unity" };
+            if (arguments.Contains("-windrunnerMainMenu"))
+                scenes = new[] { Windrunner.Frontend.PlayerSession.TitleScene, Windrunner.Frontend.PlayerSession.WorldScene };
             if (scenes.Length == 0) throw new InvalidOperationException("No enabled scenes.");
             Directory.CreateDirectory(folder);
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions

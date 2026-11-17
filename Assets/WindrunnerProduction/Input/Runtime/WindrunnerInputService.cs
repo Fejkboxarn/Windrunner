@@ -8,9 +8,7 @@ namespace Windrunner.Production.Input
     /// <summary>Single owner for runtime action maps, rebinding and persistence.</summary>
     public sealed class WindrunnerInputService : IDisposable
     {
-        private const string OverridesKey = "Windrunner.Input.BindingOverrides.v1";
-        private const string MouseKey = "Windrunner.Input.MouseSensitivity.v1";
-        private const string StickKey = "Windrunner.Input.StickSensitivity.v1";
+        private readonly string OverridesKey, MouseKey, StickKey, InvertKey;
 
         private InputActionAsset actions;
         private InputActionMap gameplay;
@@ -31,11 +29,16 @@ namespace Windrunner.Production.Input
         public bool IsRebinding { get { return activeRebind != null; } }
         public float MouseSensitivity { get; private set; }
         public float StickSensitivity { get; private set; }
+        public bool InvertLookY { get; private set; }
 
-        public WindrunnerInputService(InputActionAsset template)
+        public WindrunnerInputService(InputActionAsset template) : this(template,"Windrunner.Input.") { }
+        public WindrunnerInputService(InputActionAsset template,string preferencePrefix)
         {
             if (template == null)
                 throw new ArgumentNullException(nameof(template));
+            if(string.IsNullOrWhiteSpace(preferencePrefix))throw new ArgumentException("Preference namespace required.");
+            OverridesKey=preferencePrefix+"BindingOverrides.v1";MouseKey=preferencePrefix+"MouseSensitivity.v1";
+            StickKey=preferencePrefix+"StickSensitivity.v1";InvertKey=preferencePrefix+"InvertLookY.v1";
 
             // Clone the serialized authoring asset. Never enable or modify it.
             actions = InputActionAsset.FromJson(template.ToJson());
@@ -59,6 +62,7 @@ namespace Windrunner.Production.Input
 
             MouseSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(MouseKey, 1f), 0.1f, 5f);
             StickSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(StickKey, 1f), 0.1f, 5f);
+            InvertLookY = PlayerPrefs.GetInt(InvertKey, 0) != 0;
             system.Enable();
             progression.Enable();
             gameplay.Enable();
@@ -113,7 +117,9 @@ namespace Windrunner.Production.Input
         public Vector2 Axis(string name)
         {
             InputAction action = !IsGameplayBlocked ? GetAction("Gameplay", name) : null;
-            return action != null ? action.ReadValue<Vector2>() : Vector2.zero;
+            var value = action != null ? action.ReadValue<Vector2>() : Vector2.zero;
+            if (InvertLookY && name == "Look") value.y = -value.y;
+            return value;
         }
 
         public bool LookIsPointer
@@ -158,7 +164,17 @@ namespace Windrunner.Production.Input
             PlayerPrefs.Save();
         }
 
+        public void SetInvertLookY(bool inverted)
+        {
+            InvertLookY = inverted;
+            PlayerPrefs.SetInt(InvertKey, inverted ? 1 : 0);
+            PlayerPrefs.Save();
+        }
         public bool BeginRebind(string mapName, string actionName, int bindingIndex, Action<bool> completed)
+            => BeginRebind(mapName, actionName, bindingIndex, completed, null);
+
+        public bool BeginRebind(string mapName, string actionName, int bindingIndex, Action<bool> completed,
+            Func<string, bool> acceptPath)
         {
             if (disposed || activeRebind != null) return false;
             InputAction action = GetAction(mapName, actionName);
@@ -167,14 +183,21 @@ namespace Windrunner.Production.Input
                 return false;
 
             bool enabledBefore = action.enabled;
+            bool accepted = true;
             action.Disable();
 
             activeRebind = action.PerformInteractiveRebinding(bindingIndex)
                 .WithControlsExcluding("<Mouse>/position")
                 .WithControlsExcluding("<Mouse>/delta")
                 .WithCancelingThrough("<Keyboard>/backspace")
-                .OnComplete(operation => FinishRebind(operation, action, enabledBefore, true, completed))
+                .OnComplete(operation => FinishRebind(operation, action, enabledBefore, accepted, completed))
                 .OnCancel(operation => FinishRebind(operation, action, enabledBefore, false, completed));
+            if (acceptPath != null)
+                activeRebind.OnApplyBinding((operation, path) =>
+                {
+                    accepted = acceptPath(path);
+                    if (accepted) action.ApplyBindingOverride(bindingIndex, path);
+                });
             activeRebind.Start();
             return true;
         }

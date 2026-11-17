@@ -78,6 +78,7 @@ namespace Windrunner.Production.Progression
     {
         public string id, displayName;
         public PlayableAsset content;
+        public UnityEngine.Video.VideoClip galleryReplay;
         public bool allowSkip = true;
     }
     [Serializable] public sealed class ChallengeDefinition
