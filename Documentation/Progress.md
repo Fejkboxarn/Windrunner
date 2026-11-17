@@ -313,3 +313,9 @@ Feature/main-menu branches from progression checkpoint 9e8f97c4. Local checkpoin
 ### Zone 01, 17 November 2026
 
 Checkpoint `5bc01b71` adds the editable basin, production player, Waykeeper, regional Sling hunt, timed delivery, two Timeline milestones and version-compatible world routing on `feature/world-zone01`. The final suites passed 60/60 Edit Mode, 35/35 Play Mode and 1/1 rendered arrival. The serialized contract gate returned zero failures. Windows candidate `basin-candidate` built with 0 errors and 24 baseline warning headers and passed its 15-second rendered startup check. [Zone authoring and acceptance](Zone01.md) covers sculpting, progression configuration, manual testing and evidence. The accepted playground, progression fixture and separate Movement Lab branch were preserved.
+
+### Terrain Studio, 17 November 2026
+
+Branch feature/terrain-studio starts at validated zone checkpoint 98ee51d7. Checkpoints b9f822eb and 61e389fd add the Editor tool, independent working-data and paint history, spline roads, render-only carriage tracks, automatic updates, paint protection, diagnostics and production packaging verification. No pre-existing scene, terrain, prefab, package or gameplay asset was changed.
+
+Final validation: 71/71 Edit Mode, 35/35 Play Mode, 1/1 separate rendered comparison, zero serialized-contract failures. Full Zone 01 paint took 580.3 ms; median 20 × 20-cell rebuild took 8.0 ms. The normal production Windows build succeeded with 21 warnings; the isolated painted basin succeeded with 8 warnings. Both had zero errors and passed 15-second rendered startup checks. [Terrain Studio](TerrainStudio.md) contains the authoring workflow, measurements, evidence scope and outstanding manual acceptance.

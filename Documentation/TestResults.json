@@ -137,7 +137,27 @@
     "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs": "d385f389f7c0dd66a347263e4043417c37470aa72fb911cb5c35842930b1d3cd",
     "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs": "8a0ea536bc219c0273d8f471ddef161a2e52ef93d3790e52171d0ab96a22fd03",
     "Assets/WindrunnerProduction/Tests/PlayMode/Windrunner.Production.Tests.PlayMode.asmdef": "69f34e2f9390743c2be39bcdcd14dbd1bcf8455e0ec744f835fbff991c8408e9",
-    "Assets/WindrunnerProduction/Tests/PlayMode/ZoneQuestFlowTests.cs": "63595bd8021bb3bf0c9be2e8c21dbc8918ecea96bb758ab221dbaac7a2777343"
+    "Assets/WindrunnerProduction/Tests/PlayMode/ZoneQuestFlowTests.cs": "63595bd8021bb3bf0c9be2e8c21dbc8918ecea96bb758ab221dbaac7a2777343",
+    "Assets/WindrunnerTerrain/RoadProfile.cs": "d742d3b9487e8fe11f664fcc25a7746d2804ee626528b1bc4c766f4eb692f052",
+    "Assets/WindrunnerTerrain/StudioRoad.cs": "fd4544a1df02dc6454ff461efc9975b6fb96d94b6807b819dc745c9a6d8d222c",
+    "Assets/WindrunnerTerrain/StudioTile.cs": "4b8bcacc48011850434bfad720eef1aa3e95a2ffb5bde5a80c8aa10c5004d714",
+    "Assets/WindrunnerTerrain/SurfaceProfile.cs": "70af15b8bc68cf8e1cb0092711f0c1f158047e36a5382c97ca52765dcf808872",
+    "Assets/WindrunnerTerrain/TilePaintState.cs": "c011d013dc238ad207e60f63a2d35c8bcffd2cbccdb22e9a98353941b63e7035",
+    "Assets/WindrunnerTerrain/WheelWear.shader": "6e271812802c7047eda1083c0eb79f89c573b7dff2adf0f0ee4cb5183e8ad9ee",
+    "Assets/WindrunnerTerrain/Windrunner.TerrainAuthoring.asmdef": "e50e21bbc162b280c69e8de9549f1c6b1b76eb61f8f61380382eb7520d0697e4",
+    "Assets/WindrunnerTerrain/Editor/PaintHistory.cs": "d8b5aae0cdfb6725da2eaaf1bbb7784677652fabe84c38cc518e19fd9591659d",
+    "Assets/WindrunnerTerrain/Editor/RoadPath.cs": "5896b8dcbc522c4abff4be4188d6aace13d14665c8d901add1897a035be88f2c",
+    "Assets/WindrunnerTerrain/Editor/StudioSetup.cs": "44d196e3e8bbbb56f94fd9d43c885c13ab37b417ff28a5460451399d7fb38489",
+    "Assets/WindrunnerTerrain/Editor/StudioUpdates.cs": "86cc6adeb33dfd57a0734196be8a04c1d11f4948724209a92047622aa38929d9",
+    "Assets/WindrunnerTerrain/Editor/TerrainPainter.cs": "d239d7c888638749015dac175ed80f1e799d41e4882b11860938ec9d8c488e1d",
+    "Assets/WindrunnerTerrain/Editor/TerrainStudioWindow.cs": "b8daf560d0041b7c30b833a37a61d871036451a0a2daf0aee9b74a7b9e9ff194",
+    "Assets/WindrunnerTerrain/Editor/TileDiagnostics.cs": "8f11d2ed5947822f267a125b7d60f70e8eefa01747a83215fdb217fadbadef65",
+    "Assets/WindrunnerTerrain/Editor/WheelRibbons.cs": "3a1951209bb16fd88d7c3b9e6f2003bcdae7608d0f0f5b0c48536c90d3b6c075",
+    "Assets/WindrunnerTerrain/Editor/Windrunner.TerrainAuthoring.Editor.asmdef": "818c542546c3a4714fdee38a75552b6f1996666e42edb501406b16e35760777f",
+    "Assets/WindrunnerTerrain/Tests/Editor/PaintedZoneCandidate.cs": "6fa4f4137f6e73b2962cb5c3bbe2aaa5d027b876a263e94fc4d0e7d6fcfec475",
+    "Assets/WindrunnerTerrain/Tests/Editor/TerrainStudioTests.cs": "964ad4c55ba685e4958666018761a83d7e243e56af8466bcfb9102b779122f6c",
+    "Assets/WindrunnerTerrain/Tests/Editor/TerrainStudioWorkflowTests.cs": "14e05617d88a68a0ef28b43022f4e3afd5973ed4e4d7dcb35685a810617acbfd",
+    "Assets/WindrunnerTerrain/Tests/Editor/Windrunner.TerrainAuthoring.Tests.asmdef": "9e8df7665519f4ac6b65575650fe5ab0cefc7f89753cf0bc201ad726b78fbd95"
   },
   "runs": [
     {
@@ -20907,6 +20927,745 @@
           "failure": null
         }
       ]
+    },
+    {
+      "label": "studio-initial-EditMode",
+      "xml_sha256": "78bc57c305241be39d57043ecd5854cc27df7de130105d9f5e7b914c607442cf",
+      "result": "Failed(Child)",
+      "total": "6",
+      "passed": "0",
+      "failed": "6",
+      "skipped": "0",
+      "duration": "0,8120872",
+      "start-time": "2026-11-17 07:14:19Z",
+      "end-time": "2026-11-17 07:14:19Z",
+      "tests": [
+        {
+          "name": "DifferentTileResolutionsShareWorldSpaceRulesAndRoad",
+          "result": "Failed",
+          "failure": "SetUp : System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+        },
+        {
+          "name": "MissingLayerAndCanceledCalculationLeaveWorkingDataUntouched",
+          "result": "Failed",
+          "failure": "SetUp : System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+        },
+        {
+          "name": "MovedDeletedAndCrossingSplinesRestorePaintWithoutChangingGround",
+          "result": "Failed",
+          "failure": "SetUp : System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+        },
+        {
+          "name": "NativePaintProtectionSurvivesSculptUndoRedoAndReopen",
+          "result": "Failed",
+          "failure": "SetUp : System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+        },
+        {
+          "name": "RealBasinFullAndBrushBenchmarksPreserveSource",
+          "result": "Failed",
+          "failure": "SetUp : System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+        },
+        {
+          "name": "SlopesElevationAndSeedProduceNormalizedReadableFamilies",
+          "result": "Failed",
+          "failure": "SetUp : System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+        }
+      ]
+    },
+    {
+      "label": "studio-workflow-EditMode",
+      "xml_sha256": "40d1ea2afc957b30d724e319104ac654064f24ee58be5e3f4867b18c906ec030",
+      "result": "Failed(Child)",
+      "total": "8",
+      "passed": "7",
+      "failed": "1",
+      "skipped": "0",
+      "duration": "8,5566032",
+      "start-time": "2026-11-17 07:16:37Z",
+      "end-time": "2026-11-17 07:16:46Z",
+      "tests": [
+        {
+          "name": "DeferredUpdatesRepairOldRoadAndFollowASculpt",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DifferentTileResolutionsShareWorldSpaceRulesAndRoad",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MissingLayerAndCanceledCalculationLeaveWorkingDataUntouched",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MovedDeletedAndCrossingSplinesRestorePaintWithoutChangingGround",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NativePaintProtectionSurvivesSculptUndoRedoAndReopen",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealBasinFullAndBrushBenchmarksPreserveSource",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RenderedBasinRoadNearAndFar",
+          "result": "Failed",
+          "failure": "  Wheel detail must actually contribute visible pixels.\n  Expected: greater than 5\n  But was:  0\n"
+        },
+        {
+          "name": "SlopesElevationAndSeedProduceNormalizedReadableFamilies",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "studio-stage-EditMode",
+      "xml_sha256": "73cc54b99324debbe3c485f2c05dc097b2d076ad1fef0df66ac4e38e8e43ca6d",
+      "result": "Passed",
+      "total": "10",
+      "passed": "10",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "9,2178812",
+      "start-time": "2026-11-17 07:21:20Z",
+      "end-time": "2026-11-17 07:21:29Z",
+      "tests": [
+        {
+          "name": "DeferredUpdatesRepairOldRoadAndFollowASculpt",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DifferentTileResolutionsShareWorldSpaceRulesAndRoad",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisjointFootprintsSkipInterveningLandscapeAndWalkabilityUsesBoundController",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MissingLayerAndCanceledCalculationLeaveWorkingDataUntouched",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MovedDeletedAndCrossingSplinesRestorePaintWithoutChangingGround",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NativePaintProtectionSurvivesSculptUndoRedoAndReopen",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealBasinFullAndBrushBenchmarksPreserveSource",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RenderedBasinRoadNearAndFar",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RevertAndRepeatUseSourcePaintAndLeaveSculptAlone",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlopesElevationAndSeedProduceNormalizedReadableFamilies",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "terrain-integrated-EditMode",
+      "xml_sha256": "e0e43ab8509e745f9c3e46310f6ed05409ff2eec78556067499a55b0ae05e633",
+      "result": "Passed",
+      "total": "71",
+      "passed": "71",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "22,4712078",
+      "start-time": "2026-11-17 07:30:51Z",
+      "end-time": "2026-11-17 07:31:13Z",
+      "tests": [
+        {
+          "name": "ProfilesPreserveAuthoredValuesAndDraftsRemainIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DesktopPreferencesRoundTripIndependentOfSlots",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FrontendSceneSerializedReferences(\"Assets/WindrunnerFrontend/Scenes/MainMenu.unity\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FrontendSceneSerializedReferences(\"Assets/WindrunnerFrontend/Scenes/StartingWorld.unity\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FrontendSceneSerializedReferences(\"Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GalleryReplayCannotResolveOrRewardProgress",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OwnedWorldMixerPreservesVendorSnapshotAndSignalChain",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ConfirmationAndRevisionProtectOverwritesAndDeletes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CorruptionRecoversLastGoodCopyAndUnsupportedVersionsStayUntouched",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "IndependentSlotsAutoAndManualSaveUseOneProgressionRecord",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LegacyImportCopiesResolvedProgressAndRejectsFixtureIdentity",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InstalledLocomotionHandlesReversalsAirborneAndLandingWithNormalizedWeights",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NonInterruptibleActionStillAllowsExplicitCancellationAndFreshReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PriorityLoopCancellationAndMissingSlotsHaveDeterministicRecovery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationObservationUnbindsPreviousServiceAndDisposes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisposedAnimationCannotResubscribeToFeedback",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirDashStateParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirCastReleaseParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirPowerStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirTargetSelectionParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorSimulationChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAbilityCompositionChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerPlanarParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingChargeParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingDashParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingFlowParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingPathParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingTargetParityChecks\",\"RunScoringChecks\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackObservationPreservesPublishOrderAndDisposalStopsDelivery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriberFailureDoesNotSuppressLaterObservers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriptionChangesApplyToNextPublish",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PauseSwitchesMapsWithoutChangingAuthoringAsset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "StateTransitionsExitBeforeEnterAndDisposeOnce",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureHasNoBrokenSerializedReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureAndStudioCopyHaveValidReferencesAndIndependentStableIds",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureResetPreservesNormalSaveAndRetainsPreviousEngineeringGeneration",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureUpgradePreservesStableIdentitiesAndRejectsNonFixtureReset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AllObjectiveKindsFilterActorRegionResultTimeAndDuplicateOccurrence",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSaveFailureRestoresControlAndRecoversPendingOnReload",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DefinitionsAreFrozenAndNewContentCannotKeepStaleReadyStatus",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackOrderRewardUnlockAndObserverDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoringRejectsCyclesBadOwnershipAndMissingContent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FailedPersistenceIsAtomicAndListenersCannotSuppressCommittedState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "IndependentChaptersCommitOnceAndCutsceneGatesNextChapter",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ParallelSequentialUniqueAndRetroactivePolicies",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SaveVersionsUnknownContentAndFileReplacement",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MeasureResourceUiReadAndFeedbackDispatch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "HitStopMatchesLegacyCurveAndFreezesDuringPause",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(1.0f,0.02f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(0.5f,0.01f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PuzzleSequenceExitPartialReloadAndPermanentSolution",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RaceFailureRestartCheckpointOrderingAndFirstClearAreIndependent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "TemporaryPuzzleTimeoutResetsWithoutPersistentCredit",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DeliveryDeadlineIsExclusiveAndRecoveryUsesTheExpiryInstant",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "EditableBasinSupportsClearingAndQuestComposition",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DeferredUpdatesRepairOldRoadAndFollowASculpt",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DifferentTileResolutionsShareWorldSpaceRulesAndRoad",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisjointFootprintsSkipInterveningLandscapeAndWalkabilityUsesBoundController",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MissingLayerAndCanceledCalculationLeaveWorkingDataUntouched",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MovedDeletedAndCrossingSplinesRestorePaintWithoutChangingGround",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NativePaintProtectionSurvivesSculptUndoRedoAndReopen",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PhysicsContactsAreIdenticalAcrossBakedCarriageWear",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealBasinFullAndBrushBenchmarksPreserveSource",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RevertAndRepeatUseSourcePaintAndLeaveSculptAlone",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SelectedAreaLeavesUntouchedSourceElsewhereEvenWithPendingFullRuleChange",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlopesElevationAndSeedProduceNormalizedReadableFamilies",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "terrain-integrated-view-EditMode",
+      "xml_sha256": "9d43c370e9ec964351dacd42d7a678209b4c55c01c2e9d5d942824c08e124905",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "1,8225993",
+      "start-time": "2026-11-17 07:31:23Z",
+      "end-time": "2026-11-17 07:31:25Z",
+      "tests": [
+        {
+          "name": "RenderedBasinRoadNearAndFar",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "studio-release-PlayMode",
+      "xml_sha256": "0e429b1c129fa46d934c04edd51b517570edd372592d1702fcb3eaba77668ded",
+      "result": "Passed",
+      "total": "35",
+      "passed": "35",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "51,7455669",
+      "start-time": "2026-11-17 07:28:52Z",
+      "end-time": "2026-11-17 07:29:44Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MouseGamepadCancelAndKeyboardRebindUseProductionActions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealMenuNewSaveContinueAndRepeatedWorldTransitions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WorldMixerPreferencesPreserveTheAuthoredBalance",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ZoneChaptersPersistWhileInterruptedDeliveryRestartsAtSource",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureTurnInTimelineJournalAndReloadKeepOneService",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSkipInterruptionAndNestedPauseRestoreAuthority",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputBlocksNestAndBindingsRemainStableAcrossServiceLifetimes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "UniqueCollectionPresentationRestoresFromPersistentFacts",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WorldInteractionAndPhysicsRaceReachQuestEvaluator",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
     }
   ],
   "builds": [
@@ -21444,6 +22203,44 @@
         "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
         "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
       ]
+    },
+    {
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/terrain-studio-integrated/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T07:32:45.8820311Z",
+      "errors": 0,
+      "warnings": 21,
+      "seconds": 17.094271,
+      "bytes": 1216093833,
+      "warningMessages": [
+        "Read/Write is disabled on 1 mesh(es) referenced by components in this build. In future versions of Unity, the build process will no longer automatically enable Read/Write on the meshes referenced by these components. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Shadow_Dagger' (referenced by a Particle System Renderer component)",
+        "Pre-baked collision is disabled on 41 mesh(es) referenced by Mesh Collider components in this build. In future versions of Unity, the build process will no longer automatically pre-bake collision for these meshes; enable pre-baked collision in the Mesh import settings. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Stone_2_LOD1' (convex collision is disabled)\n - 'Stone_7_LOD0' (triangle collision is disabled)\n - 'Stone_9_LOD0' (triangle collision is disabled)\n - 'Stone_8_LOD0' (triangle collision is disabled)\n - 'Stone_1_LOD1' (convex collision is disabled)\n - 'Stone_6_LOD1' (convex collision is disabled)\n - 'Stone_4_LOD1' (convex collision is disabled)\n - 'Stone_3_LOD1' (convex collision is disabled)\n - 'Ore_1_LOD0' (triangle collision is disabled)\n - 'Ore_2_LOD0' (triangle collision is disabled)\n - 'Small_Stone_6_LOD0' (convex collision is disabled)\n - 'Small_Stone_7_LOD0' (convex collision is disabled)\n - 'Ladder_LOD1' (convex collision is disabled)\n - 'Shrine_LOD1' (triangle collision is disabled)\n - 'Column_3_LOD1' (triangle collision is disabled)\n - 'Arch_1_Collider' (triangle collision is disabled)\n - 'Floor_1_LOD0' (convex collision is disabled)\n - 'Fence_1_LOD1' (triangle collision is disabled)\n - 'Fence_3_LOD1' (triangle collision is disabled)\n - 'Column_4_LOD1' (triangle collision is disabled)\n - 'Fence_2_LOD1' (triangle collision is disabled)\n - 'Column_1_LOD1' (triangle collision is disabled)\n - 'Walls_Collider' (triangle collision is disabled)\n - 'Bridge_Collider' (triangle collision is disabled)\n - 'Arch_2_Collider' (triangle collision is disabled)\n - 'Stump_LOD1' (triangle collision is disabled)\n - 'Snag_LOD1' (triangle collision is disabled)\n - 'Column_2_LOD1' (triangle collision is disabled)\n - 'Chest_Base' (triangle collision is disabled)\n - 'Chest_Lid' (triangle collision is disabled)\n - 'Vase_3' (convex collision is disabled)\n - 'Vase_1' (convex collision is disabled)\n - 'Barrel_LOD1' (convex collision is disabled)\n - 'Vase_2' (convex collision is disabled)\n - 'Cart_1_Collider' (triangle collision is disabled)\n - 'Cart_2_Collider' (triangle collision is disabled)\n - 'Chair_Collider' (triangle collision is disabled)\n - 'Table_LOD1' (triangle collision is disabled)\n - 'Clif_3' (triangle collision is disabled)\n - 'Clif_1' (triangle collision is disabled)\n - 'Clif_2' (triangle collision is disabled)",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_OVERLAY_USE_GUIDES _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Raygeas/URP/Waterfall': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Waterfall': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Billboard': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Billboard': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Surface': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Surface': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Water': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Water': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Vegetation': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Vegetation': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Mountains': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)"
+      ],
+      "scenes": [
+        "Assets/WindrunnerFrontend/Scenes/MainMenu.unity",
+        "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
+        "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
+      ]
     }
   ],
   "player_smoke_runs": [
@@ -21720,6 +22517,32 @@
       "errors": [],
       "termination": "Harness stops only its launched process after observation",
       "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+    },
+    {
+      "label": "terrain-studio-integrated-rendered",
+      "seconds": 15,
+      "survived": true,
+      "rendered": true,
+      "totalProcessCpuSeconds": 20.109375,
+      "peakWorkingSetBytes": 228265984,
+      "privateBytesAtEnd": 349523968,
+      "hasPlayerInitialization": true,
+      "errors": [],
+      "termination": "Harness stops only its launched process after observation",
+      "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+    },
+    {
+      "label": "terrain-studio-painted-final-rendered",
+      "seconds": 15,
+      "survived": true,
+      "rendered": true,
+      "totalProcessCpuSeconds": 4.734375,
+      "peakWorkingSetBytes": 477630464,
+      "privateBytesAtEnd": 1002102784,
+      "hasPlayerInitialization": true,
+      "errors": [],
+      "termination": "Harness stops only its launched process after observation",
+      "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
     }
   ],
   "evidence_log_sha256": {
@@ -21952,7 +22775,17 @@
     "zone01-EditMode.log": "079b7681933152ad8408b78c45695aafbc4b536eb7408d2f4064fdb89fc3451a",
     "zone01-final-PlayMode.log": "e315528a076fe6340bb10ac435ebc522248b983e6cc0c0ca8a65fce5015a67df",
     "zone01-PlayMode.log": "5def1fa70e35fe34b7964c5a698b18aa8cda8ce7a7996e028360a4b3a75047f3",
-    "zone01-visual-PlayMode.log": "a668d6373b97351d5dc265424ee458ef4a73f3170116160e06dac4633e6bc398"
+    "zone01-visual-PlayMode.log": "a668d6373b97351d5dc265424ee458ef4a73f3170116160e06dac4633e6bc398",
+    "studio-initial-EditMode.log": "7d23f4cbb9702fedc0fb4fe1acb2ab8407082d108cabfe9b51e8cced69c69b53",
+    "studio-workflow-EditMode.log": "ced92cb2e8c5f0f0c6a91a7204677ff5631faf22cf20a1725bf23262e71fb9b2",
+    "studio-stage-EditMode.log": "70c3ec3f74bf52614e6c79fb7d149e59bf0536c8dfd27f00d851dcaf4065c8d5",
+    "terrain-integrated-EditMode.log": "a1f7b1dd47cbe608653dc4911050e0365c467deb8f0323d431a6a56f2d4a420f",
+    "terrain-integrated-view-EditMode.log": "c8e9bd31cf88021ff96ddf1ba2f90beba30962121f5cb92a8f3903aede023072",
+    "studio-release-PlayMode.log": "f4f118e7fb2a28ebb7986c06b1e12c3b1c4f0ffeb7725d3679d59cfe01d6874a",
+    "terrain-studio-integrated-build.log": "fb8d6d32aa0c7629912b5e0c92112da7c1acf355560d80d8b24d8af06428ed4b",
+    "studio-painted-final-build.log": "c66c43eac7fa58044c15a226c1e284fa9c803a0855deb0b16015835fcc215f6c",
+    "terrain-studio-integrated-rendered-player.log": "3e42190c5c159a843969cd08a719984b20c541202fc194fdf07537eee386a476",
+    "terrain-studio-painted-final-rendered-player.log": "eb5c39a1eca0af92c2cb5143de666229fcfe00eee72c3c0d9e93d620e2279aab"
   },
   "rendered_profiles": [
     {
@@ -22595,5 +23428,23 @@
       "p95GcBytes": 147582,
       "peakTotalUsedBytes": 3224921546
     }
-  ]
+  ],
+  "terrain_studio_painted_package": {
+    "result": "Succeeded",
+    "executable": "D:/Fork/Windrunner/Builds/terrain-studio-painted-final/Windrunner.exe",
+    "errors": 0,
+    "warnings": 8,
+    "ribbonVertices": 570,
+    "seconds": 7.379142099999999,
+    "warningHeaders": [
+      "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+      "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+      "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+      "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+      "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+      "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)",
+      "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)",
+      "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)"
+    ]
+  }
 }
