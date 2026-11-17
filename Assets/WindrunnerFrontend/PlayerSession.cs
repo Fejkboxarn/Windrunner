@@ -23,6 +23,8 @@ namespace Windrunner.Frontend
         public Transform arrival;
         public PlayerOrbitCamera orbit;
         public bool IsTitle => gameObject.scene.path==TitleScene;
+        public string WorldId {get;private set;}
+        public bool CanCopy => WorldId!=null && Progression!=null && !Busy;
         public bool Busy {get;private set;}
         public string SlotId {get;private set;}
         public string Error {get;private set;}
@@ -33,7 +35,7 @@ namespace Windrunner.Frontend
         private sealed class Transfer
         {
             public PlaythroughSlots slots;
-            public string id;
+            public string id, world;
             public IProgressionStore store;
             public ProgressionService service;
         }
@@ -54,6 +56,10 @@ namespace Windrunner.Frontend
             try
             {
                 if(!arrival || !character || !orbit)throw new InvalidDataException("Starting world is missing its arrival bindings.");
+                // Disposable painted previews have no persistent route. They remain playable in memory.
+                WorldId=gameObject.scene.path switch { WorldScene=>PlaythroughSlots.World, ZoneScene=>PlaythroughSlots.Zone01, _=>null };
+                if(handoff!=null && (WorldId!=handoff.world || !handoff.service.MatchesDefinitions(catalog.definitions)))
+                    throw new InvalidDataException("Loaded scene does not match the selected playthrough.");
                 SlotId=handoff?.id;
                 store=handoff?.store ?? new MemoryProgressionStore();
                 Progression=handoff?.service ?? new ProgressionService(catalog.definitions,"local-player",store);
@@ -81,18 +87,36 @@ namespace Windrunner.Frontend
             store.Commit(Progression.Snapshot());
             Error=null;nextSave=Time.unscaledTime+60;
         }
+        public void SaveCopy(string label,string replace=null,bool confirmed=false)
+        {
+            if(!CanCopy || (replace!=null && replace==SlotId))throw new InvalidOperationException("Choose a supported world and a separate destination slot.");
+            Slots.Create(label,replace,confirmed,Progression.Snapshot(),WorldId);
+        }
+
+        private static string SceneFor(string world)=>world switch
+        {
+            PlaythroughSlots.Zone01=>ZoneScene,
+            PlaythroughSlots.World=>WorldScene,
+            _=>throw new InvalidDataException("Unknown playthrough world.")
+        };
+
+        public ProgressionCatalog CatalogFor(string world)
+        {
+            string path=SceneFor(world);
+            if(path==gameObject.scene.path)return catalog;
+            var selected=world==PlaythroughSlots.World?legacyCatalog:zoneCatalog;
+            if(!selected && IsTitle && world==PlaythroughSlots.Zone01)selected=catalog;
+            if(!selected)throw new InvalidDataException("Missing catalog for "+world);
+            return selected;
+        }
         public void Load(string id)
         {
-            var record=Slots.Inspect(id);
-            if(record.Record==null)throw new InvalidDataException(record.Problem);
-            bool legacy=record.Record.world==PlaythroughSlots.World;
-            string destination=legacy?WorldScene:ZoneScene;
+            var selected=Slots.Open(id,out var world);
+            string destination=SceneFor(world);
             EnsureDestination(destination);
-            var selected=Slots.Open(id);
-            var destinationCatalog=legacy ? legacyCatalog : zoneCatalog;
-            if(!destinationCatalog)destinationCatalog=catalog;
+            var destinationCatalog=CatalogFor(world);
             var validated=new ProgressionService(destinationCatalog.definitions,"local-player",selected);
-            Transition(destination,new Transfer{slots=Slots,id=id,store=selected,service=validated});
+            Transition(destination,new Transfer{slots=Slots,id=id,world=world,store=selected,service=validated});
         }
         public void Continue()
         {
@@ -105,7 +129,7 @@ namespace Windrunner.Frontend
             EnsureDestination(ZoneScene);
             var candidate=new MemoryProgressionStore();
             if(import!=null)candidate.Commit(import);
-            using var preflight=new ProgressionService((zoneCatalog ? zoneCatalog : catalog).definitions,"local-player",candidate);
+            using var preflight=new ProgressionService(CatalogFor(PlaythroughSlots.Zone01).definitions,"local-player",candidate);
             var created=Slots.Create(label,replace,confirmed,import,PlaythroughSlots.Zone01);
             Load(created.slotId);
         }

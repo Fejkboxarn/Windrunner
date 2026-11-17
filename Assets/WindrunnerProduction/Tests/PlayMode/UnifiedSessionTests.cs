@@ -1,0 +1,107 @@
+#if UNITY_EDITOR
+using System;
+using System.Collections;
+using System.IO;
+using System.Linq;
+using UnityEngine.InputSystem;
+using System.Reflection;
+using NUnit.Framework;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+using UnityEngine.UI;
+using Windrunner.Production.Input;
+using Windrunner.Production.Progression;
+
+namespace Windrunner.Production.Tests
+{
+    public sealed partial class MainMenuFlowTests
+    {
+        [Test] public void DisposableGymRebindRoundTrip()
+        {
+            var folder="Logs/ProductionMigration/";
+            var gym=InputActionAsset.FromJson(File.ReadAllText(folder+"integration-gym-input.json"));
+            var prod=InputActionAsset.FromJson(File.ReadAllText("Assets/WindrunnerProduction/Input/Generated/WindrunnerGameplay.inputactions"));
+            string prefix="Windrunner.Audit."+Guid.NewGuid().ToString("N")+".";
+            var save=typeof(WindrunnerInputService).GetMethod("SaveBindings",BindingFlags.NonPublic|BindingFlags.Instance);
+            try
+            {
+                using(var service=new WindrunnerInputService(gym,prefix))
+                {
+                    service.GetAction("Gameplay","LabReset").ApplyBindingOverride(0,"<Keyboard>/k");save.Invoke(service,null);
+                }
+                using(var service=new WindrunnerInputService(prod,prefix))
+                {
+                    service.GetAction("Gameplay","Jump").ApplyBindingOverride(0,"<Keyboard>/j");save.Invoke(service,null);
+                }
+                using(var service=new WindrunnerInputService(gym,prefix))
+                {
+                    var lab=service.GetAction("Gameplay","LabReset").bindings[0];
+                    Debug.Log($"INPUT-AUDIT gym override after production save={lab.overridePath??"(none)"} effective={lab.effectivePath}");
+                    Assert.AreEqual("<Keyboard>/k",lab.overridePath);
+                    Assert.AreEqual("<Keyboard>/j",service.GetAction("Gameplay","Jump").bindings[0].overridePath);
+                    service.GetAction("Gameplay","LabReset").ApplyBindingOverride(0,"<Keyboard>/l");save.Invoke(service,null);
+                    var key=prefix+"BindingOverrides.v1";var before=PlayerPrefs.GetString(key);
+                    save.Invoke(service,null);Assert.AreEqual(before,PlayerPrefs.GetString(key));
+                }
+                using(var service=new WindrunnerInputService(prod,prefix))
+                {
+                    Assert.AreEqual("<Keyboard>/j",service.GetAction("Gameplay","Jump").bindings[0].overridePath);
+                    service.ResetBindings();
+                }
+                using(var service=new WindrunnerInputService(gym,prefix))
+                {
+                    Assert.IsNull(service.GetAction("Gameplay","Jump").bindings[0].overridePath);
+                    Assert.AreEqual("<Keyboard>/l",service.GetAction("Gameplay","LabReset").bindings[0].overridePath);
+                    service.ResetBindings();
+                }
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(gym);UnityEngine.Object.DestroyImmediate(prod);
+                PlayerPrefs.DeleteKey(prefix+"BindingOverrides.v1");PlayerPrefs.Save();
+            }
+        }
+
+        [UnityTest] public IEnumerator DisposableSlotRouteAudit()
+        {
+
+            var temp=Path.Combine(Path.GetTempPath(),"Windrunner-route-audit-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return EditorSceneManager.LoadSceneAsyncInPlayMode(Title,new LoadSceneParameters(LoadSceneMode.Single));
+                yield return null;
+                var title=Session();Call(title,"UseTestDirectory",temp);
+                Submit("New game");Submit("Start a new playthrough");yield return Changed(World,title);
+                var session=Session();var slots=Prop<PlaythroughSlots>(session,"Slots");
+                var original=Prop<string>(session,"SlotId");
+                var other=slots.Create("Audit overwrite target",world:PlaythroughSlots.Zone01);
+                var service=Prop<ProgressionService>(session,"Progression");
+                service.Observe(new GameplayFact{occurrenceId="audit",playerId=service.PlayerId,verified=true,persistent=true,kind=FactKind.ItemCollected,definitionId="audit",targetId="audit"});
+                WindrunnerInputHost.Active.SetPaused(true);yield return null;
+                Submit("Save game");Submit("Save an independent copy");yield return null;
+                var copy=slots.List().Single(x=>x.Id!=original && x.Id!=other.slotId);
+                var button=UnityEngine.Object.FindObjectsByType<Button>().Single(b=>b.name.StartsWith("Audit overwrite target   /") && b.gameObject.activeInHierarchy);
+                Submit(button.name);Submit("Overwrite with current progress");Submit("Confirm");yield return null;
+                var overwritten=slots.Inspect(other.slotId);
+                var src=slots.Inspect(original).Record;
+                Call(session,"Load",copy.Id);
+                for(int i=0;i<600 && session!=null;i++)yield return null;
+                yield return null;
+                string destination=SceneManager.GetActiveScene().path;
+                Debug.Log($"ROUTE-AUDIT source={src.world} copy={copy.Record.world} overwrite={overwritten.Record.world} loaded={destination} copiedFacts={copy.Record.progression.persistentFacts.Count}");
+                Assert.AreEqual(PlaythroughSlots.Zone01,copy.Record.world,"A world copy must retain the source route.");
+                Assert.AreEqual(PlaythroughSlots.Zone01,overwritten.Record.world);
+                Assert.AreEqual(World,destination);
+                Assert.AreEqual(1,Prop<ProgressionService>(Session(),"Progression").Snapshot().persistentFacts.Count);
+                Assert.AreEqual(1,slots.Open(other.slotId).Load().persistentFacts.Count);
+            }
+            finally
+            {
+                if(Directory.Exists(temp))Directory.Delete(temp,true);
+            }
+        }
+    }
+}
+#endif

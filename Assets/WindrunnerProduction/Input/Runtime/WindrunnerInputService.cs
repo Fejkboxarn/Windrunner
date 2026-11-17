@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,35 @@ namespace Windrunner.Production.Input
     public sealed class WindrunnerInputService : IDisposable
     {
         private readonly string OverridesKey, MouseKey, StickKey, InvertKey;
+
+        // Input System v1 override payload. Keep path, processors and interactions intact,
+        // including its literal "null" sentinel and empty (disabled) paths.
+        [Serializable] private struct BindingRecord
+        {
+            public string action, id, path, interactions, processors;
+        }
+        [Serializable] private sealed class BindingFile
+        {
+            public List<BindingRecord> bindings;
+        }
+        private readonly HashSet<Guid> ownedBindings = new HashSet<Guid>();
+        private Dictionary<Guid, BindingRecord> loadedBindings;
+
+        private static Dictionary<Guid, BindingRecord> ReadBindings(string json)
+        {
+            var result = new Dictionary<Guid, BindingRecord>();
+            if (string.IsNullOrEmpty(json)) return result;
+            var file = JsonUtility.FromJson<BindingFile>(json);
+            if (file?.bindings == null) throw new FormatException("Expected an Input System binding list.");
+            foreach (var binding in file.bindings) result[Guid.Parse(binding.id)] = binding;
+            return result;
+        }
+
+        private static string EncodeBindings(IEnumerable<BindingRecord> records)
+        {
+            var ordered = records.OrderBy(b => b.id, StringComparer.Ordinal).ToList();
+            return ordered.Count == 0 ? string.Empty : JsonUtility.ToJson(new BindingFile { bindings = ordered });
+        }
 
         private InputActionAsset actions;
         private InputActionMap gameplay;
@@ -53,13 +83,19 @@ namespace Windrunner.Production.Input
                 actions.AddActionMap(progression);
             }
 
+            foreach (var binding in actions.bindings) ownedBindings.Add(binding.id);
             string json = PlayerPrefs.GetString(OverridesKey, string.Empty);
             if (!string.IsNullOrEmpty(json))
             {
-                try { actions.LoadBindingOverridesFromJson(json); }
+                try
+                {
+                    var visible = ReadBindings(json).Where(pair => ownedBindings.Contains(pair.Key));
+                    actions.LoadBindingOverridesFromJson(EncodeBindings(visible.Select(pair => pair.Value)));
+                }
                 catch (Exception ex) { Debug.LogWarning("[Windrunner Input] Could not load saved binds: " + ex.Message); }
             }
 
+            loadedBindings = ReadBindings(actions.SaveBindingOverridesAsJson());
             MouseSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(MouseKey, 1f), 0.1f, 5f);
             StickSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(StickKey, 1f), 0.1f, 5f);
             InvertLookY = PlayerPrefs.GetInt(InvertKey, 0) != 0;
@@ -236,13 +272,26 @@ namespace Windrunner.Production.Input
             if (disposed) return;
             CancelRebind();
             actions.RemoveAllBindingOverrides();
-            SaveBindings();
+            WriteBindings(true);
             BindingsChanged?.Invoke();
         }
 
-        private void SaveBindings()
+        private void SaveBindings() => WriteBindings(false);
+
+        private void WriteBindings(bool resetTemplate)
         {
-            PlayerPrefs.SetString(OverridesKey, actions.SaveBindingOverridesAsJson());
+            var current = ReadBindings(actions.SaveBindingOverridesAsJson());
+            var persisted = ReadBindings(PlayerPrefs.GetString(OverridesKey, string.Empty));
+            foreach (var id in ownedBindings)
+            {
+                bool present = current.TryGetValue(id, out var value);
+                bool previouslyPresent = loadedBindings.TryGetValue(id, out var prior);
+                if (!resetTemplate && present == previouslyPresent && value.Equals(prior)) continue;
+                if (present) persisted[id] = value;
+                else persisted.Remove(id);
+            }
+            PlayerPrefs.SetString(OverridesKey, EncodeBindings(persisted.Values));
+            loadedBindings = current;
             PlayerPrefs.Save();
         }
 

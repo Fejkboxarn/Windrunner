@@ -111,7 +111,7 @@ namespace Windrunner.Frontend
             if(mode=="Save game")
             {
                 ui.Choice("Save current playthrough",()=>Confirm("Update current save?",Checkpoint,()=>{session.Save();Home();ui.Status("Progress saved. "+Checkpoint);},()=>Slots(mode)),session.SlotId!=null);
-                ui.Choice("Save an independent copy",()=>{session.Slots.Create(label,import:session.Progression.Snapshot());Slots(mode);ui.Status("Copy saved. "+Checkpoint);});
+                ui.Choice("Save an independent copy",()=>{session.SaveCopy(label);Slots(mode);ui.Status("Copy saved. "+Checkpoint);},session.CanCopy);
             }
             foreach(var entry in entries)
             {
@@ -136,7 +136,7 @@ namespace Windrunner.Frontend
             if(mode=="Load game")ui.Choice("Load this playthrough",()=>session.Load(id),entry.Record!=null);
             if(mode=="New game")ui.Choice("Start over in this slot",()=>Confirm("Replace "+name+"?","This replaces the selected playthrough.",()=>session.NewGame(name,id,true),parent));
             if(mode=="Save game" && id!=session.SlotId)ui.Choice("Overwrite with current progress",()=>Confirm("Replace "+name+"?",Checkpoint,()=>{
-                session.Slots.Create(name,id,true,session.Progression.Snapshot());Slots(mode);},parent));
+                session.SaveCopy(name,id,true);Slots(mode);},parent),session.CanCopy);
             if(entry.Record!=null)ui.Choice("View gallery",()=>Gallery(()=>Details(id,mode)));
             ui.Choice("Delete playthrough",()=>Confirm("Delete "+name+"?","Remove this slot from saved games.",()=>{
                 session.Slots.Delete(id,true);selected=null;Slots(mode);},parent),id!=session.SlotId);End();
@@ -199,7 +199,7 @@ namespace Windrunner.Frontend
             ui.Choice("Mouse sensitivity    +",()=>{input.SetMouseSensitivity(input.MouseSensitivity+.1f);Controls();});
             ui.Choice("Controller sensitivity    "+input.StickSensitivity.ToString("F1")+"    −",()=>{input.SetStickSensitivity(input.StickSensitivity-.1f);Controls();});
             ui.Choice("Controller sensitivity    +",()=>{input.SetStickSensitivity(input.StickSensitivity+.1f);Controls();});
-            ui.Choice("Reset bindings",()=>Confirm("Reset bindings?","Restore default controls for every playthrough.",()=>{input.ResetBindings();Controls();},Controls));
+            ui.Choice("Reset bindings",()=>Confirm("Reset bindings?","Restore this input template’s bindings for every playthrough. Bindings exclusive to other templates are kept.",()=>{input.ResetBindings();Controls();},Controls));
             foreach(var map in input.Actions.actionMaps)
             foreach(var action in map.actions)
             for(int i=0;i<action.bindings.Count;i++)
@@ -227,7 +227,7 @@ namespace Windrunner.Frontend
         {
             string id=selected??session.SlotId??session.Slots.Latest()?.Id;
             var record=id==null?null:session.Slots.Inspect(id).Record;
-            var entries=session.catalog.definitions.cutscenes.Where(c=>c.content!=null || c.galleryReplay!=null).ToList();
+            var entries=(record==null?session.catalog:session.CatalogFor(record.world)).definitions.cutscenes.Where(c=>c.content!=null || c.galleryReplay!=null).ToList();
             Page("Gallery",entries.Count==0?"No cinematics are available yet.":record?.displayName??"Select a playthrough to view its unlocks.",parent);
             foreach(var entry in entries)
             {

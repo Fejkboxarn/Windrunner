@@ -101,10 +101,12 @@ namespace Windrunner.Production.Progression
             // Atomic removal from the active namespace, including both copies.
             Directory.Move(folder,Path.Combine(root,"deleted-"+Guid.NewGuid().ToString("N")));
         }
-        public IProgressionStore Open(string id)
+        public IProgressionStore Open(string id)=>Open(id,out _);
+        public IProgressionStore Open(string id,out string world)
         {
             var slot=Inspect(id);
             if(slot.Record==null)throw new InvalidDataException(slot.Problem);
+            world=slot.Record.world;
             return new BoundStore(this,slot.Record);
         }
         private sealed class BoundStore : IProgressionStore

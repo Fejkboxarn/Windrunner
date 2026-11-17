@@ -103,7 +103,7 @@ namespace Windrunner.Production.Input
         private void ResetBindings()
         {
             input.ResetBindings();
-            SetStatus("Bindings reset to defaults.");
+            SetStatus("Bindings in this input template reset to defaults.");
         }
 
         private void RebuildBindingRows()
