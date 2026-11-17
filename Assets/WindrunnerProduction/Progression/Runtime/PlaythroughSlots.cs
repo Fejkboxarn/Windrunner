@@ -25,7 +25,7 @@ namespace Windrunner.Production.Progression
 
     public sealed class PlaythroughSlots
     {
-        public const string World = "starting-world", Arrival = "arrival";
+        public const string World = "starting-world", Arrival = "arrival", Zone01 = "zone-01";
         [Serializable] private sealed class Envelope { public int version; public string body, checksum; }
         private readonly string root;
         public PlaythroughSlots(string directory) { root = Path.GetFullPath(directory); }
@@ -49,7 +49,7 @@ namespace Windrunner.Production.Progression
             if (record == null || record.slotId != id || string.IsNullOrWhiteSpace(record.displayName) ||
                 !Guid.TryParseExact(record.revision,"N",out _) || record.savedUtc <= 0 || record.savedUtc > DateTime.MaxValue.Ticks)
                 throw new InvalidDataException("Invalid playthrough metadata.");
-            if (record.world != World || record.anchor != Arrival) throw new NotSupportedException("World or checkpoint is unavailable.");
+            if ((record.world != World && record.world != Zone01) || record.anchor != Arrival) throw new NotSupportedException("World or checkpoint is unavailable.");
             if (record.progression==null) throw new InvalidDataException("Missing progression records.");
             if (record.progression.schemaVersion>1) throw new NotSupportedException("Requires a newer progression version.");
             record.progression = ProgressionCodec.Decode(ProgressionCodec.Encode(record.progression));
@@ -82,14 +82,15 @@ namespace Windrunner.Production.Progression
             Directory.CreateDirectory(root);
             return new FileStream(Path.Combine(root,"write.lock"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);
         }
-        public PlaythroughRecord Create(string name, string replace=null, bool confirmed=false, ProgressionState import=null)
+        public PlaythroughRecord Create(string name, string replace=null, bool confirmed=false, ProgressionState import=null, string world=World)
         {
+            if(world!=World && world!=Zone01)throw new ArgumentException("Unknown world.");
             using var writeLock=LockWrites();
             if(string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Enter a playthrough name.");
             if(replace!=null && (!confirmed || !Directory.Exists(DirectoryFor(replace)))) throw new InvalidOperationException("Confirm replacement of an existing slot.");
             var progression=import==null?new ProgressionState{playerId="local-player"}:ProgressionCodec.Decode(ProgressionCodec.Encode(import));
             if(progression.playerId!="local-player")throw new InvalidDataException("Only local-player progression can be imported.");
-            var record=new PlaythroughRecord {slotId=replace??Guid.NewGuid().ToString("N"),displayName=name.Trim(),world=World,anchor=Arrival,progression=progression};
+            var record=new PlaythroughRecord {slotId=replace??Guid.NewGuid().ToString("N"),displayName=name.Trim(),world=world,anchor=Arrival,progression=progression};
             Write(record,false,true);return record;
         }
         public void Delete(string id,bool confirmed)

@@ -21,9 +21,9 @@ using Object=UnityEngine.Object;
 
 namespace Windrunner.Production.Tests
 {
-    public sealed class MainMenuFlowTests
+    public sealed partial class MainMenuFlowTests
     {
-        const string Title="Assets/WindrunnerFrontend/Scenes/MainMenu.unity", World="Assets/WindrunnerFrontend/Scenes/StartingWorld.unity";
+        const string Title="Assets/WindrunnerFrontend/Scenes/MainMenu.unity", World="Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity", Legacy="Assets/WindrunnerFrontend/Scenes/StartingWorld.unity";
         static Type SessionType=>Type.GetType("Windrunner.Frontend.PlayerSession, Assembly-CSharp",true);
         static Component Session()=> (Component)Object.FindAnyObjectByType(SessionType);
         static object Call(Component c,string method,params object[] args)=>c.GetType().GetMethod(method).Invoke(c,args);
@@ -210,7 +210,7 @@ namespace Windrunner.Production.Tests
                 var title=Session();Call(title,"UseTestDirectory",directory);
                 Submit("Settings");Submit("Sound");Submit("Back");Submit("Back");
                 Assert.IsFalse(Choice("Continue").interactable);Assert.IsTrue(WindrunnerInputHost.Active.IsPaused);
-                Submit("Gallery");Assert.IsTrue(Object.FindObjectsByType<Text>().Any(t=>t.text.Contains("No cinematics")));Submit("Back");
+                Submit("Gallery");Assert.IsTrue(Object.FindObjectsByType<Text>().Any(t=>t.text.Contains("Locked")));Submit("Back");
                 Submit("New game");Submit("Start a new playthrough");
                 yield return Changed(World,title);
                 var session=Session();var id=Prop<string>(session,"SlotId");
@@ -223,14 +223,6 @@ namespace Windrunner.Production.Tests
                 Debug.Log("Arrival ground: "+ground.collider.name+" at "+ground.point+"; drop from anchor "+(ground.distance-1));
                 Assert.Less(ground.distance,3,"Arrival must be within stepping distance of solid ground.");
                 var service=Prop<ProgressionService>(session,"Progression");
-                var routes=Object.FindObjectsByType<AudioSource>(FindObjectsInactive.Include)
-                    .GroupBy(source=>source.outputAudioMixerGroup==null?"Direct":source.outputAudioMixerGroup.audioMixer.name+"/"+source.outputAudioMixerGroup.name);
-                Debug.Log("Starting world audio routes: "+string.Join(", ",routes.Select(group=>group.Key+"="+group.Count())));
-                var sourceGroups=routes.ToDictionary(group=>group.Key,group=>group.Count());
-                Assert.AreEqual(1,sourceGroups["WorldAudio/Music"]);
-                Assert.AreEqual(1,sourceGroups["WorldAudio/Waterfall"]);
-                Assert.AreEqual(25,sourceGroups["Direct"]);
-                Assert.IsFalse(sourceGroups.Keys.Any(k=>k.StartsWith("SceneMixer/")));
                 Assert.AreSame(service,ProjectRoot.Active.Runtime.Services.Get<ProgressionService>());
                 Assert.AreSame(service,Object.FindAnyObjectByType<ProgressionActor>().Service);
                 service.Observe(new GameplayFact{occurrenceId="test-item",playerId=service.PlayerId,verified=true,persistent=true,kind=FactKind.ItemCollected,definitionId="test",targetId="item"});
@@ -271,6 +263,17 @@ namespace Windrunner.Production.Tests
                     Assert.IsFalse(Prop<bool>(charController.GetComponent(Type.GetType("AirflowPrototype."+transient.Item1+", Assembly-CSharp",true)),transient.Item2));
                 Call(session,"Load",id);yield return Changed(World,session);
                 Assert.AreEqual(1,Prop<ProgressionService>(Session(),"Progression").Snapshot().persistentFacts.Count);
+                session=Session();
+                string legacy=slots.Create("Pre-zone slot").slotId;
+                Call(session,"Load",legacy);yield return Changed(Legacy,session);
+                var routes=Object.FindObjectsByType<AudioSource>(FindObjectsInactive.Include)
+                    .GroupBy(source=>source.outputAudioMixerGroup==null?"Direct":source.outputAudioMixerGroup.audioMixer.name+"/"+source.outputAudioMixerGroup.name);
+                Debug.Log("Starting world audio routes: "+string.Join(", ",routes.Select(group=>group.Key+"="+group.Count())));
+                var sourceGroups=routes.ToDictionary(group=>group.Key,group=>group.Count());
+                Assert.AreEqual(1,sourceGroups["WorldAudio/Music"]);
+                Assert.AreEqual(1,sourceGroups["WorldAudio/Waterfall"]);
+                Assert.AreEqual(25,sourceGroups["Direct"]);
+                Assert.IsFalse(sourceGroups.Keys.Any(k=>k.StartsWith("SceneMixer/")));
             }
             finally
             {

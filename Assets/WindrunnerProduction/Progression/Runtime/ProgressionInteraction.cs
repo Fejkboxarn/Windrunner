@@ -6,7 +6,7 @@ namespace Windrunner.Production.Progression
 {
     public enum InteractionCommand { Fact, AcceptQuest, TurnInQuest, DiscoverChallenge, StartRace, PuzzleMechanism, PuzzleDestination }
     public enum InteractionChannel { Input, AbilityHit, Traversal }
-    public sealed class ProgressionInteraction : MonoBehaviour
+    public class ProgressionInteraction : MonoBehaviour
     {
         public string stableId, definitionId, regionId, prompt = "Interact";
         public InteractionCommand command;
@@ -20,7 +20,7 @@ namespace Windrunner.Production.Progression
         public UnityEvent succeeded;
         public bool CanUse(ProgressionActor actor, InteractionChannel channel)
             => string.IsNullOrEmpty(RejectionReason(actor, channel));
-        public string RejectionReason(ProgressionActor actor, InteractionChannel channel)
+        public virtual string RejectionReason(ProgressionActor actor, InteractionChannel channel)
         {
             if (!isActiveAndEnabled) return "Station disabled.";
             if (actor == null || actor.Service == null) return "Player progression binding missing.";
@@ -38,7 +38,7 @@ namespace Windrunner.Production.Progression
             if (puzzle != null && puzzle.Session?.Status == PuzzleStatus.Solved) return "Puzzle solved.";
             return null;
         }
-        public bool TryUse(ProgressionActor actor, InteractionChannel channel, string occurrence = null)
+        public virtual bool TryUse(ProgressionActor actor, InteractionChannel channel, string occurrence = null)
         {
             if (!CanUse(actor, channel)) return false;
             bool result;

@@ -11,25 +11,27 @@ namespace AirflowPrototype
         public AirSlingController sling;
         public AirSlingNode node;
         public AirSlingNodeHealth health;
+        public QuestRegion region;
         public string stableId, enemyDefinitionId, regionId;
         private string lifetimeOccurrence;
         private void Awake() => Respawned();
         private void OnEnable()
         {
-            if (sling != null) sling.NodeImpact += Impact;
+            if (sling != null) sling.EnemyDefeated += Impact;
             if (health != null) health.Respawned += Respawned;
         }
         private void OnDisable()
         {
-            if (sling != null) sling.NodeImpact -= Impact;
+            if (sling != null) sling.EnemyDefeated -= Impact;
             if (health != null) health.Respawned -= Respawned;
         }
         private void Respawned() => lifetimeOccurrence = Guid.NewGuid().ToString("N");
         private void Impact(AirSlingNode target)
         {
             if (target != node || health == null || health.IsAlive || actor?.Service == null || string.IsNullOrWhiteSpace(stableId)) return;
+            if (region != null && !region.Contains(target.transform.position)) return;
             actor.Service.Observe(new GameplayFact { occurrenceId = lifetimeOccurrence, playerId = actor.Service.PlayerId,
-                definitionId = enemyDefinitionId, targetId = stableId, regionId = regionId, kind = FactKind.EnemyDefeated, verified = true });
+                definitionId = enemyDefinitionId, targetId = stableId, regionId = region != null ? region.areaId : regionId, kind = FactKind.EnemyDefeated, verified = true });
         }
     }
 }

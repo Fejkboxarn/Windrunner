@@ -81,6 +81,22 @@ namespace Windrunner.Production.Progression
         }
         private static bool Completed(ProgressionState s, string id) => s.quests.Any(q => q.id == id && q.status == QuestStatus.Completed);
         private static bool Resolved(ProgressionState s, string id) => s.cutscenes.Any(c => c.id == id && (c.status == CinematicStatus.Watched || c.status == CinematicStatus.Skipped));
+        public bool ObjectiveOpen(string questId, string objectiveId)
+        {
+            var record = state.quests.Find(q => q.id == questId);
+            if (record == null || record.status != QuestStatus.Active) return false;
+            var quest = definitions.quests.Find(q => q.id == questId);
+            if (quest == null) return false;
+            foreach (var group in quest.groups)
+            {
+                var objective = group.objectives.Find(o => o.id == objectiveId);
+                if (objective == null) continue;
+                var progress = record.objectives.Find(o => o.id == objectiveId);
+                return progress != null && progress.count < objective.count &&
+                    group.requiresGroups.All(id => GroupComplete(quest.groups.Find(g => g.id == id),record));
+            }
+            return false;
+        }
         public bool Accept(string id) => Commit(s => {
             if (Status(s, id) != QuestStatus.Available) return false;
             var q = definitions.quests.Find(x => x.id == id);

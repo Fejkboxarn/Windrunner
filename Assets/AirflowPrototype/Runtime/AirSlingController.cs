@@ -133,6 +133,7 @@ namespace AirflowPrototype
         public event Action<AirSlingNode, float> InitialBoostDelivered;
         public event Action<AirSlingNode> NodeDashStarted;
         public event Action<AirSlingNode> NodeImpact;
+        public event Action<AirSlingNode> EnemyDefeated;
         public event Action<AirSlingNode, float, bool> SlingLaunched;
         public event Action<AirSlingNode, float> PerfectSlingLaunched;
         public event Action SlingCanceled;
@@ -693,8 +694,7 @@ namespace AirflowPrototype
                     ? settings.perfectReleaseDamage
                     : settings.normalReleaseDamage;
 
-            target.ApplyImpactDamage(
-                impactDamage);
+            DamageTarget(target, impactDamage);
 
             NodeImpact?.Invoke(
                 target);
@@ -710,6 +710,12 @@ namespace AirflowPrototype
             }
 
             FlowState.EnterImpactHold();
+        }
+
+        private void DamageTarget(AirSlingNode target, int damage)
+        {
+            if (target.ApplyImpactDamage(damage) && target.Health != null && !target.Health.IsAlive)
+                EnemyDefeated?.Invoke(target);
         }
 
         private void UpdateImpactHold()

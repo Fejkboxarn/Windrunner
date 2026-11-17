@@ -1,5 +1,8 @@
 # Main menu and playthrough sessions
 
+Zone 01 extends this milestone. New Game now opens the basin, and legacy slots still resolve to StartingWorld. See [Zone 01 development and acceptance](Zone01.md) for the current scene list, setup and tests.
+
+
 ## Try the player flow
 
 1. Choose **Tools > Windrunner > Open Main Menu**, enter Play Mode and focus the Game view. Use the mouse, arrow keys / Enter, or a controller's stick / D-pad and south button. Backspace or the controller's east button goes back. The normal Pause binding also backs out of nested screens. Continue becomes available when a valid playthrough exists.

@@ -64,6 +64,7 @@ namespace Windrunner.Production.Progression
     [Serializable] public sealed class RelationshipDefinition
     {
         public string id, displayName, nameTextId;
+        public string initialRankName;
         public List<string> ranks = new List<string>();
         public List<ChapterDefinition> chapters = new List<ChapterDefinition>();
     }

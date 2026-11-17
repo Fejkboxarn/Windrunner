@@ -33,6 +33,7 @@ namespace Windrunner.Production.Progression
         {
             if (service == null) return;
             bool previouslyBound = snapshot != null;
+            var previous = snapshot;
             snapshot = service.Snapshot(); questIds.Clear();
             foreach (var q in catalog.definitions.quests)
                 if (service.Status(q.id) != QuestStatus.Locked) questIds.Add(q.id);
@@ -50,6 +51,13 @@ namespace Windrunner.Production.Progression
             int completed = snapshot.quests.FindAll(q => q.status == QuestStatus.Completed).Count;
             if (previouslyBound && (completed > lastCompleted || snapshot.rewards.Count > lastRewards))
             { notification = "Progression updated — quest complete / reward unlocked"; notificationUntil = Time.unscaledTime + 4; }
+            if (previouslyBound && completed > lastCompleted)
+                foreach (var r in catalog.definitions.relationships)
+                {
+                    int advances = snapshot.relationships.Find(x => x.id == r.id)?.rank ?? 0;
+                    if (advances > (previous.relationships.Find(x => x.id == r.id)?.rank ?? 0))
+                    { notification = RankLabel(r, advances) + " · milestone unlocked"; break; }
+                }
             lastCompleted = completed; lastRewards = snapshot.rewards.Count;
         }
         public bool SetOpen(bool open)
@@ -125,6 +133,11 @@ namespace Windrunner.Production.Progression
         private void OnGUI()
         {
             if (service == null || actor?.Input == null || actor.Input.IsMenuOpen) return;
+            if (cinematics && cinematics.IsPlaying)
+            {
+                GUI.Box(new Rect(Screen.width/2-240,Screen.height-60,480,36),(string.IsNullOrEmpty(notification) ? "Rank milestone" : notification)+"   ·   "+Binding("Skip")+" to skip");
+                return;
+            }
             var old = ProgressionUiTheme.BeginCanvas();
             try { if (IsOpen) DrawJournal(); else DrawHud(); }
             finally { GUI.matrix = old; }
@@ -212,7 +225,8 @@ namespace Windrunner.Production.Progression
                         service.Track(snapshot.trackedQuestId == selectedQuest.id ? null : selectedQuest.id);
             }
             GUILayout.Space(20); GUILayout.Label("RELATIONSHIPS", ProgressionUiTheme.Heading);
-            foreach (var r in catalog.definitions.relationships) GUILayout.Label(r.displayName + "  ·  Rank " + (snapshot.relationships.Find(x => x.id == r.id)?.rank ?? 0) + " / " + r.ranks.Count, ProgressionUiTheme.Body);
+            foreach (var r in catalog.definitions.relationships)
+                GUILayout.Label(RankLabel(r,snapshot.relationships.Find(x => x.id == r.id)?.rank ?? 0),ProgressionUiTheme.Body);
             if (cinematics != null)
                 foreach (var c in snapshot.cutscenes)
                 {
@@ -221,6 +235,12 @@ namespace Windrunner.Production.Progression
                     { SetOpen(false); if (d.content == null) cinematics.AcknowledgeMissingContent(c.id); else cinematics.Play(c.id, c.status != CinematicStatus.Pending); }
                 }
             GUILayout.EndScrollView(); GUILayout.EndVertical(); GUILayout.EndHorizontal(); GUILayout.EndArea();
+        }
+        private static string RankLabel(RelationshipDefinition relationship,int advances)
+        {
+            int initial = string.IsNullOrEmpty(relationship.initialRankName) ? 0 : 1;
+            string label = advances > 0 && advances <= relationship.ranks.Count ? relationship.ranks[advances-1] : relationship.initialRankName;
+            return $"{relationship.displayName}  ·  Rank {initial+advances} / {initial+relationship.ranks.Count}  {label}";
         }
         public static string StatusLabel(QuestStatus value) => value == QuestStatus.ReadyToTurnIn ? "Ready to turn in" : value.ToString();
         private void DrawHud()
@@ -234,7 +254,7 @@ namespace Windrunner.Production.Progression
             }
             GUI.Label(new Rect(630, 348, 24, 24), "+", ProgressionUiTheme.Heading);
             GUILayout.BeginArea(new Rect(320, 592, 640, 104), ProgressionUiTheme.Card);
-            GUILayout.Label(interaction != null && interaction.Target != null ? interaction.Prompt : interaction?.Candidate != null ? interaction.Candidate.prompt + " · " + interaction.Rejection : "Aim at a labeled station • " + Binding("Journal") + " opens your journal", ProgressionUiTheme.Body);
+            GUILayout.Label(interaction != null && interaction.Target != null ? interaction.Prompt : interaction?.Candidate != null ? interaction.Candidate.prompt + " · " + interaction.Rejection : "Aim at a nearby character or object • " + Binding("Journal") + " opens your journal", ProgressionUiTheme.Body);
             if (Time.unscaledTime < notificationUntil) GUILayout.Label(notification, ProgressionUiTheme.Muted);
             GUILayout.EndArea();
         }

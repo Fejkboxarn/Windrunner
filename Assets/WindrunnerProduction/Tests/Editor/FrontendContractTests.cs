@@ -25,6 +25,7 @@ namespace Windrunner.Production.Tests
         }
         [TestCase("Assets/WindrunnerFrontend/Scenes/MainMenu.unity")]
         [TestCase("Assets/WindrunnerFrontend/Scenes/StartingWorld.unity")]
+        [TestCase("Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity")]
         public void FrontendSceneSerializedReferences(string path)
         {
             var scene=SceneManager.GetSceneByPath(path);bool opened=!scene.isLoaded;
@@ -46,7 +47,7 @@ namespace Windrunner.Production.Tests
                 var scripts=all.SelectMany(t=>t.GetComponents<MonoBehaviour>()).ToList();
                 Assert.AreEqual(1,scripts.Count(s=>s.GetType().Name=="PlayerSession"));
                 Assert.AreEqual(1,scripts.Count(s=>s.GetType().Name=="WindrunnerInputHost"));
-                Assert.AreEqual(path.EndsWith("StartingWorld.unity")?1:0,scripts.Count(s=>s.GetType().Name=="PlayerMotor"));
+                Assert.AreEqual(path.EndsWith("MainMenu.unity")?0:1,scripts.Count(s=>s.GetType().Name=="PlayerMotor"));
             }
             finally{if(opened)EditorSceneManager.CloseScene(scene,true);}
         }

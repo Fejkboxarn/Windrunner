@@ -23,8 +23,23 @@ namespace AirflowPrototype.EditorTools
             {
                 string location = scene.path + "/" + interaction.name;
                 if (string.IsNullOrWhiteSpace(interaction.stableId) || !ids.Add(interaction.stableId)) errors.Add(location + ": missing/duplicate world object ID.");
-                if (interaction.range <= 0 || interaction.GetComponent<Collider>() == null || (!interaction.allowInput && !interaction.allowAbilityHit && !interaction.allowTraversal)) errors.Add(location + ": invalid range/collider/interaction channels.");
+                if (interaction.range <= 0 || interaction.GetComponentInChildren<Collider>(true) == null || (!interaction.allowInput && !interaction.allowAbilityHit && !interaction.allowTraversal)) errors.Add(location + ": invalid range/collider/interaction channels.");
                 if (!string.IsNullOrEmpty(interaction.requiredCompletedQuest) && !catalog.definitions.quests.Any(q => q.id == interaction.requiredCompletedQuest)) errors.Add(location + ": missing prerequisite quest.");
+                if (interaction is TimedRetrieval item)
+                {
+                    var quest = catalog.definitions.quests.Find(q => q.id == item.questId);
+                    var objective = quest?.groups.SelectMany(g => g.objectives).FirstOrDefault(o => o.id == item.objectiveId);
+                    if (!item.owner || item.catalog != catalog || !item.destination || !item.itemModel ||
+                        objective == null || objective.kind != FactKind.ItemCollected || objective.maximumSeconds <= 0 || objective.count != 1)
+                        errors.Add(location + ": invalid retrieval actor, destination, model, duration or delivery objective.");
+                    continue;
+                }
+                if (interaction is RelationshipContact contact)
+                {
+                    if (!contact.owner || contact.catalog != catalog || !contact.cinematics || !catalog.definitions.relationships.Any(r=>r.id==contact.relationshipId))
+                        errors.Add(location + ": invalid contact bindings.");
+                    continue;
+                }
                 switch (interaction.command)
                 {
                     case InteractionCommand.AcceptQuest:

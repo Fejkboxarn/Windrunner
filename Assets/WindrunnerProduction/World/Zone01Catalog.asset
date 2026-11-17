@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aed4b07764f1164d8b8fece0f3e3bb8, type: 3}
+  m_Name: Zone01Catalog
+  m_EditorClassIdentifier: Windrunner.Production.Progression::Windrunner.Production.Progression.ProgressionCatalog
+  definitions:
+    quests:
+    - id: basin-hunt
+      displayName: Clear the North Basin
+      description: Beyond the twin pillars, strike the creatures with Air Sling. Return to the clearing.
+      nameTextId: 
+      descriptionTextId: 
+      kind: 0
+      characterId: waykeeper
+      chapterId: basin-hunt-chapter
+      requiresQuests: []
+      groups:
+      - id: task
+        requiresGroups: []
+        objectives:
+        - id: defeat
+          description: Defeat basin creatures with Air Sling
+          textId: 
+          evaluator: fact
+          kind: 0
+          definitionId: basin-creature
+          regionId: North Basin
+          count: 3
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 0
+      guidance:
+        areaId: North Basin
+        clue: Look north for twin pillars.
+        clueTextId: 
+        showArea: 1
+    - id: ridge-retrieval
+      displayName: Return the ridge stone
+      description: Find the stone beneath the solitary east spire. Bring it to the clearing before it fades.
+      nameTextId: 
+      descriptionTextId: 
+      kind: 0
+      characterId: waykeeper
+      chapterId: ridge-retrieval-chapter
+      requiresQuests: []
+      groups:
+      - id: task
+        requiresGroups: []
+        objectives:
+        - id: deliver
+          description: Carry the ridge stone back to the Waykeeper
+          textId: 
+          evaluator: fact
+          kind: 2
+          definitionId: ridge-stone
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 55
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 0
+      guidance:
+        areaId: East overlook
+        clue: Look east for a single spire.
+        clueTextId: 
+        showArea: 1
+    relationships:
+    - id: waykeeper
+      displayName: Waykeeper
+      nameTextId: 
+      initialRankName: Visitor
+      ranks:
+      - Ally
+      - Trusted
+      chapters:
+      - id: basin-hunt-chapter
+        questId: basin-hunt
+        cutsceneId: basin-hunt-milestone
+        rank: 1
+        rewards:
+        - basin-hunt-recognition
+      - id: ridge-retrieval-chapter
+        questId: ridge-retrieval
+        cutsceneId: ridge-retrieval-milestone
+        rank: 2
+        rewards:
+        - ridge-retrieval-recognition
+    rewards:
+    - id: basin-hunt-recognition
+      kind: unlock
+      contentId: basin-hunt-sigil
+      amount: 1
+    - id: ridge-retrieval-recognition
+      kind: unlock
+      contentId: ridge-retrieval-sigil
+      amount: 1
+    cutscenes:
+    - id: basin-hunt-milestone
+      displayName: First beacon
+      content: {fileID: 11400000, guid: e401fb690251eb64f91e3124257b901f, type: 2}
+      galleryReplay: {fileID: 0}
+      allowSkip: 1
+    - id: ridge-retrieval-milestone
+      displayName: Second beacon
+      content: {fileID: 11400000, guid: f6c6db7704d31ee40a1536465ed91093, type: 2}
+      galleryReplay: {fileID: 0}
+      allowSkip: 1
+    challenges: []
+    races: []
+    puzzles: []

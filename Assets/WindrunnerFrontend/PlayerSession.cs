@@ -14,6 +14,8 @@ namespace Windrunner.Frontend
     {
         public const string TitleScene="Assets/WindrunnerFrontend/Scenes/MainMenu.unity";
         public const string WorldScene="Assets/WindrunnerFrontend/Scenes/StartingWorld.unity";
+        public const string ZoneScene="Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity";
+        public ProgressionCatalog legacyCatalog, zoneCatalog;
         public ProjectRoot project;
         public WindrunnerInputHost input;
         public ProgressionCatalog catalog;
@@ -81,10 +83,16 @@ namespace Windrunner.Frontend
         }
         public void Load(string id)
         {
-            EnsureDestination(WorldScene);
+            var record=Slots.Inspect(id);
+            if(record.Record==null)throw new InvalidDataException(record.Problem);
+            bool legacy=record.Record.world==PlaythroughSlots.World;
+            string destination=legacy?WorldScene:ZoneScene;
+            EnsureDestination(destination);
             var selected=Slots.Open(id);
-            var validated=new ProgressionService(catalog.definitions,"local-player",selected);
-            Transition(WorldScene,new Transfer{slots=Slots,id=id,store=selected,service=validated});
+            var destinationCatalog=legacy ? legacyCatalog : zoneCatalog;
+            if(!destinationCatalog)destinationCatalog=catalog;
+            var validated=new ProgressionService(destinationCatalog.definitions,"local-player",selected);
+            Transition(destination,new Transfer{slots=Slots,id=id,store=selected,service=validated});
         }
         public void Continue()
         {
@@ -94,11 +102,11 @@ namespace Windrunner.Frontend
         }
         public void NewGame(string label,string replace=null,bool confirmed=false,ProgressionState import=null)
         {
-            EnsureDestination(WorldScene);
+            EnsureDestination(ZoneScene);
             var candidate=new MemoryProgressionStore();
             if(import!=null)candidate.Commit(import);
-            using var preflight=new ProgressionService(catalog.definitions,"local-player",candidate);
-            var created=Slots.Create(label,replace,confirmed,import);
+            using var preflight=new ProgressionService((zoneCatalog ? zoneCatalog : catalog).definitions,"local-player",candidate);
+            var created=Slots.Create(label,replace,confirmed,import,PlaythroughSlots.Zone01);
             Load(created.slotId);
         }
         public void ReturnToTitle()
