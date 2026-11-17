@@ -1,0 +1,1111 @@
+{
+  "baseline": "a7ff50c3",
+  "audit": "19e0cd87",
+  "movementLab": "0fab74bd",
+  "defectFix": "2954a3d7",
+  "unity": "6000.6.2f1",
+  "candidateTreeCheckpoint": "c3fab8d6a1b65f28fcea799a47f941f0a44091a0",
+  "suites": [
+    {
+      "file": "unified-fixes-checkpoint-PlayMode.xml",
+      "sha256": "6269f3e9d5dbef486fe3e29aa50dc185a80bb9a15f7006f9ab070a2dc477c1fd",
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.DisposableGymRebindRoundTrip",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.DisposableSlotRouteAudit",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.RealMenuNewSaveContinueAndRepeatedWorldTransitions",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "file": "unified-fixes-PlayMode.xml",
+      "sha256": "e24a928ba915bfd8b37e578cef6f6724f66e37d154ee82309f1a5b4167aadd28",
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.DisposableGymRebindRoundTrip",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.DisposableSlotRouteAudit",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.RealMenuNewSaveContinueAndRepeatedWorldTransitions",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "file": "unified-profile-EditMode.xml",
+      "sha256": "4732fbaed855ee4168e500b33eb5f2be2545351eb48957a44cd05f7b68757253",
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRobustnessTests.ProgressionCommandTimingBaseline",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.IntersectingNetworkWorkload",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.RenderedBasinRoadNearAndFar",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "file": "unified-profile-PlayMode.xml",
+      "sha256": "41666d901486a669e218f026c1ed001d79d0e9da62ce7b039cec1a8858cea233",
+      "result": "Passed",
+      "total": "7",
+      "passed": "7",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.TargetWaterProjectileAndCapacityHotspots",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.RenderedTitleAndScrollableSlots",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.RenderedZoneArrival",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MovementGymIntegrationTests.StationHudAtDesktopResolutions",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionFixtureVisualTests.FixtureJournalRenderedResolutionsAndLongContent",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.RenderedSceneProfileTests.RenderedSceneAndCalibratedAllocationBaseline",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.TraversalScenarioProfileTests.TraversalAndLifecycleMeasurements",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "file": "unified-rc-EditMode.xml",
+      "sha256": "e71928aae2b0fa421792d0bafea5357fa6e10a40954295c4640ca5244ef612fc",
+      "result": "Passed",
+      "total": "82",
+      "passed": "82",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.EveryWindPresetHasAProgressiveCurveAndOneImmediateRearmingImpulse",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.OneImpulsePerVisitAndNoStationaryOrPausedBoost(30)",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.OneImpulsePerVisitAndNoStationaryOrPausedBoost(60)",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.OneImpulsePerVisitAndNoStationaryOrPausedBoost(120)",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.OverdriveChargesOnlyPaidTimeAndRequiresReleaseAfterInterruptionOrDepletion",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.SerializedGymReferencesAndUniqueProductionPlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.MovementLab.Tests.LabRuleTests.WindFollowsTurnsAndFallDirectionAndCapsOnlyAddedSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.CharacterTuningEditorTests.ProfilesPreserveAuthoredValuesAndDraftsRemainIsolated",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ContentIntegrityTests.GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ContentIntegrityTests.GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.FrontendContractTests.DesktopPreferencesRoundTripIndependentOfSlots",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.FrontendContractTests.FrontendSceneSerializedReferences(\"Assets/WindrunnerFrontend/Scenes/MainMenu.unity\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.FrontendContractTests.FrontendSceneSerializedReferences(\"Assets/WindrunnerFrontend/Scenes/StartingWorld.unity\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.FrontendContractTests.FrontendSceneSerializedReferences(\"Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.FrontendContractTests.GalleryReplayCannotResolveOrRewardProgress",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.FrontendContractTests.OwnedWorldMixerPreservesVendorSnapshotAndSignalChain",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PlaythroughSlotTests.ConfirmationAndRevisionProtectOverwritesAndDeletes",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PlaythroughSlotTests.CorruptionRecoversLastGoodCopyAndUnsupportedVersionsStayUntouched",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PlaythroughSlotTests.IndependentSlotsAutoAndManualSaveUseOneProgressionRecord",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PlaythroughSlotTests.LegacyImportCopiesResolvedProgressAndRejectsFixtureIdentity",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PortableActionPlaybackTests.CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PortableActionPlaybackTests.InstalledLocomotionHandlesReversalsAirborneAndLandingWithNormalizedWeights",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PortableActionPlaybackTests.NonInterruptibleActionStillAllowsExplicitCancellationAndFreshReplay",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.PortableActionPlaybackTests.PriorityLoopCancellationAndMissingSlotsHaveDeterministicRecovery",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.AnimationObservationUnbindsPreviousServiceAndDisposes",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.DisposedAnimationCannotResubscribeToFeedback",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerAirDashStateParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerAirCastReleaseParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerAirPowerStateChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerAirTargetSelectionParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerMotorStateChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerMotorSimulationChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerAbilityCompositionChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerPlanarParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerSlingChargeParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerSlingDashParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerSlingFlowParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerSlingPathParityChecks\",\"Run\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.ExistingGameplayParity(\"WindrunnerSlingTargetParityChecks\",\"RunScoringChecks\")",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.FeedbackObservationPreservesPublishOrderAndDisposalStopsDelivery",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.FeedbackSubscriberFailureDoesNotSuppressLaterObservers",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.FeedbackSubscriptionChangesApplyToNextPublish",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.PauseSwitchesMapsWithoutChangingAuthoringAsset",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionRegressionTests.StateTransitionsExitBeforeEnterAndDisposeOnce",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionAuthoringTests.AuthoredFixtureHasNoBrokenSerializedReferences",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionAuthoringTests.FixtureAndStudioCopyHaveValidReferencesAndIndependentStableIds",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionAuthoringTests.FixtureResetPreservesNormalSaveAndRetainsPreviousEngineeringGeneration",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionAuthoringTests.FixtureUpgradePreservesStableIdentitiesAndRejectsNonFixtureReset",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRobustnessTests.AllObjectiveKindsFilterActorRegionResultTimeAndDuplicateOccurrence",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRobustnessTests.CinematicSaveFailureRestoresControlAndRecoversPendingOnReload",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRobustnessTests.DefinitionsAreFrozenAndNewContentCannotKeepStaleReadyStatus",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRobustnessTests.FeedbackOrderRewardUnlockAndObserverDisposal",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRulesTests.AuthoringRejectsCyclesBadOwnershipAndMissingContent",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRulesTests.FailedPersistenceIsAtomicAndListenersCannotSuppressCommittedState",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRulesTests.IndependentChaptersCommitOnceAndCutsceneGatesNextChapter",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRulesTests.ParallelSequentialUniqueAndRetroactivePolicies",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionRulesTests.SaveVersionsUnknownContentAndFileReplacement",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.RuntimeAllocationTests.MeasureResourceUiReadAndFeedbackDispatch",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.TimeScaleArbitrationTests.HitStopMatchesLegacyCurveAndFreezesDuringPause",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.TimeScaleArbitrationTests.NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(1.0f,0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.TimeScaleArbitrationTests.NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(0.5f,0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.WorldProgressionTests.PuzzleSequenceExitPartialReloadAndPermanentSolution",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.WorldProgressionTests.RaceFailureRestartCheckpointOrderingAndFirstClearAreIndependent",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.WorldProgressionTests.TemporaryPuzzleTimeoutResetsWithoutPersistentCredit",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ZoneAuthoringTests.DeliveryDeadlineIsExclusiveAndRecoveryUsesTheExpiryInstant",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ZoneAuthoringTests.EditableBasinSupportsClearingAndQuestComposition",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.BrokenReferencesBlockWritesAndIdentifyRepairs",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.BrushBurstsCoalesceAndProtectedJunctionPersistsAcrossReload",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.ChangedWheelGeometryOnGradePreservesMotorTraceAndContacts",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.DeferredUpdatesRepairOldRoadAndFollowASculpt",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.DifferentTileResolutionsShareWorldSpaceRulesAndRoad",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.DisjointFootprintsSkipInterveningLandscapeAndWalkabilityUsesBoundController",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.MissingLayerAndCanceledCalculationLeaveWorkingDataUntouched",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.MovedDeletedAndCrossingSplinesRestorePaintWithoutChangingGround",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.NativePaintProtectionSurvivesSculptUndoRedoAndReopen",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.PhysicsContactsAreIdenticalAcrossBakedCarriageWear",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.RealBasinFullAndBrushBenchmarksPreserveSource",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.RevertAndRepeatUseSourcePaintAndLeaveSculptAlone",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.SelectedAreaLeavesUntouchedSourceElsewhereEvenWithPendingFullRuleChange",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.SlopesElevationAndSeedProduceNormalizedReadableFamilies",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.TerrainAuthoring.Tests.TerrainStudioTests.SplitReshapeExtendAndDeleteMatchesFullBakeOnBothSides",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "file": "unified-rc-PlayMode.xml",
+      "sha256": "dd8dc9127c8e1e76366595092f308dff84e4da0c0e77319588d52182aafeedba",
+      "result": "Passed",
+      "total": "38",
+      "passed": "38",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.InputDisposalRejectsReentrantRebinding",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.AbilityExecutionTests.SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.CharacterTuningPlayTests.RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.DisplacementAuthorityTests.OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.GameplayLifecycleTests.GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.GameplayLifecycleTests.GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.GameplayLifecycleTests.MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.DisposableGymRebindRoundTrip",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.DisposableSlotRouteAudit",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.MouseGamepadCancelAndKeyboardRebindUseProductionActions",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.RealMenuNewSaveContinueAndRepeatedWorldTransitions",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.WorldMixerPreferencesPreserveTheAuthoredBalance",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MainMenuFlowTests.ZoneChaptersPersistWhileInterruptedDeliveryRestartsAtSource",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.MovementGymIntegrationTests.ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionOnlyTests.PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProductionOnlyTests.RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionFixtureLifecycleTests.AuthoredFixtureTurnInTimelineJournalAndReloadKeepOneService",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionIntegrationTests.CinematicSkipInterruptionAndNestedPauseRestoreAuthority",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionIntegrationTests.InputBlocksNestAndBindingsRemainStableAcrossServiceLifetimes",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionIntegrationTests.RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionIntegrationTests.UniqueCollectionPresentationRestoresFromPersistentFacts",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.ProgressionIntegrationTests.WorldInteractionAndPhysicsRaceReachQuestEvaluator",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.TimeInterruptionTests.MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed"
+        },
+        {
+          "name": "Windrunner.Production.Tests.WaterfallAudioRegressionTests.WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "file": "unified-uncapped-PlayMode.xml",
+      "sha256": "9ffe51600b21eae76682d5eea86e7f94f2f1feb1eaabd212c6d72028e634c953",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "Windrunner.Production.Tests.RenderedSceneProfileTests.RenderedSceneAndCalibratedAllocationBaseline",
+          "result": "Passed"
+        }
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "label": "unified-windows-dev",
+      "evidence": {
+        "file": "unified-windows-dev-build.json",
+        "sha256": "4ea49d205b4e0bcf3990062079b84b3b73b2f2d456cf769aab8a881c2c1f0520"
+      },
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/unified-windows-dev/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T08:32:45.0058543Z",
+      "errors": 0,
+      "warnings": 38,
+      "seconds": 35.9903895,
+      "bytes": 1288741348,
+      "warningMessages": [
+        "Read/Write is disabled on 1 mesh(es) referenced by components in this build. In future versions of Unity, the build process will no longer automatically enable Read/Write on the meshes referenced by these components. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Shadow_Dagger' (referenced by a Particle System Renderer component)",
+        "Pre-baked collision is disabled on 41 mesh(es) referenced by Mesh Collider components in this build. In future versions of Unity, the build process will no longer automatically pre-bake collision for these meshes; enable pre-baked collision in the Mesh import settings. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Stone_2_LOD1' (convex collision is disabled)\n - 'Stone_7_LOD0' (triangle collision is disabled)\n - 'Stone_9_LOD0' (triangle collision is disabled)\n - 'Stone_8_LOD0' (triangle collision is disabled)\n - 'Stone_1_LOD1' (convex collision is disabled)\n - 'Stone_6_LOD1' (convex collision is disabled)\n - 'Stone_4_LOD1' (convex collision is disabled)\n - 'Stone_3_LOD1' (convex collision is disabled)\n - 'Ore_1_LOD0' (triangle collision is disabled)\n - 'Ore_2_LOD0' (triangle collision is disabled)\n - 'Small_Stone_6_LOD0' (convex collision is disabled)\n - 'Small_Stone_7_LOD0' (convex collision is disabled)\n - 'Ladder_LOD1' (convex collision is disabled)\n - 'Shrine_LOD1' (triangle collision is disabled)\n - 'Column_3_LOD1' (triangle collision is disabled)\n - 'Arch_1_Collider' (triangle collision is disabled)\n - 'Floor_1_LOD0' (convex collision is disabled)\n - 'Fence_1_LOD1' (triangle collision is disabled)\n - 'Fence_3_LOD1' (triangle collision is disabled)\n - 'Column_4_LOD1' (triangle collision is disabled)\n - 'Fence_2_LOD1' (triangle collision is disabled)\n - 'Column_1_LOD1' (triangle collision is disabled)\n - 'Walls_Collider' (triangle collision is disabled)\n - 'Bridge_Collider' (triangle collision is disabled)\n - 'Arch_2_Collider' (triangle collision is disabled)\n - 'Stump_LOD1' (triangle collision is disabled)\n - 'Snag_LOD1' (triangle collision is disabled)\n - 'Column_2_LOD1' (triangle collision is disabled)\n - 'Chest_Base' (triangle collision is disabled)\n - 'Chest_Lid' (triangle collision is disabled)\n - 'Vase_3' (convex collision is disabled)\n - 'Vase_1' (convex collision is disabled)\n - 'Barrel_LOD1' (convex collision is disabled)\n - 'Vase_2' (convex collision is disabled)\n - 'Cart_1_Collider' (triangle collision is disabled)\n - 'Cart_2_Collider' (triangle collision is disabled)\n - 'Chair_Collider' (triangle collision is disabled)\n - 'Table_LOD1' (triangle collision is disabled)\n - 'Clif_3' (triangle collision is disabled)\n - 'Clif_1' (triangle collision is disabled)\n - 'Clif_2' (triangle collision is disabled)",
+        "Assets\\Feel\\MMFeedbacks\\MMFeedbacks\\Core\\MMFeedbacksHelpers.cs(361,34): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMHelpers\\MMDebug.cs(60,18): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(24,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(38,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(25,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(54,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with _FILL_OVERLAY_USE_GUIDES\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Raygeas/URP/Waterfall': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Waterfall': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Billboard': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Billboard': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Surface': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Surface': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Water': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Water': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Vegetation': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Vegetation': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Mountains': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)"
+      ],
+      "scenes": [
+        "Assets/WindrunnerFrontend/Scenes/MainMenu.unity",
+        "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
+        "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
+      ],
+      "development": true,
+      "gymFlight": false,
+      "startup": {
+        "label": "unified-windows-dev-rendered",
+        "seconds": 15,
+        "survived": true,
+        "rendered": true,
+        "totalProcessCpuSeconds": 15.28125,
+        "peakWorkingSetBytes": 291545088,
+        "privateBytesAtEnd": 449548288,
+        "hasPlayerInitialization": true,
+        "errors": [],
+        "termination": "Harness stops only its launched process after observation",
+        "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+      }
+    },
+    {
+      "label": "unified-production",
+      "evidence": {
+        "file": "unified-production-build.json",
+        "sha256": "8f1207ef84ad9ab64850418ad0a2240551ec4feee0e520d039655cb3da98a611"
+      },
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/unified-production/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T08:34:18.3177480Z",
+      "errors": 0,
+      "warnings": 24,
+      "seconds": 29.2867444,
+      "bytes": 1216122644,
+      "warningMessages": [
+        "Read/Write is disabled on 1 mesh(es) referenced by components in this build. In future versions of Unity, the build process will no longer automatically enable Read/Write on the meshes referenced by these components. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Shadow_Dagger' (referenced by a Particle System Renderer component)",
+        "Pre-baked collision is disabled on 41 mesh(es) referenced by Mesh Collider components in this build. In future versions of Unity, the build process will no longer automatically pre-bake collision for these meshes; enable pre-baked collision in the Mesh import settings. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Stone_2_LOD1' (convex collision is disabled)\n - 'Stone_7_LOD0' (triangle collision is disabled)\n - 'Stone_9_LOD0' (triangle collision is disabled)\n - 'Stone_8_LOD0' (triangle collision is disabled)\n - 'Stone_1_LOD1' (convex collision is disabled)\n - 'Stone_6_LOD1' (convex collision is disabled)\n - 'Stone_4_LOD1' (convex collision is disabled)\n - 'Stone_3_LOD1' (convex collision is disabled)\n - 'Ore_1_LOD0' (triangle collision is disabled)\n - 'Ore_2_LOD0' (triangle collision is disabled)\n - 'Small_Stone_6_LOD0' (convex collision is disabled)\n - 'Small_Stone_7_LOD0' (convex collision is disabled)\n - 'Ladder_LOD1' (convex collision is disabled)\n - 'Shrine_LOD1' (triangle collision is disabled)\n - 'Column_3_LOD1' (triangle collision is disabled)\n - 'Arch_1_Collider' (triangle collision is disabled)\n - 'Floor_1_LOD0' (convex collision is disabled)\n - 'Fence_1_LOD1' (triangle collision is disabled)\n - 'Fence_3_LOD1' (triangle collision is disabled)\n - 'Column_4_LOD1' (triangle collision is disabled)\n - 'Fence_2_LOD1' (triangle collision is disabled)\n - 'Column_1_LOD1' (triangle collision is disabled)\n - 'Walls_Collider' (triangle collision is disabled)\n - 'Bridge_Collider' (triangle collision is disabled)\n - 'Arch_2_Collider' (triangle collision is disabled)\n - 'Stump_LOD1' (triangle collision is disabled)\n - 'Snag_LOD1' (triangle collision is disabled)\n - 'Column_2_LOD1' (triangle collision is disabled)\n - 'Chest_Base' (triangle collision is disabled)\n - 'Chest_Lid' (triangle collision is disabled)\n - 'Vase_3' (convex collision is disabled)\n - 'Vase_1' (convex collision is disabled)\n - 'Barrel_LOD1' (convex collision is disabled)\n - 'Vase_2' (convex collision is disabled)\n - 'Cart_1_Collider' (triangle collision is disabled)\n - 'Cart_2_Collider' (triangle collision is disabled)\n - 'Chair_Collider' (triangle collision is disabled)\n - 'Table_LOD1' (triangle collision is disabled)\n - 'Clif_3' (triangle collision is disabled)\n - 'Clif_1' (triangle collision is disabled)\n - 'Clif_2' (triangle collision is disabled)",
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with <no keywords>\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_OVERLAY_USE_GUIDES _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Raygeas/URP/Waterfall': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Waterfall': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Billboard': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Billboard': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Surface': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Surface': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Water': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Water': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Vegetation': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Vegetation': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Mountains': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)"
+      ],
+      "scenes": [
+        "Assets/WindrunnerFrontend/Scenes/MainMenu.unity",
+        "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
+        "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
+      ],
+      "development": false,
+      "gymFlight": false,
+      "startup": {
+        "label": "unified-production-rendered",
+        "seconds": 15,
+        "survived": true,
+        "rendered": true,
+        "totalProcessCpuSeconds": 19.8125,
+        "peakWorkingSetBytes": 230244352,
+        "privateBytesAtEnd": 351039488,
+        "hasPlayerInitialization": true,
+        "errors": [],
+        "termination": "Harness stops only its launched process after observation",
+        "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+      }
+    },
+    {
+      "label": "unified-gym",
+      "evidence": {
+        "file": "unified-gym-build.json",
+        "sha256": "6c05fcbdc3948682d5dd6eb2523527ca2d3fd0a4d613eaeb1cbeebd34134d5d6"
+      },
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/unified-gym/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T08:33:25.7858728Z",
+      "errors": 0,
+      "warnings": 25,
+      "seconds": 17.20523,
+      "bytes": 403025064,
+      "warningMessages": [
+        "Assets\\Feel\\MMFeedbacks\\MMFeedbacks\\Core\\MMFeedbacksHelpers.cs(361,34): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMHelpers\\MMDebug.cs(60,18): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(38,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(24,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(25,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(54,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with UNITY_UI_ALPHACLIP _FILL_OVERLAY_USE_GUIDES\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM"
+      ],
+      "scenes": [
+        "Assets/MovementLab/MovementGym.unity"
+      ],
+      "development": true,
+      "gymFlight": true,
+      "startup": {
+        "label": "unified-gym-rendered",
+        "seconds": 15,
+        "survived": true,
+        "rendered": true,
+        "totalProcessCpuSeconds": 4.265625,
+        "peakWorkingSetBytes": 511528960,
+        "privateBytesAtEnd": 1039970304,
+        "hasPlayerInitialization": true,
+        "errors": [],
+        "termination": "Harness stops only its launched process after observation",
+        "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+      }
+    },
+    {
+      "label": "unified-fixture",
+      "evidence": {
+        "file": "unified-fixture-build.json",
+        "sha256": "6e818ad1e06d19397a4b099ba2ffb2423d3398ed10a48daee63b200cb4b2954b"
+      },
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/unified-fixture/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T08:34:47.8004666Z",
+      "errors": 0,
+      "warnings": 5,
+      "seconds": 6.1391817,
+      "bytes": 113897460,
+      "warningMessages": [
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached."
+      ],
+      "scenes": [
+        "Assets/WindrunnerProduction/Progression/Fixtures/ProgressionFixture.unity"
+      ],
+      "development": false,
+      "gymFlight": false,
+      "startup": {
+        "label": "unified-fixture-rendered",
+        "seconds": 15,
+        "survived": true,
+        "rendered": true,
+        "totalProcessCpuSeconds": 19.078125,
+        "peakWorkingSetBytes": 234803200,
+        "privateBytesAtEnd": 358612992,
+        "hasPlayerInitialization": true,
+        "errors": [],
+        "termination": "Harness stops only its launched process after observation",
+        "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+      }
+    },
+    {
+      "label": "unified-painted",
+      "evidence": {
+        "file": "unified-painted-package.json",
+        "sha256": "f97e5a37120a8544cd57d3df67ff7d1b6e7a5c46ed55d7a0a8eaeeae841cb75c"
+      },
+      "result": "Succeeded",
+      "executable": "D:/Fork/Windrunner/Builds/unified-painted/Windrunner.exe",
+      "errors": 0,
+      "warnings": 8,
+      "ribbonVertices": 570,
+      "seconds": 7.0162811,
+      "warningHeaders": [
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)"
+      ],
+      "startup": {
+        "label": "unified-painted-rendered",
+        "seconds": 15,
+        "survived": true,
+        "rendered": true,
+        "totalProcessCpuSeconds": 4.359375,
+        "peakWorkingSetBytes": 482103296,
+        "privateBytesAtEnd": 1006469120,
+        "hasPlayerInitialization": true,
+        "errors": [],
+        "termination": "Harness stops only its launched process after observation",
+        "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+      }
+    }
+  ],
+  "sourceContracts": {
+    "baseline": "7bfdfe5e",
+    "checked_source_contracts": [
+      "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+      "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+      "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+      "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs",
+      "Assets/AirflowPrototype/Runtime/AirDash.cs",
+      "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
+      "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+      "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirPower.cs",
+      "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirPowerState.cs",
+      "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+      "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+      "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+      "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputService.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+      "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs"
+    ],
+    "failures": []
+  },
+  "compilerWarnings": [
+    "Assets\\AirflowPrototype\\Editor\\AirChimeBatch13Setup.cs(28,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFeedbackBatch7Setup.cs(21,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFeedbackBatch7Setup.cs(35,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFlowBatch5Setup.cs(21,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFlowBatch5Setup.cs(24,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFlowBatch5Setup.cs(27,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFlowBatch5Setup.cs(41,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirFlowBatch5Setup.cs(67,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirRouteBatch9Setup.cs(53,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(193,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(195,21): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(437,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(439,21): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(483,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(485,21): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(541,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\AirSlingBatch18Setup.cs(543,21): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\AirVisualBatch14Setup.cs(46,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirVisualBatch14Setup.cs(49,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirVisualBatch14Setup.cs(52,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirVisualBatch14v1Setup.cs(41,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirVisualBatch14v1Setup.cs(44,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirflowBatch11FlipPivotRepair.cs(17,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirflowBatch2Setup.cs(122,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirflowBatch2Setup.cs(15,33): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\AirflowDebugRuntimeControlsSetup.cs(89,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\AirflowDebugRuntimeControlsSetup.cs(91,21): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\CharacterTuning\\CharacterCompositionAudit.cs(21,128): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\CharacterTuning\\CharacterCompositionAudit.cs(21,48): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\CharacterTuning\\CharacterCompositionAudit.cs(26,121): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\CharacterTuning\\CharacterCompositionAudit.cs(26,46): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\CharacterTuning\\CharacterTuningStudio.cs(30,136): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\CharacterTuning\\CharacterTuningStudio.cs(30,210): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WaterSwimBatch16Setup.cs(28,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerAudioAudit.cs(18,106): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerAudioAudit.cs(18,27): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerAudioAudit.cs(23,27): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerAudioAudit.cs(23,79): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerAudioAudit.cs(30,145): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerAudioAudit.cs(30,67): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(174,46): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(175,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(177,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(178,50): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(60,35): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(61,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(62,35): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeedbackSetup.cs(63,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeelValidation.cs(152,46): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerFeelValidation.cs(153,70): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerPlayerDiagnosticsMigration.cs(204,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerPlayerDiagnosticsMigration.cs(205,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerPlayerPresentationMigration.cs(239,37): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerPlayerPresentationMigration.cs(240,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerPlayerServicesMigration.cs(329,33): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerPlayerServicesMigration.cs(330,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerSlingEventTraceMenu.cs(168,48): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerSlingEventTraceMenu.cs(169,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerSlingTargetParityChecks.cs(182,40): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\AirflowPrototype\\Editor\\WindrunnerSlingTargetParityChecks.cs(183,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\MovementLab\\Editor\\MovementLabWindow.cs(157,25): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\MovementLab\\Editor\\MovementLabWindow.cs(157,56): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\MovementLab\\Editor\\MovementLabWindow.cs(158,24): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\MovementLab\\Editor\\MovementLabWindow.cs(158,63): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(154,39): warning CS0618: 'Object.FindFirstObjectByType<T>(FindObjectsInactive)' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(28,35): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(29,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(36,50): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(37,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(71,35): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(72,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(73,43): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(74,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(75,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Input\\Editor\\WindrunnerInputSetup.cs(76,46): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\Editor\\ContentIntegrityTests.cs(24,105): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\Editor\\ContentIntegrityTests.cs(24,33): warning CS0618: 'Object.FindObjectsByType(Type, FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType(Type) or FindObjectsByType(Type, FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\Editor\\ContentIntegrityTests.cs(57,109): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\Editor\\ContentIntegrityTests.cs(57,31): warning CS0618: 'Object.FindObjectsByType(Type, FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType(Type) or FindObjectsByType(Type, FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\AbilityExecutionTests.cs(170,110): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\AbilityExecutionTests.cs(170,49): warning CS0618: 'Object.FindObjectsByType(Type, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType(Type) or FindObjectsByType(Type, FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\AbilityExecutionTests.cs(224,25): warning CS0618: 'Object.FindObjectsByType(Type, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType(Type) or FindObjectsByType(Type, FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\AbilityExecutionTests.cs(224,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\GameplayLifecycleTests.cs(154,26): warning CS0618: 'Object.FindObjectsByType(Type, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType(Type) or FindObjectsByType(Type, FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\GameplayLifecycleTests.cs(154,74): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(111,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(118,28): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(131,33): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(146,41): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(148,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(149,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(149,74): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(150,54): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(92,29): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(93,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(93,85): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureLifecycleTests.cs(97,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionFixtureVisualTests.cs(45,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionIntegrationTests.cs(129,32): warning CS0618: 'Object.FindObjectsByType(Type, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType(Type) or FindObjectsByType(Type, FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\ProgressionIntegrationTests.cs(129,82): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\WaterfallAudioRegressionTests.cs(13,121): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\WaterfallAudioRegressionTests.cs(13,54): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\WaterfallAudioRegressionTests.cs(33,25): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'",
+    "Assets\\WindrunnerProduction\\Tests\\PlayMode\\WaterfallAudioRegressionTests.cs(33,65): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'"
+  ],
+  "integratedSourceSha256": {
+    "Assets/AirflowPrototype/Editor/WindrunnerCandidateBuild.cs": "89c2dfbc0acc6a6e5d4e795990ca014ec83e0a1e06dd9029f658a3f600281cf0",
+    "Assets/AirflowPrototype/Runtime/PlayerMotor.cs": "787341c5b9b0331ee4149632cb92b18c9f2ccba891bd70efc83d8076aa7b7d85",
+    "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs": "9e70cf06711bc40bf03b7c7c4dd5e67e364d82416f1abdf73e46aabe75ce80c1",
+    "Assets/MovementLab/Editor/MovementLabWindow.cs": "af2ffd363fd471d1f26242b34e0b0c2c648a4ef943e705a34c20d2214b28a0a3",
+    "Assets/MovementLab/GymLane.cs": "1a5ae1de40efb1387689d35cb00ac733a0432ed893000dd35ccf18b8dbc069be",
+    "Assets/MovementLab/LabFlightRig.cs": "71798ad2a4d2fe6478ec639df98375693d3bab08740217f0605d5e5005441bd1",
+    "Assets/MovementLab/MovementLabPlayer.cs": "212ef8190b38473e5261f79acf2eda0d25fe2948a958f64e4140d17f24df4e2a",
+    "Assets/MovementLab/MovementLabProfile.cs": "07971a184cdb044094d1916e88273244ebcead528f5fe6d71a157b2a01140620",
+    "Assets/MovementLab/Rules/LabInfluences.cs": "f0be3a546194124238c16c3936d3b07325e793de7dddd14a49155888479b8aa8",
+    "Assets/MovementLab/Rules/MovementLab.Rules.asmdef": "9035d033400ec1cd3f82ec162f01eeeb135b77bca066bf7da7aae9424b10720a",
+    "Assets/MovementLab/Tests/Editor/LabRuleTests.cs": "94ba483dd4265da0ee9c4197266d85e1b4e68565bee1c070b1ff306bb4f075f7",
+    "Assets/MovementLab/Tests/Editor/MovementLab.EditorTests.asmdef": "5f2eb162a22b479edb161c04bcd1e4e6c40d2d116ece7776b90cda69fb175c37",
+    "Assets/MovementLab/WindTunnel.cs": "39b48afe213a2622e5a538ef20249369b8cc3616d59f3b14739c41eec3b42b8d",
+    "Assets/WindrunnerFrontend/PlayerSession.cs": "c7fb22a39aae6c3c18acbba2e3053bc83968044b1fd1ac3455eb48ce00ce3e79",
+    "Assets/WindrunnerFrontend/SessionMenu.cs": "b663a3738e97c48541e011e7c409d1f73025f37c30d364ce9422eeef2d32d1e0",
+    "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputService.cs": "dc2ebd0801c2beff385e43bae2fa105c711d4189a37f2ccc31eb19089923532f",
+    "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs": "d7aefc11e6049976ede0a168325193afd96c35fb3cd639130caedb50b069a9b4",
+    "Assets/WindrunnerProduction/Progression/Runtime/PlaythroughSlots.cs": "fcdbf10c5e4473acde4a8c8dcc4994d3d0a135a40e6dca27b531796854a21231",
+    "Assets/WindrunnerProduction/Tests/PlayMode/MovementGymIntegrationTests.cs": "288591b267461870941e7d4b511be5658a9d8bc630e6cefa8a6cdeec98c40597",
+    "Assets/WindrunnerProduction/Tests/PlayMode/UnifiedSessionTests.cs": "b14dc7dcd739fa277a2de723377241c0075cc54fa8a324f97bcf12c9d14366ef",
+    "Tools/Build-UnityCandidate.ps1": "2d559f734ea784a31442bf43d44b84ecae21f87f4f6c4aea2c2bc1626d65c79b"
+  }
+}
