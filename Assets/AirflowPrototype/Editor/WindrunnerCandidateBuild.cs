@@ -36,12 +36,14 @@ namespace AirflowPrototype.Editor
                 scenes = new[] { "Assets/MovementLab/MovementGym.unity" };
             if (scenes.Length == 0) throw new InvalidOperationException("No enabled scenes.");
             Directory.CreateDirectory(folder);
+            bool developmentGym=arguments.Contains("-windrunnerMovementGym");
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
                 scenes = scenes,
                 locationPathName = Path.Combine(folder, "Windrunner.exe"),
                 target = BuildTarget.StandaloneWindows64,
-                options = BuildOptions.None
+                extraScriptingDefines = developmentGym ? new[] { "WINDRUNNER_MOVEMENT_LAB" } : Array.Empty<string>(),
+                options = developmentGym ? BuildOptions.Development : BuildOptions.None
             });
             var summary = report.summary;
             var result = new Result

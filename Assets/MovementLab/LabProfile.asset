@@ -12,22 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e141eebb8b74c947af8423f0d1a06ea, type: 3}
   m_Name: LabProfile
   m_EditorClassIdentifier: Assembly-CSharp::Windrunner.MovementLab.MovementLabProfile
+  flightSpeed: 18
+  flightSprint: 4
   continuous:
     mode: 0
-    strength: 80
-    speedCap: 150
-    minimumSpeed: 1
-    rampSeconds: 0.25
-    edgeFalloff: 0.25
-    verticalWeight: 1
+    rearmSeconds: 0
+    strength: 12
+    speedCap: 22
+    minimumSpeed: 0.5
+    rampSeconds: 1.25
+    edgeFalloff: 0.22
+    verticalWeight: 0.4
   impulse:
     mode: 1
-    strength: 60
-    speedCap: 150
-    minimumSpeed: 1
-    rampSeconds: 0.1
+    rearmSeconds: 0.5
+    strength: 6
+    speedCap: 23
+    minimumSpeed: 3
+    rampSeconds: 0
     edgeFalloff: 0
-    verticalWeight: 1
+    verticalWeight: 0.25
   overdrive:
     drain: 8
     acceleration: 95

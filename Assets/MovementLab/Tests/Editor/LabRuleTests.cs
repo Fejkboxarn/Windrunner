@@ -59,6 +59,30 @@ namespace Windrunner.MovementLab.Tests
             Assert.AreEqual(2,session.Request(s,true,true,40,.2f));
             session.Interrupt(); Assert.AreEqual(0,session.Request(s,true,true,40,.2f));
         }
+        [Test] public void EveryWindPresetHasAProgressiveCurveAndOneImmediateRearmingImpulse()
+        {
+            var profile=System.Type.GetType("Windrunner.MovementLab.MovementLabProfile, Assembly-CSharp",true);
+            var preset=profile.GetMethod("Preset");
+            float previousAcceleration=0, previousImpulse=0;
+            foreach(var level in System.Enum.GetValues(preset.GetParameters()[1].ParameterType))
+            {
+                var continuous=(WindSettings)preset.Invoke(null,new object[]{false,level});
+                var burst=(WindSettings)preset.Invoke(null,new object[]{true,level});
+                Assert.Greater(continuous.strength,previousAcceleration);Assert.Greater(burst.strength,previousImpulse);
+                previousAcceleration=continuous.strength;previousImpulse=burst.strength;
+                Vector3 velocity=Vector3.forward*8;
+                var c=new WindContact();var b=new WindContact();
+                float first=c.Sample(continuous,velocity,true,1,.05f).z;
+                Assert.That(first,Is.InRange(0.001f,.2f));
+                Assert.Greater(c.Sample(continuous,velocity,true,1,.05f).z,first);
+                Assert.AreEqual(burst.strength,b.Sample(burst,velocity,true,1,.05f).z,.001f);
+                Assert.AreEqual(0,b.Sample(burst,velocity,true,1,.05f).z);
+                b.Sample(burst,velocity,true,-1,.01f);
+                Assert.AreEqual(0,b.Sample(burst,velocity,true,1,.01f).z);
+                b.Sample(burst,velocity,true,-1,burst.rearmSeconds+.01f);
+                Assert.AreEqual(burst.strength,b.Sample(burst,velocity,true,1,.05f).z,.001f);
+            }
+        }
         [Test] public void SerializedGymReferencesAndUniqueProductionPlayer()
         {
 

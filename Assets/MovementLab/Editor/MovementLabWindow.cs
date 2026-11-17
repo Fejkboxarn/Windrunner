@@ -57,28 +57,95 @@ namespace Windrunner.MovementLab.Editor
             LanePreset preset = (LanePreset)EditorGUILayout.EnumPopup("Configuration",lane.preset);
             float spacing = EditorGUILayout.FloatField("Obstacle spacing (m)",lane.spacing);
             float runUp = EditorGUILayout.FloatField("Run-up length (m)",lane.runUp);
-            float rise = EditorGUILayout.FloatField("Elevation change (m)",lane.elevation);
+            bool isSlope=lane.kind==LaneKind.Slopes;
+            float rise=isSlope?lane.elevation:EditorGUILayout.FloatField("Elevation change (m)",lane.elevation);
             float approach = EditorGUILayout.Slider("Approach angle",lane.approachAngle,-75,75);
-            float slope = EditorGUILayout.Slider("Launch slope",lane.slopeAngle,-60,75);
-            var target = EditorGUILayout.Vector3Field("Sling target offset",lane.targetOffset);
-            var size = EditorGUILayout.Vector3Field("Tunnel dimensions",lane.tunnelSize);
+            float decline=isSlope?EditorGUILayout.Slider("Descent inclination",lane.declineAngle,2,45):lane.declineAngle;
+            float slope=isSlope?EditorGUILayout.Slider("Incline angle",lane.slopeAngle,2,45):lane.slopeAngle;
+            var target=lane.kind==LaneKind.Sling || lane.kind==LaneKind.Combined ? EditorGUILayout.Vector3Field("Sling target offset",lane.targetOffset):lane.targetOffset;
+            var size=lane.kind==LaneKind.Wind || lane.kind==LaneKind.Combined ? EditorGUILayout.Vector3Field("Tunnel dimensions",lane.tunnelSize):lane.tunnelSize;
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RegisterFullObjectHierarchyUndo(lane.gameObject,"Adjust movement lane");
                 lane.transform.localPosition=anchor;
-                lane.runUp=Mathf.Max(15,runUp); lane.spacing=Mathf.Max(4,spacing); lane.elevation=rise; lane.approachAngle=approach;
-                lane.slopeAngle=slope; lane.targetOffset=target; lane.tunnelSize=Vector3.Max(Vector3.one,size);
+                lane.runUp=Mathf.Max(15,runUp); lane.spacing=Mathf.Max(.5f,spacing); lane.elevation=rise; lane.approachAngle=approach;
+                lane.declineAngle=decline; lane.slopeAngle=slope; lane.targetOffset=target; lane.tunnelSize=Vector3.Max(Vector3.one,size);
                 if(preset!=lane.preset) lane.SetPreset(preset);
                 lane.Apply(); EditorSceneManager.MarkSceneDirty(lane.gameObject.scene);
             }
             EditorGUILayout.Space(); EditorGUILayout.LabelField("Experimental profile", EditorStyles.boldLabel);
+            if(GUILayout.Button("Regenerate selected layout"))
+            {
+                Undo.RegisterFullObjectHierarchyUndo(lane.gameObject,"Regenerate gym station");lane.Apply();
+                EditorSceneManager.MarkSceneDirty(lane.gameObject.scene);
+            }
+            if(GUILayout.Button("Validate station pads")) Validate(player);
+            foreach(bool burst in new[]{false,true})
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(burst?"Entry impulse":"Continuous wind",GUILayout.Width(100));
+                foreach(var level in (MovementLabProfile.WindLevel[])Enum.GetValues(typeof(MovementLabProfile.WindLevel)))
+                {
+                    if(!GUILayout.Button(level.ToString()))continue;
+                    Undo.RecordObject(player.profile,"Change experimental wind preset");
+                    if(burst)player.profile.impulse=MovementLabProfile.Preset(true,level);
+                    else player.profile.continuous=MovementLabProfile.Preset(false,level);
+                    EditorUtility.SetDirty(player.profile);
+                }
+                EditorGUILayout.EndHorizontal();
+            }
             var serialized = new SerializedObject(player.profile);
-            foreach (var field in new[]{"continuous","impulse","overdrive","combinedSpeedCap"})
+            foreach (var field in new[]{"continuous","impulse","overdrive","combinedSpeedCap","flightSpeed","flightSprint"})
                 EditorGUILayout.PropertyField(serialized.FindProperty(field),true);
             serialized.ApplyModifiedProperties();
             EditorGUILayout.EndScrollView();
         }
 
+        private static void Validate(MovementLabPlayer player)
+        {
+            Physics.SyncTransforms();
+            foreach(var lane in player.lanes)
+            {
+                if(!Physics.Raycast(lane.destination.position,Vector3.down,out var hit,3) || hit.transform!=lane.launch)
+                    throw new InvalidOperationException("Spawn misses approach deck: "+lane.name);
+                if(!Physics.Raycast(lane.endGate.position+Vector3.up,Vector3.down,out hit,3) || hit.transform!=lane.landing)
+                    throw new InvalidOperationException("Finish misses landing: "+lane.name);
+            }
+            Debug.Log("Movement Lab: all station spawns and finish stripes have solid supporting decks.");
+        }
+        public static void RedesignGym()
+        {
+            if(Application.isPlaying || Enumerable.Range(0,UnityEngine.SceneManagement.SceneManager.sceneCount).Any(i=>UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty))
+                throw new InvalidOperationException("Save open scenes before baking the gym.");
+            var scene=EditorSceneManager.OpenScene(ScenePath);
+            var player=FindAnyObjectByType<MovementLabPlayer>();
+            ConfigureLayouts(player);
+            player.profile.continuous=MovementLabProfile.Preset(false,MovementLabProfile.WindLevel.Standard);
+            player.profile.impulse=MovementLabProfile.Preset(true,MovementLabProfile.WindLevel.Standard);
+            player.motor.transform.position=player.lanes[0].destination.position;
+            Validate(player);
+            EditorUtility.SetDirty(player.profile);AssetDatabase.SaveAssets();
+            if(!EditorSceneManager.SaveScene(scene))throw new InvalidOperationException("Gym save failed");
+        }
+        private static void ConfigureLayouts(MovementLabPlayer player)
+        {
+            using var motorFields=new SerializedObject(player.motor);
+            player.facingRoot=(Transform)motorFields.FindProperty("visualRoot").objectReferenceValue;
+            player.dash=player.motor.GetComponent<AirDash>();
+            var mat=AssetDatabase.LoadAssetAtPath<Material>(Folder+"/Deck.mat");
+            foreach(var lane in player.lanes)
+            {
+                int count=lane.kind==LaneKind.Combined?6:lane.kind==LaneKind.Slopes?2:0;
+                if(lane.sections.Length!=count)
+                {
+                    if(lane.sections.Length!=0) throw new InvalidOperationException("Inspect custom sections first.");
+                    lane.sections=new Transform[count];
+                    for(int i=0;i<count;i++)lane.sections[i]=Block(lane.transform,"Course surface "+(i+1),mat,Vector3.zero,Vector3.one);
+                }
+                lane.SetPreset(lane.kind==LaneKind.Combined?LanePreset.Long:LanePreset.Short);
+                lane.Apply();
+            }
+        }
         // One-shot authoring entry point. Save an independent copy before editing any scene object.
         public static void CreateScene()
         {
@@ -125,6 +192,7 @@ namespace Windrunner.MovementLab.Editor
                 lane.Apply();
             }
             ConfigureRunways(player);
+            ConfigureLayouts(player);
             player.volumes=root.GetComponentsInChildren<WindTunnel>(true);
             motor.transform.position=player.lanes[0].destination.position;
             KeepGymComposition(scene, player);
@@ -154,16 +222,8 @@ namespace Windrunner.MovementLab.Editor
                         lane.distanceMarkers[i]=marker;
                     }
                 }
-                lane.SetPreset(lane.preset);
-                if (lane.kind == LaneKind.Combined)
-                    lane.transform.localPosition = new Vector3(140, 200, 20);
-                if (lane.kind == LaneKind.HighSpeed)
-                {
-                    lane.approachAngle = 0;
-                    lane.runUp = 370;
-                    lane.transform.localPosition = new Vector3(-460, 55, 80);
-                    lane.tunnelSize = new Vector3(16, 12, 100);
-                }
+                if(lane.kind==LaneKind.Combined)lane.transform.localPosition=new Vector3(140,200,20);
+                if(lane.kind==LaneKind.HighSpeed)lane.transform.localPosition=new Vector3(-460,55,80);
                 lane.Apply();
             }
         }

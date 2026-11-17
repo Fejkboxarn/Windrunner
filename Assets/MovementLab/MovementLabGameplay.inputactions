@@ -107,26 +107,6 @@
                     "priority": 0
                 },
                 {
-                    "name": "LabNext",
-                    "type": "Button",
-                    "id": "43e06983-92f3-4947-9ee4-435bc60d4be4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
-                    "name": "LabPrevious",
-                    "type": "Button",
-                    "id": "789993a2-3d66-452f-b2c4-97e4eacf14d5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
                     "name": "LabReset",
                     "type": "Button",
                     "id": "df488cd2-c068-417e-8a05-399dd3a6511d",
@@ -140,6 +120,126 @@
                     "name": "LabDiagnostics",
                     "type": "Button",
                     "id": "fddf5d22-e5c2-4bfc-a1fb-1cc1af040a6a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station1",
+                    "type": "Button",
+                    "id": "10679b2b-153f-48eb-9a95-9fd545cafd8d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station2",
+                    "type": "Button",
+                    "id": "ddb21bd3-8766-4b92-a39b-6e4773fcbaae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station3",
+                    "type": "Button",
+                    "id": "3595de77-ce2b-478d-988d-1f2ff7860310",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station4",
+                    "type": "Button",
+                    "id": "9653a688-31ae-423c-90ad-e15bd3f6b2dc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station5",
+                    "type": "Button",
+                    "id": "62f69440-6a55-49b7-bd01-230dce49bb27",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station6",
+                    "type": "Button",
+                    "id": "fb8959c8-dd51-4465-bfe5-002f972329bd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station7",
+                    "type": "Button",
+                    "id": "0a4ad799-1ce2-4cb3-b90b-4d374e909cff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station8",
+                    "type": "Button",
+                    "id": "32b29e84-f89c-4949-9420-7a30c6e4ae65",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station9",
+                    "type": "Button",
+                    "id": "296af81e-5363-4b15-85b4-8b1cebe18ba7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Station10",
+                    "type": "Button",
+                    "id": "be01d804-382c-4bbf-9ccc-43552d41e188",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "LabFlight",
+                    "type": "Button",
+                    "id": "ec6f5f3b-f950-4580-b662-9d4760822f99",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "LabVariant",
+                    "type": "Button",
+                    "id": "a25b28f0-c1ac-421e-a29c-4ef92d0bc816",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -458,30 +558,8 @@
                 },
                 {
                     "name": "",
-                    "id": "aaca43ea-902a-4844-a497-a3bed3163864",
-                    "path": "<Keyboard>/pageDown",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LabNext",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7769b076-e118-4879-8e60-330653af34ad",
-                    "path": "<Keyboard>/pageUp",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LabPrevious",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f14efa7d-1c7d-4128-8255-7672629b665c",
-                    "path": "<Keyboard>/home",
+                    "path": "<Keyboard>/f12",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -492,7 +570,7 @@
                 {
                     "name": "",
                     "id": "d2d6bbbf-5664-4c12-a196-e9f55b91e23a",
-                    "path": "<Keyboard>/f3",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -508,6 +586,138 @@
                     "processors": "",
                     "groups": "",
                     "action": "Overdrive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "020bba0b-a4d6-46fe-89cd-dba413c04fcc",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25658638-7b01-4013-9f37-158f6ec8b5d5",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98862987-1f1a-4c47-ba82-c4f2863a70e6",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39e76896-d49e-4f5a-88bf-10a02a7a90e5",
+                    "path": "<Keyboard>/f4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23b2b47c-4a46-4772-b982-8798e5616702",
+                    "path": "<Keyboard>/f5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e82ffc6-66b1-40e4-a0ee-764c0dbc183e",
+                    "path": "<Keyboard>/f6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "017dcd97-96b4-4121-a454-d320492f7f88",
+                    "path": "<Keyboard>/f7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station7",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71d5f55c-021b-4c3d-96af-b08a928b9115",
+                    "path": "<Keyboard>/f8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station8",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "634e85d3-ac96-4680-913f-3e9310b9f437",
+                    "path": "<Keyboard>/f9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30dcd0cf-4108-42c8-aacf-823c4c376ba6",
+                    "path": "<Keyboard>/f10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Station10",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec7e2747-427d-4a5f-a74a-42bcd72356d5",
+                    "path": "<Keyboard>/f11",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LabFlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8718c212-bbfe-4021-90d0-7be7d364475c",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LabVariant",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

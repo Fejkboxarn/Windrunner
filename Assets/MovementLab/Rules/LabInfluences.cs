@@ -9,6 +9,7 @@ namespace Windrunner.MovementLab
     public sealed class WindSettings
     {
         public WindMode mode;
+        [Min(0)] public float rearmSeconds;
         [Min(0)] public float strength = 80, speedCap = 150, minimumSpeed = 1, rampSeconds = .25f;
         [Range(0, 1)] public float edgeFalloff = .25f, verticalWeight = 1;
     }
@@ -17,18 +18,23 @@ namespace Windrunner.MovementLab
     public struct WindContact
     {
         private bool inside, eligible;
-        private float elapsed, delivered;
+        private float elapsed, delivered, cooldown;
         public bool Inside => inside;
         public bool Eligible => eligible;
 
         public Vector3 Sample(WindSettings settings, Vector3 velocity, bool grounded, float depth, float dt)
         {
             if (dt <= 0) return Vector3.zero;
-            if (depth < 0) { this = default; return Vector3.zero; }
+            if (depth < 0)
+            {
+                if (inside && delivered > 0) cooldown = settings.rearmSeconds;
+                inside = eligible = false; elapsed = delivered = 0;
+                cooldown = Mathf.Max(0, cooldown - dt); return Vector3.zero;
+            }
             Vector3 movement = velocity;
             if (grounded) movement.y = 0;
             if (!inside || settings.mode == WindMode.Continuous)
-                eligible = movement.sqrMagnitude > .0001f && movement.magnitude >= settings.minimumSpeed;
+                eligible = cooldown <= 0 && movement.sqrMagnitude > .0001f && movement.magnitude >= settings.minimumSpeed;
             inside = true;
             if (!eligible) return Vector3.zero;
             elapsed += dt;
