@@ -12,6 +12,8 @@ namespace AirflowPrototype
         [SerializeField] private AirflowMovementSettings settings;
 
         private PlayerMotorSimulation _simulation;
+        // Optional per-player influence, sampled after steering/gravity and before the single motor Move.
+        public System.Func<Vector3, bool, float, Vector3> MovementInfluence { get; set; }
         public PlayerInputReader Input => input != null ? input : (input = GetComponent<PlayerInputReader>());
         public Transform ViewTransform => cameraTransform;
         public Camera ViewCamera => cameraTransform != null ? cameraTransform.GetComponent<Camera>() : null;
@@ -247,6 +249,13 @@ namespace AirflowPrototype
             Vector3 desiredDirection = GetCameraRelativeMove(input.Move);
             Vector3 frameVelocity = Simulation.BeginFrame(desiredDirection,
                 input.JumpPressedThisFrame, controller.isGrounded, Time.time, dt, settings);
+            if (MovementInfluence != null)
+            {
+                var delta = MovementInfluence(frameVelocity, controller.isGrounded, dt);
+                Simulation.AddPlanarImpulse(delta, 0);
+                Simulation.AddVerticalImpulse(delta.y);
+                frameVelocity += delta;
+            }
             Vector3 beforeMove = transform.position;
             CollisionFlags flags = ApplyDisplacement(frameVelocity * dt, PlayerMovementPhase.Locomotion);
             // OnControllerColliderHit may update simulation during Move, just as

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e141eebb8b74c947af8423f0d1a06ea, type: 3}
+  m_Name: LabProfile
+  m_EditorClassIdentifier: Assembly-CSharp::Windrunner.MovementLab.MovementLabProfile
+  continuous:
+    mode: 0
+    strength: 80
+    speedCap: 150
+    minimumSpeed: 1
+    rampSeconds: 0.25
+    edgeFalloff: 0.25
+    verticalWeight: 1
+  impulse:
+    mode: 1
+    strength: 60
+    speedCap: 150
+    minimumSpeed: 1
+    rampSeconds: 0.1
+    edgeFalloff: 0
+    verticalWeight: 1
+  overdrive:
+    drain: 8
+    acceleration: 95
+    activationPower: 2
+    rampSeconds: 0.3
+    speedCap: 170
+    groundMultiplier: 1
+    airMultiplier: 0.85
+  combinedSpeedCap: 200
