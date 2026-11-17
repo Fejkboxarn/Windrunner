@@ -339,3 +339,11 @@ Checkpoint 7df1372c implements the feature/movement-lab redesign from b0511e5e. 
 ### Unified development candidate
 
 On codex/unified-development, checkpoint `2954a3d7` fixed world-preserving slot copy/overwrite and cross-template input persistence. Merge checkpoint `c3fab8d6` brought in all four Movement Lab commits while keeping the gym independently launched. The combined project passed 82 standard Edit Mode and 38 standard Play Mode tests, all ten additional rendered/profiling cases and the separate uncapped repeat. All five Windows targets built with zero errors and passed individual rendered startup checks. See [Unified development candidate](UnifiedDevelopmentCandidate.md) for the build and warning matrix, conflict resolutions and manual acceptance.
+
+### Dagger equipment development candidate
+
+Feature checkpoint `915b2984` extends unified baseline `cc31b179` with the Dagger Arsenal, Training Daggers and Farseer's Second Wind. The two production session worlds now use explicit player, rig, resource and catalog references. The gym retains the old speed experiment solely as an injected Editor test fixture.
+
+Unity 6000.6.2f1 passed 84/84 standard Edit Mode and 39/39 standard Play Mode tests. The separate rendered equipment flow passed 1/1. Tests exercised the title-to-Zone 01 flow, the rendered portrait changing on selection, both hand attachments, AirPower restoration, input blocking, fractional slowdown, device removal/reconnection, cooldown preservation, missing definitions and independent playthroughs. A teardown-frame input-service access and a render-target creation attempt on the graphics-null backend were found and corrected during validation. The serialization gate checked 65 source contracts with zero failures. The two world scenes reproduce the unified source after removing the new component and its wiring.
+
+The Windows production Development build completed with zero errors and 38 warnings. The warning headlines and their frequencies match the unified Development build. Its 15-second rendered startup completed without matched runtime errors. Manual acceptance remains open for blade alignment in motion, controller ergonomics, HUD readability and the appearance of the placeholder burst. Use the [authoring and acceptance guide](DaggerArsenal.md) and [candidate evidence](DaggerArsenalResults.json).

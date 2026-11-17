@@ -1,0 +1,66 @@
+{
+  "implementation": "915b2984",
+  "baseline": "cc31b179",
+  "unity": "6000.6.2f1",
+  "tests": [
+    {
+      "path": "Logs/ProductionMigration/dagger-rc-EditMode.xml",
+      "sha256": "ad00c058c94d0f28b510f8bb7b2954e5f60b1884d259c440418b07e66d53a99d",
+      "total": 84,
+      "passed": 84,
+      "skipped": 0,
+      "seconds": 28.3562477
+    },
+    {
+      "path": "Logs/ProductionMigration/dagger-rc-PlayMode.xml",
+      "sha256": "8ded7aa3bfdecc4c6691019bb5a83ef3f56f2e33b9f51acc8c3b93839b60a7c5",
+      "total": 39,
+      "passed": 39,
+      "skipped": 0,
+      "seconds": 152.1781472
+    },
+    {
+      "path": "Logs/ProductionMigration/dagger-render-rc-PlayMode.xml",
+      "sha256": "37fbf3ec172a8f2b4a26d86efa308daaf9788f30b06597986712fa29772210a8",
+      "total": 1,
+      "passed": 1,
+      "skipped": 0,
+      "seconds": 4.6934587
+    }
+  ],
+  "windows": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 38,
+    "bytes": 1288816832,
+    "seconds": 33.9352745,
+    "outputPath": "D:/Fork/Windrunner/Builds/dagger-dev/Windrunner.exe",
+    "buildReport": "Logs/ProductionMigration/dagger-dev-build.json",
+    "warningHeadlinesAndCountsMatchUnifiedDevelopment": true
+  },
+  "renderedStartup": {
+    "seconds": 15,
+    "survived": true,
+    "errors": [],
+    "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+  },
+  "fullMenuCapture": "Logs/ProductionMigration/dagger-arsenal-639305036293130823.png",
+  "portraitCaptures": [
+    "Logs/ProductionMigration/dagger-portrait-training.png",
+    "Logs/ProductionMigration/dagger-portrait-farseer.png"
+  ],
+  "serializedContractBaseline": "7bfdfe5e",
+  "serializedContractFailures": [],
+  "sceneComparison": "Removing the DaggerPlayer component and the two added wiring records reproduces the cc31b179 scene text for both StartingWorld and World_Zone01.",
+  "humanAcceptance": "Pending. See Documentation/DaggerArsenal.md for the 12-step production-world check.",
+  "serializedContractReport": "Logs/ProductionMigration/dagger-contracts.json",
+  "serializedSourceContractsChecked": 65,
+  "standaloneMovementGym": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 25,
+    "outputPath": "D:/Fork/Windrunner/Builds/dagger-gym-dev/Windrunner.exe",
+    "renderedStartupSeconds": 15,
+    "startupErrors": []
+  }
+}
