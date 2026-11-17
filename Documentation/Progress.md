@@ -365,3 +365,7 @@ Checkpoint `cf22d5bf` reduces reserve transaction allocations and fixes a reprod
 ### Same-frame reward persistence
 
 Checkpoint `78c95b37` batches only positive traversal reserve collections and keeps critical progression and activation debits immediately durable. On the matched rendered Windows player, four fresh-slot returns used one publication and a 10.83 ms median affected frame (control 27.98 ms). Isolated fresh-slot frames remained slower in both run orders. All 152 distinct Unity cases passed, as did 65 serialized source checks, both Windows Development builds, three forced-termination recovery cases and the graceful-quit snapshot check. See the [batching report and manual acceptance](RewardBatching.md) and [paired measurements](RewardBatchingResults.json).
+
+## Acceptance follow-up from 9485f03b
+
+Fixed Cast and Sling indicators overlaying blocking menus, matched the reserve meter to the procedural AirPower HUD, identified independent saves in the slot list, and added an Editor-only traversal acceptance lane on the production StartingWorld player. The expanded expiry/retry and save-copy tests use disposable playthroughs. Unity 6000.6.2f1 passed 95/95 Edit Mode and 46/46 Play Mode regressions, plus both focused rendered HUD and save-list runs. All 67 serialized source contracts passed. Both Windows Development candidates built with zero errors and passed 15-second rendered startup (session 38 warnings, gym 25). See [Acceptance follow-up](AcceptanceFollowup.md) for evidence, warning comparison and the remaining manual checklist.

@@ -74,6 +74,7 @@ namespace Windrunner.Production.Progression
         }
         void OnGUI()
         {
+            if (Windrunner.Production.Input.WindrunnerInputHost.GameplayPresentationBlocked) return;
             if (Carrying || Time.unscaledTimeAsDouble < noticeUntil)
                 GUI.Box(new Rect(Screen.width / 2 - 210, 22, 420, 34), Carrying ?
                     $"Carrying {itemModel.name}   ·   Return in {Mathf.CeilToInt((float)Remaining)} s" : notice);

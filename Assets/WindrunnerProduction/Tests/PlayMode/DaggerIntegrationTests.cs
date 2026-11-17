@@ -100,7 +100,13 @@ namespace Windrunner.Production.Tests
                 float Stored()=>progression.StoredDaggerReserve("farseer");
                 Type Runtime(string name)=>Type.GetType("AirflowPrototype."+name+", Assembly-CSharp",true);
                 var meter=GameObject.Find("Second Wind reserve");
-                Assert.IsNotNull(meter);var caption=meter.GetComponentInChildren<Text>();
+                Assert.IsNotNull(meter);
+                var reserveImage=meter.transform.Find("Stored AirPower").GetComponent<Image>();
+                var mainImage=meter.transform.parent.GetComponent<Image>();
+                Assert.AreSame(mainImage.material.shader,reserveImage.material.shader);
+                Assert.AreNotSame(mainImage.material,reserveImage.material);
+                Assert.IsTrue(reserveImage.material.HasProperty("_Fill_Amount"));
+                var caption=meter.GetComponentInChildren<Text>();
                 Assert.That(caption.text,Does.Contain("0 / 50"));
                 var health=(Component)Object.FindAnyObjectByType(Runtime("AirSlingNodeHealth"));
                 Assert.IsTrue((bool)Call(health,"TakeDamage",int.MaxValue));
@@ -108,6 +114,7 @@ namespace Windrunner.Production.Tests
                 for(int i=0;i<240 && Stored()==0;i++)yield return null;
                 float charged=Stored();Assert.Greater(charged,0);Assert.LessOrEqual(charged,50);
                 Assert.That(caption.text,Does.Not.Contain("   0 /"));
+                Assert.AreEqual(charged/50,reserveImage.material.GetFloat("_Fill_Amount"),.0001);
                 if(rendered)
                 {
                     var view=UnityEditor.EditorWindow.GetWindow(typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GameView"));
@@ -120,10 +127,17 @@ namespace Windrunner.Production.Tests
                     {
                         Assert.IsTrue(frame.LoadImage(File.ReadAllBytes(shot)));
                         var fill=(RectTransform)meter.transform.Find("Stored AirPower");
-                        var screen=RectTransformUtility.WorldToScreenPoint(null,fill.TransformPoint(
-                            new Vector3(fill.rect.xMin+fill.rect.width*.1f,fill.rect.center.y)));
-                        var pixel=frame.GetPixel(Mathf.RoundToInt(screen.x),Mathf.RoundToInt(screen.y));
-                        Assert.Greater(pixel.g-pixel.r,.12f,"The cyan reserve must be visible over the world HUD.");
+                        Vector2 center=RectTransformUtility.WorldToScreenPoint(null,fill.TransformPoint(fill.rect.center));
+                        Vector2 left=RectTransformUtility.WorldToScreenPoint(null,fill.TransformPoint(
+                            new Vector3(fill.rect.xMin,fill.rect.center.y)));
+                        int cyan=0;
+                        for(int y=(int)center.y-2;y<=(int)center.y+2;y++)
+                            for(int x=Mathf.Max(0,(int)left.x);x<(int)center.x;x++)
+                            {
+                                var pixel=frame.GetPixel(x,y);
+                                if(pixel.g-pixel.r>.12f && pixel.b-pixel.r>.12f) cyan++;
+                            }
+                        Assert.Greater(cyan,40,"Expected a visible cyan fill band in the left half of the reserve.");
                     }
                     finally {Object.Destroy(frame);}
                 }

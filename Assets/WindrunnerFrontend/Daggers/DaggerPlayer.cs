@@ -27,7 +27,9 @@ namespace Windrunner.Daggers
         int interruption;
         float nextHud,flashUntil;
         DaggerPair shown;
-        RectTransform reserveMeter, reserveFill;
+        RectTransform reserveMeter;
+        Image reserveFill;
+        Material reserveStyle;
         Text reserveCaption;
         float chargeFlashUntil;
         float lastCapacity;
@@ -143,9 +145,25 @@ namespace Windrunner.Daggers
                 reserveMeter.anchoredPosition = new Vector2(0,27);
                 var track = panel.GetComponent<Image>();
                 track.color = new Color(.025f,.09f,.11f,.95f); track.raycastTarget=false;
-                reserveFill = (RectTransform)new GameObject("Stored AirPower",typeof(RectTransform),typeof(Image)).transform;
-                reserveFill.SetParent(panel.transform,false);
-                reserveFill.GetComponent<Image>().raycastTarget=false;
+                reserveFill = new GameObject("Stored AirPower",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
+                reserveFill.transform.SetParent(panel.transform,false);
+                reserveFill.raycastTarget=false;
+                var main = view.Meter.GetComponent<Image>();
+                if (main && main.material.HasProperty("_Fill_Amount"))
+                {
+                    reserveStyle = new Material(main.material) { name="Second Wind HUD", hideFlags=HideFlags.DontSave };
+                    reserveFill.material=reserveStyle;
+                    reserveFill.sprite=main.sprite;
+                    track.enabled=false;
+                    // The shader draws a narrow strip across the center of the source UV rectangle.
+                    // Scale both dimensions together so its outline and bevel keep the main bar's proportions.
+                    reserveMeter.anchorMin=new Vector2(.18f,.18f);
+                    reserveMeter.anchorMax=new Vector2(.82f,.82f);
+                    reserveMeter.sizeDelta=Vector2.zero;
+                }
+                reserveFill.rectTransform.anchorMin=Vector2.zero;
+                reserveFill.rectTransform.anchorMax=Vector2.one;
+                reserveFill.rectTransform.offsetMin=reserveFill.rectTransform.offsetMax=Vector2.zero;
                 reserveCaption = new GameObject("Stored amount",typeof(RectTransform),typeof(Text)).GetComponent<Text>();
                 reserveCaption.transform.SetParent(panel.transform,false);
                 reserveCaption.rectTransform.anchorMin=Vector2.zero; reserveCaption.rectTransform.anchorMax=Vector2.one;
@@ -178,12 +196,22 @@ namespace Windrunner.Daggers
             float value=Equipment.Stored(shown);
             lastCapacity=wind.capacity; lastFull=power.Current>=power.Max;
             if(Time.unscaledTime>=chargeFlashUntil)chargeFlashUntil=0;
-            var fill=reserveFill.GetComponent<Image>();
-            fill.color=chargeFlashUntil>0?Color.Lerp(wind.meterColor,Color.white,.45f):wind.meterColor;
-            fill.sprite=wind.meterSprite;
-            reserveFill.anchorMin=Vector2.zero;
-            reserveFill.anchorMax=new Vector2(Mathf.Clamp01(value/wind.capacity),1);
-            reserveFill.offsetMin=reserveFill.offsetMax=Vector2.zero;
+            float fraction=Mathf.Clamp01(value/wind.capacity);
+            var tint=chargeFlashUntil>0?Color.Lerp(wind.meterColor,Color.white,.45f):wind.meterColor;
+            reserveFill.color=tint;
+            if (reserveStyle)
+            {
+                reserveStyle.SetFloat("_Fill_Amount",fraction);
+                reserveStyle.SetFloat("_Main_Bar_Fill_Amount",fraction+.001f);
+                reserveStyle.SetColor("_Fill_Color_No_Gradient",tint);
+                reserveStyle.SetColor("_Fill_Gradient_Color_Left",tint);
+                reserveStyle.SetColor("_Fill_Gradient_Color_Right",Color.Lerp(tint,Color.white,.2f));
+            }
+            else
+            {
+                reserveFill.sprite=wind.meterSprite;
+                reserveFill.rectTransform.anchorMax=new Vector2(fraction,1);
+            }
             string status=value>=wind.capacity?" · FULL":"";
             if(value>0 && !lastFull)status+=" · READY";
             reserveCaption.text=$"SECOND WIND   {value:0.#} / {wind.capacity:0.#}{status}";
@@ -224,6 +252,7 @@ namespace Windrunner.Daggers
             if(Equipment==null)return;
             progression.Changed-=QueueRefresh;Equipment.EquippedChanged-=Show;Equipment.Activated-=Pulse;
             Equipment.ReserveChanged-=ReserveUpdated;
+            if(reserveStyle)Destroy(reserveStyle);
             if(reserveMeter)Destroy(reserveMeter.gameObject);
             if(hud)Destroy(hud);
             if(LeftGrip)Destroy(LeftGrip.gameObject);if(RightGrip)Destroy(RightGrip.gameObject);

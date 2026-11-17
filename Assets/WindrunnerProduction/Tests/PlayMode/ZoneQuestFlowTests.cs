@@ -66,6 +66,18 @@ namespace Windrunner.Production.Tests
                 Time.captureDeltaTime=.1f;
                 var npc=Object.FindAnyObjectByType<RelationshipContact>();var actor=npc.owner;
                 var item=npc.retrieval;var service=actor.Service;var film=npc.cinematics;
+                var journal=Object.FindAnyObjectByType<ProgressionJournal>();
+                Assert.IsTrue(journal.SetOpen(true));
+                Assert.IsTrue(actor.Input.IsGameplayBlocked);
+                Canvas.ForceUpdateCanvases();
+                foreach(var reticleName in new[]{"AirTargetChargeUI","AirSlingTargetChargeUI"})
+                {
+                    var type=Type.GetType("AirflowPrototype."+reticleName+", Assembly-CSharp",true);
+                    var reticle=Object.FindAnyObjectByType(type);
+                    var group=(CanvasGroup)type.GetField("_canvasGroup",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(reticle);
+                    Assert.AreEqual(0f,group.alpha,reticleName+" over Journal");
+                }
+                Assert.IsTrue(journal.SetOpen(false));
                 Assert.IsFalse(item.TryUse(actor,InteractionChannel.Input));Assert.IsFalse(item.Carrying);
                 Approach(actor,npc.transform);for(int i=0;i<8;i++)yield return null;
                 var interaction=actor.GetComponent<PlayerInteractionController>();var view=interaction.view.transform;
@@ -113,6 +125,7 @@ namespace Windrunner.Production.Tests
                 }
                 Assert.IsFalse(item.Deliver(actor,npc),"Out of range");
                 session=Session();string id=Prop<string>(session,"SlotId");Call(session,"Save");Call(session,"ReturnToTitle");yield return Changed(Title,session);
+                Assert.IsTrue(item==null,"Unloading the world must destroy the carried attempt owner.");
                 session=Session();Call(session,"Load",id);yield return Changed(World,session);
                 npc=Object.FindAnyObjectByType<RelationshipContact>();actor=npc.owner;item=npc.retrieval;service=actor.Service;
                 Assert.AreEqual(QuestStatus.Completed,service.Status(hunt));Assert.AreEqual(QuestStatus.Active,service.Status(delivery));
@@ -121,6 +134,8 @@ namespace Windrunner.Production.Tests
                 double deadline=Time.timeAsDouble+item.Remaining;
                 while(Time.timeAsDouble < deadline+.1)yield return null;
                 Assert.IsFalse(item.Carrying);Assert.IsFalse(item.itemModel.activeSelf);Assert.AreEqual(QuestStatus.Active,service.Status(delivery));
+                Assert.AreEqual(0,item.Remaining);Assert.IsFalse(item.Deliver(actor,npc));
+                Assert.AreEqual(1,service.Snapshot().rewards.Count,"Expiry must not grant delivery credit.");
                 Assert.IsFalse(item.TryUse(actor,InteractionChannel.Input));
                 yield return new WaitForSeconds(item.respawnSeconds+.25f);
                 Assert.IsTrue(item.itemModel.activeSelf);Assert.IsTrue(item.TryUse(actor,InteractionChannel.Input));

@@ -138,6 +138,7 @@ namespace Windrunner.Production.Progression
                 GUI.Box(new Rect(Screen.width/2-240,Screen.height-60,480,36),(string.IsNullOrEmpty(notification) ? "Rank milestone" : notification)+"   ·   "+Binding("Skip")+" to skip");
                 return;
             }
+            if (!IsOpen && actor.Input.IsGameplayBlocked) return;
             var old = ProgressionUiTheme.BeginCanvas();
             try { if (IsOpen) DrawJournal(); else DrawHud(); }
             finally { GUI.matrix = old; }

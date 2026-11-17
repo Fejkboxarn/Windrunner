@@ -24,6 +24,7 @@ namespace Windrunner.Production.Input
         public InputActionAsset AuthoringActions => authoringActions;
         public WindrunnerPauseMenuView PauseView => pauseView;
         public InputSystemUIInputModule UiModule => uiModule;
+        public static bool GameplayPresentationBlocked => Active && Active.Input?.IsGameplayBlocked == true;
         public bool IsPaused => menu != null && menu.IsPaused;
         public System.Func<bool> HandleMenuBack { get; set; }
         public void SetPaused(bool paused) { if (paused) menu?.Pause(); else menu?.Resume(); }

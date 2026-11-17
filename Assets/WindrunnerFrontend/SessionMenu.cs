@@ -186,7 +186,10 @@ namespace Windrunner.Frontend
             foreach(var entry in entries)
             {
                 string name=entry.Record?.displayName??"Unavailable save";
-                string info=entry.Record==null?entry.Problem:new DateTime(entry.Record.savedUtc,DateTimeKind.Utc).ToLocalTime().ToString("g")+"   ·   Starting clearing";
+                string info=entry.Record==null?entry.Problem:new DateTime(entry.Record.savedUtc,DateTimeKind.Utc).ToLocalTime().ToString("g")+
+                    "   ·   "+(entry.Record.world==PlaythroughSlots.Zone01?"Zone 01":"Starting World")+
+                    "   ·   "+entry.Record.progression.quests.Count(q=>q.status==QuestStatus.Completed)+" complete"+
+                    "   ·   #"+entry.Id.Substring(0,8)+(entry.Id==session.SlotId?" (current)":"");
                 ui.Choice(name+"   /   "+info+(entry.Recovered?"   (backup)":""),
                     ()=>Details(entry.Id,mode));
             }

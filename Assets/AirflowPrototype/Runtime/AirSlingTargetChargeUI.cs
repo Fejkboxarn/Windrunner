@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Windrunner.Production.Input;
 
 namespace AirflowPrototype
 {
@@ -65,6 +66,7 @@ namespace AirflowPrototype
 
         private void OnEnable()
         {
+            Canvas.preWillRenderCanvases += HideIfBlocked;
             ResolveReferences();
             Subscribe();
 
@@ -77,6 +79,8 @@ namespace AirflowPrototype
 
         private void OnDisable()
         {
+            Canvas.preWillRenderCanvases -= HideIfBlocked;
+            ClearPresentation();
             Unsubscribe();
         }
 
@@ -119,8 +123,26 @@ namespace AirflowPrototype
             }
         }
 
-        private void Update()
+        private void ClearPresentation()
         {
+            _visibility = _perfectFlashRemaining = _perfectFlash01 = 0f;
+            _perfectFlashTarget = null;
+            if (_canvasGroup) _canvasGroup.alpha = 0f;
+        }
+
+        private void HideIfBlocked()
+        {
+            if (WindrunnerInputHost.GameplayPresentationBlocked) ClearPresentation();
+        }
+
+        private void LateUpdate()
+        {
+            if (WindrunnerInputHost.GameplayPresentationBlocked)
+            {
+                ClearPresentation();
+                return;
+            }
+
             if (slingController == null ||
                 targetCamera == null)
             {
@@ -131,6 +153,7 @@ namespace AirflowPrototype
                 targetCamera == null ||
                 settings == null)
             {
+                ClearPresentation();
                 return;
             }
 
@@ -310,6 +333,7 @@ namespace AirflowPrototype
             AirSlingNode node,
             float quality)
         {
+            if (WindrunnerInputHost.GameplayPresentationBlocked) return;
             _perfectFlashTarget =
                 node;
 

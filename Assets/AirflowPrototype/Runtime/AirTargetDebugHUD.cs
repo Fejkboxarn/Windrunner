@@ -27,6 +27,7 @@ namespace AirflowPrototype
 
         private void OnGUI()
         {
+            if (Windrunner.Production.Input.WindrunnerInputHost.GameplayPresentationBlocked) return;
             if (targeter == null)
                 return;
 

@@ -82,6 +82,9 @@ namespace Windrunner.Production.Tests
                 Submit("Save game");Submit("Save an independent copy");yield return null;
                 var copy=slots.List().Single(x=>x.Id!=original && x.Id!=other.slotId);
                 var button=UnityEngine.Object.FindObjectsByType<Button>().Single(b=>b.name.StartsWith("Audit overwrite target   /") && b.gameObject.activeInHierarchy);
+                Assert.That(button.name,Does.Contain("Zone 01").And.Contain("#"+other.slotId.Substring(0,8)));
+                var current=UnityEngine.Object.FindObjectsByType<Button>().Single(b=>b.name.Contains("#"+original.Substring(0,8)));
+                Assert.That(current.name,Does.Contain("(current)"));
                 Submit(button.name);Submit("Overwrite with current progress");Submit("Confirm");yield return null;
                 var overwritten=slots.Inspect(other.slotId);
                 var src=slots.Inspect(original).Record;
@@ -94,6 +97,12 @@ namespace Windrunner.Production.Tests
                 Assert.AreEqual(PlaythroughSlots.Zone01,overwritten.Record.world);
                 Assert.AreEqual(World,destination);
                 Assert.AreEqual(1,Prop<ProgressionService>(Session(),"Progression").Snapshot().persistentFacts.Count);
+                var loaded=Prop<ProgressionService>(Session(),"Progression");
+                loaded.Observe(new GameplayFact{occurrenceId="copy-only",playerId=loaded.PlayerId,verified=true,persistent=true,
+                    kind=FactKind.ItemCollected,definitionId="audit",targetId="copy-only"});
+                Call(Session(),"Save");
+                Assert.AreEqual(2,slots.Open(copy.Id).Load().persistentFacts.Count);
+                Assert.AreEqual(1,slots.Open(original).Load().persistentFacts.Count);
                 Assert.AreEqual(1,slots.Open(other.slotId).Load().persistentFacts.Count);
             }
             finally
