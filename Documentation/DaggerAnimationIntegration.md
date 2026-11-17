@@ -62,4 +62,16 @@ The isolated Editor preview evaluated each assigned clip at 0%, 25%, 50%, 75% an
 
 The first integration pass exposed two baseline assumptions. The character-profile isolation test used a hard-coded playback rate; it now verifies that editing a clone preserves the actual source rate. The old missing-Cast lifecycle test also exposed an equal-priority collision with the traversal flip after Cast acquired a real clip. Cast release was moved below the flip, and the test continues to require preservation of the active flip. Separate tests retain the missing/incompatible clip fallback.
 
-The Windows Development build at `Builds/dagger-motion-verified/Windrunner.exe` completed with zero errors and 38 warnings. Warning headlines and frequencies match the session acceptance build at `3feecb35`. The build report grew by 6,454,559 bytes. Its rendered startup initialized and survived 15 seconds with zero matched runtime errors. This is a startup check. In-game animation appearance remains subject to the checklist above.
+Unity 6000.6.2f1 compiled the integrated assemblies. Local implementation checkpoint `9e3b20b0` passed the following checks; the raw reports are in `Logs/ProductionMigration`.
+
+| Gate | Evidence | Result |
+| --- | --- | --- |
+| Edit Mode, including production Avatar preview, assignment, fallback and profile isolation | dagger-motion-candidate-EditMode.xml | 97/97, zero skipped |
+| Play Mode, including ability execution, motion parity, graph recovery and scene lifecycle | dagger-motion-candidate-PlayMode.xml | 47/47, zero skipped |
+| Rendered Cast charge/interruption/release and Arsenal/Second Wind | dagger-motion-candidate-cast-PlayMode.xml, dagger-motion-candidate-arsenal-PlayMode.xml | 1/1 each |
+| Rendered Sling execution, phase reconstruction and Dash interruption | dagger-motion-candidate-traversal-PlayMode.xml | 3/3 |
+| Serialized contract audit | Tools/verify_serialized_contracts.py | 67 source contracts, zero failures |
+| Windows Development | dagger-animation-candidate-build.json | Succeeded, 0 errors, 21 warnings |
+| Rendered Windows startup | dagger-animation-candidate-rendered-player.json | Initialized and survived 15 seconds, zero matched runtime errors |
+
+The five rendered test executions repeat cases in the ordinary suites. The Windows candidate is `Builds/dagger-animation-candidate/Windrunner.exe`. Its report grew by 6,454,560 bytes relative to the session acceptance build. All final warning headlines occurred in the baseline. The earlier build of this feature reported 38 warnings, matching the baseline; the incremental final build reported 21. The count difference does not establish that compiler or package warnings were fixed. Rendered startup measures process initialization. In-game animation appearance remains subject to the checklist above.
