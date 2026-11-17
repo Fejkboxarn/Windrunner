@@ -65,8 +65,7 @@ namespace Windrunner.Daggers
             {
                 if(old){old.SetActive(false);UnityEngine.Object.Destroy(old);}
                 old=null;if(!prefab)return;
-                old=UnityEngine.Object.Instantiate(prefab,socket,false);
-                old.transform.localPosition=offset;old.transform.localRotation=Quaternion.Euler(angles);
+                old=DaggerPlayer.Mount(prefab,socket,offset,angles);
                 foreach(var t in old.GetComponentsInChildren<Transform>(true))t.gameObject.layer=Layer;
             }
             Replace(ref leftModel,left,pair?pair.leftModel:null,pair?pair.leftOffset:default,pair?pair.leftEuler:default);

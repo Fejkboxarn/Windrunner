@@ -67,7 +67,16 @@ namespace Windrunner.Daggers
             grip.SetParent(hand,false);
             var knuckle=rig.GetBoneTransform(finger);
             grip.position=knuckle?Vector3.Lerp(hand.position,knuckle.position,.8f):hand.position;
-            grip.rotation=original.rotation;
+            // Both equipment meshes use local +Y from hilt to tip. Establish
+            // the forward grip across the palm towards the thumb on each hand.
+            bool left = finger == HumanBodyBones.LeftMiddleProximal;
+            var index = rig.GetBoneTransform(left ? HumanBodyBones.LeftIndexProximal : HumanBodyBones.RightIndexProximal);
+            var little = rig.GetBoneTransform(left ? HumanBodyBones.LeftLittleProximal : HumanBodyBones.RightLittleProximal);
+            Vector3 blade = index && little ? index.position - little.position : Vector3.zero;
+            Vector3 alongPalm = knuckle ? knuckle.position - hand.position : Vector3.zero;
+            Vector3 face = Vector3.Cross(blade, alongPalm) * (left ? -1f : 1f);
+            grip.rotation = face.sqrMagnitude > 1e-12f
+                ? Quaternion.LookRotation(face.normalized, blade.normalized) : original.rotation;
             return grip;
         }
         void Update()

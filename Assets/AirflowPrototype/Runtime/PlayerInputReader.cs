@@ -18,7 +18,7 @@ namespace AirflowPrototype
         private InputAction _cast;
 
         private WindrunnerInputService boundInput;
-        private WindrunnerInputService Production => boundInput ??
+        public WindrunnerInputService Production => boundInput ??
             (WindrunnerInputHost.Active != null ? WindrunnerInputHost.Active.Input : null);
         public float MouseSensitivity => Production != null ? Production.MouseSensitivity : 1f;
         public float StickSensitivity => Production != null ? Production.StickSensitivity : 1f;

@@ -36,6 +36,12 @@ namespace PortableAnimation
         [Tooltip("Optional turn-in-place / yaw-driven turn animations. Disabled by default. " +
             "Directional movement blending and reversal pivots still work when this is off.")]
         [SerializeField] private bool enableTurning;
+        [Tooltip("Use directional locomotion through reversals when gameplay owns facing.")]
+        [SerializeField] private bool suppressReversalPivots;
+        [Tooltip("Blend the authored walk and run cycle frequencies across gait changes.")]
+        [SerializeField] private bool useAuthoredGaitTiming;
+        public bool SuppressReversalPivots => suppressReversalPivots;
+        public bool UseAuthoredGaitTiming => useAuthoredGaitTiming;
         [SerializeField, Range(30f, 180f)] private float reversalDegrees = 125f;
         [SerializeField, Min(1f)] private float turnRateThreshold = 100f;
         [SerializeField, Min(0f)] private float pivotCooldown = 0.32f;

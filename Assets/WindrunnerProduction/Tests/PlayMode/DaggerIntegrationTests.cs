@@ -94,6 +94,18 @@ namespace Windrunner.Production.Tests
                 var animator=(Animator)playerType.GetField("rig").GetValue(player);
                 Assert.IsTrue(Prop<GameObject>(player,"LeftModel").transform.IsChildOf(animator.GetBoneTransform(HumanBodyBones.LeftHand)));
                 Assert.IsTrue(Prop<GameObject>(player,"RightModel").transform.IsChildOf(animator.GetBoneTransform(HumanBodyBones.RightHand)));
+                foreach(bool left in new[]{true,false})
+                {
+                    string side=left?"Left":"Right";
+                    var model=Prop<GameObject>(player,side+"Model").transform;
+                    var index=animator.GetBoneTransform(left?HumanBodyBones.LeftIndexProximal:HumanBodyBones.RightIndexProximal);
+                    var little=animator.GetBoneTransform(left?HumanBodyBones.LeftLittleProximal:HumanBodyBones.RightLittleProximal);
+                    Assert.IsNotNull(index,side+" index knuckle");Assert.IsNotNull(little,side+" little knuckle");
+                    Assert.Greater(Vector3.Dot(model.up,(index.position-little.position).normalized),.92f,side+" blade towards thumb");
+                    var portraitModel=(GameObject)preview.GetType().GetField(left?"leftModel":"rightModel",fields).GetValue(preview);
+                    Assert.That(Quaternion.Angle(model.localRotation,portraitModel.transform.localRotation),Is.LessThan(.01f));
+                    Assert.That(Vector3.Distance(model.localPosition,portraitModel.transform.localPosition),Is.LessThan(.0001f));
+                }
                 Assert.AreEqual(start.x,player.transform.position.x,.02f);
                 Submit("Back");yield return null;yield return null;
                 Assert.IsFalse(host.IsPaused);Assert.IsTrue(surface==null);

@@ -66,6 +66,12 @@ namespace AirflowPrototype
 
         }
 
+        public bool ReadRecordingPose(out GroundOnlyPipelineRuntime.RecordingPose pose)
+        {
+            pose = default;
+            return session != null && session.ReadRecordingPose(out pose);
+        }
+
         private void Start()
         {
             if (profile == null || motor == null || humanoidAnimator == null)
@@ -73,6 +79,12 @@ namespace AirflowPrototype
                 Debug.LogWarning("[Windrunner Animation] Missing character profile, motor or Humanoid Animator reference. " +
                                  "Validate the production character composition in Character Tuning.", this);
                 return;
+            }
+            if (Debug.isDebugBuild || Application.isEditor)
+            {
+                if (!TryGetComponent<AnimationRecordingOverlay>(out var recorder))
+                    recorder = gameObject.AddComponent<AnimationRecordingOverlay>();
+                recorder.Configure(this, motor);
             }
             CreateSession();
             TryBindFeedback();

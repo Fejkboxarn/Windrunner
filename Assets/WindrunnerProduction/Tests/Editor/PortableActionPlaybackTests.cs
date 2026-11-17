@@ -46,6 +46,30 @@ namespace Windrunner.Production.Tests
                 for(int i=0;i<8;i++){assigned.Add(ground.RunDirectionalClip(i));assigned.Add(ground.WalkDirectionalClip(i));}
                 for(int i=0;i<4;i++)assigned.Add(ground.StopClip(i));
                 for(int i=0;i<profile.standaloneActionProfile.Count;i++)assigned.Add(profile.standaloneActionProfile.Action(i).clip);
+                // Exercise production socket creation on the isolated Avatar, then sample
+                // the actual model axes through every assigned clip on both hands.
+                var daggerType=System.Type.GetType("Windrunner.Daggers.DaggerPlayer, Assembly-CSharp",true);
+                var fixture=rig.gameObject.AddComponent(daggerType);
+                daggerType.GetField("rig").SetValue(fixture,rig);
+                var mounts=new List<(Transform model,Transform index,Transform little)>();
+                var pairs=AssetDatabase.FindAssets("t:DaggerPair",new[]{"Assets/WindrunnerFrontend/Daggers/Defaults"});
+                Assert.AreEqual(2,pairs.Length);
+                foreach(bool left in new[]{true,false})
+                {
+                    var wrist=left?other:hand;
+                    var middle=left?HumanBodyBones.LeftMiddleProximal:HumanBodyBones.RightMiddleProximal;
+                    var socket=(Transform)daggerType.GetMethod("CreateGrip",flags).Invoke(fixture,new object[]{wrist,middle,wrist});
+                    var index=rig.GetBoneTransform(left?HumanBodyBones.LeftIndexProximal:HumanBodyBones.RightIndexProximal);
+                    var little=rig.GetBoneTransform(left?HumanBodyBones.LeftLittleProximal:HumanBodyBones.RightLittleProximal);
+                    foreach(var guid in pairs)
+                    {
+                        var pair=AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(guid));
+                        string side=left?"left":"right";
+                        object Field(string suffix)=>pair.GetType().GetField(side+suffix).GetValue(pair);
+                        var model=(GameObject)daggerType.GetMethod("Mount").Invoke(null,new[]{Field("Model"),socket,Field("Offset"),Field("Euler")});
+                        mounts.Add((model.transform,index,little));
+                    }
+                }
                 var turn=rig.transform.rotation;
                 foreach(var clip in assigned)
                 {
@@ -56,6 +80,13 @@ namespace Windrunner.Production.Tests
                         sample.Invoke(window,new object[]{clip.length*fraction,1f});
                         Assert.Less(Vector3.Distance(root,rig.transform.position),.001f,clip.name);
                         Assert.Less(Quaternion.Angle(turn,rig.transform.rotation),.1f,clip.name);
+                        foreach(var grip in mounts)
+                        {
+                            Assert.Greater(Vector3.Dot(grip.model.up,(grip.index.position-grip.little.position).normalized),
+                                .90f,clip.name+" blade direction at "+fraction);
+                            Assert.Less(Vector3.Distance(grip.model.position,(grip.index.position+grip.little.position)*.5f),
+                                rig.humanScale*.085f,clip.name+" handle to palm at "+fraction);
+                        }
                         // Catch nonfinite samples and retargeting scale explosions in either wrist.
                         Assert.Less(Vector3.Distance(hand.position,rig.transform.position),rig.humanScale*3,clip.name);
                         Assert.Less(Vector3.Distance(other.position,rig.transform.position),rig.humanScale*3,clip.name);
@@ -124,6 +155,46 @@ namespace Windrunner.Production.Tests
                 Assert.That(character.ValidateForLiveGraph(out error), Is.False);
             }
             finally { Object.DestroyImmediate(character); Object.DestroyImmediate(actions); Object.DestroyImmediate(incompatible); }
+        }
+
+        [Test]
+        public void ProductionDirectionalMixerFollowsAllHeadingsDespiteFastFacingChanges()
+        {
+            var profile = AssetDatabase.LoadAssetAtPath<GroundMotionProfile>("Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset");
+            var graph = UnityEngine.Playables.PlayableGraph.Create("Directional recording probe");
+            try
+            {
+                var source = new GroundMotionSource(graph, profile, true);
+                int frame = 0;
+                foreach (int heading in new[] { -1, 0, 4, 1, 5, 2, 6, 3, 7 })
+                {
+                    var velocity = heading < 0 ? Vector3.zero : Quaternion.Euler(0, heading * 45, 0) * Vector3.forward;
+                    for (int i = 0; i < 90; i++)
+                    {
+                        source.Tick(new GroundMotionFrame(new AnimationFrameState(frame++, 1f/60, velocity,
+                            velocity.magnitude, LocomotionMode.Grounded), true, 0, i%2 == 0 ? 400 : -400, false));
+                        Assert.AreNotEqual(GroundMotionState.Turning, source.State);
+                        Assert.AreNotEqual(GroundMotionState.Pivoting, source.State);
+                    }
+                    if (heading < 0) continue;
+                    source.ReadDominant(out var clip, out var weight, out int actual);
+                    Assert.AreEqual(heading, actual);
+                    Assert.AreSame(profile.RunDirectionalClip(heading), clip);
+                    Assert.Greater(weight, .99f);
+                    Assert.That(source.CyclesPerSecond * clip.length, Is.EqualTo(1.25f).Within(.002f));
+                }
+                const float walkingSpeed = .4f;
+                for (int i=0; i<120; i++)
+                    source.Tick(new GroundMotionFrame(new AnimationFrameState(frame++, 1f/60,
+                        Vector3.forward*walkingSpeed, walkingSpeed, LocomotionMode.Grounded), true, 0, 0, false));
+                source.ReadDominant(out var walk, out float walkWeight, out int walkHeading);
+                Assert.AreEqual(0,walkHeading);
+                Assert.Greater(walkWeight,.99f);
+                Assert.AreSame(profile.WalkDirectionalClip(0),walk);
+                Assert.That(source.CyclesPerSecond*walk.length,
+                    Is.EqualTo(Mathf.Lerp(.55f,1.25f,walkingSpeed)).Within(.002f));
+            }
+            finally { graph.Destroy(); }
         }
 
         [Test]

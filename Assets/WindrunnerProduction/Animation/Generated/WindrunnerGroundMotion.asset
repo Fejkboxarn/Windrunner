@@ -38,7 +38,9 @@ MonoBehaviour:
   stopSeconds: 0.26
   pivotSeconds: 0.3
   turnSeconds: 0.32
-  enableTurning: 1
+  enableTurning: 0
+  suppressReversalPivots: 1
+  useAuthoredGaitTiming: 1
   reversalDegrees: 125
   turnRateThreshold: 100
   pivotCooldown: 0.32

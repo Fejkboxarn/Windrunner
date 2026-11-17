@@ -78,6 +78,13 @@ namespace Windrunner.Production.Animation
         private bool disposed;
         private int lastFrameId = -1;
 
+        public bool ReadRecordingPose(out GroundOnlyPipelineRuntime.RecordingPose pose)
+        {
+            pose = default;
+            if (standaloneGraph == null || !standaloneGraph.IsValid) return false;
+            standaloneGraph.ReadRecordingPose(out pose);
+            return true;
+        }
         public int FrameSamples { get; private set; }
         public int GraphFrames { get; private set; }
         public int ObservedEvents { get; private set; }

@@ -34,6 +34,22 @@ namespace Windrunner.Frontend
             deck.transform.SetParent(transform,true);
             deck.transform.position=start+new Vector3(0,-.65f,9);
             deck.transform.localScale=new Vector3(46,1,64);
+            // Eight reference rays sit below the feet; they cannot affect motor contacts.
+            for (int bearing=0; bearing<360; bearing+=45)
+            {
+                var marker=GameObject.CreatePrimitive(PrimitiveType.Cube);
+                marker.name="Heading "+bearing;
+                var collider=marker.GetComponent<Collider>();
+                collider.enabled=false;
+                Destroy(collider);
+                marker.transform.SetParent(deck.transform.parent,true);
+                var rotation=Quaternion.Euler(0,bearing,0);
+                marker.transform.SetPositionAndRotation(start+rotation*(Vector3.forward*5)+Vector3.down*.14f,rotation);
+                marker.transform.localScale=new Vector3(bearing==0?.25f:.09f,.025f,8);
+                var properties=new MaterialPropertyBlock();
+                properties.SetColor("_BaseColor",bearing==0?Color.yellow:Color.cyan);
+                marker.GetComponent<Renderer>().SetPropertyBlock(properties);
+            }
             Targets=new GameObject("Acceptance targets").transform;
             Targets.SetParent(transform,false);
             var scene=gameObject.scene;
@@ -71,11 +87,12 @@ namespace Windrunner.Frontend
         void OnGUI()
         {
             if(WindrunnerInputHost.GameplayPresentationBlocked) return;
-            GUI.Box(new Rect(12,12,530,112),
+            GUI.Box(new Rect(12,12,535,142),
                 "DEVELOPMENT  ·  Traversal and rewards\nAim forward: hold/release Cast on an Air Node. Sling to the target at right.\n"+
                 "Compare an early release with the marked perfect window. Equip Farseer in Arsenal.\n"+
                 "F5 return to deck   ·   F6 remove/restore targets   ·   F7 spend 25% AirPower\n"+
                 "F8 deliver four test rewards. Use the equipped ability to transfer reserve.\n"+
+                "Insert: input + pose. Follow heading rays at 45°, 90°, 180°; reverse and strafe.\n"+
                 "Stop Play and relaunch the acceptance lane for a fresh session.");
         }
     }

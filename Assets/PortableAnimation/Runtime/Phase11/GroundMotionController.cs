@@ -199,7 +199,7 @@ namespace PortableAnimation
                     else
                     {
                         lastMovingSpeed = speed;
-                        bool reverse = input.sqrMagnitude > 0.0001f &&
+                        bool reverse = !profile.SuppressReversalPivots && input.sqrMagnitude > 0.0001f &&
                             Vector2.Angle(lastHeading, direction) >=
                                 profile.ReversalDegrees;
                         bool yawPivot = profile.EnableTurning &&

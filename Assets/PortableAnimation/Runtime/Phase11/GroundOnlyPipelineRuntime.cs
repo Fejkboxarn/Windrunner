@@ -32,6 +32,31 @@ namespace PortableAnimation
         public float IdleBlend => ground.IdleBlend;
         public float WalkBlend => ground.WalkBlend;
         public float RunBlend => ground.RunBlend;
+        public void ReadRecordingPose(out RecordingPose pose)
+        {
+            pose = new RecordingPose { state = ground.State, cycles = ground.CyclesPerSecond,
+                walk = ground.WalkBlend, run = ground.RunBlend };
+            ground.ReadDominant(out pose.clip, out pose.weight, out pose.direction);
+            for (int i = 0; i < LiveActionCount; i++)
+            {
+                float w = actions.GetInputWeight(i + 1);
+                if (w <= pose.actionWeight) continue;
+                var entry = actionProfile.Action(i);
+                pose.actionWeight = w;
+                pose.action = entry.id;
+                pose.mask = entry.mask;
+                pose.actionSeconds = playback.ClipTime(i);
+            }
+        }
+        public struct RecordingPose
+        {
+            public GroundMotionState state;
+            public AnimationClip clip;
+            public int direction;
+            public float weight, cycles, walk, run, actionWeight, actionSeconds;
+            public string action;
+            public AvatarMask mask;
+        }
         public GroundMotionState GroundState => ground.State;
 
         public GroundOnlyPipelineRuntime(Animator animator,

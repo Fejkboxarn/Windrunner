@@ -37,6 +37,24 @@ namespace PortableAnimation
         private readonly float[] effectiveWalkWeights = new float[8];
 
         private double movementCycle;
+        public float CyclesPerSecond { get; private set; }
+        public void ReadDominant(out AnimationClip clip, out float blend, out int direction)
+        {
+            clip = null;
+            blend = 0f;
+            direction = -1;
+            int best = -1;
+            for (int i = 0; i < Total; i++)
+            {
+                float applied = mixer.GetInputWeight(i);
+                if (applied <= blend) continue;
+                blend = applied;
+                clip = assets[i];
+                best = i;
+            }
+            for (int i = 0; i < 8; i++)
+                if (RunIndex(i) == best || WalkIndex(i) == best) direction = i;
+        }
         private double airTime;
         private readonly bool sharedAirLoop;
         private readonly float idleRate, airRate;
@@ -174,6 +192,7 @@ namespace PortableAnimation
                 profile.IdleToWalkEnd, profile.WalkToRunStart, profile.FullRunSpeed,
                 out idleWeight, out walkWeight, out runWeight);
 
+            CyclesPerSecond = 0f;
             if (controller.State == GroundMotionState.Moving)
             {
                 if (!gaitInitialized)
@@ -187,8 +206,16 @@ namespace PortableAnimation
                 double rate = Math.Max(0.15,
                     profile.MovementPlaybackRate *
                     Mathf.Lerp(0.55f, 1.25f, weight));
-                movementCycle = Repeat01(movementCycle + dt * rate /
-                    Math.Max(0.0001, MovementReferenceLength()));
+                double runLength = Math.Max(0.0001, MovementReferenceLength());
+                CyclesPerSecond = (float)(rate / runLength);
+                int walk = WalkIndex(0);
+                if (profile.UseAuthoredGaitTiming && HasPlayable(walk))
+                {
+                    float runningFraction = runWeight / Mathf.Max(.0001f, walkWeight + runWeight);
+                    CyclesPerSecond = Mathf.Lerp((float)rate / assets[walk].length,
+                        CyclesPerSecond, runningFraction);
+                }
+                movementCycle = Repeat01(movementCycle + dt * CyclesPerSecond);
             }
             else if (controller.State == GroundMotionState.Idle &&
                 previousState != GroundMotionState.Idle)
