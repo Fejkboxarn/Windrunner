@@ -28,7 +28,24 @@ namespace Windrunner.TerrainAuthoring.Editor
             Undo.undoRedoPerformed+=()=>{undoHold=true;inspect=false;blocked.Clear();};
             Undo.postprocessModifications+=mods=>{if(mods.Any(m=>Relevant(m.currentValue.target)))Schedule();return mods;};
             EditorSceneManager.sceneOpened+=(s,m)=>Schedule();
+            EditorSceneManager.sceneSaving+=SaveAuthoredTiles;
             EditorApplication.update+=Update;
+        }
+        static void SaveAuthoredTiles(Scene scene,string path)
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)return;
+            foreach(var t in Tiles().Where(t=>t.gameObject.scene==scene && t.state && t.ribbons))
+            {
+                var s=t.state;
+                if(s.automatic && !undoHold && TerrainPainter.Empty(s.nativeDirty))
+                {
+                    try {Rebuild(t,default,RoadPath.InScene(t),false);}
+                    catch(Exception e){LastResult=e.Message;Debug.LogWarning("Saved authoring inputs with pending paint: "+e.Message,t);}
+                }
+                AssetDatabase.SaveAssetIfDirty(s);
+                AssetDatabase.SaveAssetIfDirty(s.working);
+                AssetDatabase.SaveAssetIfDirty(t.ribbons.sharedMesh);
+            }
         }
         static bool Relevant(UnityEngine.Object o)=>o is RoadProfile||o is SurfaceProfile||o is StudioRoad||o is SplineContainer||
             o is Transform t && t.GetComponentInChildren<StudioRoad>(true);
@@ -68,10 +85,10 @@ namespace Windrunner.TerrainAuthoring.Editor
         {
             return Regions(t,now,default).Aggregate(default(RectInt),TerrainPainter.Union);
         }
-        public static List<RectInt> Regions(StudioTile t,List<RoadFootprint> now,RectInt selected)
+        public static List<RectInt> Regions(StudioTile t,List<RoadFootprint> now,RectInt selected,bool selectionOnly=false)
         {
             var s=t.state;
-            if(s.surfaceSignature!=Rules(t))return new List<RectInt>{TerrainPainter.Full(s.working)};
+            if(!selectionOnly && s.surfaceSignature!=Rules(t))return new List<RectInt>{TerrainPainter.Full(s.working)};
             var regions=new List<RectInt>();
             void Add(RectInt rect)
             {
@@ -84,7 +101,8 @@ namespace Windrunner.TerrainAuthoring.Editor
                     }
                 regions.Add(rect);
             }
-            Add(s.dirty);Add(selected);
+            if(!selectionOnly)Add(s.dirty);
+            Add(selected);
             foreach(var old in s.footprints)if(!now.Any(n=>n.key==old.key && n.signature==old.signature && n.rect==old.rect))Add(old.rect);
             foreach(var n in now)if(!s.footprints.Any(old=>n.key==old.key && n.signature==old.signature && n.rect==old.rect))Add(n.rect);
             return regions;
@@ -105,13 +123,13 @@ namespace Windrunner.TerrainAuthoring.Editor
                 catch(Exception e){blocked.Add(t);LastResult=e.Message;Debug.LogWarning("Terrain Studio paused: "+e.Message,t);}
             }
         }
-        public static void Rebuild(StudioTile t,RectInt requested,List<RoadPath> paths,bool interactive,bool revert=false)
+        public static void Rebuild(StudioTile t,RectInt requested,List<RoadPath> paths,bool interactive,bool revert=false,bool selectionOnly=false)
         {
             if(!t.ribbons||!t.ribbons.sharedMesh)throw new InvalidOperationException("Missing baked wheel mesh.");
             var error=TerrainPainter.Validate(t,paths);
             if(error!=null)throw new InvalidOperationException(error);
             var stamps=Stamps(t,paths);
-            var regions=Regions(t,stamps,requested);
+            var regions=Regions(t,stamps,requested,selectionOnly);
             if(regions.Count==0)return;
             var watch=System.Diagnostics.Stopwatch.StartNew();
             Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();Undo.SetCurrentGroupName("Terrain Studio rebuild");
@@ -132,7 +150,10 @@ namespace Windrunner.TerrainAuthoring.Editor
                 }
                 bool affectsRoad=stamps.Concat(t.state.footprints).Any(stamp=>regions.Any(r=>r.Overlaps(stamp.rect)));
                 if(revert || affectsRoad)WheelRibbons.Bake(t,revert?new List<RoadPath>():paths);
-                t.state.footprints=stamps;t.state.surfaceSignature=Rules(t);t.state.dirty=default;
+                t.state.footprints=stamps;
+                if(!selectionOnly||regions.Contains(TerrainPainter.Full(t.state.working)))
+                {t.state.surfaceSignature=Rules(t);t.state.dirty=default;}
+                else if(regions.Any(r=>TerrainPainter.Clip(r,t.state.dirty)==t.state.dirty))t.state.dirty=default;
                 if(revert){t.state.automatic=false;t.state.dirty=TerrainPainter.Full(t.state.working);}
                 EditorUtility.SetDirty(t.state);EditorSceneManager.MarkSceneDirty(t.gameObject.scene);
                 LastResult=$"{regions.Sum(r=>r.width*r.height):N0} cells across {regions.Count} region(s) in {watch.Elapsed.TotalMilliseconds:F0} ms";

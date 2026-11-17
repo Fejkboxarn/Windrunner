@@ -98,7 +98,7 @@ namespace Windrunner.TerrainAuthoring.Tests
             Assert.That(after.Zip(before,(a,b)=>Mathf.Abs(a-b)).Max(),Is.GreaterThan(.3f));
             Undo.PerformUndo();EqualMap(before,Weights(tile));Undo.PerformRedo();EqualMap(after,Weights(tile));
             var path=folder+"/Edited.unity";var guid=AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
-            Assert.IsTrue(EditorSceneManager.SaveScene(scene,path));AssetDatabase.SaveAssets();
+            Assert.IsTrue(EditorSceneManager.SaveScene(scene,path));
             if(SceneManager.sceneCount==1)scene=EditorSceneManager.OpenScene(path,OpenSceneMode.Single);
             else {EditorSceneManager.CloseScene(scene,true);scene=EditorSceneManager.OpenScene(path,OpenSceneMode.Additive);}
             tile=scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<StudioTile>()).Single();
@@ -115,6 +115,8 @@ namespace Windrunner.TerrainAuthoring.Tests
             int soil=Array.IndexOf(left.state.working.terrainLayers,profile.soil);
             var a=left.state.working.GetAlphamaps(63,32,1,1);var b=right.state.working.GetAlphamaps(0,65,1,1);
             Assert.AreEqual(a[0,0,soil],b[0,0,soil],.04);Assert.Greater(a[0,0,soil],.65);
+            Assert.Less(left.ribbons.sharedMesh.bounds.max.x,131f,"Off-tile knots must not expand the runtime culling bounds.");
+            Assert.Greater(right.ribbons.sharedMesh.bounds.min.x,-3f);
             Assert.Greater(left.ribbons.sharedMesh.GetIndexCount(0),0);Assert.Greater(right.ribbons.sharedMesh.GetIndexCount(0),0);
         }
         [Test] public void MissingLayerAndCanceledCalculationLeaveWorkingDataUntouched()
@@ -149,6 +151,36 @@ namespace Windrunner.TerrainAuthoring.Tests
             Assert.AreEqual(GroundGrade.Marginal,TileDiagnostics.Grade(n,controller));
             controller.slopeLimit=40;Assert.AreEqual(GroundGrade.Aerial,TileDiagnostics.Grade(n,controller));
         }
+        [Test] public void SelectedAreaLeavesUntouchedSourceElsewhereEvenWithPendingFullRuleChange()
+        {
+            var t=Tile();var region=new RectInt(18,18,12,12);var s=t.state;
+            StudioUpdates.Rebuild(t,region,RoadPath.InScene(t),false,false,true);
+            Assert.Greater(s.working.GetAlphamaps(20,20,1,1)[0,0,Array.IndexOf(s.working.terrainLayers,profile.soil)],.01);
+            Assert.AreEqual(1,s.working.GetAlphamaps(2,2,1,1)[0,0,0],.004);
+            Assert.AreEqual(TerrainPainter.Full(s.working),StudioUpdates.Pending(t,StudioUpdates.Stamps(t,RoadPath.InScene(t))));
+            var duplicate=Terrain.CreateTerrainGameObject(s.working);
+            Assert.That(TerrainPainter.Validate(t,RoadPath.InScene(t)),Does.Contain("share working data"));
+            Object.DestroyImmediate(duplicate);
+        }
+        [Test] public void PhysicsContactsAreIdenticalAcrossBakedCarriageWear()
+        {
+            var t=Tile();Physics.SyncTransforms();
+            var collision=t.terrain.GetComponent<TerrainCollider>();
+            RaycastHit[] Sample()
+            {
+                var samples=new RaycastHit[21];
+                for(int i=0;i<samples.Length;i++)
+                {
+                    var ray=new Ray(new Vector3(40+(i-10)*.3f,100,52),Vector3.down);
+                    Assert.IsTrue(t.gameObject.scene.GetPhysicsScene().Raycast(ray.origin,ray.direction,out samples[i],150));
+                    Assert.AreSame(collision,samples[i].collider);
+                }
+                return samples;
+            }
+            var original=Sample();StudioSetup.CreateRoad(t,new Vector2(40,52),carriage);Bake(t);Physics.SyncTransforms();
+            var result=Sample();
+            for(int i=0;i<original.Length;i++){Assert.AreEqual(original[i].point,result[i].point);Assert.AreEqual(original[i].normal,result[i].normal);}
+        }
         [Test] public void RealBasinFullAndBrushBenchmarksPreserveSource()
         {
             var source=AssetDatabase.LoadAssetAtPath<TerrainData>("Assets/WindrunnerProduction/World/Terrain/CentralBasin.asset");
@@ -157,6 +189,7 @@ namespace Windrunner.TerrainAuthoring.Tests
             var clock=Stopwatch.StartNew();Bake(tile);double full=clock.Elapsed.TotalMilliseconds;var samples=new double[7];
             for(int i=0;i<samples.Length;i++){clock.Restart();Bake(tile,new RectInt(220+i,230,20,20));samples[i]=clock.Elapsed.TotalMilliseconds;}
             Array.Sort(samples);Debug.Log($"Terrain Studio benchmark: full {full:F1} ms, 20x20 median {samples[3]:F1} ms, max {samples[6]:F1} ms; layers {tile.state.working.alphamapLayers}, ribbon vertices {tile.ribbons.sharedMesh.vertexCount}.");
+            Debug.Log(string.Join(" ",TileDiagnostics.Layout(tile,tile.state.working.terrainLayers)));
             EqualMap(original.weights,TerrainPainter.Capture(source,TerrainPainter.Full(source)).weights);
         }
     }

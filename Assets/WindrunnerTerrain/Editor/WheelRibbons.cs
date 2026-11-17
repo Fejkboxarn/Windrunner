@@ -20,11 +20,20 @@ namespace Windrunner.TerrainAuthoring.Editor
                 if(!p.carriage||!p.trackMaterial||TerrainPainter.Empty(TerrainPainter.Pixels(tile.terrain,path.bounds)))continue;
                 int m=materials.IndexOf(p.trackMaterial);
                 if(m<0){m=materials.Count;materials.Add(p.trackMaterial);faces.Add(new List<int>());}
+                var occupied=new bool[path.points.Length];
+                var origin=tile.terrain.GetPosition();var data=tile.state.working;var size=data.size;
+                for(int k=1;k<path.points.Length;k++)
+                {
+                    var mid=(path.points[k-1]+path.points[k])*.5f;
+                    float u=(mid.x-origin.x)/size.x,v=(mid.y-origin.z)/size.z;
+                    occupied[k]=u>=0&&u<1&&v>=0&&v<1&&!data.IsHole((int)(u*data.holesResolution),(int)(v*data.holesResolution));
+                }
                 foreach(int side in new[]{-1,1})
                 {
                     int previous=-1;
                     for(int i=0;i<path.points.Length;i++)
                     {
+                        if(!occupied[i] && (i+1==occupied.Length||!occupied[i+1])){previous=-1;continue;}
                         Vector2 center=path.points[i],axis=(path.points[Mathf.Min(i+1,path.points.Length-1)]-path.points[Mathf.Max(0,i-1)]).normalized;
                         var lateral=new Vector2(-axis.y,axis.x);
                         float grain=Mathf.PerlinNoise(center.x*.29f+side*7,center.y*.29f);
@@ -36,7 +45,7 @@ namespace Windrunner.TerrainAuthoring.Editor
                             vertices.Add(filter.transform.InverseTransformPoint(new Vector3(pt.x,heights.At(pt)+.012f,pt.y)));
                             uv.Add(new Vector2(j*.5f,path.lengths[i]/Mathf.Max(.1f,p.textureRepeatMetres)));
                             float alpha=p.wear*(1-p.trackBreakup*(1-grain));
-                            var origin=tile.terrain.GetPosition();var d=tile.state.working;
+                            var d=tile.state.working;
                             var cell=new Vector2Int(Mathf.RoundToInt((pt.x-origin.x)/d.size.x*(d.alphamapWidth-1)),Mathf.RoundToInt((pt.y-origin.z)/d.size.z*(d.alphamapHeight-1)));
                             foreach(var patch in tile.state.protectedPaint)if(patch.rect.Contains(cell))alpha*=1-patch.opacity;
                             foreach(var crossing in paths)if(crossing.Profile.priority>p.priority)alpha*=1-crossing.Coverage(pt);
@@ -44,15 +53,8 @@ namespace Windrunner.TerrainAuthoring.Editor
                                 alpha*=Mathf.Clamp01(Mathf.Min(path.lengths[i],path.lengths[path.lengths.Length-1]-path.lengths[i])/1.5f);
                             colors.Add(new Color(p.trackBreakup,1,1,alpha));
                         }
-                        if(previous>=0)
-                        {
-                            Vector2 mid=(path.points[i-1]+path.points[i])*.5f;
-                            var o=tile.terrain.GetPosition();var s=tile.state.working.size;
-                            var d=tile.state.working;
-                            if(mid.x>=o.x&&mid.x<o.x+s.x&&mid.y>=o.z&&mid.y<o.z+s.z &&
-                                !d.IsHole((int)((mid.x-o.x)/s.x*d.holesResolution),(int)((mid.y-o.z)/s.z*d.holesResolution)))
-                                for(int j=0;j<2;j++)faces[m].AddRange(new[]{previous+j,row+j,previous+j+1,previous+j+1,row+j,row+j+1});
-                        }
+                        if(previous>=0 && occupied[i])
+                            for(int j=0;j<2;j++)faces[m].AddRange(new[]{previous+j,row+j,previous+j+1,previous+j+1,row+j,row+j+1});
                         previous=row;
                     }
                 }

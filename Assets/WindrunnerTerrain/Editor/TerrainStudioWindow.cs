@@ -155,7 +155,7 @@ namespace Windrunner.TerrainAuthoring.Editor
         void Rebuild(StudioTile t,RectInt rect,bool revert=false)
         {
             if(!Confirm("Replace unprotected generated coverage on the working copy? Protected paint and terrain heights are retained."))return;
-            StudioUpdates.Rebuild(t,rect,RoadPath.InScene(t),true,revert);message=StudioUpdates.LastResult;SceneView.RepaintAll();
+            StudioUpdates.Rebuild(t,rect,RoadPath.InScene(t),true,revert,rect!=TerrainPainter.Full(t.state.working));message=StudioUpdates.LastResult;SceneView.RepaintAll();
         }
         void RoadRebuild(StudioTile tile)
         {
@@ -164,7 +164,7 @@ namespace Windrunner.TerrainAuthoring.Editor
             {
                 var paths=RoadPath.InScene(t);RectInt r=default;
                 foreach(var p in paths.Where(p=>p.road==road))r=TerrainPainter.Union(r,TerrainPainter.Pixels(t.terrain,p.bounds));
-                StudioUpdates.Rebuild(t,r,paths,true);
+                StudioUpdates.Rebuild(t,r,paths,true,false,true);
             }
         }
         void Preview(StudioTile t)

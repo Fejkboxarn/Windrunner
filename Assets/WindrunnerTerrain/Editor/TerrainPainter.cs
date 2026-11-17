@@ -52,7 +52,7 @@ namespace Windrunner.TerrainAuthoring.Editor
             var state=tile.state;var p=state.profile;
             if(!p||!p.grass||!p.soil||!p.rock)return "Assign grass, soil and rock TerrainLayers.";
             if(state.original==null||state.original.rect!=Full(state.working))return "Alphamap dimensions changed. Restore resolution before rebuilding.";
-            if(StudioUpdates.Tiles().Any(other=>other!=tile&&other.terrain&&other.terrain.terrainData==state.working))
+            if(UnityEngine.Object.FindObjectsByType<Terrain>(FindObjectsInactive.Include).Any(other=>other!=tile.terrain&&other.terrainData==state.working))
                 return "Multiple Studio terrains share working data. Assign independent copies before painting.";
             if(tile.terrain.transform.lossyScale!=Vector3.one||Quaternion.Angle(tile.terrain.transform.rotation,Quaternion.identity)>.01f)
                 return "Unity Terrain must be unrotated with unit world scale.";

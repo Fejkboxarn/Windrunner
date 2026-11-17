@@ -6,6 +6,8 @@ Open **Tools > Windrunner > Zone 01 > Open world**. Press Play for a fresh in-me
 
 The dedicated branch starts at main-menu candidate d74cbc03. Its history already includes progression checkpoint 9e8f97c4 and production hardening aa9e9d58. Movement Lab checkpoint 0fab74bd branches separately from 9e8f97c4. The first zone uses production Sling targets, enemy health, character input, camera, portable animation, scene-local session services and the existing quest/cinematic authorities. Wind Tunnels and experimental Overdrive stay on the lab branch for a separately tested integration when a level needs them.
 
+For non-destructive material painting and spline roads, open **Tools > Windrunner > Terrain Studio**. The [Terrain Studio authoring guide](TerrainStudio.md) covers working copies, native paint protection, wheel wear and Undo.
+
 ## Editing the zone
 
 1. Expand **WorldRoot > Terrain**. The basin is one 2,048 × 2,048 m Unity Terrain with a 1,025 × 1,025 heightmap (2 m sample spacing), 480 m vertical range and 512 × 512 paint map. One tile keeps this initial basin continuous. Use the Terrain Inspector's **Paint Terrain** tools to raise/lower, smooth or paint. Add Terrain Layers, trees and details when ready. The data lives in **World/Terrain/CentralBasin.asset**. A duplicate scene still shares this data unless you duplicate and reassign the TerrainData on both Terrain and TerrainCollider.

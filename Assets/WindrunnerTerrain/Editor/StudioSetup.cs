@@ -38,7 +38,8 @@ namespace Windrunner.TerrainAuthoring.Editor
                 r.vegetation=name=="Footpath"?.45f:.12f;r.carriage=name=="Carriage road";r.priority=r.carriage?2:1;
                 AssetDatabase.CreateAsset(r,Folder+name+".asset");
             }
-            AssetDatabase.SaveAssets();
+            foreach(string file in AssetDatabase.FindAssets(string.Empty,new[]{Folder.TrimEnd('/')}))
+                AssetDatabase.SaveAssetIfDirty(AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(file)));
         }
         public static StudioTile Attach(Terrain terrain,SurfaceProfile profile,string folder)
         {
@@ -47,6 +48,7 @@ namespace Windrunner.TerrainAuthoring.Editor
             var collider=terrain.GetComponent<TerrainCollider>();
             if(!collider||collider.terrainData!=terrain.terrainData)throw new InvalidOperationException("Verify the TerrainCollider binding first.");
             var original=terrain.terrainData;
+            if(original.terrainLayers.Length==0||original.terrainLayers.Any(l=>!l))throw new InvalidOperationException("Assign a valid starting TerrainLayer before capturing source paint.");
             var data=Object.Instantiate(original);
             string Asset(string name)=>AssetDatabase.GenerateUniqueAssetPath(folder+"/"+original.name+" "+name+".asset");
             AssetDatabase.CreateAsset(data,Asset("working"));
@@ -66,7 +68,8 @@ namespace Windrunner.TerrainAuthoring.Editor
             detail.GetComponent<MeshRenderer>().enabled=false;
             Undo.RegisterCreatedObjectUndo(detail,"Create baked renderer");Undo.RegisterCreatedObjectUndo(binding,"Create authoring binding");
             PrefabUtility.RecordPrefabInstancePropertyModifications(terrain);PrefabUtility.RecordPrefabInstancePropertyModifications(collider);
-            EditorSceneManager.MarkSceneDirty(terrain.gameObject.scene);Undo.CollapseUndoOperations(group);AssetDatabase.SaveAssets();
+            EditorSceneManager.MarkSceneDirty(terrain.gameObject.scene);Undo.CollapseUndoOperations(group);
+            AssetDatabase.SaveAssetIfDirty(state);AssetDatabase.SaveAssetIfDirty(data);AssetDatabase.SaveAssetIfDirty(mesh);
             return tile;
         }
         public static StudioRoad CreateRoad(StudioTile tile,Vector2 start,RoadProfile profile)
