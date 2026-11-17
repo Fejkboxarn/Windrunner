@@ -38,6 +38,7 @@ namespace Windrunner.Frontend
             public PlaythroughSlots slots;
             public string id, world;
             public IProgressionStore store;
+            public bool reloadActiveSlot;
             public ProgressionService service;
         }
         private static Transfer arriving;
@@ -62,8 +63,19 @@ namespace Windrunner.Frontend
                 if(handoff!=null && (WorldId!=handoff.world || !handoff.service.MatchesDefinitions(catalog.definitions)))
                     throw new InvalidDataException("Loaded scene does not match the selected playthrough.");
                 SlotId=handoff?.id;
-                store=handoff?.store ?? new MemoryProgressionStore();
-                Progression=handoff?.service ?? new ProgressionService(catalog.definitions,"local-player",store);
+                if(handoff?.reloadActiveSlot==true)
+                {
+                    // A return stream can commit to this slot after Load preflight and before scene teardown.
+                    handoff.service.Dispose();
+                    store=Slots.Open(SlotId,out var latestWorld);
+                    if(latestWorld!=WorldId)throw new InvalidDataException("Playthrough destination changed during reload.");
+                    Progression=new ProgressionService(catalog.definitions,"local-player",store);
+                }
+                else
+                {
+                    store=handoff?.store ?? new MemoryProgressionStore();
+                    Progression=handoff?.service ?? new ProgressionService(catalog.definitions,"local-player",store);
+                }
                 project.Runtime.Services.Register(Progression);
                 character.enabled=false;
                 character.transform.SetPositionAndRotation(arrival.position,arrival.rotation);
@@ -124,7 +136,7 @@ namespace Windrunner.Frontend
             EnsureDestination(destination);
             var destinationCatalog=CatalogFor(world);
             var validated=new ProgressionService(destinationCatalog.definitions,"local-player",selected);
-            Transition(destination,new Transfer{slots=Slots,id=id,world=world,store=selected,service=validated});
+            Transition(destination,new Transfer{slots=Slots,id=id,world=world,store=selected,service=validated,reloadActiveSlot=id==SlotId});
         }
         public void Continue()
         {

@@ -109,7 +109,7 @@ namespace Windrunner.Frontend
             ArsenalPage();
         }
         private void ArsenalBack(){ClosePortrait();if(arsenalFromGameplay)Resume();else Home();}
-        private void ArsenalPage()
+        private void ArsenalPage(bool updatePortrait=true)
         {
             var equipment=session.daggers.Equipment;
             string detail=inspected?inspected.displayName+"\n"+inspected.description:"No daggers owned";
@@ -123,12 +123,12 @@ namespace Windrunner.Frontend
                 portraitSurface=ui.Portrait();
                 portrait=new DaggerPreview(session.daggers,portraitSurface);
             }
-            portrait.Select(inspected);
+            if(updatePortrait)portrait.Select(inspected);
             foreach(var pair in equipment.Catalog.pairs)
                 if(equipment.Owns(pair))
                     ui.Choice((inspected==pair?"› ":"")+pair.displayName+(equipment.Equipped==pair?"   ·   Equipped":""),()=>{inspected=pair;ArsenalPage();});
-            ui.Choice("Equip",()=>{equipment.Equip(inspected);ArsenalPage();},inspected && equipment.Equipped!=inspected);
-            ui.Choice("Unequip",()=>{equipment.Equip(null);ArsenalPage();},equipment.Equipped);
+            ui.Choice("Equip",()=>{equipment.Equip(inspected);ArsenalPage(false);},inspected && equipment.Equipped!=inspected);
+            ui.Choice("Unequip",()=>{equipment.Equip(null);ArsenalPage(false);},equipment.Equipped);
             ui.Choice("Rotate character",()=>portrait.Rotate(45));
             End();
         }
