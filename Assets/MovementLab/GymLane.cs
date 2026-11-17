@@ -17,6 +17,8 @@ namespace Windrunner.MovementLab
         public Transform destination, launch, landing, slope, target, startGate, endGate, sign;
         public WindTunnel continuous, impulse;
         public TextMesh label;
+        public TextMesh[] distanceMarkers = System.Array.Empty<TextMesh>();
+        public Transform[] relayTargets = System.Array.Empty<Transform>();
 
         public void SetPreset(LanePreset value)
         {
@@ -37,17 +39,30 @@ namespace Windrunner.MovementLab
             destination.localPosition = -direction * (runUp - 12) + Vector3.up * 1.2f;
             destination.localRotation = heading;
             Place(launch, direction * ((10 - runUp) * .5f) - Vector3.up, heading, new Vector3(18, 2, runUp + 10));
-            Place(landing, end - Vector3.up, heading, new Vector3(26, 2, 40));
+            Place(landing, end - Vector3.up, Quaternion.identity, new Vector3(26, 2, 40));
             float angle = Mathf.Deg2Rad * slopeAngle;
             Place(slope, direction * 10 + Vector3.up * (7 * Mathf.Sin(angle) - .15f),
                 heading * Quaternion.Euler(-slopeAngle, 0, 0), new Vector3(14, .4f, 14));
             target.localPosition = end + heading * targetOffset;
+            for(int i=0;i<relayTargets.Length;i++)
+            {
+                float t=(i+1f)/(relayTargets.Length+1);
+                relayTargets[i].localPosition=Vector3.Lerp(direction*10,end,t)+heading*targetOffset;
+            }
             startGate.localPosition = direction * 7 + Vector3.up * .1f;
             endGate.localPosition = end + Vector3.up * .1f;
             sign.localPosition = destination.localPosition + heading * new Vector3(-6, 3, 12);
             sign.localRotation = heading;
             Place(continuous.transform, -direction * 10 + Vector3.up * (tunnelSize.y * .45f), heading, SafeSize(tunnelSize));
             Place(impulse.transform, direction * 5 + Vector3.up * (tunnelSize.y * .45f), heading, SafeSize(new Vector3(tunnelSize.x,tunnelSize.y,tunnelSize.z * .35f)));
+            for(int i=0;i<distanceMarkers.Length;i++)
+            {
+                float meters=spacing*(i+1)/distanceMarkers.Length;
+                var marker=distanceMarkers[i];
+                marker.transform.localPosition=direction*meters+Vector3.up*(2+elevation*meters/spacing)+heading*(Vector3.right*11);
+                marker.transform.localRotation=heading;
+                marker.text=meters.ToString("0")+" m";
+            }
             bool wind = kind == LaneKind.Wind || kind == LaneKind.HighSpeed || kind == LaneKind.Combined;
             continuous.gameObject.SetActive(wind); impulse.gameObject.SetActive(wind);
             target.gameObject.SetActive(kind == LaneKind.Sling || kind == LaneKind.Combined);

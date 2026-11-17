@@ -16,9 +16,10 @@ namespace Windrunner.MovementLab
     // Per actor and volume. Sample once per motor frame; no trigger callback ownership.
     public struct WindContact
     {
-        private bool inside;
+        private bool inside, eligible;
         private float elapsed, delivered;
         public bool Inside => inside;
+        public bool Eligible => eligible;
 
         public Vector3 Sample(WindSettings settings, Vector3 velocity, bool grounded, float depth, float dt)
         {
@@ -26,8 +27,10 @@ namespace Windrunner.MovementLab
             if (depth < 0) { this = default; return Vector3.zero; }
             Vector3 movement = velocity;
             if (grounded) movement.y = 0;
-            if (!inside && movement.magnitude < settings.minimumSpeed) return Vector3.zero;
+            if (!inside || settings.mode == WindMode.Continuous)
+                eligible = movement.sqrMagnitude > .0001f && movement.magnitude >= settings.minimumSpeed;
             inside = true;
+            if (!eligible) return Vector3.zero;
             elapsed += dt;
             float ramp = settings.rampSeconds <= 0 ? 1 : Mathf.Clamp01(elapsed / settings.rampSeconds);
             float weight = settings.edgeFalloff <= 0 ? 1 : Mathf.SmoothStep(0, 1, Mathf.Clamp01(depth / settings.edgeFalloff));

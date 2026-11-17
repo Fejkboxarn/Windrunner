@@ -14,7 +14,11 @@ namespace Windrunner.MovementLab.Tests
             var contact=new WindContact();
             float dt=1f/fps;
             Assert.AreEqual(Vector3.zero,contact.Sample(s,Vector3.zero,false,1,dt));
+            Assert.AreEqual(Vector3.zero,contact.Sample(s,Vector3.down*6,true,1,dt));
+            Assert.IsFalse(contact.Eligible,"Ground stick velocity must not count as moving entry.");
             var velocity = new Vector3(-5,3,8);
+            Assert.AreEqual(Vector3.zero, contact.Sample(s,velocity,false,1,dt),"An invalid impulse entry must exit before rearming.");
+            contact.Sample(s,velocity,false,-1,dt);
             float sum=0;
             for(int i=0;i<fps;i++)
             {
@@ -57,13 +61,25 @@ namespace Windrunner.MovementLab.Tests
         }
         [Test] public void SerializedGymReferencesAndUniqueProductionPlayer()
         {
-            
+
             var scene=EditorSceneManager.OpenScene("Assets/MovementLab/MovementGym.unity",OpenSceneMode.Additive);
             try
             {
                 var components=scene.GetRootGameObjects().SelectMany(o=>o.GetComponentsInChildren<MonoBehaviour>(true)).ToArray();
                 Assert.AreEqual(1,components.Count(c=>c!=null && c.GetType().Name=="PlayerMotor"));
                 Assert.AreEqual(10,components.Count(c=>c!=null && c.GetType().Name=="GymLane"));
+                foreach(var root in scene.GetRootGameObjects())
+                foreach(var t in root.GetComponentsInChildren<Transform>(true))
+                {
+                    Assert.AreEqual(0,GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject),t.name);
+                    foreach(var c in t.GetComponents<Component>())
+                    {
+                        using var so=new SerializedObject(c);var property=so.GetIterator();
+                        while(property.Next(true))
+                            if(property.propertyType==SerializedPropertyType.ObjectReference && property.objectReferenceEntityIdValue!=default)
+                                Assert.IsNotNull(property.objectReferenceValue,t.name+"/"+property.propertyPath);
+                    }
+                }
                 foreach(var c in components.Where(c=>c!=null && c.GetType().Namespace=="Windrunner.MovementLab"))
                 {
                     using var so=new SerializedObject(c);var it=so.GetIterator();

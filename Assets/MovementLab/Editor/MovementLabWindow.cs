@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Windrunner.MovementLab.Editor
             if (player == null) return;
             var lanes = player.lanes;
             int selected = Mathf.Max(0, Array.IndexOf(lanes, lane));
-            lane = lanes[EditorGUILayout.Popup("Testing section", selected, lanes.Select(x=>x.kind.ToString()).ToArray())];
+            lane = lanes[EditorGUILayout.Popup("Testing section", selected, lanes.Select(x=>x.name).ToArray())];
             if (Application.isPlaying)
             {
                 if (GUILayout.Button("Teleport to selected section")) player.Teleport(Array.IndexOf(lanes,lane));
@@ -38,8 +39,21 @@ namespace Windrunner.MovementLab.Editor
                 EditorGUILayout.HelpBox("Exit Play Mode to edit saved geometry and technique profiles.",MessageType.Info);
                 return;
             }
+            if (GUILayout.Button("Duplicate section at offset"))
+            {
+                Undo.IncrementCurrentGroup(); int group=Undo.GetCurrentGroup();
+                var copy=Instantiate(lane,lane.transform.parent);copy.name=lane.name+" extension";
+                copy.transform.localPosition+=Vector3.right*45;
+                Undo.RegisterCreatedObjectUndo(copy.gameObject,"Duplicate movement module");
+                Undo.RecordObject(player,"Bind duplicated module");
+                player.lanes=player.lanes.Concat(new[]{copy}).ToArray();
+                player.volumes=player.volumes.Concat(copy.GetComponentsInChildren<WindTunnel>(true)).ToArray();
+                lane=copy; Selection.activeGameObject=copy.gameObject;
+                Undo.CollapseUndoOperations(group);EditorSceneManager.MarkSceneDirty(copy.gameObject.scene);
+            }
             scroll = EditorGUILayout.BeginScrollView(scroll);
             EditorGUI.BeginChangeCheck();
+            Vector3 anchor = EditorGUILayout.Vector3Field("Section origin",lane.transform.localPosition);
             LanePreset preset = (LanePreset)EditorGUILayout.EnumPopup("Configuration",lane.preset);
             float spacing = EditorGUILayout.FloatField("Obstacle spacing (m)",lane.spacing);
             float runUp = EditorGUILayout.FloatField("Run-up length (m)",lane.runUp);
@@ -51,6 +65,7 @@ namespace Windrunner.MovementLab.Editor
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RegisterFullObjectHierarchyUndo(lane.gameObject,"Adjust movement lane");
+                lane.transform.localPosition=anchor;
                 lane.runUp=Mathf.Max(15,runUp); lane.spacing=Mathf.Max(4,spacing); lane.elevation=rise; lane.approachAngle=approach;
                 lane.slopeAngle=slope; lane.targetOffset=target; lane.tunnelSize=Vector3.Max(Vector3.one,size);
                 if(preset!=lane.preset) lane.SetPreset(preset);
@@ -81,7 +96,7 @@ namespace Windrunner.MovementLab.Editor
             var accent = Material("Launch", new Color(.1f,.7f,.6f));
             var gold = Material("Destination", new Color(.93f,.61f,.12f));
             var root = new GameObject("Movement Gym"); root.transform.position = new Vector3(2400,0,0);
-            Block(root.transform,"Recovery floor",platform,new Vector3(0,-14,0),new Vector3(1000,2,1000));
+            Block(root.transform,"Recovery floor",platform,new Vector3(0,-5,0),new Vector3(1000,2,1000));
             var player = motor.gameObject.AddComponent<MovementLabPlayer>();
             player.motor=motor; player.power=motor.GetComponent<AirPower>(); player.controller=motor.GetComponent<CharacterController>();
             player.sling=motor.GetComponent<AirSlingController>(); player.inputHost=host; player.profile=profile;
@@ -109,17 +124,36 @@ namespace Windrunner.MovementLab.Editor
                 lane.continuous=Tunnel(module,false,accent,profile); lane.impulse=Tunnel(module,true,gold,profile);
                 lane.Apply();
             }
+            ConfigureRunways(player);
             player.volumes=root.GetComponentsInChildren<WindTunnel>(true);
             motor.transform.position=player.lanes[0].destination.position;
+            KeepGymComposition(scene, player);
             if(!EditorSceneManager.SaveScene(scene)) throw new InvalidOperationException("Gym save failed.");
             AssetDatabase.SaveAssets();
         }
-        public static void BakeRunways()
+        private static void ConfigureRunways(MovementLabPlayer player)
         {
-            var scene = EditorSceneManager.OpenScene(ScenePath);
-            var player = FindAnyObjectByType<MovementLabPlayer>();
             foreach(var lane in player.lanes)
             {
+                if(lane.kind==LaneKind.Combined && lane.relayTargets.Length==0)
+                {
+                    lane.relayTargets=new Transform[7];
+                    for(int i=0;i<lane.relayTargets.Length;i++)
+                    {
+                        var relay=Instantiate(lane.target,lane.transform);
+                        relay.name="Sling relay "+(i+1);lane.relayTargets[i]=relay;
+                    }
+                }
+                if(lane.distanceMarkers.Length==0)
+                {
+                    lane.distanceMarkers=new TextMesh[4];
+                    for(int i=0;i<4;i++)
+                    {
+                        var marker=Instantiate(lane.label,lane.transform);
+                        marker.name="Distance marker "+(i+1);marker.characterSize=.08f;
+                        lane.distanceMarkers[i]=marker;
+                    }
+                }
                 lane.SetPreset(lane.preset);
                 if (lane.kind == LaneKind.Combined)
                     lane.transform.localPosition = new Vector3(140, 200, 20);
@@ -132,8 +166,43 @@ namespace Windrunner.MovementLab.Editor
                 }
                 lane.Apply();
             }
-            player.transform.position = player.lanes[0].destination.position;
-            EditorSceneManager.SaveScene(scene);
+        }
+        // Keep serialized dependencies transitively, including references into another scene root.
+        // Only the independent gym copy can enter this path.
+        private static void KeepGymComposition(UnityEngine.SceneManagement.Scene scene, MovementLabPlayer player)
+        {
+            if (scene.path!=ScenePath) throw new InvalidOperationException("Expected the movement gym copy.");
+            var roots=scene.GetRootGameObjects();
+            var retained=new HashSet<GameObject>();
+            var pending=new Queue<GameObject>();
+            void Retain(GameObject obj)
+            {
+                if (obj!=null && obj.scene==scene && retained.Add(obj.transform.root.gameObject))
+                    pending.Enqueue(obj.transform.root.gameObject);
+            }
+            Retain(player.gameObject);Retain(player.motor.ViewCamera.gameObject);Retain(player.inputHost.gameObject);
+            Retain(player.lanes[0].gameObject);
+            foreach(var root in roots)
+                if(root.GetComponentInChildren<Light>(true)?.type==LightType.Directional ||
+                    root.GetComponentInChildren<Canvas>(true)!=null ||
+                    root.GetComponentInChildren<UnityEngine.EventSystems.EventSystem>(true)!=null ||
+                    root.GetComponent<UnityEngine.Rendering.Volume>()!=null) Retain(root);
+            while(pending.Count>0)
+            {
+                foreach(var component in pending.Dequeue().GetComponentsInChildren<Component>(true))
+                {
+                    if(component==null) continue;
+                    using var serialized=new SerializedObject(component);var it=serialized.GetIterator();
+                    while(it.Next(true))
+                    {
+                        if(it.propertyType!=SerializedPropertyType.ObjectReference) continue;
+                        var reference=it.objectReferenceValue;
+                        if(reference is Component c) Retain(c.gameObject);
+                        else if(reference is GameObject go) Retain(go);
+                    }
+                }
+            }
+            foreach(var root in roots) if(!retained.Contains(root)) DestroyImmediate(root);
         }
         private static WindTunnel Tunnel(Transform parent,bool impulse,Material material, MovementLabProfile profile)
         {

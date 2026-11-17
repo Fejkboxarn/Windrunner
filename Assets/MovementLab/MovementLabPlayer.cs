@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using Windrunner.Production.Input;
 namespace Windrunner.MovementLab
 {
+    [DefaultExecutionOrder(100)]
     [DisallowMultipleComponent]
     public sealed class MovementLabPlayer : MonoBehaviour
     {
@@ -23,6 +24,8 @@ namespace Windrunner.MovementLab
         private readonly OverdriveSession drive = new OverdriveSession();
         private InputAction overdrive, next, previous, reset, overlay;
         private int interruption;
+        private Vector3 previousProbe;
+        private float previousDt;
         public int WindCount { get; private set; }
         public float LastWindDelta { get; private set; }
         public float WindGain { get; private set; }
@@ -32,6 +35,8 @@ namespace Windrunner.MovementLab
         private Vector3 lastPosition, lastVelocity;
         private float elapsed, airborne, acceleration, nextHud;
         private string display;
+        private GUIStyle diagnosticsStyle;
+        private readonly GUIContent hudContent = new GUIContent();
         public LineRenderer trail;
         private readonly Vector3[] points = new Vector3[128];
         private int pointCount;
@@ -53,23 +58,39 @@ namespace Windrunner.MovementLab
         private void OnDisable() { if (motor != null && motor.MovementInfluence == Resolve) motor.MovementInfluence = null; drive.Interrupt(); }
         private void OnApplicationFocus(bool focus) { if (!focus) drive.Interrupt(); }
 
+        private static readonly Unity.Profiling.ProfilerMarker influenceMarker = new Unity.Profiling.ProfilerMarker("MovementLab.ResolveInfluences");
         private Vector3 Resolve(Vector3 velocity, bool grounded, float dt)
         {
-            var input = inputHost.Input;
+            using (influenceMarker.Auto()) return SampleInfluences(velocity,grounded,dt);
+        }
+
+        private Vector3 SampleInfluences(Vector3 velocity, bool grounded, float dt)
+        {
+            var input = inputHost != null ? inputHost.Input : null;
+            Vector3 from = previousProbe, position = transform.position;
+            float transitDt = previousDt; previousProbe = position; previousDt = dt;
             Vector3 wind = Vector3.zero;
             WindCount = 0; LastWindDelta = 0;
             if (input == null || overdrive == null) return wind;
             if (input.InterruptionVersion != interruption)
             { drive.Interrupt(); interruption = input.InterruptionVersion; }
             if (input.IsGameplayBlocked || sling.IsSlinging || motor.HasExternalTraversalVelocity)
-            { drive.Interrupt(); return wind; }
+            { drive.Interrupt(); previousDt = 0; return wind; }
             for (int i = 0; i < volumes.Length; i++)
             {
                 var volume = volumes[i];
-                float depth = volume.isActiveAndEnabled ? volume.Depth(transform.position) : -1;
-                var candidate = contacts[i].Sample(volume.Settings, velocity, grounded, depth, dt);
+                if (!volume.isActiveAndEnabled) { contacts[i] = default; continue; }
+                float depth = volume.Depth(position);
+                Vector3 candidate;
+                if (depth < 0 && !contacts[i].Inside && transitDt > 0 &&
+                    volume.Crossed(from, position, out float fraction, out float middleDepth))
+                {
+                    candidate = contacts[i].Sample(volume.Settings, velocity, grounded, middleDepth, transitDt * fraction);
+                    contacts[i] = default;
+                }
+                else candidate = contacts[i].Sample(volume.Settings, velocity, grounded, depth, dt);
                 wind = LabVelocity.Strongest(wind, candidate);
-                if (contacts[i].Inside) WindCount++;
+                if (contacts[i].Eligible) WindCount++;
             }
             wind = Vector3.ClampMagnitude(wind, Mathf.Max(0, profile.combinedSpeedCap - velocity.magnitude));
             LastWindDelta = wind.magnitude; WindGain += LastWindDelta;
@@ -86,6 +107,7 @@ namespace Windrunner.MovementLab
             sling.CancelSling(); motor.GetComponent<AirDash>().CancelAutoDash(); motor.StopForTraversalImpact();
             controller.enabled = false; transform.position = spawn.position; controller.enabled = true;
             orbit.ResetAfterTeleport(spawn.eulerAngles.y);
+            previousProbe = spawn.position; previousDt = 0;
             System.Array.Clear(contacts, 0, contacts.Length); drive.Interrupt(); power.Refill(); ResetSession();
         }
         public void ResetSession()
@@ -126,7 +148,18 @@ namespace Windrunner.MovementLab
         private void OnGUI()
         {
             if(diagnostics && display != null && inputHost != null && inputHost.Input != null && !inputHost.Input.IsMenuOpen)
-                GUI.Box(new Rect(12,12, Mathf.Min(Screen.width-24, 640),105),display);
+            {
+                if(diagnosticsStyle==null)
+                {
+                    diagnosticsStyle=new GUIStyle(GUI.skin.box) {fontSize=16,alignment=TextAnchor.MiddleLeft,wordWrap=true,
+                        padding=new RectOffset(14,14,8,8)};
+                    diagnosticsStyle.normal.textColor=Color.white;
+                }
+                float width=Mathf.Min(Screen.width-24,680);
+                hudContent.text = display;
+                float height=diagnosticsStyle.CalcHeight(hudContent,width);
+                GUI.Box(new Rect(12,12,width,height),hudContent,diagnosticsStyle);
+            }
         }
     }
 }

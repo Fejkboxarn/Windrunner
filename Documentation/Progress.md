@@ -305,3 +305,9 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 - Exact Windows fixture rendered startup survived 15 seconds, initialized and had no matched runtime errors. This is startup-only evidence, not mouse/gameplay/audio acceptance. Executable: `Builds/progression-usability-fixture-20261113/Windrunner.exe`. The main gameplay executable was not rebuilt for this targeted fixture correction.
 
 - Post-packaging final Edit Mode: `fixture-validation-final` **48/48 passed**, exit 0; final source/docs whitespace and both serialized gates passed.
+
+### Experimental movement gym, 17 November 2026
+
+Feature branch feature/movement-lab starts at validated progression checkpoint 9e8f97c4. Checkpoint 9fe70b61 introduced the modular gym, direction-preserving wind influences and equipped Overdrive using the production motor and AirPower. The final continuation adds the dedicated gym composition, authored extreme relay course, collision/ability overlap probes and profiler evidence. No existing serialized assets, input templates, character tuning, progression definitions or shipping scene settings were changed.
+
+Full gym-final Edit Mode 54/54 and Play Mode 32/32 passed with exit 0. Rendered gym-final-rendered passed 1/1, including production input, camera and Sling on the actual extreme section. Final straight runs at 30/60/120 simulated FPS peaked at 169.76 m/s and ended 399.45 m along the approach to the 400 m barrier. The automated extreme run reached 265.08 m from spawn and rose 26.13 m. Manual clearance, camera comfort, glancing collisions and hardware feel remain open. Both source contract and loaded gym reference checks passed. Windows movement-gym-20261117 succeeded with 0 errors and 11 warnings. Its rendered startup survived 15 seconds with no matched errors. See MovementLab.md for controls, authoring, measured limits, warning groups and exact validation scope.
