@@ -1,0 +1,47 @@
+{
+  "baseline": "476c9342",
+  "implementation": "bc230e82",
+  "editor": "6000.6.2f1",
+  "tests": [
+    {
+      "path": "Logs/ProductionMigration/overflow-final-EditMode.xml",
+      "total": 86,
+      "passed": 86,
+      "skipped": 0,
+      "sha256": "0c39d3e99a0a7aa77b13f9acc1156fc39c6543dcea9d71e43046b62757a89a8c"
+    },
+    {
+      "path": "Logs/ProductionMigration/overflow-final-PlayMode.xml",
+      "total": 39,
+      "passed": 39,
+      "skipped": 0,
+      "sha256": "6f0052a7a5f030ada5cd78063e90c603bcecc429bf2f68717fb7c6eeaee34510"
+    },
+    {
+      "path": "Logs/ProductionMigration/overflow-final-visual-PlayMode.xml",
+      "total": 1,
+      "passed": 1,
+      "skipped": 0,
+      "sha256": "09f1c789a0dd70b891619c255397f45a88f62d06af0055fa3c1441d17e023264"
+    }
+  ],
+  "sourceContracts": 65,
+  "serializedFailures": [],
+  "windows": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 38,
+    "development": true,
+    "outputPath": "D:/Fork/Windrunner/Builds/reserve-dev-win/Windrunner.exe",
+    "bytes": 1288824136
+  },
+  "warningHeadlineCountsMatchPreviousDaggerBuild": true,
+  "startup": {
+    "rendered": true,
+    "seconds": 15,
+    "errors": [],
+    "scope": "Executable initialization and idle only."
+  },
+  "hudCapture": "Logs/ProductionMigration/reserve-hud-639305067655883332.png",
+  "remainingAcceptance": "Human evaluation of reserve HUD readability, transfer feedback and traversal feel."
+}
