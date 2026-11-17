@@ -32,6 +32,7 @@ namespace AirflowPrototype
             boundFeedback = service;
             TryBindFeedback();
         }
+        private bool hadActionAtEvaluation;
         private bool hadGroundedSample;
         private bool lastGrounded;
         private Vector3 previousForward;
@@ -39,6 +40,7 @@ namespace AirflowPrototype
         private int markerCount;
 
         public WindrunnerAnimationProfile Profile => profile;
+        public string ActiveAnimationAction => session?.ActiveMontage ?? "Inactive";
         public Animator HumanoidAnimator => humanoidAnimator;
         public bool PortableActive => session != null && session.PortableActive;
         public bool ProductionOnlyReady
@@ -97,6 +99,7 @@ namespace AirflowPrototype
             session = new WindrunnerAnimationSession(humanoidAnimator, profile,
                 Array.Empty<Behaviour>(), motor != null ? motor.transform : transform);
             session.MontageSignalRaised += OnMontageSignal;
+            hadActionAtEvaluation = false;
             hadGroundedSample = false;
             previousForward = humanoidAnimator != null
                 ? humanoidAnimator.transform.forward : transform.forward;
@@ -146,7 +149,7 @@ namespace AirflowPrototype
             return started;
         }
 
-        private void RecoverAbilityPresentation()
+        private void RecoverAbilityPresentation(bool includeImpact = true)
         {
             FeedbackKey phase=FeedbackKey.None;
             if(sling!=null)
@@ -155,11 +158,14 @@ namespace AirflowPrototype
                     case AirSlingPhase.Charging:
                     case AirSlingPhase.DelayBeforeDash:phase=FeedbackKey.SlingChargeStarted;break;
                     case AirSlingPhase.DashingToNode:phase=FeedbackKey.SlingDashStarted;break;
-                    case AirSlingPhase.ImpactHold:phase=FeedbackKey.SlingImpact;break;
+                    case AirSlingPhase.ImpactHold when includeImpact:phase=FeedbackKey.SlingImpact;break;
                 }
             var caster=motor!=null?motor.GetComponent<AirCaster>():null;
             var dash=motor!=null?motor.GetComponent<AirDash>():null;
-            session?.RecoverSustainedActions(phase,caster!=null && caster.IsCharging,dash!=null && dash.IsDashing);
+            bool casting=caster!=null && caster.IsCharging;
+            bool dashing=dash!=null && dash.IsDashing;
+            if (includeImpact) session?.RecoverSustainedActions(phase,casting,dashing);
+            else session?.ResumeHeldLoops(phase,casting,dashing);
         }
 
         public void StopPortable()
@@ -209,6 +215,11 @@ namespace AirflowPrototype
                 motor.HorizontalSpeed, motor.VerticalSpeed, turnRate,
                 aimYaw, aimPitch, grounded, jumpEdge,
                 sling != null && sling.IsSlinging);
+            // Once a higher-priority transient ends, resume any still-held traversal pose.
+            // Impact is a one-shot. Only initial graph recovery can reconstruct it.
+            if (hadActionAtEvaluation && PortableActive && !session.HasActiveStandaloneAction)
+                RecoverAbilityPresentation(false);
+            hadActionAtEvaluation = session.HasActiveStandaloneAction;
             session.Evaluate(in frame);
         }
 

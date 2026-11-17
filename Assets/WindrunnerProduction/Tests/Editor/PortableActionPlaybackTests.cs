@@ -10,6 +10,98 @@ namespace Windrunner.Production.Tests
     public sealed class PortableActionPlaybackTests
     {
         [Test]
+        public void ClipPreviewRetargetsBothHandsWithoutMovingTheSceneAvatar()
+        {
+            const string path="Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity";
+            var scene=UnityEngine.SceneManagement.SceneManager.GetSceneByPath(path);
+            bool opened=!scene.isLoaded;
+            if(opened)scene=UnityEditor.SceneManagement.EditorSceneManager.OpenScene(path,UnityEditor.SceneManagement.OpenSceneMode.Additive);
+            var type=System.Type.GetType("AirflowPrototype.Editor.DaggerMotionPreview, Assembly-CSharp-Editor",true);
+            var window=ScriptableObject.CreateInstance(type);
+            const System.Reflection.BindingFlags flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            try
+            {
+                type.GetMethod("Bind",flags).Invoke(window,null);
+                Assert.IsNull(type.GetField("issue",flags).GetValue(window));
+                var rig=(Animator)type.GetField("previewRig",flags).GetValue(window);
+                var bridge=(Component)type.GetField("bridge",flags).GetValue(window);
+                var live=(Animator)bridge.GetType().GetProperty("HumanoidAnimator").GetValue(bridge);
+                Assert.AreSame(live.avatar,rig.avatar);
+                Assert.AreNotEqual(rig.gameObject.scene,live.gameObject.scene);
+                Assert.IsFalse(rig.applyRootMotion);
+                var root=rig.transform.position;
+                var hand=rig.GetBoneTransform(HumanBodyBones.RightHand);
+                var other=rig.GetBoneTransform(HumanBodyBones.LeftHand);
+                var original=live.GetBoneTransform(HumanBodyBones.RightHand).rotation;
+                var sample=type.GetMethod("EvaluatePose",flags);
+                sample.Invoke(window,new object[]{0f,1f});
+                var first=hand.rotation;var second=other.rotation;
+                sample.Invoke(window,new object[]{.39f,1f});
+                Assert.Greater(Quaternion.Angle(first,hand.rotation)+Quaternion.Angle(second,other.rotation),.05f);
+                Assert.Less(Vector3.Distance(root,rig.transform.position),.001f);
+                var profile=(WindrunnerAnimationProfile)bridge.GetType().GetProperty("Profile").GetValue(bridge);
+                var assigned=new HashSet<AnimationClip>();
+                var ground=profile.standaloneGroundProfile;
+                for(int i=0;i<(int)GroundPose.Count;i++) assigned.Add(ground.Clip((GroundPose)i));
+                for(int i=0;i<8;i++){assigned.Add(ground.RunDirectionalClip(i));assigned.Add(ground.WalkDirectionalClip(i));}
+                for(int i=0;i<4;i++)assigned.Add(ground.StopClip(i));
+                for(int i=0;i<profile.standaloneActionProfile.Count;i++)assigned.Add(profile.standaloneActionProfile.Action(i).clip);
+                var turn=rig.transform.rotation;
+                foreach(var clip in assigned)
+                {
+                    Assert.IsNotNull(clip);
+                    type.GetMethod("SetPreviewClip",flags).Invoke(window,new object[]{clip});
+                    foreach(float fraction in new[]{0f,.25f,.5f,.75f,.99f})
+                    {
+                        sample.Invoke(window,new object[]{clip.length*fraction,1f});
+                        Assert.Less(Vector3.Distance(root,rig.transform.position),.001f,clip.name);
+                        Assert.Less(Quaternion.Angle(turn,rig.transform.rotation),.1f,clip.name);
+                        // Catch nonfinite samples and retargeting scale explosions in either wrist.
+                        Assert.Less(Vector3.Distance(hand.position,rig.transform.position),rig.humanScale*3,clip.name);
+                        Assert.Less(Vector3.Distance(other.position,rig.transform.position),rig.humanScale*3,clip.name);
+                    }
+                }
+                Assert.Less(Quaternion.Angle(original,live.GetBoneTransform(HumanBodyBones.RightHand).rotation),.01f);
+            }
+            finally
+            {
+                Object.DestroyImmediate(window);
+                if(opened)UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene,true);
+            }
+        }
+
+        [Test]
+        public void DaggerProductionMappingsUseHumanoidChannelsAndTraversalSafeMasks()
+        {
+            var profile=AssetDatabase.LoadAssetAtPath<WindrunnerAnimationProfile>("Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset");
+            Assert.IsTrue(profile.ValidateForLiveGraph(out var error),error);
+            void Check(AnimationClip clip)
+            {
+                Assert.IsNotNull(clip);
+                Assert.IsTrue(clip.humanMotion && !clip.legacy && clip.length>0,clip.name);
+                StringAssert.StartsWith("Assets/Dagger Animation Pack/Animations/Humanoid/",AssetDatabase.GetAssetPath(clip));
+                Assert.Zero(AnimationUtility.GetAnimationEvents(clip).Length,clip.name);
+            }
+            for(int i=0;i<(int)GroundPose.Count;i++)Check(profile.standaloneGroundProfile.Clip((GroundPose)i));
+            for(int i=0;i<8;i++)
+            {
+                Check(profile.standaloneGroundProfile.RunDirectionalClip(i));
+                Check(profile.standaloneGroundProfile.WalkDirectionalClip(i));
+            }
+            foreach(var index in new[]{0,3,4,5,6,7})
+            {
+                var action=profile.standaloneActionProfile.Action(index);
+                Check(action.clip);
+                if(index==0)continue;
+                Assert.IsFalse(action.mask.GetHumanoidBodyPartActive(AvatarMaskBodyPart.Root));
+                Assert.IsFalse(action.mask.GetHumanoidBodyPartActive(AvatarMaskBodyPart.LeftLeg));
+                Assert.IsFalse(action.mask.GetHumanoidBodyPartActive(AvatarMaskBodyPart.RightLeg));
+                Assert.IsTrue(action.mask.GetHumanoidBodyPartActive(AvatarMaskBodyPart.RightArm));
+                Assert.IsTrue(action.mask.GetHumanoidBodyPartActive(AvatarMaskBodyPart.LeftArm));
+            }
+        }
+
+        [Test]
         public void CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile()
         {
             var source = AssetDatabase.LoadAssetAtPath<WindrunnerAnimationProfile>("Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset");
@@ -20,11 +112,12 @@ namespace Windrunner.Production.Tests
             {
                 character.standaloneActionProfile = actions;
                 var original = source.standaloneActionProfile.Action(0).clip;
+                float originalSpeed = source.standaloneActionProfile.Action(0).playbackSpeed;
                 actions.Action(0).clip = null; actions.Action(0).playbackSpeed = 2f;
                 Assert.That(character.ValidateForLiveGraph(out string error), Is.True, error);
                 Assert.That(actions.Action(0).IsPlayable, Is.False);
                 Assert.That(source.standaloneActionProfile.Action(0).clip, Is.SameAs(original));
-                Assert.That(source.standaloneActionProfile.Action(0).playbackSpeed, Is.EqualTo(1f));
+                Assert.That(source.standaloneActionProfile.Action(0).playbackSpeed, Is.EqualTo(originalSpeed));
                 actions.Action(0).clip = incompatible;
                 Assert.That(actions.Action(0).IsPlayable, Is.False);
                 actions.Action(0).playbackSpeed = 0f;

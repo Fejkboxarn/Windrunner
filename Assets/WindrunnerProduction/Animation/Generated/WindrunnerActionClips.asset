@@ -17,13 +17,14 @@ MonoBehaviour:
     group: Flip
     clip: {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
     mask: {fileID: 0}
-    blendInSeconds: 0.001
+    blendInSeconds: 0.05
     blendOutSeconds: 0.14
     priority: 40
     allowSameActionRestart: 1
-    playbackSpeed: 1
+    playbackSpeed: 1.35
     loopUntilCanceled: 0
     interruptible: 1
+    blendWeight: 1
   - id: SlingTravel
     group: Sling
     clip: {fileID: 7400000, guid: 1005921774b245f4bb59b1a34983a4b2, type: 2}
@@ -35,6 +36,7 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
+    blendWeight: 1
   - id: SlingImpact
     group: Sling
     clip: {fileID: 7400000, guid: 27997fec0f45f0d4f9043f1c8215f191, type: 2}
@@ -46,47 +48,64 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 0
     interruptible: 1
+    blendWeight: 1
   - id: CastCharge
     group: Cast
-    clip: {fileID: 0}
-    mask: {fileID: 0}
-    blendInSeconds: 0.04
+    clip: {fileID: 7400000, guid: 6d1132187ccb39b458f35f60dc1a70b4, type: 2}
+    mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendInSeconds: 0.09
     blendOutSeconds: 0.14
     priority: 10
     allowSameActionRestart: 0
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
+    blendWeight: 0.6
   - id: CastRelease
     group: Cast
-    clip: {fileID: 0}
-    mask: {fileID: 0}
+    clip: {fileID: 7400000, guid: 3c22cd64846a70d439f6864c07b07b8f, type: 2}
+    mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
     blendInSeconds: 0.04
     blendOutSeconds: 0.14
-    priority: 40
+    priority: 35
     allowSameActionRestart: 0
-    playbackSpeed: 1
+    playbackSpeed: 2.4
     loopUntilCanceled: 0
     interruptible: 1
+    blendWeight: 0.8
   - id: AirDash
     group: Dash
-    clip: {fileID: 0}
-    mask: {fileID: 0}
-    blendInSeconds: 0.04
+    clip: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
+    mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendInSeconds: 0.08
     blendOutSeconds: 0.14
     priority: 15
     allowSameActionRestart: 0
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
+    blendWeight: 0.65
   - id: SlingCharge
     group: Sling
-    clip: {fileID: 0}
-    mask: {fileID: 0}
-    blendInSeconds: 0.04
+    clip: {fileID: 7400000, guid: 6d1132187ccb39b458f35f60dc1a70b4, type: 2}
+    mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendInSeconds: 0.08
     blendOutSeconds: 0.14
     priority: 20
     allowSameActionRestart: 0
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
+    blendWeight: 0.75
+  - id: SecondWind
+    group: Dagger
+    clip: {fileID: 7400000, guid: 70bc4d66a7ae28d4994205bf2254a0ab, type: 2}
+    mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendInSeconds: 0.06
+    blendOutSeconds: 0.14
+    priority: 5
+    allowSameActionRestart: 0
+    playbackSpeed: 2.4
+    loopUntilCanceled: 0
+    interruptible: 1
+    blendWeight: 0.8

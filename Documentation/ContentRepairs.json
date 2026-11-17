@@ -22,20 +22,20 @@
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset",
       "baseline_sha256": "74aaee047dfcfd3011e9dc78acd9cc68fd1d4fe15f93da9007213f243b08a306",
-      "approved_sha256": "25bb70e2708d28165d160495276e9d3977ff4937c5d4264bdd2df62e3e27b840",
-      "reason": "User-authorized placeholder action integration. Reuses audited Humanoid flip/Sling clips, reserves missing Cast/Dash/start slots, preserves GUID and automatic-start setting."
+      "approved_sha256": "67c310e2aad99e58e0169b8706a4407956a96be4d7c6f8760ab49b726dbd84d9",
+      "reason": "User-authorized placeholder action integration. Reuses audited Humanoid flip/Sling clips, reserves missing Cast/Dash/start slots, preserves GUID and automatic-start setting. Later Dagger Pack mappings and phase tuning are recorded in DaggerAnimationIntegration.md."
     },
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset",
       "baseline_sha256": "d8d5418908d6f3d388e93add4b3cf71cc600bda03a55bf835ff7f5f5b3ef0f47",
-      "approved_sha256": "128d1fcb185797612042b0c925df6e61564e83b42e59b606532db80320a59a33",
-      "reason": "User-authorized production-only configuration: portable graph auto-start and no legacy fallback; legacy pose writers and redundant production input repair disabled. Existing numerical tuning, GUIDs, references and gameplay order preserved."
+      "approved_sha256": "d0752aba202af42247f8b7366680226219700f48e325996c50761b98731f1eb6",
+      "reason": "User-authorized production-only configuration: portable graph auto-start and no legacy fallback; legacy pose writers and redundant production input repair disabled. Existing numerical tuning, GUIDs, references and gameplay order preserved. Later Dagger Pack mappings and phase tuning are recorded in DaggerAnimationIntegration.md."
     },
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset",
       "baseline_sha256": "94170bfffec3bc97b76f63bbc629ef1cc965dcc9be47a9eab569318f0d84bfdb",
-      "approved_sha256": "93d35d69c4269cbdbdd71c1befe08df2f03b4fac6b5d9a62d67e315fcd41a95f",
-      "reason": "User-authorized completion of empty start/stop/pivot/fall/landing slots with audited compatible placeholder clips. Existing locomotion assignments and tuning retained."
+      "approved_sha256": "272b33d4c4113738c9a5c45e2e70a58683afdf6c2e6fcfd10a18cfe2ef4dd4d5",
+      "reason": "User-authorized completion of empty start/stop/pivot/fall/landing slots with audited compatible placeholder clips. Existing locomotion assignments and tuning retained. Later Dagger Pack mappings and phase tuning are recorded in DaggerAnimationIntegration.md."
     },
     {
       "path": "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",

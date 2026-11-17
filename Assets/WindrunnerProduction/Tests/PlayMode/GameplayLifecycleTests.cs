@@ -232,7 +232,7 @@ namespace Windrunner.Production.Tests
                 int blocked = (int)session.GetType().GetProperty("BlockedActions").GetValue(session);
                 actions.Publish(Windrunner.Production.Feedback.FeedbackKey.CastReleased, request);
                 Assert.That((int)session.GetType().GetProperty("BlockedActions").GetValue(session), Is.EqualTo(blocked + 1));
-                Assert.That(activeAction.GetValue(session), Is.EqualTo("DoubleJumpFlip"), "Missing Cast clip must not replace a compatible action.");
+                Assert.That(activeAction.GetValue(session), Is.EqualTo("DoubleJumpFlip"), "Cast release must not interrupt the higher-priority traversal flip.");
                 for (float deadline = Time.realtimeSinceStartup + 4f;
                     Time.realtimeSinceStartup < deadline && (string)activeAction.GetValue(session) != "None";) yield return null;
                 Assert.That(activeAction.GetValue(session), Is.EqualTo("None"), "One-shot must complete.");

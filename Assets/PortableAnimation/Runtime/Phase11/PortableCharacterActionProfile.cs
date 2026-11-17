@@ -13,6 +13,7 @@ namespace PortableAnimation
         public AnimationClip clip;
         [Tooltip("Optional bone mask. Empty means whole body; provide an AvatarMask for upper-body-only actions.")]
         public AvatarMask mask;
+        [Range(0f, 1f)] public float blendWeight = 1f;
         [Min(0.001f)] public float blendInSeconds = 0.08f;
         [Min(0.001f)] public float blendOutSeconds = 0.14f;
         [Min(0)] public int priority;
@@ -59,6 +60,8 @@ namespace PortableAnimation
                     float.IsNaN(action.blendOutSeconds) || float.IsInfinity(action.blendOutSeconds) ||
                     action.blendInSeconds <= 0f || action.blendOutSeconds <= 0f)
                     throw new InvalidOperationException("Invalid fade timing for " + action.id);
+                if (!(action.blendWeight >= 0f && action.blendWeight <= 1f))
+                    throw new InvalidOperationException("Invalid action weight for " + action.id);
                 if (float.IsNaN(action.playbackSpeed) || float.IsInfinity(action.playbackSpeed) || action.playbackSpeed <= 0f)
                     throw new InvalidOperationException("Invalid playback speed for " + action.id);
             }

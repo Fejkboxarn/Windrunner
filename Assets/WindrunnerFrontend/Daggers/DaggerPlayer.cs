@@ -4,6 +4,7 @@ using AirflowPrototype;
 using UnityEngine;
 using UnityEngine.UI;
 using Windrunner.Frontend;
+using Windrunner.Production.Feedback;
 
 namespace Windrunner.Daggers
 {
@@ -126,6 +127,8 @@ namespace Windrunner.Daggers
         void Pulse(DaggerPair pair)
         {
             flashUntil=Time.time+.65f;nextHud=0;
+            if (pair.active is SecondWind && session.project.Runtime.Services.TryGet<IFeedbackService>(out var feedback))
+                feedback.Publish(FeedbackKey.SecondWindActivated, FeedbackRequest.At(power.transform));
             if(!pair.activationVfx)return;
             var fx=Instantiate(pair.activationVfx,RightGrip.position,Quaternion.identity,transform);
             fx.Play();Destroy(fx.gameObject,2f);

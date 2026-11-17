@@ -14,31 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: PortableAnimation.Runtime::PortableAnimation.GroundMotionProfile
   previousPipeline: {fileID: 0}
   clips:
-  - {fileID: -5252816984213320552, guid: 1312ceea0b13abf4c91f0ec5cedddb55, type: 3}
-  - {fileID: 7400000, guid: 1a90023c06ede874e952a3c7b225a877, type: 2}
-  - {fileID: 0}
-  - {fileID: 7400000, guid: 5f56157a47818f346be1a8cd8f46899a, type: 2}
-  - {fileID: 7400000, guid: b9d6a9c4e5606e445b44d08381aa5870, type: 2}
-  - {fileID: 2771538212425445789, guid: fb49f1587ac7e4d4b99c4e7e0aa5634d, type: 3}
-  - {fileID: -4083814714835636986, guid: f0e45866b01d22a4e857d404e7c131aa, type: 3}
-  - {fileID: 8069876893736224668, guid: 44e7199ad824ba04e8b791fb505aef21, type: 3}
-  - {fileID: -4137572779537830732, guid: 3b0f352e848e2fa4e9c95f97b9163e24, type: 3}
-  - {fileID: 7400000, guid: e55e01369be72f7438d363b2d6fc3773, type: 2}
+  - {fileID: 7400000, guid: c9b19a997ba8dbc47adb552f20fe17a6, type: 2}
+  - {fileID: 7400000, guid: 79bfa4bf7640c05419eeacfa9a8a34f6, type: 2}
+  - {fileID: 7400000, guid: 6cc7c9f2a1958b74482526fbb3178096, type: 2}
+  - {fileID: 7400000, guid: f5f2b9dec17cf934e895256294939a39, type: 2}
+  - {fileID: 7400000, guid: 1ef28cede8df5a0468d9642823dbab49, type: 2}
+  - {fileID: 7400000, guid: f427d017c6bc05947950e85492a259bd, type: 2}
+  - {fileID: 7400000, guid: 89bc1dc217b5c584080c22f6d94b8504, type: 2}
+  - {fileID: 7400000, guid: 83b1cb7ba011cf0418c5656e970c6e11, type: 2}
+  - {fileID: 7400000, guid: 62150bf36ebe089498b8dfb7b3bb1649, type: 2}
+  - {fileID: 7400000, guid: 94f1a63bae9aebe4db8825de28447270, type: 2}
   - {fileID: 7400000, guid: 6be417ef858cfca4984c5554091f3986, type: 2}
   - {fileID: 7400000, guid: a5f2d7a106289da4baeb3ced70113396, type: 2}
-  - {fileID: -2993534804863918692, guid: 9931a4d916c1d7e44ac472a7a0db147d, type: 3}
-  - {fileID: -8684879809065802590, guid: 458726ad81ff17c41a2c1902d39809f9, type: 3}
+  - {fileID: 7400000, guid: bc011d7390556f64bab30091b4e49c94, type: 2}
   - {fileID: 7400000, guid: fae80757d6e3e2c4fa5e5000a0dc1e5a, type: 2}
-  - {fileID: 7400000, guid: 545c6134690db614495f8dd4f5ac82e6, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7400000, guid: fae80757d6e3e2c4fa5e5000a0dc1e5a, type: 2}
+  - {fileID: 7400000, guid: 3176e6624dee990459992e844733713f, type: 2}
+  - {fileID: 7400000, guid: 2632ff09d06ad084ab5ce7003186c749, type: 2}
+  - {fileID: 7400000, guid: de1ecbaadee84de4ba4f33eefb3da8de, type: 2}
   moveThreshold: 0.035
   stopThreshold: 0.018
   startSeconds: 0.22
   stopSeconds: 0.26
   pivotSeconds: 0.3
   turnSeconds: 0.32
-  enableTurning: 0
+  enableTurning: 1
   reversalDegrees: 125
   turnRateThreshold: 100
   pivotCooldown: 0.32
@@ -46,22 +46,24 @@ MonoBehaviour:
   landSeconds: 0.28
   riseThreshold: 0.15
   blendSpeed: 7
+  idlePlaybackRate: 0.85
+  airborneLoopRate: 1
   movementPlaybackRate: 1
-  useAuthoredOneShotDurations: 1
+  useAuthoredOneShotDurations: 0
   oneShotPlaybackSpeed: 1
   movementPhaseOffsets: {x: 0, y: 0, z: 0, w: 0}
-  walkForward: {fileID: 6016072765218545851, guid: 024c8a339245f0a4db10a2c1de14386f, type: 3}
-  walkBackward: {fileID: 971290116121203592, guid: c68dff7966aa34a448dc3e81efd2e91b, type: 3}
-  walkLeft: {fileID: 3816002378432836460, guid: d1d5894ae572e2844913ec62aa80a161, type: 3}
-  walkRight: {fileID: -1401004751953925324, guid: e7c6211b42b1f354699cb1271c653deb, type: 3}
-  runForwardRight: {fileID: -1516150861718823909, guid: b6f67ee97363fd046ac74e67d115673c, type: 3}
-  runBackwardRight: {fileID: -5793505754911037349, guid: 04560ec347fd977478dea116f518d80e, type: 3}
-  runBackwardLeft: {fileID: -5829354953689089648, guid: fab3946e835c79f4fa1501fafc8c58df, type: 3}
-  runForwardLeft: {fileID: -8348040325455417124, guid: a907a0228e4c26047a1c1ee156709d90, type: 3}
-  walkForwardRight: {fileID: 1191583743746515396, guid: fd0bb72e0fdc5ee4987a389e6f8707ef, type: 3}
-  walkBackwardRight: {fileID: 6718899746501844909, guid: 2c01a39be62980d4285556bc58b5d24b, type: 3}
-  walkBackwardLeft: {fileID: 1773869212029264887, guid: d91783d00e096f74c822dec4145575d3, type: 3}
-  walkForwardLeft: {fileID: 3051433421192503066, guid: b7c85082e251c4348b03b7adee48cee6, type: 3}
+  walkForward: {fileID: 7400000, guid: 498f10003ab16e0498941adf7e458225, type: 2}
+  walkBackward: {fileID: 7400000, guid: ecf9e6a2e93c12945ace8b12c3877da3, type: 2}
+  walkLeft: {fileID: 7400000, guid: a824ec82c7e79af42911e4a5203461d0, type: 2}
+  walkRight: {fileID: 7400000, guid: 33ee03db2f92d1e478aaf74bdbd415c7, type: 2}
+  runForwardRight: {fileID: 7400000, guid: ef8a3d48c3718d74b8147c010db39a44, type: 2}
+  runBackwardRight: {fileID: 7400000, guid: 9fc0bbe9a0b9bee4c80c13f3204bbd4a, type: 2}
+  runBackwardLeft: {fileID: 7400000, guid: b773c3eee3e2ade449a3d525a2933c30, type: 2}
+  runForwardLeft: {fileID: 7400000, guid: 7b632ae609d312b45ac53bca71da6ea0, type: 2}
+  walkForwardRight: {fileID: 7400000, guid: 37b7c7c0a9b2c6e4f827be5be077e581, type: 2}
+  walkBackwardRight: {fileID: 7400000, guid: 194ed452884704d4295b2c217a2a042d, type: 2}
+  walkBackwardLeft: {fileID: 7400000, guid: 594a41328bfbd434f907febc3a424d86, type: 2}
+  walkForwardLeft: {fileID: 7400000, guid: 2031ecb900194bf4e9e0e7c5ef245bad, type: 2}
   runMirror: 0000000000000000y
   walkMirror: 0000000000000000y
   runMirrorSources:
@@ -100,9 +102,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  stopBackward: {fileID: 0}
-  stopLeft: {fileID: 0}
-  stopRight: {fileID: 0}
+  stopBackward: {fileID: 7400000, guid: c4a99ee32e7cb02479fad2de2e65ad42, type: 2}
+  stopLeft: {fileID: 7400000, guid: 96fc1adcc3b577742b8ef3fba36c3b38, type: 2}
+  stopRight: {fileID: 7400000, guid: c35ca41f2fa58b841857f4792158528d, type: 2}
   idleToWalkEnd: 0.18
   walkToRunStart: 0.48
   fullRunSpeed: 0.88

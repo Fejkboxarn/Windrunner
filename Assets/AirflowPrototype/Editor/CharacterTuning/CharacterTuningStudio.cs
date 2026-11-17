@@ -41,6 +41,7 @@ namespace AirflowPrototype.Editor
                 if(GUILayout.Button("Load / discard drafts"))Do(Reload);
                 if(GUILayout.Button("Apply preset") && preset!=null)Do(ApplyPreset);
             }
+            if(GUILayout.Button("Dagger clip preview and gameplay lane")) DaggerMotionPreview.Open();
             if(session==null){EditorGUILayout.LabelField(message,EditorStyles.wordWrappedLabel);return;}
             using(new EditorGUILayout.HorizontalScope())
             {

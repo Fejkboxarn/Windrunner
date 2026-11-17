@@ -47,6 +47,10 @@ namespace PortableAnimation
 
         [Header("Pose smoothing")]
         [SerializeField, Min(0.01f)] private float blendSpeed = 7f;
+        [SerializeField, Min(0.01f)] private float idlePlaybackRate = .65f;
+        [SerializeField, Min(0.01f)] private float airborneLoopRate = 1f;
+        public float IdlePlaybackRate => Mathf.Max(.01f,idlePlaybackRate);
+        public float AirborneLoopRate => Mathf.Max(.01f,airborneLoopRate);
         [SerializeField, Min(0.1f)] private float movementPlaybackRate = 1f;
 
         [Header("Batch 16.1: real-character clip synchronization")]

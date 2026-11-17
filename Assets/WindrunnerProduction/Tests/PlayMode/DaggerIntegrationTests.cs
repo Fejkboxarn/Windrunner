@@ -168,6 +168,8 @@ namespace Windrunner.Production.Tests
                 InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.DpadLeft));yield return null;yield return null;
                 Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.01f);
                 Assert.Zero(Stored());Assert.AreEqual(1,bursts());
+                var animationBridge=player.GetComponent(Runtime("AirflowPortableAnimationBridge"));
+                Assert.AreEqual("SecondWind",Prop<string>(animationBridge,"ActiveAnimationAction"));
                 InputSystem.RemoveDevice(pad);yield return null;
                 pad=InputSystem.AddDevice<Gamepad>();yield return null;
                 Call(power,"Spend",15f);

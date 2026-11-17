@@ -37,6 +37,9 @@ namespace PortableAnimation
         private readonly float[] effectiveWalkWeights = new float[8];
 
         private double movementCycle;
+        private double airTime;
+        private readonly bool sharedAirLoop;
+        private readonly float idleRate, airRate;
         private GroundMotionState previousState = GroundMotionState.Idle;
         private bool gaitInitialized;
         private int fallbackFrame;
@@ -76,6 +79,11 @@ namespace PortableAnimation
             // Legacy semantic poses / one-shots.
             for (int i = 0; i < OriginalCount; i++)
                 assets[i] = profile.Clip((GroundPose)i);
+
+            idleRate=profile.IdlePlaybackRate;
+            airRate=profile.AirborneLoopRate;
+            var rise=assets[(int)GroundPose.Rise];
+            sharedAirLoop=rise && rise.isLooping && rise==assets[(int)GroundPose.Fall];
 
             // The four cardinal run slots are part of the original semantic array,
             // but the dashboard can now mark any directional sample as mirrored.
@@ -155,6 +163,11 @@ namespace PortableAnimation
         {
             controller.Advance(in frame);
             float dt = Mathf.Max(0f, frame.Locomotion.DeltaTime);
+            if (sharedAirLoop)
+            {
+                if (!frame.Grounded) airTime=(airTime+dt*airRate)%assets[(int)GroundPose.Rise].length;
+                else if (controller.Weight(GroundPose.Fall)+controller.Weight(GroundPose.Rise)<.001f) airTime=0;
+            }
             weight = controller.Speed;
 
             GroundMotionController.CalculateGaitWeights(weight,
@@ -484,14 +497,16 @@ namespace PortableAnimation
         {
             if (pose == GroundPose.Idle)
             {
-                playbackTimes[index] += dt * 0.65;
+                playbackTimes[index] += dt * idleRate;
                 SetTime(index,
                     playbackTimes[index] % assets[index].length);
             }
+            else if (sharedAirLoop && (pose == GroundPose.Rise || pose == GroundPose.Fall))
+                SetTime(index, airTime);
             else if (pose == GroundPose.Fall)
             {
                 playbackTimes[index] =
-                    (playbackTimes[index] + dt) %
+                    (playbackTimes[index] + dt * airRate) %
                     Math.Max(0.0001d, assets[index].length);
                 SetTime(index, playbackTimes[index]);
             }

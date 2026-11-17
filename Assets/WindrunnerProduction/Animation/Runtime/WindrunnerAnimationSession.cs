@@ -87,6 +87,7 @@ namespace Windrunner.Production.Animation
         public FeedbackKey LastObservedEvent { get; private set; }
         public ContextualMotionState LastContext { get; private set; }
         public string LastError { get; private set; } = "";
+        public bool HasActiveStandaloneAction => standaloneGraph?.HasActiveAction == true;
         public bool PortableActive => (graph != null && graph.IsValid) ||
                                       (standaloneGraph != null && standaloneGraph.IsValid);
         public string ActiveMontage => graph != null ? graph.ActiveMontage :
@@ -123,6 +124,12 @@ namespace Windrunner.Production.Animation
         // Reconstruct sustained presentation from current gameplay state. This
         // never publishes feedback or invokes gameplay events/resources.
         public void RecoverSustainedActions(FeedbackKey slingPhase, bool casting, bool dashing)
+            => RestoreAbilityPoses(slingPhase, casting, dashing, false);
+
+        public void ResumeHeldLoops(FeedbackKey slingPhase, bool casting, bool dashing)
+            => RestoreAbilityPoses(slingPhase, casting, dashing, true);
+
+        private void RestoreAbilityPoses(FeedbackKey slingPhase, bool casting, bool dashing, bool loopsOnly)
         {
             if(!PortableActive || disposed)return;
             // A service rebind may have missed an end event. Clear only
@@ -130,12 +137,12 @@ namespace Windrunner.Production.Animation
             standaloneGraph?.CancelGroup("Sling");
             standaloneGraph?.CancelGroup("Cast");
             standaloneGraph?.CancelGroup("Dash");
-            if(dashing)ApplyPresentationBinding(FeedbackKey.DashStarted);
-            if(casting)ApplyPresentationBinding(FeedbackKey.CastChargeStarted);
-            if(slingPhase!=FeedbackKey.None)ApplyPresentationBinding(slingPhase);
+            if(dashing)ApplyPresentationBinding(FeedbackKey.DashStarted,loopsOnly);
+            if(casting)ApplyPresentationBinding(FeedbackKey.CastChargeStarted,loopsOnly);
+            if(slingPhase!=FeedbackKey.None)ApplyPresentationBinding(slingPhase,loopsOnly);
         }
 
-        private void ApplyPresentationBinding(FeedbackKey key)
+        private void ApplyPresentationBinding(FeedbackKey key, bool loopsOnly = false)
         {
             if (profile == null || profile.actionBindings == null) return;
             for (int i = 0; i < profile.actionBindings.Length; i++)
@@ -158,6 +165,7 @@ namespace Windrunner.Production.Animation
                 {
                     if (standaloneGraph != null)
                     {
+                        if (loopsOnly && !standaloneGraph.IsLoopingSlot(binding.montageSlot)) return;
                         standaloneGraph.CancelGroup(binding.cancelGroup);
                         if (binding.operation == WindrunnerAnimationOperation.Cancel)
                         {

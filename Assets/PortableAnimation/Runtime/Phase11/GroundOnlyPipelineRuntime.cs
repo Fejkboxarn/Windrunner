@@ -20,8 +20,11 @@ namespace PortableAnimation
         private AnimationLayerMixerPlayable actions;
         private AnimationClipPlayable[] clips;
         private readonly PortableActionPlayback playback;
+        private readonly float[] layerWeights;
         private int lastFrame = -1;
 
+        public bool IsLoopingSlot(int index) => playback.IsLoopingSlot(index);
+        public bool HasActiveAction => playback.ActiveIndex >= 0;
         public bool IsValid => graph.IsValid();
         public int LiveActionCount => actionProfile != null ? actionProfile.Count : 0;
         public string ActiveAction => playback.ActiveIndex < 0 ? "None" :
@@ -41,10 +44,12 @@ namespace PortableAnimation
             motionProfile.AssertStandaloneValid();
             optionalActions?.AssertValid();
             actionProfile = optionalActions;
+            layerWeights = new float[LiveActionCount];
             var timings = new PortableActionPlayback.Timing[LiveActionCount];
             for (int i = 0; i < timings.Length; i++)
             {
                 var action = actionProfile.Action(i);
+                layerWeights[i] = action.blendWeight;
                 timings[i] = new PortableActionPlayback.Timing(action.clip != null ? action.clip.length : 0f,
                     action.playbackSpeed, action.blendInSeconds, action.blendOutSeconds, action.priority,
                     action.IsPlayable, action.loopUntilCanceled, action.allowSameActionRestart, action.interruptible);
@@ -137,7 +142,7 @@ namespace PortableAnimation
             {
                 if (!clips[i].IsValid()) continue;
                 clips[i].SetTime(playback.ClipTime(i));
-                actions.SetInputWeight(i + 1, Mathf.Clamp01(playback.Weight(i)));
+                actions.SetInputWeight(i + 1, layerWeights[i] * Mathf.Clamp01(playback.Weight(i)));
             }
         }
 

@@ -44,6 +44,7 @@ namespace PortableAnimation
             if (index < 0 || index == ActiveIndex) ActiveIndex = -1;
         }
         public float Weight(int index) => weights[index];
+        public bool IsLoopingSlot(int index) => timings[index].Available && timings[index].Loop;
         public float ClipTime(int index)
         {
             var timing = timings[index];
