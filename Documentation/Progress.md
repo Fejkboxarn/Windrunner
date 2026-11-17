@@ -309,3 +309,7 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 ### Main menu and player sessions, 17 November 2026
 
 Feature/main-menu branches from progression checkpoint 9e8f97c4. Local checkpoint 49cd4689 adds versioned, recoverable playthrough slots on IProgressionStore. Checkpoint 272c450f adds the main menu, scene-scoped production world copy, shared pause/settings/slot interfaces, gallery projection, player mixer and tests. All 57 Edit Mode and 34 Play Mode tests passed. The separate rendered test passed 1/1 across three resolutions. Source contracts and loaded references passed. The two-scene Windows build windrunner-mainmenu-rc1 succeeded with 0 errors and 24 warnings and survived a 15-second rendered startup. MainMenu.md records setup, save locations, restoration policy, warning categories and manual acceptance.
+
+### Zone 01, 17 November 2026
+
+Checkpoint `5bc01b71` adds the editable basin, production player, Waykeeper, regional Sling hunt, timed delivery, two Timeline milestones and version-compatible world routing on `feature/world-zone01`. The final suites passed 60/60 Edit Mode, 35/35 Play Mode and 1/1 rendered arrival. The serialized contract gate returned zero failures. Windows candidate `basin-candidate` built with 0 errors and 24 baseline warning headers and passed its 15-second rendered startup check. [Zone authoring and acceptance](Zone01.md) covers sculpting, progression configuration, manual testing and evidence. The accepted playground, progression fixture and separate Movement Lab branch were preserved.

@@ -28,3 +28,20 @@ Use current binding labels on screen and under Settings > Controls. The defaults
 6. **Load during carry.** Collect again, save, return to Main Menu and load the same slot. Expect a safe clearing arrival, rank 2, an active retrieval, no carried stone and an available cache. Check the first chapter and its cinematic record. In direct scene Play the session is intentionally temporary; use a named menu slot for this step.
 7. **Final delivery.** Collect again and deliver to the Waykeeper before expiry. Check immediate countdown removal. Watch the second film to its end, replay from the journal and inspect rank 3, two completed chapters and two milestone unlocks. Save, return to title and continue. Repeated interaction or replay must never award another rank or reward. The title gallery can show unlocks; video replay there requires an authored gallery video.
 8. **Editing round trip.** In a working copy, sculpt a small mound, move the cache and save. Close and reopen the scene, enter Play and return to Edit Mode. The mound and cache placement must survive. Evaluate landmark visibility, encounter spacing, retrieval time, UI overlap and the camera shot on the intended display and controller before approving the blockout.
+
+## Candidate evidence
+
+Implementation checkpoint `5bc01b71` on `feature/world-zone01`, Unity 6000.6.2f1.
+
+| Executed check | Result |
+| --- | --- |
+| Full Edit Mode suite, including loaded serialized references in all three frontend scenes, terrain support, relief and encounter bindings | 60/60 passed |
+| Full Play Mode suite, including menu → quest → save → title → load, legacy slots, actual Sling damage dispatch, both rank milestones, duplicate events and interrupted retrieval | 35/35 passed |
+| Separate rendered direct-scene arrival | 1/1 passed. Inspected the player, Waykeeper indicator, pillars, terrain and HUD in the captured Game view. |
+| 5P serialized contract gate | Zero failures. Reviewed the single new build-list entry against the previous checkpoint. |
+| Windows x64 candidate | Succeeded, 0 errors, 24 warnings, 24.3304 s, 1,216,085,156 bytes. Includes MainMenu, World_Zone01 and StartingWorld. |
+| Rendered Windows startup | Initialized, survived 15 seconds, zero matched runtime errors. Quest completion and reload were exercised in Unity Play Mode. |
+
+The build warning headers and counts match the preceding main-menu candidate. They cover two mesh import/collision notices, three existing deprecated prototype API calls, two stripped Core debug shaders, three optional FEEL resources with missing scripts and fourteen vendor shader diagnostics. Some compiled shader keyword combinations differed. The first rendered capture attempt failed to produce an image from the batch Game view. Opening and repainting the Game view fixed the harness; the final capture passed. The validation guard also identified Unity's local authentication broker by exact path and command-line mode and continues to reject Editors or unknown processes.
+
+Reproduce with `Tools/Run-UnityTests.ps1` for each platform, plus a rendered PlayMode run filtered to `RenderedZoneArrival`. Use fresh labels for all runs. Build with `Tools/Build-UnityCandidate.ps1 -MainMenu`. Local executable: `Builds/basin-candidate/Windrunner.exe`. Per-test outcomes, hashes, warning messages and smoke evidence are in `Documentation/TestResults.json`. Hardware controls, audible feedback, combat and traversal feel, timing balance, and authoring round-trip remain manual acceptance items.
