@@ -23446,5 +23446,155 @@
       "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)",
       "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)"
     ]
+  },
+  "terrainStudioReliability": {
+    "baseline": "c24c719a",
+    "unity": "6000.6.2f1",
+    "suites": {
+      "terrain-reliability-EditMode": {
+        "result": "Passed",
+        "total": "75",
+        "passed": "75",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "27,8010247"
+      },
+      "terrain-reliability-PlayMode": {
+        "result": "Passed",
+        "total": "35",
+        "passed": "35",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "51,3207933"
+      },
+      "terrain-reliability-render-EditMode": {
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "1,6769568"
+      },
+      "terrain-reliability-calibrated-EditMode": {
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "6,4544654"
+      },
+      "studio-hardening-before-EditMode": {
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "6,6409135"
+      }
+    },
+    "builds": {
+      "terrain-reliability": {
+        "result": "Succeeded",
+        "errors": 0,
+        "warnings": 21,
+        "seconds": 18.8083119,
+        "smoke": {
+          "label": "terrain-reliability-rendered",
+          "seconds": 15,
+          "survived": true,
+          "rendered": true,
+          "totalProcessCpuSeconds": 17.671875,
+          "peakWorkingSetBytes": 229707776,
+          "privateBytesAtEnd": 352194560,
+          "hasPlayerInitialization": true,
+          "errors": [],
+          "termination": "Harness stops only its launched process after observation",
+          "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+        }
+      },
+      "terrain-reliability-painted": {
+        "result": "Succeeded",
+        "errors": 0,
+        "warnings": 8,
+        "seconds": 7.581290999999999,
+        "smoke": {
+          "label": "terrain-reliability-painted-rendered",
+          "seconds": 15,
+          "survived": true,
+          "rendered": true,
+          "totalProcessCpuSeconds": 3.90625,
+          "peakWorkingSetBytes": 479735808,
+          "privateBytesAtEnd": 994971648,
+          "hasPlayerInitialization": true,
+          "errors": [],
+          "termination": "Harness stops only its launched process after observation",
+          "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+        },
+        "ribbonVertices": 570
+      }
+    },
+    "contractsChecked": 64,
+    "contractFailures": [],
+    "rendered": [
+      "Terrain Studio rendered 16 m: original near 1,95 ms; broad 1,57 ms; wear 1,68 ms; differing pixels 7557; NVIDIA GeForce RTX 5070 Ti; Logs/ProductionMigration/terrain-studio-road-16m-639304990279699366.png",
+      "Terrain Studio rendered 72 m: original near 1,95 ms; broad 1,56 ms; wear 1,63 ms; differing pixels 544; NVIDIA GeForce RTX 5070 Ti; Logs/ProductionMigration/terrain-studio-road-72m-639304990280526318.png"
+    ],
+    "before": {
+      "plan": 78.88,
+      "warm": null,
+      "full": 844.99,
+      "sculptMedian": 182.88,
+      "moveMedian": 254.76,
+      "autoMedian": 734.25,
+      "samples": [
+        "EDIT-BENCH plan16 ms=78,88 allocated=0 editorDelta=1661020 editorUsed=517763161",
+        "EDIT-NETWORK metres=19545,4 samples=24451",
+        "EDIT-BENCH full ms=844,99 allocated=0 editorDelta=26788672 editorUsed=544568711",
+        "EDIT-BENCH localSculpt0 ms=186,57 allocated=0 editorDelta=29382592 editorUsed=573960052",
+        "EDIT-BENCH moveRoad0 ms=240,33 allocated=0 editorDelta=29380944 editorUsed=603349777",
+        "EDIT-BENCH localSculpt1 ms=183,91 allocated=0 editorDelta=29380645 editorUsed=632739191",
+        "EDIT-BENCH moveRoad1 ms=247,95 allocated=0 editorDelta=29380648 editorUsed=662128620",
+        "EDIT-BENCH localSculpt2 ms=179,72 allocated=0 editorDelta=29373448 editorUsed=691518962",
+        "EDIT-BENCH moveRoad2 ms=262,26 allocated=0 editorDelta=29380552 editorUsed=720908295",
+        "EDIT-BENCH localSculpt3 ms=179,52 allocated=0 editorDelta=29380549 editorUsed=750297268",
+        "EDIT-BENCH moveRoad3 ms=254,76 allocated=0 editorDelta=29381320 editorUsed=779687291",
+        "EDIT-BENCH localSculpt4 ms=182,88 allocated=0 editorDelta=29380549 editorUsed=809076529",
+        "EDIT-BENCH moveRoad4 ms=257,42 allocated=0 editorDelta=29380552 editorUsed=838465820",
+        "EDIT-AUTO 0 latencyMs=774,0 64 cells across 1 region(s) in 134 ms",
+        "EDIT-AUTO 1 latencyMs=732,6 56 cells across 1 region(s) in 136 ms",
+        "EDIT-AUTO 2 latencyMs=725,3 64 cells across 1 region(s) in 127 ms",
+        "EDIT-AUTO 3 latencyMs=735,9 64 cells across 1 region(s) in 140 ms"
+      ]
+    },
+    "after": {
+      "plan": 87.86,
+      "warm": 0.76,
+      "full": 882.25,
+      "sculptMedian": 148.98,
+      "moveMedian": 231.05,
+      "autoMedian": 696.0,
+      "samples": [
+        "EDIT-BENCH plan16 ms=87,86 allocated=unavailable monoUsedDelta=1679360 editorDelta=1792092 editorUsed=515295759",
+        "EDIT-BENCH warmPlan16 ms=0,76 allocated=unavailable monoUsedDelta=131072 editorDelta=12697 editorUsed=515317333",
+        "EDIT-NETWORK metres=19545,4 samples=24451",
+        "EDIT-BENCH full ms=882,25 allocated=unavailable monoUsedDelta=17858560 editorDelta=26784191 editorUsed=542118530",
+        "EDIT-BENCH localSculpt0 ms=149,91 allocated=unavailable monoUsedDelta=-53248 editorDelta=29382626 editorUsed=571510037",
+        "EDIT-BENCH moveRoad0 ms=219,66 allocated=unavailable monoUsedDelta=151552 editorDelta=29380973 editorUsed=600899915",
+        "EDIT-BENCH localSculpt1 ms=146,36 allocated=unavailable monoUsedDelta=-36864 editorDelta=29372424 editorUsed=630289388",
+        "EDIT-BENCH moveRoad1 ms=222,70 allocated=unavailable monoUsedDelta=-626688 editorDelta=29380583 editorUsed=659678876",
+        "EDIT-BENCH localSculpt2 ms=149,09 allocated=unavailable monoUsedDelta=753664 editorDelta=29381701 editorUsed=689069166",
+        "EDIT-BENCH moveRoad2 ms=231,05 allocated=unavailable monoUsedDelta=-638976 editorDelta=29380679 editorUsed=718458405",
+        "EDIT-BENCH localSculpt3 ms=147,08 allocated=unavailable monoUsedDelta=757760 editorDelta=29380581 editorUsed=747847805",
+        "EDIT-BENCH moveRoad3 ms=231,23 allocated=unavailable monoUsedDelta=-638976 editorDelta=29381351 editorUsed=777237949",
+        "EDIT-BENCH localSculpt4 ms=148,98 allocated=unavailable monoUsedDelta=757760 editorDelta=29372424 editorUsed=806627315",
+        "EDIT-BENCH moveRoad4 ms=231,36 allocated=unavailable monoUsedDelta=-614400 editorDelta=29380583 editorUsed=836016761",
+        "EDIT-AUTO 0 latencyMs=743,2 64 cells across 1 region(s) in 133 ms",
+        "EDIT-AUTO 1 latencyMs=699,9 56 cells across 1 region(s) in 140 ms",
+        "EDIT-AUTO 2 latencyMs=692,1 64 cells across 1 region(s) in 132 ms",
+        "EDIT-AUTO 3 latencyMs=691,3 64 cells across 1 region(s) in 131 ms",
+        "EDIT-FRAME idle=452 controlPeak=4195243 sculptFramePeak=24513334 bytes (whole Editor frames)"
+      ]
+    },
+    "manualAcceptance": "Pending designer acceptance on disposable scene; see Documentation/TerrainStudio.md."
   }
 }

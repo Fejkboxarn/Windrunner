@@ -2,6 +2,25 @@
 
 Open the saved Zone 01 scene with **Tools > Windrunner > Zone 01 > Open world**, then **Tools > Windrunner > Terrain Studio**. The target is the Terrain under WorldRoot/Terrain. Unity 6000.6.2f1, the project's existing URP renderer and Unity Splines 2.9.1 are sufficient. The tool is opt-in. Opening the window or entering Play never paints the accepted scene.
 
+## Designer quick start
+
+1. **Attach a working copy.** Open a disposable copy of the scene for a trial. Select its Terrain, open **Tools > Windrunner > Terrain Studio**, check **Target terrain**, select **Basin surfaces**, and click **Attach editable working copy**. Save the scene. In the Inspector, Terrain and TerrainCollider should now reference the same new working asset.
+2. **Set the surface rules.** In **Terrain Materials** assign grass, soil and rock. Duplicate a shared profile before changing just one zone. In **Height and Slope Rules** adjust the slope curves or elevation. Pick a small rectangle under **Automatic Terrain Painting**, then click **Preview selected paint**.
+3. **Sculpt a mountain.** Once existing artwork is protected, enable **Automatic Updates**. Use the native Terrain Inspector’s **Raise or Lower Terrain** brush on the working tile. Release the brush and allow the pending update to finish. Compare the ridge and its base. Use **Walkability Visualization** to inspect grades against the player controller.
+4. **Lay out roads.** In **Road and Path Authoring**, pick a centre, select a preset, and click **Create curved road at centre**. Select the road in the Hierarchy and use Unity’s Splines tool to drag, insert or extend knots. After moving or deleting a road, check its former location as well as its new junction. Keep connected tiles and splines in the same loaded scene.
+5. **Tune carriage tracks.** Assign a carriage preset to the selected road. Under **Carriage Road Wear** edit wheel spacing, width, wear and breakup. Assign the wheel material and rebuild the road. Check both tracks in Scene view and cross them in Play Mode. Wheel geometry should follow the ground without a collision step.
+6. **Protect hand painting.** Use the native Terrain texture brush, then **Manual Artistic Overrides > Protect pending native edits**. If no callback was recorded, click **Find unprotected edits**, review the detected rectangle, then protect it. You can also pick a smaller rectangle and use **Capture selected paint**. Use full opacity to hold the exact mixture. **Clear** releases one capture. **Release pending edits** authorizes replacing unprotected strokes.
+7. **Review a rebuild.** Start with **Rebuild selected region**. Read the tile, number of cells, affected regions and protected captures in the confirmation. A road move can include its old footprint outside the selection. Cancel if the scope is unexpected. Full rebuild replaces generated coverage on the whole working tile.
+8. **Recover.** Use **Edit > Undo** immediately after the unwanted edit or bake. Inspect both the terrain and the road before resuming automatic updates. **Revert generated paint and wear** restores captured source paint plus protected artwork, clears rendered wear and disables automatic updates. To recover a saved design, restore the matching scene, working data, paint history, mesh and metadata together.
+9. **Validate before commit.** Run **Tools > Windrunner > Validate Terrain Setup** and inspect the Console for each terrain in the active scene. Repair the named object or asset, address unresolved paint, and rebuild pending regions. Save, close and reopen the scene. Confirm that the intended working assets and their metadata are in the diff.
+
+**Manual acceptance on a disposable scene**
+
+- Sculpt with a small then a broad brush on a visible ridge. Check transition quality, responsiveness after release, and untouched custom paint.
+- Move a carriage junction across a slope and tile seam. Inspect it close up, at distance and in motion. Check shoulders, wheel spacing, flicker, floating strips and remnants at the former location.
+- Walk, run and jump across both wheel lines and the seam in Play Mode. Compare the feel with the same approach before the bake.
+- Capture a recognizable hand-painted mark, move the road, save and reopen. Check artistic appearance, then clear, rebuild and undo. Confirm the intended mark returns.
+
 ## Start an editable tile
 
 1. Select **Basin surfaces** and **Attach editable working copy**. Studio duplicates the TerrainData and binds the terrain and its existing collider to the same copy. Scene wiring, heights, holes, trees and existing layer weights start from the source. The original Zone 01 asset remains available. Attach every tile you want to paint individually.
@@ -65,3 +84,22 @@ Each measurement is the median of 15 camera renders into a 960 × 540 target wit
 **Windows results.** The final three-scene production candidate built in 17.09 s with 0 errors and 21 warnings. The separately painted direct-play basin built in 7.38 s with 0 errors and 8 warnings and passed the packed-data check. Both Windows executables initialized and survived 15 seconds of rendered startup with zero matched runtime errors. Build warnings cover existing mesh import settings, stripped Core debug shaders, optional FEEL resources and vendor shader diagnostics; the last regular build contains no Terrain Studio compiler warning. See TestResults.json for messages and per-test evidence. Production startup and direct-scene startup do not replace the manual acceptance sequence above.
 
 Local builds are under Builds/terrain-studio-integrated and Builds/terrain-studio-painted-final. The regular build retains the accepted Zone 01 blockout. The painted preview demonstrates the opt-in working-copy workflow without modifying that scene. Art direction, cliff treatment, junction quality, wheel appearance in motion, brush ergonomics and physical play feel require designer acceptance.
+
+## Editing workload and reliability verification, 17 November 2026
+
+On Unity 6000.6.2f1 the benchmark cloned CentralBasin into a disposable scene, keeping its 2,048 × 2,048 m size, 1,025² height samples and 512² paint cells. It arranged 16 carriage roads in two crossing groups of eight at 85 m spacing. Total sampled length was 19,545.4 m across 24,451 points. After full paint it alternated five 2 × 2 height edits with five road translations of 8 m in X and 14 m in Z. Four more 2 × 2 edits completed through the automatic callback. Both runs used the same headless Editor on this machine.
+
+| Operation | Before | After |
+| --- | ---: | ---: |
+| Sample all 16 splines, cold | 78.9 ms | 87.9 ms |
+| Repeat planning with identical inputs | — | 0.76 ms |
+| Full repaint and ribbon bake, with paths prepared | 845.0 ms | 882.2 ms |
+| Local sculpt, median of five | 182.9 ms | 149.0 ms |
+| Translate one road, median of five | 254.8 ms | 231.1 ms |
+| Automatic edit to completion, median of four including debounce | 734.2 ms | 696.0 ms |
+
+The Editor reuses a road’s sampled geometry while its spline, profile, identity and world transform match. A local edit near a road can still rebuild the whole tile’s wheel mesh and record complete Undo snapshots. In this dense workload Unity’s total allocated memory grew by approximately 28 MiB per manual edit with Undo enabled. This is an Editor-wide change in memory use, including native resources. The per-thread GC API failed an 8 KiB positive control. The separate whole-Editor frame probe reported `EDIT-FRAME idle=452 controlPeak=4195243 sculptFramePeak=24513334 bytes (whole Editor frames)`. Neither counter isolates bytes allocated by Terrain Studio. These short runs establish editing costs on one machine; long-session memory retention remains unmeasured.
+
+Automated verification passed 75/75 Edit Mode and 35/35 Play Mode, with the network workload and rendered comparison each passing separately. The disposable graded-road fixture compared 85 production motor displacement calls, collision flags, ray contact positions and normals before painting, after carriage baking and after changing wear and spacing. The protected-junction fixture exercised automatic updates, save/reopen, release and Undo/Redo. Rendered coverage was visible at both camera positions. The regular and disposable painted Windows builds had 21 and 8 warnings respectively, zero errors, and each initialized for a 15-second rendered startup check. The painted package included the working TerrainData and wheel mesh and excluded authoring history. See TestResults.json for individual runs and raw timing samples.
+
+To repeat the editing workload, close Unity and run `./Tools/Run-UnityTests.ps1 -Platform EditMode -Filter IntersectingNetworkWorkload -Label <fresh-label>`. Use a new label for each run. The designer checklist above remains open.
