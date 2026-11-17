@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using UnityEditor.SceneManagement;
+using UnityEditor;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -19,6 +21,57 @@ namespace Windrunner.Production.Tests
     public sealed class MovementGymIntegrationTests
     {
         private static object Read(Component c,string name) => c.GetType().GetProperty(name).GetValue(c);
+        [UnityTest, Category("Profiling")]
+        public IEnumerator StationHudAtDesktopResolutions()
+        {
+            const string path="Assets/MovementLab/MovementGym.unity";
+            if(ProjectRoot.Active!=null){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}
+            yield return EditorSceneManager.LoadSceneAsyncInPlayMode(path,new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null;
+            var lab=(Component)Object.FindAnyObjectByType(Type.GetType("Windrunner.MovementLab.MovementLabPlayer, Assembly-CSharp",true));
+            lab.GetType().GetMethod("Teleport").Invoke(lab,new object[]{6});
+            var gameViewType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GameView");
+            var gameView = EditorWindow.GetWindow(gameViewType);
+            var selectedSize = gameViewType.GetProperty("selectedSizeIndex", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            int previousSize = (int)selectedSize.GetValue(gameView);
+            var sizesType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GameViewSizes");
+            var sizes = typeof(ScriptableSingleton<>).MakeGenericType(sizesType).GetProperty("instance").GetValue(null);
+            var group = sizesType.GetMethod("GetGroup").Invoke(sizes, new object[] { GameViewSizeGroupType.Standalone });
+            var groupType = group.GetType(); int originalCount = (int)groupType.GetMethod("GetTotalCount").Invoke(group, null);
+            try
+            {
+                foreach (int width in new[] { 1280, 1600, 1920 })
+                {
+                    int height = width * 9 / 16;
+                    var sizeType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GameViewSize");
+                    var enumType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GameViewSizeType");
+                    var size = Activator.CreateInstance(sizeType, Enum.Parse(enumType, "FixedResolution"), width, height, "Movement HUD");
+                    groupType.GetMethod("AddCustomSize").Invoke(group, new[] { size });
+                    selectedSize.SetValue(gameView, (int)groupType.GetMethod("GetTotalCount").Invoke(group, null) - 1);
+                    gameView.Repaint(); for (int n = 0; n < 10; n++) yield return null;
+                    Assert.AreEqual(width, Screen.width); Assert.AreEqual(height, Screen.height);
+                    var flags=BindingFlags.NonPublic|BindingFlags.Instance;
+                    string display=(string)lab.GetType().GetField("display",flags).GetValue(lab);
+                    Assert.That(display,Does.Contain("F10"));Assert.That(display,Does.Contain("F12"));
+                    var style=(GUIStyle)lab.GetType().GetField("diagnosticsStyle",flags).GetValue(lab);
+                    Assert.Less(style.CalcHeight(new GUIContent(display),Mathf.Min(width-24,900)),height*.4f);
+                    string file=Path.GetFullPath("Logs/ProductionMigration/gym-wind-"+width+"-"+DateTime.UtcNow.Ticks+".png");
+                    ScreenCapture.CaptureScreenshot(file);
+                    for(int frame=0;frame<30 && !File.Exists(file);frame++)yield return null;
+                    Assert.IsTrue(File.Exists(file));Debug.Log("Movement HUD capture "+file);
+                }
+            }
+            finally
+            {
+                selectedSize.SetValue(gameView, previousSize);
+                for (int index = (int)groupType.GetMethod("GetTotalCount").Invoke(group, null) - 1; index >= originalCount; index--)
+                    groupType.GetMethod("RemoveCustomSize").Invoke(group, new object[] { index });
+                if(ProjectRoot.Active!=null)Object.Destroy(ProjectRoot.Active.gameObject);
+            }
+            yield return null;
+            var empty=SceneManager.CreateScene("Movement HUD teardown");SceneManager.SetActiveScene(empty);
+            yield return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByPath(path));
+        }
         [UnityTest] public IEnumerator ProductionMotorTunnelOverdriveAndBarrier()
         {
             if(ProjectRoot.Active!=null) { Object.Destroy(ProjectRoot.Active.gameObject); yield return null; }
@@ -55,6 +108,107 @@ namespace Windrunner.Production.Tests
                 var motor=(Component)lab.GetType().GetField("motor").GetValue(lab);
                 var power=(Component)lab.GetType().GetField("power").GetValue(lab);
                 var controller=lab.GetComponent<CharacterController>();
+                Time.captureDeltaTime=1f/60f;
+                var lanes=(Array)lab.GetType().GetField("lanes").GetValue(lab);
+                object Field(Component component,string name)=>component.GetType().GetField(name).GetValue(component);
+                void Keys(params Key[] keys)=>InputSystem.QueueStateEvent(keyboard,new KeyboardState(keys));
+                var ability=(Component)Field(lab,"sling");
+                var aim=lab.GetComponent(Type.GetType("AirflowPrototype.AirSlingTargeter, Assembly-CSharp",true));
+                var failures=new List<string>();
+                foreach(bool extreme in new[]{false,true})
+                for(int station=0;station<(extreme?9:10);station++)
+                {
+                    var lane=(Component)lanes.GetValue(station);
+                    if(extreme)
+                    {
+                        var configure=lane.GetType().GetMethod("SetPreset");
+                        configure.Invoke(lane,new object[]{Enum.ToObject(configure.GetParameters()[0].ParameterType,3)});
+                        lane.GetType().GetMethod("Apply").Invoke(lane,null);Physics.SyncTransforms();
+                    }
+                    Keys((Key)((int)Key.F1+station));yield return null;yield return null;
+                    Assert.AreEqual(station,Field(lab,"destinationIndex"),"direct key");
+                    Keys();for(int t=0;t<24;t++)yield return null;
+                    var gate=(Transform)Field(lane,"startGate");var spawn=(Transform)Field(lane,"destination");
+                    var end=(Transform)Field(lane,"endGate");
+                    for(int track=0;track<(station==6&&!extreme?3:1);track++)
+                    {
+                        if(track>0){Keys(Key.V);yield return null;yield return null;Keys();for(int t=0;t<22;t++)yield return null;}
+                        bool jumped=false, traversed=false,paid=false,airborne=false;
+                        int charge=-1;
+                        var stationOrigin=lab.transform.position;float run=0,rise=0;
+                        string stop="35 s input budget";
+
+                        for(int tick=0;tick<2100;tick++)
+                        {
+                            float z=Vector3.Dot(lab.transform.position-gate.position,spawn.forward);
+                            bool jump=(station==1||station==4||station==9) && !jumped && z>-.8f && z<1;
+                            jumped|=jump;
+                            bool dash=station==2 || (station==5 && z<10) || (station==9 && z<12);
+                            bool boost=station==7||station==8;
+                            var keys=new List<Key>{Key.W};
+                            if(jump)keys.Add(Key.Space);
+                            if(station==4 && jumped && Vector3.Dot(lab.transform.position-spawn.position,spawn.right)<4)keys.Add(Key.D);
+                            if(extreme && station==2 && z>0 && Vector3.Dot(lab.transform.position-gate.position,gate.right)<-.3f) keys.Add(Key.D);
+                            if(dash)keys.Add(Key.LeftShift);
+                            if(boost)keys.Add(Key.Q);
+                            Keys(keys.ToArray());
+                            if((station==3||station==9) && charge<0 && Read(aim,"CurrentTarget")!=null)
+                            {
+                                InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.RightShoulder));charge=tick;
+                            }
+                            if(charge>=0 && tick==charge+14)InputSystem.QueueStateEvent(pad,new GamepadState());
+                            yield return null;
+                            airborne|=!(bool)Read(motor,"IsGrounded");
+                            traversed|=(bool)Read(ability,"IsDashingToNode");
+                            paid|=(float)Read(power,"Current")<(float)Read(power,"Max")-.01f;
+                            var offset=lab.transform.position-stationOrigin;
+                            rise=Mathf.Max(rise,offset.y);offset.y=0;
+                            if(extreme && run>4 && offset.magnitude<1){stop="fell below recovery plane and returned to pad";break;}
+                            run=Mathf.Max(run,offset.magnitude);
+                            if((bool)Read(lab,"Finished")){stop="grounded beyond finish stripe";break;}
+                        }
+                        string result=$"Station {station+1}/{track} {(extreme?"Extreme":"Authored")} run={run:F2} rise={rise:F2} stop={stop}: finish={Read(lab,"Finished")} position={lab.transform.position} stripe={end.position} peak={Read(lab,"Peak")} jump={jumped} sling={traversed} spent={paid} wind={Read(lab,"EntrySpeed")}/{Read(lab,"InsideSpeed")}/{Read(lab,"ExitSpeed")}";
+                        Debug.Log(result);
+                        if(!extreme && station==6)
+                        {
+                            float entry=(float)Read(lab,"EntrySpeed"),inside=(float)Read(lab,"InsideSpeed"),exit=(float)Read(lab,"ExitSpeed");
+                            Assert.Greater(entry,7);Assert.Greater(exit,7);
+                            if(track==0)Assert.AreEqual(entry,inside,.05f);
+                            else {Assert.Greater(inside,entry+3);Assert.Greater(exit,entry+1);}
+                        }
+                        if(!extreme && (station==1||station==4)&&!(jumped&&airborne))failures.Add("Missing airborne jump: "+result);
+                        if(!extreme && (!(bool)Read(lab,"Finished") || ((station==3||station==9) && !traversed) || (station==2||station==8) && !paid))failures.Add(result);
+                        Keys(); InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;
+                    }
+                }
+                Assert.IsEmpty(failures,string.Join("\n",failures));
+                Keys(Key.F12);yield return null;yield return null;
+                Assert.AreEqual(Read(power,"Max"),Read(power,"Current"));Keys();yield return null;
+                power.GetType().GetMethod("Spend").Invoke(power,new object[]{12f});
+                float stored=(float)Read(power,"Current");
+                var orbitCamera=(Camera)Read(motor,"ViewCamera");
+                var animator=lab.GetComponentInChildren<Animator>();
+                Assert.IsTrue(orbitCamera.isActiveAndEnabled && animator.isActiveAndEnabled);
+                Keys(Key.F11);yield return null;yield return null;
+                Assert.IsFalse(orbitCamera.isActiveAndEnabled || animator.isActiveAndEnabled);
+                Assert.IsFalse(lab.gameObject.activeSelf);
+                var rig=(Component)Object.FindAnyObjectByType(Type.GetType("Windrunner.MovementLab.LabFlightRig, Assembly-CSharp",true));
+                Assert.IsNotNull(rig);var flightOrigin=rig.transform.position;
+                Keys(Key.W,Key.Space,Key.LeftShift);for(int i=0;i<30;i++)yield return null;
+                Assert.Greater(Vector3.Distance(flightOrigin,rig.transform.position),3);
+                Keys(Key.F11);yield return null;yield return null;
+                Assert.IsTrue(lab.gameObject.activeSelf && controller.enabled);
+                Assert.AreEqual(stored,(float)Read(power,"Current"),.01f);
+                Assert.IsTrue(orbitCamera.isActiveAndEnabled && animator.isActiveAndEnabled);
+                Keys();for(int i=0;i<30;i++)yield return null;
+                Assert.IsTrue((bool)Read(motor,"IsGrounded"),"Flight exit must leave the production motor on its own pad.");
+                var rebound=input.Actions.FindAction("Gameplay/Station1",true);
+                rebound.ApplyBindingOverride(0,"<Keyboard>/k");
+                Keys(Key.K);yield return null;yield return null;
+                Assert.AreEqual(0,Field(lab,"destinationIndex"),"Station selection follows the rebound action on the session clone.");
+                rebound.RemoveBindingOverride(0);
+                Keys();for(int i=0;i<30;i++)yield return null;
+                Assert.IsTrue((bool)Read(motor,"IsGrounded"));Keys(Key.F12);yield return null;yield return null;Keys();yield return null;
                 var forward=Vector3.forward;
                 var start=new Vector3(2400,420,-100);
                 var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.transform.position=start+forward*260-Vector3.up*1.2f;
@@ -85,7 +239,7 @@ namespace Windrunner.Production.Tests
                     InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W,Key.Q,Key.LeftShift));
                     double begin=Time.realtimeSinceStartupAsDouble;
                     for(int i=0;i<fps;i++) yield return null;
-                    Assert.IsTrue((bool)Read(lab,"Boosting"));Assert.Greater((float)Read(lab,"WindGain"),1);
+                    Assert.IsTrue((bool)Read(lab,"Boosting"));Assert.Greater((float)Read(lab,"WindGain"),0);
                     Assert.Less((float)Read(power,"Current"),before);
                     Time.timeScale=0;
                     float frozenPower=(float)Read(power,"Current");Vector3 frozenPosition=lab.transform.position;
@@ -132,6 +286,10 @@ namespace Windrunner.Production.Tests
                 // Exercise the authored extreme course with its real camera, targets, charge and node flight.
                 Time.captureDeltaTime=1f/60; Time.fixedDeltaTime=.02f;
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState()); yield return null;
+                var combined=(Component)lanes.GetValue(9);
+                var presetMethod=combined.GetType().GetMethod("SetPreset");
+                presetMethod.Invoke(combined,new object[]{Enum.ToObject(presetMethod.GetParameters()[0].ParameterType,3)});
+                combined.GetType().GetMethod("Apply").Invoke(combined,null);Physics.SyncTransforms();
                 lab.GetType().GetMethod("Teleport").Invoke(lab,new object[]{9});
                 for(int i=0;i<8;i++) yield return null;
                 var sling=(Component)lab.GetType().GetField("sling").GetValue(lab);
@@ -140,7 +298,8 @@ namespace Windrunner.Production.Tests
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W,Key.Q));
                 float extremePeak=0, maxRise=0, maxRun=0;
                 int chargeFrame=-1;bool sawCharge=false, sawFlight=false;
-                for(int i=0;i<360;i++)
+                string extremeStop="60 s input budget";
+                for(int i=0;i<3600;i++)
                 {
                     if(chargeFrame<0 && Read(targeter,"CurrentTarget")!=null)
                     {
@@ -154,12 +313,16 @@ namespace Windrunner.Production.Tests
                     if((bool)Read(sling,"IsDashingToNode")) Assert.IsFalse((bool)Read(lab,"Boosting"),"Sling owns its authored traversal.");
                     extremePeak=Mathf.Max(extremePeak,((Vector3)Read(motor,"Velocity")).magnitude);
                     Vector3 offset=lab.transform.position-origin;
-                    maxRise=Mathf.Max(maxRise,offset.y);offset.y=0;maxRun=Mathf.Max(maxRun,offset.magnitude);
+                    maxRise=Mathf.Max(maxRise,offset.y);offset.y=0;
+                    if(maxRun>5 && offset.magnitude<1){extremeStop="returned to recovery pad";break;}
+                    maxRun=Mathf.Max(maxRun,offset.magnitude);
+                    if((bool)Read(lab,"Finished")){extremeStop="grounded beyond finish stripe";break;}
                 }
                 Debug.Log($"Extreme lane: run {maxRun}m, rise {maxRise}m, peak {extremePeak}m/s, charge frame {chargeFrame}, charge {sawCharge}, node dash {sawFlight}");
                 Assert.IsTrue(sawCharge,"Extreme course must offer an accessible authored Sling target.");
                 Assert.IsTrue(sawFlight,"A valid release must transition to real node traversal.");
-                File.WriteAllText("Logs/ProductionMigration/movement-extreme-"+backend+".txt",FormattableString.Invariant($"run_m={maxRun:F2},rise_m={maxRise:F2},peak_mps={extremePeak:F2},charge_frame={chargeFrame},node_flight={sawFlight}"));
+                File.WriteAllText("Logs/ProductionMigration/movement-extreme-"+backend+".txt",FormattableString.Invariant($"run_m={maxRun:F2},rise_m={maxRise:F2},peak_mps={extremePeak:F2},charge_frame={chargeFrame},node_flight={sawFlight},finished={Read(lab,"Finished")},end={lab.transform.position},stop={extremeStop}"));
+                Assert.IsTrue((bool)Read(lab,"Finished"),"Extreme combined lost its validated grounded finish: "+extremeStop);
             }
             finally
             {

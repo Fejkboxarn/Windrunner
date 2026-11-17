@@ -17,7 +17,7 @@
     "Assets/AirflowPrototype/Editor/WindrunnerAnimationContentAudit.cs": "34d749d5d1f0220dc0cf11b312ad73fa9588f65fbf0b11231ce831c68db90143",
     "Assets/AirflowPrototype/Editor/WindrunnerAnimationProfileInspector.cs": "6230779f2f18cc2112775280401e439c3dc999d0f464c30bd3dd39d6f8c1d6ea",
     "Assets/AirflowPrototype/Editor/WindrunnerAudioAudit.cs": "43f621816904fa25c7ece74b00fb5078125c6aa63badf206d1b1f32573bbde97",
-    "Assets/AirflowPrototype/Editor/WindrunnerCandidateBuild.cs": "a85847c4a831d1380497b3ec8c4b53eaf6046c3a944fe30bde0edc4e3fb14561",
+    "Assets/AirflowPrototype/Editor/WindrunnerCandidateBuild.cs": "225c9c9f420d6379d2f8738bd060320216b2e4d50cfd5e03a8014a3f1ff3a7b6",
     "Assets/AirflowPrototype/Editor/WindrunnerMotorSimulationChecks.cs": "74d86f0a901ec63d25ff08497d01bf29853fd82f492390e365ce1a256770d378",
     "Assets/AirflowPrototype/Runtime/AbilityResourcePolicy.cs": "1df2f53046e7e8fa56495a0fc40f4752bbcc3371cf24ce33d62e827843b1bddd",
     "Assets/AirflowPrototype/Runtime/AirCastSession.cs": "52370a78fe86ac70ce797b10a9701d97fb4105c138e6ccbb3d6daeb93da9e084",
@@ -56,13 +56,14 @@
     "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs": "d37a80e6b10455300acb03c96366265b1b17afae76fb14f5344e57d09fd2d7e7",
     "Assets/AirflowPrototype/Runtime/ProgressBarMaterialLease.cs": "a4807b509496f7ce479dc1133fa586b4fde4ce5c9f9f193f3b5542c739b47269",
     "Assets/AirflowPrototype/Runtime/ProgressionFixtureSafety.cs": "b92f217cd44524002622b38ff3c3f7b300d7a695e2808d2f54a694e39c8014cc",
-    "Assets/MovementLab/Editor/MovementLabWindow.cs": "9bed12305658ffaf9cd7f527300f34af896c56548d29c6486a7909aa07684b2d",
-    "Assets/MovementLab/GymLane.cs": "1b44fa2576d31e89e2050286f12bca8b431e09c5bb1707a7d77b7bf5b7fbca41",
-    "Assets/MovementLab/MovementLabPlayer.cs": "f2791ca8474c1156b5532781ad3d35e62ecebf188175db5740e9ab0b38f8c856",
-    "Assets/MovementLab/MovementLabProfile.cs": "fd4b85b45fce1554a6d03ddd80988c749dba79302f389697cd04d2d78fcaf95f",
-    "Assets/MovementLab/Rules/LabInfluences.cs": "2e28d1d195fc5a310b91efa1cf8984ec23b40ceced7a79ccfff96e49c9be7817",
+    "Assets/MovementLab/Editor/MovementLabWindow.cs": "f91f2348281c56e29979942c21bad686575e414955efeebe419c7dfe5ddc0ccb",
+    "Assets/MovementLab/GymLane.cs": "26e6093399c5531a8d2521e4ef58364b505794059535591d9bd040ea5bddfdde",
+    "Assets/MovementLab/LabFlightRig.cs": "56976cdfa6f939f3b62b918e670b44b9aee3c5c2a86372a314ee58d7f3dc8120",
+    "Assets/MovementLab/MovementLabPlayer.cs": "9cb44002f815d0de94c74759c6c57884235681c98ef2c41de1eeddeedf4205e9",
+    "Assets/MovementLab/MovementLabProfile.cs": "3aa6ded04c94bb600dc230b83c0a82422ffa0a4306a543a58eea69b83fb0bec2",
+    "Assets/MovementLab/Rules/LabInfluences.cs": "cf07cb39858cdc7fc6e8817d1a0d0e5613c28d28c1bfb1b5ded2dcb391b27989",
     "Assets/MovementLab/Rules/MovementLab.Rules.asmdef": "9035d033400ec1cd3f82ec162f01eeeb135b77bca066bf7da7aae9424b10720a",
-    "Assets/MovementLab/Tests/Editor/LabRuleTests.cs": "f4b58ed6dfe4c788fe996edf08b19e9e10a8954bc5b089046761d7b8d15bf052",
+    "Assets/MovementLab/Tests/Editor/LabRuleTests.cs": "52ff7eb4c7c7b16fcae818f54ef0b2a90784b7ffd2598e777bd7538037098adb",
     "Assets/MovementLab/Tests/Editor/MovementLab.EditorTests.asmdef": "5f2eb162a22b479edb161c04bcd1e4e6c40d2d116ece7776b90cda69fb175c37",
     "Assets/MovementLab/WindTunnel.cs": "39b48afe213a2622e5a538ef20249369b8cc3616d59f3b14739c41eec3b42b8d",
     "Assets/PortableAnimation/Runtime/Phase11/GroundOnlyPipelineRuntime.cs": "975e2cbd209f300f0f0f6162d4494877617d59fc2287ce26a1d43e7f5c3304f6",
@@ -121,7 +122,7 @@
     "Assets/WindrunnerProduction/Tests/PlayMode/CharacterTuningPlayTests.cs": "0e0b4a6cf3bf5ccb0a426824a4ed8eb0428666c9a1efa023c3e8fdf48b057a56",
     "Assets/WindrunnerProduction/Tests/PlayMode/DisplacementAuthorityTests.cs": "29f89b7aa39a3ee362aa7f8190cc18e9539b77ac39179d63ba68419d42f44cc8",
     "Assets/WindrunnerProduction/Tests/PlayMode/GameplayLifecycleTests.cs": "36e15b9a6bdb5ec3c88816d350c1d02cdcf66a5be7e0dd8792c7231da26eca89",
-    "Assets/WindrunnerProduction/Tests/PlayMode/MovementGymIntegrationTests.cs": "b92aa1402f32905c3d3b06d04b265a3685f800dc2c51879639822b434105cc6f",
+    "Assets/WindrunnerProduction/Tests/PlayMode/MovementGymIntegrationTests.cs": "29aa6e88362fb9f9474eaba5643df971ee7f8f19434901f6beb3abed1b0353f7",
     "Assets/WindrunnerProduction/Tests/PlayMode/ProductionOnlyTests.cs": "e332e2ba070e51b7e0e376409cbc57189ebda4c902312dfae680b5ed90242a16",
     "Assets/WindrunnerProduction/Tests/PlayMode/ProgressionFixtureLifecycleTests.cs": "3c97d83ded8366fd0040b1f55eb492fa9de5f074947ecf03e516b77e227c61d7",
     "Assets/WindrunnerProduction/Tests/PlayMode/ProgressionFixtureVisualTests.cs": "5ba880fca3b572e406db5072cd8164ef78a4980bfaf865332e8c9c038b56b7c1",
@@ -18855,6 +18856,1356 @@
           "failure": null
         }
       ]
+    },
+    {
+      "label": "gym-rework-probe1-PlayMode",
+      "xml_sha256": "f818068ab5c5cfaaa0b2fc490c619c2c82a910904372d57e38cc154b4fb2b61d",
+      "result": "Failed(Child)",
+      "total": "1",
+      "passed": "0",
+      "failed": "1",
+      "skipped": "0",
+      "duration": "41,9019914",
+      "start-time": "2026-11-17 05:11:29Z",
+      "end-time": "2026-11-17 05:12:11Z",
+      "tests": [
+        {
+          "name": "ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Failed",
+          "failure": "  Station 4/0: finish=False position=(2519.58, -3.90, -180.02) stripe=(2520.00, 0.09, -400.00) peak=59,43313 jump=False sling=True spent=True wind=-1/-1/-1\n  Expected: <empty>\n  But was:  < \"Station 4/0: finish=False position=(2519.58, -3.90, -180.02) stripe=(2520.00, 0.09, -400.00) peak=59,43313 jump=False sling=True spent=True wind=-1/-1/-1\" >\n"
+        }
+      ]
+    },
+    {
+      "label": "gym-rework-full1-PlayMode",
+      "xml_sha256": "3ad1689b9ba38b939784b96f6abe560a8d401850ce27baa846844709ea18d248",
+      "result": "Passed",
+      "total": "32",
+      "passed": "32",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "75,7523396",
+      "start-time": "2026-11-17 05:12:54Z",
+      "end-time": "2026-11-17 05:14:10Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureTurnInTimelineJournalAndReloadKeepOneService",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSkipInterruptionAndNestedPauseRestoreAuthority",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputBlocksNestAndBindingsRemainStableAcrossServiceLifetimes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "UniqueCollectionPresentationRestoresFromPersistentFacts",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WorldInteractionAndPhysicsRaceReachQuestEvaluator",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-final-EditMode",
+      "xml_sha256": "9b27749c84661d3ad0fd986c15d79b8f5a4cf334b72a4733ed0bec16e9e4d142",
+      "result": "Passed",
+      "total": "55",
+      "passed": "55",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "8,9154291",
+      "start-time": "2026-11-17 05:14:49Z",
+      "end-time": "2026-11-17 05:14:58Z",
+      "tests": [
+        {
+          "name": "EveryWindPresetHasAProgressiveCurveAndOneImmediateRearmingImpulse",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OneImpulsePerVisitAndNoStationaryOrPausedBoost(30)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OneImpulsePerVisitAndNoStationaryOrPausedBoost(60)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OneImpulsePerVisitAndNoStationaryOrPausedBoost(120)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OverdriveChargesOnlyPaidTimeAndRequiresReleaseAfterInterruptionOrDepletion",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SerializedGymReferencesAndUniqueProductionPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WindFollowsTurnsAndFallDirectionAndCapsOnlyAddedSpeed",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ProfilesPreserveAuthoredValuesAndDraftsRemainIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InstalledLocomotionHandlesReversalsAirborneAndLandingWithNormalizedWeights",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NonInterruptibleActionStillAllowsExplicitCancellationAndFreshReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PriorityLoopCancellationAndMissingSlotsHaveDeterministicRecovery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationObservationUnbindsPreviousServiceAndDisposes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisposedAnimationCannotResubscribeToFeedback",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirDashStateParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirCastReleaseParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirPowerStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirTargetSelectionParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorSimulationChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAbilityCompositionChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerPlanarParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingChargeParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingDashParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingFlowParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingPathParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingTargetParityChecks\",\"RunScoringChecks\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackObservationPreservesPublishOrderAndDisposalStopsDelivery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriberFailureDoesNotSuppressLaterObservers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriptionChangesApplyToNextPublish",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PauseSwitchesMapsWithoutChangingAuthoringAsset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "StateTransitionsExitBeforeEnterAndDisposeOnce",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureHasNoBrokenSerializedReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureAndStudioCopyHaveValidReferencesAndIndependentStableIds",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureResetPreservesNormalSaveAndRetainsPreviousEngineeringGeneration",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureUpgradePreservesStableIdentitiesAndRejectsNonFixtureReset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AllObjectiveKindsFilterActorRegionResultTimeAndDuplicateOccurrence",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSaveFailureRestoresControlAndRecoversPendingOnReload",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DefinitionsAreFrozenAndNewContentCannotKeepStaleReadyStatus",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackOrderRewardUnlockAndObserverDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoringRejectsCyclesBadOwnershipAndMissingContent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FailedPersistenceIsAtomicAndListenersCannotSuppressCommittedState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "IndependentChaptersCommitOnceAndCutsceneGatesNextChapter",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ParallelSequentialUniqueAndRetroactivePolicies",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SaveVersionsUnknownContentAndFileReplacement",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MeasureResourceUiReadAndFeedbackDispatch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "HitStopMatchesLegacyCurveAndFreezesDuringPause",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(1.0f,0.02f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(0.5f,0.01f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PuzzleSequenceExitPartialReloadAndPermanentSolution",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RaceFailureRestartCheckpointOrderingAndFirstClearAreIndependent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "TemporaryPuzzleTimeoutResetsWithoutPersistentCredit",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-hud-PlayMode",
+      "xml_sha256": "dedd837280a02553323c6b7701ca72e7426bbef6486d0accf9047542449ac3cc",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "3,0300417",
+      "start-time": "2026-11-17 05:15:19Z",
+      "end-time": "2026-11-17 05:15:22Z",
+      "tests": [
+        {
+          "name": "StationHudAtDesktopResolutions",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-verified-PlayMode",
+      "xml_sha256": "62ee0ff2265749b4b8bfc46e2f68ec7579dd4a20af482c33ff3e8f4510c4e358",
+      "result": "Passed",
+      "total": "32",
+      "passed": "32",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "116,0495426",
+      "start-time": "2026-11-17 05:18:50Z",
+      "end-time": "2026-11-17 05:20:46Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureTurnInTimelineJournalAndReloadKeepOneService",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSkipInterruptionAndNestedPauseRestoreAuthority",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputBlocksNestAndBindingsRemainStableAcrossServiceLifetimes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "UniqueCollectionPresentationRestoresFromPersistentFacts",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WorldInteractionAndPhysicsRaceReachQuestEvaluator",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-verified-EditMode",
+      "xml_sha256": "cb5a05127ab3b58d68d5340278e1ede5873d4dcffea35f8d8f224d78a40cd9b8",
+      "result": "Passed",
+      "total": "55",
+      "passed": "55",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "8,6239625",
+      "start-time": "2026-11-17 05:21:00Z",
+      "end-time": "2026-11-17 05:21:09Z",
+      "tests": [
+        {
+          "name": "EveryWindPresetHasAProgressiveCurveAndOneImmediateRearmingImpulse",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OneImpulsePerVisitAndNoStationaryOrPausedBoost(30)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OneImpulsePerVisitAndNoStationaryOrPausedBoost(60)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OneImpulsePerVisitAndNoStationaryOrPausedBoost(120)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OverdriveChargesOnlyPaidTimeAndRequiresReleaseAfterInterruptionOrDepletion",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SerializedGymReferencesAndUniqueProductionPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WindFollowsTurnsAndFallDirectionAndCapsOnlyAddedSpeed",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ProfilesPreserveAuthoredValuesAndDraftsRemainIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayPlayerHasOneCoreOwnerAndConsistentMovementReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneAndOwnedPrefabsHaveNoBrokenReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CharacterOverridesAndMissingClipsDoNotMutateTheSharedProfile",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InstalledLocomotionHandlesReversalsAirborneAndLandingWithNormalizedWeights",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NonInterruptibleActionStillAllowsExplicitCancellationAndFreshReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PriorityLoopCancellationAndMissingSlotsHaveDeterministicRecovery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationFeedbackBelongsOnlyToItsPlayerAndDestroyedOwnersStayIsolated",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnimationObservationUnbindsPreviousServiceAndDisposes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisposedAnimationCannotResubscribeToFeedback",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirDashStateParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirCastReleaseParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirPowerStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAirTargetSelectionParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorStateChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerMotorSimulationChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerAbilityCompositionChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerPlanarParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingChargeParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingDashParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingFlowParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingPathParityChecks\",\"Run\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExistingGameplayParity(\"WindrunnerSlingTargetParityChecks\",\"RunScoringChecks\")",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackObservationPreservesPublishOrderAndDisposalStopsDelivery",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriberFailureDoesNotSuppressLaterObservers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackSubscriptionChangesApplyToNextPublish",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PauseSwitchesMapsWithoutChangingAuthoringAsset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "StateTransitionsExitBeforeEnterAndDisposeOnce",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureHasNoBrokenSerializedReferences",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureAndStudioCopyHaveValidReferencesAndIndependentStableIds",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureResetPreservesNormalSaveAndRetainsPreviousEngineeringGeneration",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FixtureUpgradePreservesStableIdentitiesAndRejectsNonFixtureReset",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AllObjectiveKindsFilterActorRegionResultTimeAndDuplicateOccurrence",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSaveFailureRestoresControlAndRecoversPendingOnReload",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DefinitionsAreFrozenAndNewContentCannotKeepStaleReadyStatus",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FeedbackOrderRewardUnlockAndObserverDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoringRejectsCyclesBadOwnershipAndMissingContent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "FailedPersistenceIsAtomicAndListenersCannotSuppressCommittedState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "IndependentChaptersCommitOnceAndCutsceneGatesNextChapter",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ParallelSequentialUniqueAndRetroactivePolicies",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SaveVersionsUnknownContentAndFileReplacement",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MeasureResourceUiReadAndFeedbackDispatch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "HitStopMatchesLegacyCurveAndFreezesDuringPause",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(1.0f,0.02f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "NestedPauseAndSlowdownsRestoreOnlyTheirOwnRequests(0.5f,0.01f)",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PuzzleSequenceExitPartialReloadAndPermanentSolution",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RaceFailureRestartCheckpointOrderingAndFirstClearAreIndependent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "TemporaryPuzzleTimeoutResetsWithoutPersistentCredit",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-visual-verified-PlayMode",
+      "xml_sha256": "39e76540caf98dc2fc4789b6c020911bd0057570b7e580eb2e50e30bd7f3e2f1",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "3,0239371",
+      "start-time": "2026-11-17 05:21:24Z",
+      "end-time": "2026-11-17 05:21:27Z",
+      "tests": [
+        {
+          "name": "StationHudAtDesktopResolutions",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-release-PlayMode",
+      "xml_sha256": "1c8ba0912d93bede516d5af55837c697638ce2c0df66c2f73f3bcdfa51ff9b5a",
+      "result": "Passed",
+      "total": "32",
+      "passed": "32",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "128,7137125",
+      "start-time": "2026-11-17 05:22:23Z",
+      "end-time": "2026-11-17 05:24:32Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureTurnInTimelineJournalAndReloadKeepOneService",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSkipInterruptionAndNestedPauseRestoreAuthority",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputBlocksNestAndBindingsRemainStableAcrossServiceLifetimes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "UniqueCollectionPresentationRestoresFromPersistentFacts",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WorldInteractionAndPhysicsRaceReachQuestEvaluator",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-acceptance-PlayMode",
+      "xml_sha256": "fb65d98c3aa70d8249fef7ca66f90cfbc934909e7335d30e5915f761419056ad",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "97,3498807",
+      "start-time": "2026-11-17 05:26:49Z",
+      "end-time": "2026-11-17 05:28:26Z",
+      "tests": [
+        {
+          "name": "ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "label": "gym-redesign-checkpoint-PlayMode",
+      "xml_sha256": "87344243fe096523ba89dead6ffc1ef9a6f771360dceb0c8c97a16b7556d6cca",
+      "result": "Passed",
+      "total": "32",
+      "passed": "32",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "129,7698832",
+      "start-time": "2026-11-17 05:29:01Z",
+      "end-time": "2026-11-17 05:31:11Z",
+      "tests": [
+        {
+          "name": "CastPerfectReleaseProjectileAndRewardPreserveOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DashDepletionRewardReactivationPauseAndInterruption",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DestroyedSlingTargetsCancelChargeAndPaidTraversalWithoutLaunch",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedCastInputCancelsWithoutProjectileAndRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisconnectedSlingInputCancelsAndReconnectedDeviceCanCharge",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitFeedbackBindingRebindsAndReleasesSubscriptions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ExplicitPlayerInputBindingStaysIsolatedThroughDisposal",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputDisposalRejectsReentrantRebinding",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LiveMovementDraftChangesActualMotorSpeedAndRestores",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PresentationCameraFallbackUsesAbilityOwnerAndPreservesOverride",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PreviewDisposalDoesNotStrandMultipleProjectilesOrLoseRewards",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RebindCancellationRestoresSystemActionAndRespectsMenuState",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingCancellationPauseAndNormalReleaseRecoverCleanly",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingDeathRewardUsesOnlyItsConfiguredPlayer",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SlingPerfectInputChargeCurveImpactLaunchPreservesEventOrder",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "SwimmingPausesExitsAndRecoversThroughWaterRemoval",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RuntimeDraftPreviewIsIsolatedAndRestoresOriginalBindings",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "OrderedRequestsMatchDirectControllerMovesIncludingCollisions",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplayReloadKeepsOneServiceOwnerAndRebindsSceneUi",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "GameplaySceneStartsAndPlayerRemainsFinite",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MotorMovesJumpsAndStopsIntegrationWhilePaused",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "ProductionMotorTunnelOverdriveAndBarrier",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "PortableGraphOperatesWithLegacyWritersPhysicallyAbsent",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RecreatedGraphRecoversAuthoritativeSlingPhasesWithoutGameplayReplay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AuthoredFixtureTurnInTimelineJournalAndReloadKeepOneService",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "CinematicSkipInterruptionAndNestedPauseRestoreAuthority",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "InputBlocksNestAndBindingsRemainStableAcrossServiceLifetimes",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "RealCastProjectilesReachBoundMechanismAndRespectAdapterLifetime",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "UniqueCollectionPresentationRestoresFromPersistentFacts",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WorldInteractionAndPhysicsRaceReachQuestEvaluator",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "MenuPauseOwnsZeroUntilAllPausesReleaseAndHitStopRecovers",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "WaterfallRetainsLocalAmbienceWithoutDuplicateLoopsAcrossReload",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
     }
   ],
   "builds": [
@@ -19043,6 +20394,91 @@
         "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with _FILL_OVERLAY_USE_GUIDES\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_SEGMENTS_ENABLE",
         "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
         "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM"
+      ],
+      "scenes": [
+        "Assets/MovementLab/MovementGym.unity"
+      ]
+    },
+    {
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/movement-gym-redesign-20261117/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T05:22:11.1533878Z",
+      "errors": 0,
+      "warnings": 27,
+      "seconds": 30.3546385,
+      "bytes": 402924054,
+      "warningMessages": [
+        "Assets\\Feel\\MMFeedbacks\\MMFeedbacks\\Core\\MMFeedbacksHelpers.cs(361,34): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMHelpers\\MMDebug.cs(60,18): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(24,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(25,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(38,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(54,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\MovementLab\\LabFlightRig.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.",
+        "Assets\\MovementLab\\MovementLabPlayer.cs(148,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with <no keywords>\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_OVERLAY_USE_GUIDES _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM"
+      ],
+      "scenes": [
+        "Assets/MovementLab/MovementGym.unity"
+      ]
+    },
+    {
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/movement-lab-validated/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-17T05:26:15.5485615Z",
+      "errors": 0,
+      "warnings": 28,
+      "seconds": 20.3767384,
+      "bytes": 402926550,
+      "warningMessages": [
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\Feel\\MMFeedbacks\\MMFeedbacks\\Core\\MMFeedbacksHelpers.cs(361,34): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMHelpers\\MMDebug.cs(60,18): warning UAC0005: AppDomain.GetAssemblies() in Unity may return already unloaded assemblies and result in errors or leaks. Use Unity APIs instead, such as 'CurrentAssemblies.GetLoadedAssemblies()' or 'TypeCache.GetTypesDerivedFrom()'.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(24,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(37,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinary.cs(38,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(23,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(25,14): warning UAC0023: method 'Serialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,4): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(42,36): warning UAC0023: BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\Feel\\MMTools\\Core\\MMSaveLoad\\MMSaveLoadManagerMethodBinaryEncrypted.cs(54,28): warning UAC0023: method 'Deserialize' on BinaryFormatter is deprecated in the future .NET versions and may prevent assemblies from unloading or return incorrect results. Please use UnityEngine.JsonUtility, System.Runtime.Serialization.DataContractSerializer or System.Text.Json.JsonSerializer instead.",
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with <no keywords>\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_OVERLAY_USE_GUIDES _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM"
       ],
       "scenes": [
         "Assets/MovementLab/MovementGym.unity"
@@ -19405,6 +20841,19 @@
       "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
     },
     {
+      "label": "movement-lab-validated-rendered",
+      "seconds": 15,
+      "survived": true,
+      "rendered": true,
+      "totalProcessCpuSeconds": 4.359375,
+      "peakWorkingSetBytes": 502681600,
+      "privateBytesAtEnd": 1050664960,
+      "hasPlayerInitialization": true,
+      "errors": [],
+      "termination": "Harness stops only its launched process after observation",
+      "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+    },
+    {
       "label": "production-clean-20261112",
       "seconds": 15,
       "survived": true,
@@ -19607,10 +21056,24 @@
     "gym-final-PlayMode.log": "ac76c0617dd477087e2c0f605526b063db2bffd0eb058cc12675f00ef5170913",
     "gym-final-rendered-PlayMode.log": "4107bbea168fbe63f8dc0ac088589c8b7edf7126211d1f180d9df457c136de33",
     "gym-landing.log": "71622d7e718f3af2ff130d74bf4ecb5a19ff8b440defa3912786658a1e502704",
+    "gym-redesign-acceptance-PlayMode.log": "adf13b478794d7750ab8083b3f006ceb749fdc64a181dd402e7108acd3e610e5",
+    "gym-redesign-bake.log": "cbcf9f54e6c11882b28ba3576463ec4f7fe8a9b2f8b1c326b8ecf2279a05784b",
+    "gym-redesign-bake2.log": "c2ea8edfdeab866ef0fd8b7994821f53e3f1d4b4039787564d0653a223b551f9",
+    "gym-redesign-bake3.log": "2ed2e9e01cb5db48535e86bf4392e0283fbecd143ab4a60acfa87ca551eb24ef",
+    "gym-redesign-checkpoint-PlayMode.log": "c4548643856b49ff96bcdf74aa1ac3cabcadd0f5e67ecb84186142f1f5805ad7",
+    "gym-redesign-final-EditMode.log": "ddc7143ec3aa1b6478a3fbc6c4140c8d3af9a2ada0d2127c610cd9ccb2f3dd79",
+    "gym-redesign-final-PlayMode.log": "0db42e033422a8cea4734a22afccf8060f698f8e726e564a179100de2ebd9127",
+    "gym-redesign-hud-PlayMode.log": "889a010fab9fe8d8394b220e94c794de870367aab7a181d227965482e962b8dd",
+    "gym-redesign-release-PlayMode.log": "de19c3905e4d6ccd8bcdfc849ad23ff14c48963a2812574f77801709ae632ace",
+    "gym-redesign-verified-EditMode.log": "ab216dc5f3b6c58b60285408d01d35e10b380e206a8f86bf01c795b5f8b030a9",
+    "gym-redesign-verified-PlayMode.log": "b44a55f585c41fd68d4067b55ac7f785a4e250eae1fe69c8136c85b3c741ab3a",
+    "gym-redesign-visual-verified-PlayMode.log": "38ca549f443a47f153ca365dda720f89ce5ac8c8da12a45c0284bedc039e4de4",
     "gym-relays.log": "0003e8fa1bbd5bed289aa17b94ae527d74590d82e8edda8f2affc2fe9bf161ae",
     "gym-release-EditMode.log": "5d71cf872b5b1da008ac2a8096b4373b6763d691ba2285a76a735fc42db476e4",
     "gym-release-PlayMode.log": "ebcee82d1b6948450e5c84af538c0fa733940fe023bd307e5f24f5b31ac3553a",
     "gym-rendered-PlayMode.log": "4d3f708fcb8dc1a2d55af0d700c76ee9c880e21d59496a98863671265d80b22f",
+    "gym-rework-full1-PlayMode.log": "78e9a3bb9e84c7ee6daf803d49f868d2dac3bf4ce66111b287bd78cbd73cf86a",
+    "gym-rework-probe1-PlayMode.log": "2d3d72c847140cb67a180ba8472eb291ad5a96d6daff22249fc65be7aef160ce",
     "gym-runways.log": "15edaf55f645f4acc21206d1656b1621aa5ef4cf61caa9ec969063c9f181e8dc",
     "hardening-20261113-build.log": "78672bc48e6221fa0ca6159498ca4d1b03ad1c77bcbcc725eb4ce457f2e7307d",
     "hardening-20261113-player.log": "1b3e10b2bc379fa8b654878ded26ccb82ce8445dc0662c2a8f721ef97473a5c4",
@@ -19665,7 +21128,11 @@
     "movement-authority-PlayMode.log": "02130ac9f6052f8598a5863a4adb4922a23b9dc90e89dfb33e634f278f6bf178",
     "movement-gym-20261117-build.log": "9d52005df3d2eafcc635d440659794279cf5038f8e787902210dc806b66866a8",
     "movement-gym-20261117-rendered-player.log": "7741ab5120bdc421250178934806b225cd1be24d669a5eb7b593a6b709b9fc42",
+    "movement-gym-redesign-20261117-build.log": "fa398245d937e45e3ceeda403ed4b61a2cc9da0cd7e3e74376b3c523641f7bce",
     "movement-lab-create.log": "6e6ca9097ab9f59b857a4094c37580affadbb9321b0ba72e7235580ae701736d",
+    "movement-lab-redesign-build.log": "232ab501a7605640880dfaa918730d93d172e189e497496ece50b6866492e410",
+    "movement-lab-validated-build.log": "f2d114323f0d3422c75174b92b8da02d9cb72c87c3e2ef901e4f9a66ddc1cc70",
+    "movement-lab-validated-rendered-player.log": "d5e6224183ef163921e59fb728bfdaac28ab6ff0bfd58381c7a5ce71dd257073",
     "observer-lifetime-after-EditMode.log": "d9f15fdc945611e1bf51649aee7163b70cf356a64701a86df58ca54e2c4a141f",
     "observer-lifetime-before-EditMode.log": "4846bf5a7a13b86db4c320f429cb3179f7eb6648aec661a6f48373653425544e",
     "placeholder-action-integration-PlayMode.log": "c2f6c50d2d7eb0616524c8e3200fb883a650c0560e507e7ed7584e965922486e",

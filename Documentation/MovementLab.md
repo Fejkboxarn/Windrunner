@@ -2,15 +2,15 @@
 
 Open `Assets/MovementLab/MovementGym.unity` and enter Play Mode, or choose **Tools → Windrunner → Movement Lab → Open Movement Gym**. The gym uses the production player, animation graph, Air Dash and Sling, orbit camera, input host, AirPower, FEEL and feedback wiring. Its scene derives from the production composition with unrelated scenery removed. All lab geometry, experimental settings and input additions live under `Assets/MovementLab`.
 
-## Play and tune
+## Play the redesigned gym
 
-1. Focus the Game view and follow the white station sign and distance markers. By default Page Down and Page Up change sections, Home returns to the selected start and refills AirPower, and F3 toggles the measurements and trajectory. The HUD displays the current bindings. Escape opens the regular pause/rebind panel. Teleporting deliberately cancels Sling and automatic Dash, clears motor momentum, refills the actual player meter, aligns the camera and starts a fresh measurement session.
-2. Try Slopes, Jumps, Dash, Sling, Aerial Steering and Momentum first. Use normal movement, jump, Dash and Sling controls. The teal ramp is the launch, the gold platform is the landing, and spherical Sling targets use production targeting and charge timing. Use the 1,000 × 1,000 m common floor for unrestricted ground runs. A fall ten metres below the lower platform in an elevated section returns you to its start. Leaving the common floor also leads to recovery.
-3. At Wind, move through the teal continuous tunnel, then the gold entry tunnel. Turn sideways inside, jump through while rising, and enter while falling. Boost follows current velocity. Stand still inside the entry volume, move, exit and re-enter to compare an invalid entry with a valid one. Compare the HUD's active tunnel count, measured velocity, actual traveled distance and cumulative wind contribution. The last quantity sums admitted velocity increments before collision response.
-4. At Overdrive, hold Q or gamepad left shoulder while moving, release, and compare with another run holding Dash. Use **Equip Overdrive pair** in the Movement Lab window during play to repeat with the pair unequipped. Both abilities debit the actual AirPower meter. A full depletion or interruption requires releasing and pressing again. Existing motor steering, braking and gravity continue on release and on leaving wind. Overdrive can be held at standstill and will consume AirPower while active. It has no independent direction to accelerate until movement begins.
-5. At HighSpeed, use the long approach to compare coast, Dash, Overdrive and their combinations. At Combined, aim along the ramp and use the relay spheres to chain Dash, wind, jump, Sling and Overdrive. The Extreme preset has 350 m of horizontal launch-to-destination spacing, a 100 m rise and a 45° approach relative to the landing deck. The final deck reaches 300 m above gym origin. Ordinary Sling acquisition range still applies. The intermediate targets make the approach testable before the final destination is in range.
-6. In Edit Mode, select a section in **Tools → Windrunner → Movement Lab**. Choose Short, Medium, Long or Extreme, or change its origin, run-up length, spacing, rise, approach heading, ramp slope, Sling target offset and tunnel dimensions. The window updates actual geometry and markers. Duplicate a section to compare variants. Undo restores the edited scene objects and bindings. Edit the dedicated profile below the section controls for wind mode, strength, cap, eligibility, edge fade, ramp, vertical response and Overdrive cost, threshold, cap, ground/air strength and ramp. Save the gym scene or lab profile to keep deliberate edits. In Play Mode use **Reset measurements** to start timing at the current position without moving or refilling the player.
-7. Check gameplay feel on hardware. Compare steering and braking just after release, camera yaw/FOV and visual readability at peak speed, slope lips, thin barriers, glancing impacts, full depletion, controller disconnect, pause/resume and Sling transitions. Try several approach angles and advanced relay sequences. Record the section, preset, input sequence and observed peak before comparing runs. Completing the extreme lane by hand remains an open acceptance test.
+1. Open **Tools > Windrunner > Movement Lab > Open Movement Gym**, enter Play Mode and click the Game view. Press the station key directly. The camera faces the runway. Follow the start stripe and distance signs to the finish. **F12** cancels traversal, restores AirPower and restarts the selected station. The backquote key toggles the trajectory and extra diagnostics. Use **Escape > Controls** for binding overrides. The HUD reads the active gameplay bindings.
+2. **F1 Slopes** has a joined incline, crest and descent. Walk up, turn across the crest, then descend. **F2 Jumps** starts with a 2 m gap. Run with W and press Space just before the stripe. **F3 Dash** starts with a 36 m straight. Hold W and Shift, check the power cost, then coast. Medium rises, Long and Extreme add a change of heading at the lip.
+3. **F4 Sling** has a gold node 16 m beyond the baseline lip. Face it, hold and release the Sling input (right mouse by default), then carry the launch onto the gold deck. Look for a grounded finish. **F5 Aerial Steering** has a landing offset to the right. Jump at the lip and steer right in the air. **F6 Momentum** compares running, holding Dash and releasing Dash while still steering.
+4. **F7 Wind** opens on a dry track. Run straight and note entry, highest speed inside, and first speed after exit. Press **V** to restart on the continuous track, then again for the impulse track. The three tracks share a deck. Teal marks the continuous volume and gold marks the impulse gates. Reverse through a gate to check re-entry. Standard uses 12 m/s² with a 1.25 s ramp and 22 m/s ceiling for sustained wind, and a single 6 m/s burst with a 3 m/s entry threshold, 23 m/s ceiling and 0.5 s rearm for impulse.
+5. **F8 HighSpeed** gives a long straight and braking deck. **F9 Overdrive** uses W and Q, or left shoulder on a gamepad. Release Q and watch the meter and speed. **F10 Combined** defaults to Long with a jump lip, hills, Sling relays and both wind modes. Try the route with Dash, jump and Sling first. Overdrive is optional. Extreme is a separate challenge.
+6. **F11** switches to a collision-free inspection camera in the Editor or Development player. Use WASD relative to view, mouse to look, Space/Ctrl vertically and Shift for fast flight. F11 returns the production character to its safe station pad with its stored AirPower. F12 explicitly refills. The inactive character cannot tick movement, spend power or receive collision contacts during inspection. The gym build command sets the inspection compile symbol for this Development player only.
+7. In Edit Mode, use the Movement Lab window to select a station and preset, then adjust its geometry, slope angles, node offset or tunnel dimensions. **Regenerate selected layout** reapplies the current fields. **Validate station pads** raycasts all starts and finishes. Undo restores edits. The window also offers three wind strength presets, individual wind settings, Overdrive tuning and inspection speeds. Changes here belong to the gym. Long and Extreme jump gaps are challenges. Try higher presets deliberately and record the sequence used.
 
 ## Movement and resource ownership
 
@@ -20,7 +20,40 @@ Wind samples oriented box coordinates in the motor step. It uses the strongest o
 
 The gym's cloned gameplay template preserves production binding IDs and adds the dedicated Overdrive/navigation actions. Both Dash and Overdrive use the existing AirPower depletion/recovery policy. Overdrive converts only the paid part of a final partial tick to acceleration. Diagnostics use a bounded trajectory buffer and update text at a lower rate than the motor. The `MovementLab.ResolveInfluences` profiler marker covers the influence path, including its synchronous resource call.
 
-## Test evidence
+## Redesign measurements
+
+Unity 6000.6.2f1 exercised the production player with keyboard and gamepad input on the saved scene. The authored default is Short on F1 through F9 and Long on F10. All ten reached the finish while grounded on the destination deck. The finish test also ran the dry, continuous and impulse tracks independently. The Long combined route covered 187.67 m horizontally from spawn, rose 23.00 m, charged and traversed a Sling node, spent real AirPower and landed without Overdrive. The Short Sling run covered 88.73 m, rose 13.64 m and completed a post-launch landing. Its first design failed the landing test; the current deck extends 100 m past the node.
+
+| Standard F7 track | Entry m/s | Highest inside m/s | First speed after exit m/s |
+|---|---:|---:|---:|
+| Dry | 7.50 | 7.50 | 7.50 |
+| Continuous | 7.50 | 16.68 | 16.15 |
+| Entry impulse | 7.50 | 13.50 | 11.28 |
+
+Each wind type has independent Subtle, Standard and Strong controls. Continuous acceleration is 9 / 12 / 18 m/s² with 2.00 / 1.25 / 0.75 s ramps. Impulse adds 3 / 6 / 10 m/s once above its 1 / 3 / 6 m/s entry threshold. Separate deterministic tests cover the entry curve, no repeated burst inside a volume, rearm interval and stacking policy. The 30 / 60 / 120 simulated FPS wall probe peaked at 169.76 m/s and stopped approximately 399.45 m forward at the 400 m wall at all three rates. This measures straight-ahead collision on the tested wall.
+
+The Extreme probes also finished Slopes (119.52 m horizontally from spawn, 18.34 m rise), angled Dash (136.39 / 6.00 m), Sling (119.73 / 16.64 m), Momentum (225.70 / 0 m), the dry Wind track (225.64 / 0 m), HighSpeed (528.35 / 0 m) and Overdrive (228.44 / 0 m). Two single-jump probes fell below the recovery plane before landing. Extreme Jump reached 27.89 m from spawn and 2.15 m above its starting height at the 12 m gap. Extreme Aerial Steering reached 26.56 m from spawn and 2.15 m above its starting height at the 10 m offset gap. Those distances include the approach. Both recovered to the correct pad.
+
+The 60-second Extreme combined probe reached its grounded finish after 520.72 m horizontal excursion from spawn, 99.26 m maximum rise and a 170.00 m/s peak. It took the first available relay using a real charge and release. The earlier 40-second observation stopped short of the finish.
+
+The Editor bake raycast each start and finish against its assigned collider. A file-ID inventory found all 1,551 original gym objects retained, with 40 new serialized objects for eight solid course sections. Only the experimental gym scene, lab input template and lab profile changed among existing serialized game assets. F1 and F2 are also bound on the progression fixture map; its guide/tool listeners are absent from the gym. F3 previously toggled diagnostics and now selects Dash.
+
+Manual acceptance still includes camera comfort, flight sensitivity, readability in motion, controller ergonomics, turning across the incline, glancing collisions and whether the new wind levels feel appropriately distinct at the keyboard. Medium/Long custom edits need their own run when tuning distances, angles or power costs.
+
+### Validation artifacts
+
+| Run | Executed result |
+|---|---|
+| `gym-redesign-verified-EditMode` | 55/55, including wind presets and loaded scene/prefab references |
+| `gym-redesign-checkpoint-PlayMode` | 32/32, including input navigation, rebinding, flight ownership, resource retention, all ten authored routes, grounded Extreme combined finish and barrier contacts |
+| `gym-redesign-visual-verified-PlayMode` | 1/1 rendered test, fixed 1280×720, 1600×900 and 1920×1080 Game views with F10/F12 text and measured HUD bounds |
+| `movement-lab-validated` | Windows x64 Development build succeeded, 0 errors, 28 warning occurrences, 402,926,550 bytes. Packaged only MovementGym.unity. Inspection rig was present in the compiled player assembly |
+| `movement-lab-validated-rendered` | Player initialized and ran for 15 seconds with zero matched startup errors |
+| Production serialized contracts | Zero failures against 7bfdfe5e |
+
+The final build reported six occurrences across three pre-existing prototype obsolete-API call sites, fourteen FEEL managed-code analyzer warnings, two stripped Core debug shaders, three optional FEEL integration resource warnings and three vendor shader warnings. A prior build attempt could not start Unity's IL postprocessor. A fresh guarded retry succeeded. Logs, XML and screenshots are in `Logs/ProductionMigration`; the executable is `Builds/movement-lab-validated/Windrunner.exe`.
+
+## Original gym evidence (before redesign)
 
 Unity 6000.6.2f1. Baseline `9e8f97c4`, first verified lab checkpoint `9fe70b61`. The protected branch heads were `7bfdfe5e` (main), `aa9e9d58` (production-refactor) and `9e8f97c4` (feature/progression-framework).
 
@@ -40,7 +73,7 @@ Earlier failures included an audit treating Unity's intentionally empty prefab b
 
 Reproduce with `Tools/Run-UnityTests.ps1 -Platform EditMode -Label <fresh-label>`, the corresponding PlayMode command, and `-Platform PlayMode -Rendered -Filter MovementGymIntegrationTests` for the rendered probe. Use `Tools/Build-UnityCandidate.ps1 -MovementGym -Label <fresh-label>` for the Windows gym. The scripts check for a running Editor before opening the project. Raw XML, logs, backend-specific probe CSVs, extreme-run measurements and the timestamped spawn capture are in `Logs/ProductionMigration`.
 
-## Integrated verification, 17 November 2026
+## Original integrated verification, 17 November 2026
 
 | Check | Executed result |
 |---|---|
