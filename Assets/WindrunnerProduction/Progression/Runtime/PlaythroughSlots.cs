@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using UnityEngine;
+
+namespace Windrunner.Production.Progression
+{
+    [Serializable]
+    public sealed class PlaythroughRecord
+    {
+        public string slotId, displayName, world, anchor, revision;
+        public long savedUtc;
+        public ProgressionState progression;
+    }
+
+    public sealed class SlotEntry
+    {
+        public string Id, Problem;
+        public PlaythroughRecord Record;
+        public bool Recovered;
+    }
+
+    public sealed class PlaythroughSlots
+    {
+        public const string World = "starting-world", Arrival = "arrival";
+        [Serializable] private sealed class Envelope { public int version; public string body, checksum; }
+        private readonly string root;
+        public PlaythroughSlots(string directory) { root = Path.GetFullPath(directory); }
+        private string DirectoryFor(string id)
+        {
+            if (!Guid.TryParseExact(id, "N", out _)) throw new ArgumentException("Invalid playthrough ID.");
+            return Path.Combine(root, id);
+        }
+        private static string Digest(string payload)
+        {
+            using var hash = SHA256.Create();
+            return Convert.ToBase64String(hash.ComputeHash(Encoding.UTF8.GetBytes(payload)));
+        }
+        private static PlaythroughRecord Read(string path,string id)
+        {
+            var envelope = JsonUtility.FromJson<Envelope>(File.ReadAllText(path));
+            if (envelope == null || envelope.version == 0) throw new InvalidDataException("Missing save header.");
+            if (envelope.version != 1) throw new NotSupportedException("Requires a different save version.");
+            if (envelope.body == null || Digest(envelope.body) != envelope.checksum) throw new InvalidDataException("Save checksum failed.");
+            var record = JsonUtility.FromJson<PlaythroughRecord>(envelope.body);
+            if (record == null || record.slotId != id || string.IsNullOrWhiteSpace(record.displayName) ||
+                !Guid.TryParseExact(record.revision,"N",out _) || record.savedUtc <= 0 || record.savedUtc > DateTime.MaxValue.Ticks)
+                throw new InvalidDataException("Invalid playthrough metadata.");
+            if (record.world != World || record.anchor != Arrival) throw new NotSupportedException("World or checkpoint is unavailable.");
+            if (record.progression==null) throw new InvalidDataException("Missing progression records.");
+            if (record.progression.schemaVersion>1) throw new NotSupportedException("Requires a newer progression version.");
+            record.progression = ProgressionCodec.Decode(ProgressionCodec.Encode(record.progression));
+            if(record.progression.playerId!="local-player") throw new InvalidDataException("Unexpected player identity.");
+            return record;
+        }
+        private static bool Damaged(Exception e) => e is InvalidDataException || e is ArgumentException || e is FileNotFoundException;
+        public SlotEntry Inspect(string id)
+        {
+            string file = Path.Combine(DirectoryFor(id),"session.json");
+            var result = new SlotEntry { Id=id };
+            try { result.Record=Read(file,id); }
+            catch(Exception first) when(Damaged(first))
+            {
+                try { result.Record=Read(file+".bak",id); result.Recovered=true; }
+                catch(Exception backup) when(Damaged(backup) || backup is NotSupportedException) { result.Problem=first.Message; }
+            }
+            catch(NotSupportedException e) { result.Problem=e.Message; }
+            return result;
+        }
+        public List<SlotEntry> List()
+        {
+            if(!Directory.Exists(root)) return new List<SlotEntry>();
+            return Directory.GetDirectories(root).Select(Path.GetFileName).Where(id=>Guid.TryParseExact(id,"N",out _))
+                .Select(Inspect).OrderByDescending(x=>x.Record?.savedUtc ?? 0).ThenBy(x=>x.Id,StringComparer.Ordinal).ToList();
+        }
+        public SlotEntry Latest() => List().FirstOrDefault(x=>x.Record!=null);
+        private IDisposable LockWrites()
+        {
+            Directory.CreateDirectory(root);
+            return new FileStream(Path.Combine(root,"write.lock"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);
+        }
+        public PlaythroughRecord Create(string name, string replace=null, bool confirmed=false, ProgressionState import=null)
+        {
+            using var writeLock=LockWrites();
+            if(string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Enter a playthrough name.");
+            if(replace!=null && (!confirmed || !Directory.Exists(DirectoryFor(replace)))) throw new InvalidOperationException("Confirm replacement of an existing slot.");
+            var progression=import==null?new ProgressionState{playerId="local-player"}:ProgressionCodec.Decode(ProgressionCodec.Encode(import));
+            if(progression.playerId!="local-player")throw new InvalidDataException("Only local-player progression can be imported.");
+            var record=new PlaythroughRecord {slotId=replace??Guid.NewGuid().ToString("N"),displayName=name.Trim(),world=World,anchor=Arrival,progression=progression};
+            Write(record,false,true);return record;
+        }
+        public void Delete(string id,bool confirmed)
+        {
+            if(!confirmed)throw new InvalidOperationException("Confirm deletion.");
+            using var writeLock=LockWrites();
+            string folder=DirectoryFor(id);
+            // Atomic removal from the active namespace, including both copies.
+            Directory.Move(folder,Path.Combine(root,"deleted-"+Guid.NewGuid().ToString("N")));
+        }
+        public IProgressionStore Open(string id)
+        {
+            var slot=Inspect(id);
+            if(slot.Record==null)throw new InvalidDataException(slot.Problem);
+            return new BoundStore(this,slot.Record);
+        }
+        private sealed class BoundStore : IProgressionStore
+        {
+            private readonly PlaythroughSlots slots;
+            private PlaythroughRecord record;
+            public BoundStore(PlaythroughSlots owner,PlaythroughRecord current){slots=owner;record=current;}
+            public ProgressionState Load()=>ProgressionCodec.Decode(ProgressionCodec.Encode(record.progression));
+            public void Commit(ProgressionState state)
+            {
+                using var writeLock=slots.LockWrites();
+                var current=slots.Inspect(record.slotId);
+                if(current.Record?.revision!=record.revision)throw new IOException("Playthrough changed since it was loaded.");
+                var next=current.Record;
+                next.progression=ProgressionCodec.Decode(ProgressionCodec.Encode(state));
+                if(next.progression.playerId!=record.progression.playerId)throw new InvalidDataException("Player identity changed.");
+                slots.Write(next,!current.Recovered,false);record=next;
+            }
+        }
+        private void Write(PlaythroughRecord record,bool retainPrevious,bool newPlaythrough)
+        {
+            string directory=DirectoryFor(record.slotId);Directory.CreateDirectory(directory);
+            string file=Path.Combine(directory,"session.json"),temp=file+"."+Guid.NewGuid().ToString("N")+".tmp";
+            record.savedUtc=DateTime.UtcNow.Ticks;record.revision=Guid.NewGuid().ToString("N");
+            string body=JsonUtility.ToJson(record);
+            string json=JsonUtility.ToJson(new Envelope{version=1,body=body,checksum=Digest(body)});
+            try
+            {
+                using(var stream=new FileStream(temp,FileMode.CreateNew,FileAccess.Write,FileShare.None))
+                using(var writer=new StreamWriter(stream)){writer.Write(json);writer.Flush();stream.Flush(true);}
+                if(newPlaythrough)
+                {
+                    string backupTemp=temp+".bak";
+                    try
+                    {
+                        File.Copy(temp,backupTemp);
+                        if(File.Exists(file+".bak")) File.Replace(backupTemp,file+".bak",null);
+                        else File.Move(backupTemp,file+".bak");
+                    }
+                    finally { if(File.Exists(backupTemp))File.Delete(backupTemp); }
+                }
+                if(File.Exists(file))File.Replace(temp,file,retainPrevious?file+".bak":null);
+                else File.Move(temp,file);
+            }
+            finally {if(File.Exists(temp))File.Delete(temp);}
+        }
+    }
+}
