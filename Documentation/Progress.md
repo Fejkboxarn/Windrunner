@@ -305,3 +305,7 @@ Run `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/Run-UnityTests.ps
 - Exact Windows fixture rendered startup survived 15 seconds, initialized and had no matched runtime errors. This is startup-only evidence, not mouse/gameplay/audio acceptance. Executable: `Builds/progression-usability-fixture-20261113/Windrunner.exe`. The main gameplay executable was not rebuilt for this targeted fixture correction.
 
 - Post-packaging final Edit Mode: `fixture-validation-final` **48/48 passed**, exit 0; final source/docs whitespace and both serialized gates passed.
+
+### Main menu and player sessions, 17 November 2026
+
+Feature/main-menu branches from progression checkpoint 9e8f97c4. Local checkpoint 49cd4689 adds versioned, recoverable playthrough slots on IProgressionStore. Checkpoint 272c450f adds the main menu, scene-scoped production world copy, shared pause/settings/slot interfaces, gallery projection, player mixer and tests. All 57 Edit Mode and 34 Play Mode tests passed. The separate rendered test passed 1/1 across three resolutions. Source contracts and loaded references passed. The two-scene Windows build windrunner-mainmenu-rc1 succeeded with 0 errors and 24 warnings and survived a 15-second rendered startup. MainMenu.md records setup, save locations, restoration policy, warning categories and manual acceptance.
