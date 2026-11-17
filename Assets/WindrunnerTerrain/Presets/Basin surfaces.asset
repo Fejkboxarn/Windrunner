@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6674a4799fa0b408288373f613a8bd, type: 3}
+  m_Name: Basin surfaces
+  m_EditorClassIdentifier: Windrunner.TerrainAuthoring::Windrunner.TerrainAuthoring.SurfaceProfile
+  grass: {fileID: 8574412962073106934, guid: c0264aa6dcdc3ed4aafb3a77497b4e75, type: 2}
+  soil: {fileID: 8574412962073106934, guid: 97dddcf1feff5564dae633a1ac71f669, type: 2}
+  rock: {fileID: 8574412962073106934, guid: cda71651911f03242811c173c6ecc684, type: 2}
+  rockBySlope:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 12
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 53
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  grassBySlope:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 48
+      value: 0.03
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  grassByElevation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -0.0003541667
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 480
+      value: 0.83
+      inSlope: -0.0003541667
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  useSoilRegion: 0
+  soilRegion:
+    serializedVersion: 2
+    x: -40
+    y: -30
+    width: 80
+    height: 60
+  regionFeather: 15
+  regionStrength: 0.5
+  seed: 4723
+  patchMetres: 75
+  breakupMetres: 14
+  variation: 0.65
+  curvatureInfluence: 0.45
+  curvatureRadius: 8
+  exposureDirection: {x: 0.6, y: 0.8}
