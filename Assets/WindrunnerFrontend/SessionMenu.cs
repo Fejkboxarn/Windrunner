@@ -19,11 +19,11 @@ namespace Windrunner.Frontend
         private readonly DesktopPreferences prefs=new DesktopPreferences();
         private Action back;
         private int backFrame=-1;
-        private bool closing, arsenalFromGameplay;
+        private bool closing, arsenalFromGameplay, showingTransitionError;
         private DaggerPreview portrait;
         private RawImage portraitSurface;
         private DaggerPair inspected;
-        private string selected;
+        private string selected, displayedSaveError;
         private DesktopOptions draft,previous;
         private bool preview;
         private float expires;
@@ -43,7 +43,18 @@ namespace Windrunner.Frontend
         }
         private void Update()
         {
-            if(session.Busy || ui==null)return;
+            if(ui==null)return;
+            if(session.Busy)
+            {
+                if(session.Error!=null && !showingTransitionError)
+                {
+                    showingTransitionError=true;
+                    Page("Save failed",session.Error,null);
+                    ui.Choice("Retry save",session.RetryPendingReserve);
+                    End(false);
+                }
+                return;
+            }
             if(picture!=null && replay.texture!=null)picture.texture=replay.texture;
             if(preview && Time.unscaledTime>=expires){Revert();Video();}
             if(!session.input.IsPaused)
@@ -58,6 +69,11 @@ namespace Windrunner.Frontend
                 return;
             }
             if(!ui.Root.activeSelf){Home();backFrame=Time.frameCount;return;}
+            if(session.Error!=displayedSaveError)
+            {
+                displayedSaveError=session.Error;
+                ui.Status(displayedSaveError??"Progress saved.");
+            }
             if(!session.input.Input.IsRebinding && session.input.Input.GetAction("UI","Cancel")?.WasPressedThisFrame()==true)HandleBack();
             ui.RevealSelection();
         }
@@ -142,6 +158,7 @@ namespace Windrunner.Frontend
         private void Resume(){session.input.SetPaused(false);ui.Root.SetActive(false);}
         private void Quit()
         {
+            if (!session.PrepareForQuit()) { Home(); return; }
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying=false;
 #else

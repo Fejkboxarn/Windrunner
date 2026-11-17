@@ -24,6 +24,11 @@ namespace Windrunner.Production.Progression
         public bool Recovered;
     }
 
+    public sealed class PlaythroughRevisionException : IOException
+    {
+        public PlaythroughRevisionException() : base("Playthrough changed since it was loaded.") { }
+    }
+
     public sealed class PlaythroughSlots
     {
         public const string World = "starting-world", Arrival = "arrival", Zone01 = "zone-01";
@@ -125,7 +130,7 @@ namespace Windrunner.Production.Progression
                 RewardProbe.Begin(RewardProbe.Phase.Inspect);
                 var current=slots.Inspect(record.slotId);
                 RewardProbe.End(RewardProbe.Phase.Inspect);
-                if(current.Record?.revision!=record.revision)throw new IOException("Playthrough changed since it was loaded.");
+                if(current.Record?.revision!=record.revision)throw new PlaythroughRevisionException();
                 var next=current.Record;
                 RewardProbe.Begin(RewardProbe.Phase.Validate);
                 next.progression=ProgressionCodec.Decode(ProgressionCodec.Encode(state));

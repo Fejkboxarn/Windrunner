@@ -34,15 +34,46 @@ namespace Windrunner.Daggers
             title.NewGame("Disposable benchmark");
             while (title) yield return null;
             yield return null;
+            string crash=Array.Find(Environment.GetCommandLineArgs(),a=>a.StartsWith("-windrunnerRewardCrash=",StringComparison.Ordinal));
+            if(crash!=null)
+            {
+                CrashFixture(directory,crash.Substring(crash.IndexOf('=')+1));
+                yield break;
+            }
             yield return Measure();
             var session = FindAnyObjectByType<PlayerSession>();
             var player = session.daggers;
             player.power.Refill();
             player.power.GrantReward(new AirPowerReward(AirPowerRewardSource.SlingNode),13);
             var beforeQuit=session.Slots.Inspect(session.SlotId).Record;
-            if(beforeQuit.progression.daggers.Stored("farseer")!=13) throw new InvalidDataException("Final reward failed");
-            Debug.Log("Reward shutdown fixture "+directory+" "+session.SlotId+" "+beforeQuit.revision);
+            if(session.Progression.StoredDaggerReserve("farseer")!=13) throw new InvalidDataException("Final reward failed");
+            Debug.Log("Reward shutdown fixture "+directory+" "+session.SlotId+" "+beforeQuit.revision+" "+beforeQuit.progression.daggers.Stored("farseer"));
+            if (!session.PrepareForQuit()) throw new IOException(session.Error);
             Application.Quit();
+        }
+
+        // Development-only process fixture. The external harness kills this player while
+        // the game thread is parked, before LateUpdate or any quit callbacks can run.
+        static void CrashFixture(string directory,string point)
+        {
+            var session=FindAnyObjectByType<PlayerSession>();
+            var player=session.daggers;
+            player.Equipment.Equip(player.Equipment.Catalog.Find("farseer"));
+            session.Progression.Observe(new GameplayFact{playerId=session.Progression.PlayerId,
+                occurrenceId="durable-before-crash",definitionId="test",targetId="test",verified=true,
+                persistent=true,kind=FactKind.ItemCollected});
+            player.power.Refill();
+            int count=point=="published"?4:1;
+            for(int i=0;i<count;i++)player.power.GrantReward(new AirPowerReward(AirPowerRewardSource.AirNode),3);
+            if(point=="debit")
+            {
+                player.power.Spend(2);
+                if(!player.Equipment.TryActivate(true,Time.frameCount)) throw new InvalidDataException("Expected successful activation");
+            }
+            if(session.Progression.HasPendingReserve!=(point=="pending"))throw new InvalidDataException("Unexpected crash point");
+            Debug.Log("Reward crash fixture "+directory+" "+session.SlotId+" "+point);
+            System.Threading.Thread.Sleep(30000);
+            Application.Quit(1);
         }
 
         // Kernel/user times exclude time the gameplay thread spends blocked in durable I/O.
@@ -108,14 +139,26 @@ namespace Windrunner.Daggers
             if(observed<calibration.Length) throw new InvalidOperationException("Frame allocation recorder failed calibration");
             yield return MeasureTraversal(player,gc);
             const int samples=40;
-            foreach (var mode in new[]{"burst","single","main-only"})
+            foreach (var mode in new[]{"burst","single","main-only","spread","populated-burst","populated-single","populated-spread"})
             {
+                if(mode=="populated-burst")
+                {
+                    var service=FindAnyObjectByType<PlayerSession>().Progression;
+                    for(int n=0;n<128;n++)
+                    {
+                        string id="benchmark-fact-"+n;
+                        service.Observe(new GameplayFact{playerId=service.PlayerId,occurrenceId=id,definitionId=id,targetId=id,
+                            verified=true,persistent=true,kind=FactKind.ItemCollected});
+                    }
+                }
+                var following=new double[samples];
                 var times=new double[samples];
                 var frames=new double[samples];
                 var bytes=new double[samples];
                 var phases=new double[RewardProbe.Ticks.Length][];
                 for(int j=0;j<phases.Length;j++) phases[j]=new double[samples];
-                int count=mode=="burst"?4:1;
+                int count=mode.EndsWith("burst",StringComparison.Ordinal)?4:1;
+                int deliveryFrames=mode.EndsWith("spread",StringComparison.Ordinal)?4:1;
                 int writes=0;
                 long cpuTicks=0;
                 bool cpuAvailable=true;
@@ -126,29 +169,38 @@ namespace Windrunner.Daggers
                     yield return null;
                     Array.Clear(RewardProbe.Ticks,0,phases.Length);
                     RewardProbe.Writes=0;
-                    long cpuStart=CurrentThreadCpuTicks();
-                    long start=Stopwatch.GetTimestamp();
+                    double worstFrame=0;
+                    long maxBytes=0, elapsed=0;
                     RewardProbe.Active=true;
                     try
                     {
-                        for(int k=0;k<count;k++) power.GrantReward(new AirPowerReward(AirPowerRewardSource.AirNode),3);
+                        for(int f=0;f<deliveryFrames;f++)
+                        {
+                            long cpuStart=CurrentThreadCpuTicks();
+                            long start=Stopwatch.GetTimestamp();
+                            for(int k=0;k<count;k++) power.GrantReward(new AirPowerReward(AirPowerRewardSource.AirNode),3);
+                            elapsed+=Stopwatch.GetTimestamp()-start;
+                            long cpuEnd=CurrentThreadCpuTicks();
+                            if(i>=0){cpuAvailable &= cpuStart>=0 && cpuEnd>=cpuStart;cpuTicks+=cpuEnd-cpuStart;}
+                            yield return null;
+                            worstFrame=Math.Max(worstFrame,Time.unscaledDeltaTime*1000);
+                            maxBytes=Math.Max(maxBytes,gc.LastValue);
+                        }
                     }
-                    finally { RewardProbe.Active=false; }
-                    long elapsed=Stopwatch.GetTimestamp()-start;
-                    long cpuEnd=CurrentThreadCpuTicks();
+                    finally {RewardProbe.Active=false;}
                     if(i>=0)
                     {
-                        cpuAvailable &= cpuStart>=0 && cpuEnd>=cpuStart;
-                        cpuTicks += cpuEnd-cpuStart;
                         times[i]=elapsed*1000d/Stopwatch.Frequency;
+                        frames[i]=worstFrame;
+                        bytes[i]=maxBytes;
                         writes+=RewardProbe.Writes;
                         for(int j=0;j<phases.Length;j++) phases[j][i]=RewardProbe.Ticks[j]*1000d/Stopwatch.Frequency;
                     }
                     yield return null;
-                    if(i>=0) {frames[i]=Time.unscaledDeltaTime*1000;bytes[i]=gc.LastValue;}
+                    if(i>=0)following[i]=Time.unscaledDeltaTime*1000;
                     if(mode!="main-only")
                     {
-                        if(gear.Stored(gear.Equipped)!=3*count) throw new InvalidDataException("Unexpected reserve");
+                        if(gear.Stored(gear.Equipped)!=3*count*deliveryFrames) throw new InvalidDataException("Unexpected reserve");
                         power.Spend(12);
                         if(!gear.TryActivate(true,Time.frameCount)) throw new InvalidDataException("Transfer failed");
                     }
@@ -157,7 +209,7 @@ namespace Windrunner.Daggers
                 string breakdown=cpuAvailable ? FormattableString.Invariant($" threadCpuMeanMs={TimeSpan.FromTicks(cpuTicks).TotalMilliseconds/samples:F3}") : " threadCpuMeanMs=unavailable";
                 for(int j=0;j<phases.Length;j++)
                     breakdown+=" "+(RewardProbe.Phase)j+"="+Percentile(phases[j],.5).ToString("F3",System.Globalization.CultureInfo.InvariantCulture);
-                Debug.Log(FormattableString.Invariant($"REWARD_PROFILE {mode} n={samples} writes={writes} ms50={Percentile(times,.5):F3} ms95={Percentile(times,.95):F3} frameBytes50={Percentile(bytes,.5)} frame50={Percentile(frames,.5):F2} frame95={Percentile(frames,.95):F2}{breakdown}"));
+                Debug.Log(FormattableString.Invariant($"REWARD_PROFILE {mode} n={samples} writes={writes} ms50={Percentile(times,.5):F3} ms95={Percentile(times,.95):F3} frameBytes50={Percentile(bytes,.5)} frame50={Percentile(frames,.5):F2} frame95={Percentile(frames,.95):F2} following50={Percentile(following,.5):F2} following95={Percentile(following,.95):F2}{breakdown}"));
             }
         }
     }

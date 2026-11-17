@@ -25,7 +25,7 @@ namespace Windrunner.Frontend
         public PlayerOrbitCamera orbit;
         public bool IsTitle => gameObject.scene.path==TitleScene;
         public string WorldId {get;private set;}
-        public bool CanCopy => WorldId!=null && Progression!=null && !Busy;
+        public bool CanCopy => WorldId!=null && Progression!=null && !Busy && !retiredSlot;
         public bool Busy {get;private set;}
         public string SlotId {get;private set;}
         public string Error {get;private set;}
@@ -33,6 +33,13 @@ namespace Windrunner.Frontend
         public ProgressionService Progression {get;private set;}
         private IProgressionStore store;
         private float nextSave;
+        private double retryAt;
+        private int failedAttempts;
+        private bool retiredSlot;
+        private int? quitPreparedFrame;
+        private AsyncOperation loading;
+        private bool OwnsSlot => SlotId != null && Progression != null && !retiredSlot;
+
         private sealed class Transfer
         {
             public PlaythroughSlots slots;
@@ -81,6 +88,12 @@ namespace Windrunner.Frontend
                 character.transform.SetPositionAndRotation(arrival.position,arrival.rotation);
                 character.enabled=true;
                 nextSave=Time.unscaledTime+60;
+                if (OwnsSlot)
+                {
+                    Application.wantsToQuit += PrepareForQuit;
+                    Progression.ReservePersistenceFailed += ReportSaveError;
+                    Progression.OpenReserveFrame(Time.frameCount);
+                }
             }
             catch(Exception e){Error=e.Message;Debug.LogError("Session startup: "+e.Message,this);}
         }
@@ -90,26 +103,118 @@ namespace Windrunner.Frontend
         }
         private void Update()
         {
-            if(IsTitle || Busy || SlotId==null || Time.unscaledTime<nextSave || input.IsPaused)return;
+            if (!OwnsSlot || Busy || quitPreparedFrame==Time.frameCount) return;
+            quitPreparedFrame=null; // Another wantsToQuit subscriber can cancel a request.
+            Progression.OpenReserveFrame(Time.frameCount);
+            if(Time.unscaledTime<nextSave || input.IsPaused || Progression.ReserveWriteError!=null)return;
             nextSave=Time.unscaledTime+60;
             try{Save();}catch(Exception e){Error=e.Message;Debug.LogWarning("Autosave failed: "+Error,this);}
         }
-        private void OnApplicationQuit()
+        private void LateUpdate()
         {
-            if(!Busy && SlotId!=null && Progression!=null)
+            if (!OwnsSlot) return;
+            Progression.CloseReserveFrame();
+            if (!Progression.HasPendingReserve)
             {
-                try {Save();}catch(Exception e){Debug.LogWarning("Could not save on exit: "+e.Message,this);}
+                if (failedAttempts > 0) ClearSaveError();
+                return;
+            }
+            var fault=Progression.ReserveWriteError;
+            if (fault is PlaythroughRevisionException || Time.realtimeSinceStartupAsDouble < retryAt) return;
+            TryFlush();
+        }
+
+        private void ReportSaveError(Exception e)
+        {
+            Error="Save failed. "+e.Message;
+            // A late return can arrive after preflight but before scene activation. Keep
+            // the outgoing service and its exact bound revision alive until it is durable.
+            if (loading != null && !loading.isDone) loading.allowSceneActivation=false;
+            if (failedAttempts == 0)
+            {
+                Debug.LogWarning(Error,this);
+                if (input) input.SetPaused(true);
+            }
+            failedAttempts++;
+            double delay=failedAttempts==1 ? .25 : failedAttempts==2 ? 1 : 5;
+            retryAt=Time.realtimeSinceStartupAsDouble+delay;
+        }
+
+        private void ClearSaveError()
+        {
+            Error=null;failedAttempts=0;retryAt=0;
+            if (loading != null && !loading.isDone) loading.allowSceneActivation=true;
+        }
+
+        private void FlushReserve()
+        {
+            if (!OwnsSlot) return;
+            Progression.FlushPendingReserve();
+            ClearSaveError();
+        }
+
+        public void RetryPendingReserve() => FlushReserve();
+
+        private void TryFlush()
+        {
+            try { FlushReserve(); }
+            catch (Exception) when (Progression.ReserveWriteError != null) { /* retained for retry */ }
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if (paused && OwnsSlot) { Progression.CloseReserveFrame(); TryFlush(); }
+        }
+
+        private void OnDisable()
+        {
+            if (OwnsSlot) { Progression.CloseReserveFrame(); TryFlush(); }
+        }
+
+        private void OnDestroy()
+        {
+            Application.wantsToQuit -= PrepareForQuit;
+            if (Progression != null) Progression.ReservePersistenceFailed -= ReportSaveError;
+        }
+
+        public bool PrepareForQuit()
+        {
+            if (!OwnsSlot || (quitPreparedFrame.HasValue && !Progression.HasPendingReserve)) return true;
+            Progression.CloseReserveFrame();
+            try
+            {
+                Progression.SaveSnapshot();
+                quitPreparedFrame=Time.frameCount;
+                return true;
+            }
+            catch (Exception e)
+            {
+                quitPreparedFrame=null;
+                if (Progression.ReserveWriteError == null)
+                {
+                    Error="Save failed. "+e.Message;
+                    Debug.LogWarning(Error,this);
+                    if(input)input.SetPaused(true);
+                }
+                return false;
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            if (!PrepareForQuit()) Debug.LogWarning("Could not save on exit: "+Error,this);
+        }
+
         public void Save()
         {
-            if(Busy || Progression==null || SlotId==null)throw new InvalidOperationException("Choose a playthrough before saving.");
-            store.Commit(Progression.Snapshot());
-            Error=null;nextSave=Time.unscaledTime+60;
+            if(Busy || !OwnsSlot)throw new InvalidOperationException("Choose a playthrough before saving.");
+            Progression.SaveSnapshot();
+            ClearSaveError();nextSave=Time.unscaledTime+60;
         }
         public void SaveCopy(string label,string replace=null,bool confirmed=false)
         {
             if(!CanCopy || (replace!=null && replace==SlotId))throw new InvalidOperationException("Choose a supported world and a separate destination slot.");
+            FlushReserve();
             Slots.Create(label,replace,confirmed,Progression.Snapshot(),WorldId);
         }
 
@@ -131,6 +236,7 @@ namespace Windrunner.Frontend
         }
         public void Load(string id)
         {
+            FlushReserve();
             var selected=Slots.Open(id,out var world);
             string destination=SceneFor(world);
             EnsureDestination(destination);
@@ -140,6 +246,7 @@ namespace Windrunner.Frontend
         }
         public void Continue()
         {
+            FlushReserve();
             var latest=Slots.Latest();
             if(latest==null)throw new InvalidOperationException("No resumable playthrough is available.");
             Load(latest.Id);
@@ -150,7 +257,13 @@ namespace Windrunner.Frontend
             var candidate=new MemoryProgressionStore();
             if(import!=null)candidate.Commit(import);
             using var preflight=new ProgressionService(CatalogFor(PlaythroughSlots.Zone01).definitions,"local-player",candidate);
+            FlushReserve();
             var created=Slots.Create(label,replace,confirmed,import,PlaythroughSlots.Zone01);
+            if (replace!=null && replace==SlotId)
+            {
+                retiredSlot=true;
+                Progression.Dispose();
+            }
             Load(created.slotId);
         }
         public void ReturnToTitle()
@@ -166,10 +279,12 @@ namespace Windrunner.Frontend
         }
         private void Transition(string path,Transfer handoff)
         {
+            Progression?.CloseReserveFrame();
             arriving=handoff;Busy=true;
             try
             {
-                if(SceneManager.LoadSceneAsync(path,LoadSceneMode.Single)==null)throw new InvalidOperationException("Could not start scene load: "+path);
+                loading=SceneManager.LoadSceneAsync(path,LoadSceneMode.Single);
+                if(loading==null)throw new InvalidOperationException("Could not start scene load: "+path);
             }
             catch{Busy=false;arriving=null;handoff.service?.Dispose();throw;}
         }

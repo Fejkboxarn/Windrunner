@@ -18,8 +18,10 @@ namespace Windrunner.Daggers
         {
             if (!power) return;
             power.RewardOverflow -= Collect;
+            power.ReturnBlocked = enabled ? DeliveryBlocked : null;
             if (enabled) power.RewardOverflow += Collect;
         }
+        bool DeliveryBlocked() => progression.IsDisposed || progression.ReserveWriteError != null;
         void Collect(AirPowerRewardSource source, float excess)
         {
             RewardProbe.Begin(RewardProbe.Phase.OverflowRules);
@@ -29,7 +31,7 @@ namespace Windrunner.Daggers
             float next = UnityEngine.Mathf.Min(wind.capacity, old + excess * wind.storageRatio);
             if (next == old) return;
             RewardProbe.End(RewardProbe.Phase.OverflowRules);
-            progression.SetDaggerReserve(pair.id, next);
+            progression.CollectReserve(pair.id, next, UnityEngine.Time.frameCount);
             RewardProbe.Begin(RewardProbe.Phase.ReserveHud);
             ReserveChanged?.Invoke(next - old);
             RewardProbe.End(RewardProbe.Phase.ReserveHud);

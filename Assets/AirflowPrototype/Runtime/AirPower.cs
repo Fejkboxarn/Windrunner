@@ -11,14 +11,9 @@ namespace AirflowPrototype
     public sealed class AirPowerReward
     {
         public readonly AirPowerRewardSource Source;
-        bool delivered;
+        internal bool Delivered { get; private set; }
         public AirPowerReward(AirPowerRewardSource source) { Source = source; }
-        internal bool Claim()
-        {
-            if (delivered) return false;
-            delivered = true;
-            return true;
-        }
+        internal void Claim() => Delivered = true;
     }
 
     /// <summary>
@@ -103,10 +98,15 @@ namespace AirflowPrototype
 
         public event Action<AirPowerRewardSource,float> RewardOverflow;
 
+        internal Func<bool> ReturnBlocked { private get; set; }
+        public bool RewardDeliveryBlocked => ReturnBlocked?.Invoke() == true;
+
         public void GrantReward(AirPowerReward reward, float amount)
         {
             RewardProbe.Begin(RewardProbe.Phase.Main);
-            if (!settings || reward == null || !(amount > 0) || float.IsInfinity(amount) || !reward.Claim()) return;
+            if (!settings || reward == null || !(amount > 0) || float.IsInfinity(amount) || reward.Delivered) return;
+            if (RewardDeliveryBlocked) throw new InvalidOperationException("Reward delivery is waiting for save recovery.");
+            reward.Claim();
             float excess = State.RestoreReward(amount, settings.maxAirPower, settings.dashRestartFraction);
             RewardProbe.End(RewardProbe.Phase.Main);
             if (excess > 0) RewardOverflow?.Invoke(reward.Source, excess);

@@ -2,10 +2,11 @@ using System;
 using Windrunner.Production.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace Windrunner.Production.Progression
 {
-    /// <summary>Single player/save authority. Commands persist a private candidate before publication.</summary>
+    /// <summary>Single player/save authority. Critical commands publish only after commit. Positive traversal reserve may be live until the session closes its collection frame.</summary>
     public sealed class ProgressionService : IDisposable
     {
         private readonly ProgressionDefinitions definitions;
@@ -26,6 +27,76 @@ namespace Windrunner.Production.Progression
         public bool OwnsDagger(string id)=>state.daggers?.owned.Contains(id)==true;
         public float DaggerCooldownRemaining(string effectId)=>state.daggers?.Remaining(effectId)??0f;
         public void AdvanceDaggerCooldowns(float seconds)=>state.daggers?.Advance(seconds);
+        private int? collectionFrame;
+        private bool sessionManagedReserve;
+        public event Action<Exception> ReservePersistenceFailed;
+        private int pendingDeliveries;
+        public bool IsDisposed => disposed;
+        public bool HasPendingReserve => pendingDeliveries != 0;
+        public Exception ReserveWriteError { get; private set; }
+
+        // Only a live, disk-backed PlayerSession opens this window. Other callers retain
+        // synchronous collection. A different frame or a handoff cannot extend its deadline.
+        public void OpenReserveFrame(int frame)
+        {
+            EnsureMutable();
+            sessionManagedReserve = true;
+            if (!HasPendingReserve) collectionFrame = frame;
+        }
+
+        public void CloseReserveFrame() => collectionFrame = null;
+
+        public void CollectReserve(string pairId, float amount, int frame)
+        {
+            EnsureMutable();
+            if (ReserveWriteError != null) throw new IOException("Pending reserve needs a successful save.", ReserveWriteError);
+            if (!(amount > StoredDaggerReserve(pairId)) || float.IsInfinity(amount))
+                throw new ArgumentOutOfRangeException(nameof(amount));
+            if (!sessionManagedReserve)
+            {
+                SetDaggerReserve(pairId, amount);
+                return;
+            }
+            if (state.daggers?.equipped != pairId || !OwnsDagger(pairId))
+                throw new InvalidOperationException("Overflow requires the equipped dagger.");
+            state.daggers.SetStored(pairId, amount);
+            pendingDeliveries++;
+            if (pendingDeliveries >= 4 || collectionFrame != frame)
+            {
+                // The ticket is already claimed. Retain the live balance on failure and let
+                // this delivery finish its HUD/feedback exactly once. The session retries.
+                try { FlushPendingReserve(); }
+                catch (Exception) when (ReserveWriteError != null) { }
+            }
+        }
+
+        public void FlushPendingReserve()
+        {
+            if (HasPendingReserve) SaveSnapshot();
+        }
+
+        public void SaveSnapshot()
+        {
+            EnsureMutable();
+            bool notify = HasPendingReserve;
+            Persist(state);
+            if (notify) PublishChanged();
+        }
+
+        private void Persist(ProgressionState candidate)
+        {
+            try { store.Commit(candidate); }
+            catch (Exception e) when (HasPendingReserve && (e is IOException || e is UnauthorizedAccessException))
+            {
+                ReserveWriteError = e;
+                CloseReserveFrame();
+                ReservePersistenceFailed?.Invoke(e);
+                throw;
+            }
+            pendingDeliveries = 0;
+            ReserveWriteError = null;
+        }
+
         public void SetDaggerReserve(string pairId, float amount) => Commit(next =>
         {
             if (string.IsNullOrWhiteSpace(pairId) || !(amount >= 0) || float.IsInfinity(amount))
@@ -65,13 +136,23 @@ namespace Windrunner.Production.Progression
                 if (!q.groups.All(g => GroupComplete(g, record))) record.status = QuestStatus.Active;
             }
         }
-        private bool Commit(Func<ProgressionState, bool> operation)
+        private void EnsureMutable()
         {
             if (disposed) throw new ObjectDisposedException(nameof(ProgressionService));
             if (publishing) throw new InvalidOperationException("Progression mutations cannot reenter notification dispatch.");
+        }
+        private bool Commit(Func<ProgressionState, bool> operation)
+        {
+            EnsureMutable();
             var next = ProgressionCodec.Copy(state);
             if (!operation(next)) return false;
-            store.Commit(next); state = next;
+            Persist(next);
+            state = next;
+            PublishChanged();
+            return true;
+        }
+        private void PublishChanged()
+        {
             RewardProbe.Begin(RewardProbe.Phase.Notify);
             publishing = true;
             try
@@ -81,7 +162,6 @@ namespace Windrunner.Production.Progression
             }
             finally { publishing = false; }
             RewardProbe.End(RewardProbe.Phase.Notify);
-            return true;
         }
         public QuestStatus Status(string id) => Status(state, id);
         private QuestStatus Status(ProgressionState s, string id)
@@ -268,6 +348,6 @@ namespace Windrunner.Production.Progression
             if (r == null) { r = new PuzzleRecord { id = id }; s.puzzles.Add(r); }
             r.solved = solved; r.mechanisms = new List<string>(mechanisms); return true;
         });
-        public void Dispose() { disposed = true; Changed = null; ListenerFailed = null; }
+        public void Dispose() { FlushPendingReserve(); disposed = true; Changed = null; ListenerFailed = null; ReservePersistenceFailed = null; }
     }
 }

@@ -81,9 +81,85 @@ namespace Windrunner.Production.Tests
         }
         private sealed class FailingStore : IProgressionStore
         {
-            public bool fail; public ProgressionState Load() => null;
-            public void Commit(ProgressionState state) { if (fail) throw new IOException("injected"); }
+            private readonly MemoryProgressionStore saved=new MemoryProgressionStore();
+            public int writes;
+            public bool fail;
+            public ProgressionState Load() => saved.Load();
+            public void Commit(ProgressionState state)
+            {
+                if (fail) throw new IOException("injected");
+                saved.Commit(state);
+                writes++;
+            }
         }
+        private static void EquipFarseer(ProgressionService s)
+        {
+            var gear=new DaggerLoadout{initialized=true,equipped="farseer"};
+            gear.owned.Add("farseer");
+            s.SaveDaggers(gear);
+        }
+
+        [Test] public void FourCollectionsFlushOnceAndClosingFramePreventsLateDeferral()
+        {
+            var store=new FailingStore();
+            using var s=new ProgressionService(Definitions(),"player",store);
+            EquipFarseer(s);
+            var published=new List<float>();
+            s.Changed+=()=>published.Add(store.Load().daggers.Stored("farseer"));
+            s.OpenReserveFrame(10);
+            for(int n=1;n<=3;n++)s.CollectReserve("farseer",n,10);
+            Assert.AreEqual(3,s.ReadDaggers().Stored("farseer"));
+            Assert.Zero(store.Load().daggers.Stored("farseer"));Assert.IsEmpty(published);
+            s.CollectReserve("farseer",4,10);
+            s.CollectReserve("farseer",5,10);
+            s.CloseReserveFrame();s.FlushPendingReserve();s.FlushPendingReserve();
+            s.CollectReserve("farseer",6,10);
+            CollectionAssert.AreEqual(new[]{4f,5f,6f},published);
+            Assert.AreEqual(4,store.writes);
+            s.OpenReserveFrame(11);s.CollectReserve("farseer",7,11);
+            s.OpenReserveFrame(12); // Cannot extend a missed deadline.
+            s.CollectReserve("farseer",8,12);
+            Assert.AreEqual(8,store.Load().daggers.Stored("farseer"));
+        }
+
+        [Test] public void PendingReserveAndCriticalChapterUnlockCommitTogetherOrNeitherPublishes()
+        {
+            var store=new FailingStore();var d=Definitions();
+            d.rewards[0].kind="unlock";
+            using var s=new ProgressionService(d,"player",store);
+            EquipFarseer(s);s.Accept("a1");s.Observe(Fact());
+            s.OpenReserveFrame(1);s.CollectReserve("farseer",9,1);
+            int previous=store.writes,events=0;s.Changed+=()=>events++;
+            Assert.IsFalse(s.TurnIn("b1"));Assert.IsTrue(s.HasPendingReserve);
+            store.fail=true;
+            Assert.Throws<IOException>(()=>s.TurnIn("a1"));
+            Assert.IsEmpty(store.Load().rewards);Assert.IsEmpty(store.Load().relationships);
+            Assert.Zero(store.Load().daggers.Stored("farseer"));Assert.AreEqual(9,s.StoredDaggerReserve("farseer"));
+            Assert.Zero(events);store.fail=false;
+            Assert.IsTrue(s.TurnIn("a1"));s.FlushPendingReserve();
+            Assert.AreEqual(previous+1,store.writes);Assert.AreEqual(1,events);
+            using var reopened=new ProgressionService(d,"player",store);
+            Assert.AreEqual(9,reopened.StoredDaggerReserve("farseer"));
+            Assert.AreEqual(1,reopened.Snapshot().relationships.Single().rank);
+            Assert.IsTrue(reopened.HasUnlock("route"));Assert.IsFalse(reopened.TurnIn("a1"));
+            Assert.AreEqual(1,reopened.Snapshot().rewards.Count);
+        }
+
+        [Test] public void FailedFourthDeliveryRetainsAbsoluteBalanceThroughFailedDebitAndRetry()
+        {
+            var store=new FailingStore();using var s=new ProgressionService(Definitions(),"player",store);
+            EquipFarseer(s);s.OpenReserveFrame(5);int events=0;s.Changed+=()=>events++;
+            store.fail=true;
+            for(int n=1;n<=4;n++)s.CollectReserve("farseer",n,5);
+            Assert.IsInstanceOf<IOException>(s.ReserveWriteError);
+            Assert.Throws<IOException>(()=>s.CollectReserve("farseer",5,5));
+            Assert.Throws<IOException>(()=>s.SetDaggerReserve("farseer",0));
+            Assert.AreEqual(4,s.StoredDaggerReserve("farseer"));Assert.Zero(events);
+            store.fail=false;s.FlushPendingReserve();s.FlushPendingReserve();
+            Assert.AreEqual(1,events);Assert.AreEqual(4,store.Load().daggers.Stored("farseer"));
+            Assert.IsNull(s.ReserveWriteError);
+        }
+
         [Test] public void FailedPersistenceIsAtomicAndListenersCannotSuppressCommittedState()
         {
             var store = new FailingStore(); using var s = new ProgressionService(Definitions(), "player", store);

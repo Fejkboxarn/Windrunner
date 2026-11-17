@@ -34,7 +34,7 @@ namespace Windrunner.Production.Tests
             Assert.Throws<InvalidOperationException>(()=>slots.Delete(a.slotId,false));
             Assert.Throws<ArgumentException>(()=>slots.Delete("../outside",true));
             slots.Create("Replacement",a.slotId,true);
-            Assert.Throws<IOException>(()=>stale.Commit(stale.Load()));
+            Assert.Throws<PlaythroughRevisionException>(()=>stale.Commit(stale.Load()));
             slots.Delete(a.slotId,true);Assert.IsEmpty(slots.List());
         }
         [Test] public void CorruptionRecoversLastGoodCopyAndUnsupportedVersionsStayUntouched()
@@ -136,6 +136,20 @@ namespace Windrunner.Production.Tests
             Assert.AreEqual(12,slots.Open(slot.slotId).Load().daggers.Stored("farseer"));
             File.WriteAllText(primary,"truncated");
             Assert.AreEqual(9,slots.Open(slot.slotId).Load().daggers.Stored("farseer"));
+        }
+
+        [Test] public void PendingOldWriterCannotOverwriteReplacedSlotOrAnotherPlaythrough()
+        {
+            var a=slots.Create("Old");var other=slots.Create("Other");
+            var service=new ProgressionService(new ProgressionDefinitions(),"local-player",slots.Open(a.slotId));
+            var gear=new DaggerLoadout{initialized=true,equipped="farseer"};gear.owned.Add("farseer");
+            service.SaveDaggers(gear);service.OpenReserveFrame(7);service.CollectReserve("farseer",13,7);
+            slots.Create("Replacement",a.slotId,true);
+            Assert.Throws<PlaythroughRevisionException>(()=>service.FlushPendingReserve());
+            Assert.Throws<PlaythroughRevisionException>(()=>service.SaveSnapshot());
+            Assert.AreEqual(13,service.StoredDaggerReserve("farseer"));
+            Assert.AreEqual(0,slots.Open(other.slotId).Load().daggers?.Stored("farseer")??0);
+            Assert.AreEqual(0,slots.Open(a.slotId).Load().daggers?.Stored("farseer")??0);
         }
 
         [Test] public void LegacyImportCopiesResolvedProgressAndRejectsFixtureIdentity()

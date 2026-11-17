@@ -62,7 +62,8 @@ namespace Windrunner.Production.Tests
                 Call(session,"SaveCopy","Between deliveries",null,false);
                 string copied=slots.List().Single(x=>x.Id!=id).Id;
                 NodeReturn(power,4);
-                Assert.AreEqual(13,slots.Open(id).Load().daggers.Stored("farseer"));
+                Assert.AreEqual(13,Prop<ProgressionService>(session,"Progression").StoredDaggerReserve("farseer"));
+                Assert.AreEqual(9,slots.Open(id).Load().daggers.Stored("farseer"));
                 Call(power,"Spend",3f);
                 Assert.IsTrue((bool)InvokeRule(gear,"TryActivate",true,Time.frameCount));
                 Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.001);
@@ -71,6 +72,156 @@ namespace Windrunner.Production.Tests
                 var saved=Prop<ProgressionService>(Session(),"Progression");
                 Assert.AreEqual("farseer",saved.EquippedDagger);
                 Assert.AreEqual(9,saved.StoredDaggerReserve("farseer"));
+            }
+            finally
+            {
+                if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+            yield return UnloadCandidateWorld();
+        }
+
+        [UnityTest] public IEnumerator PendingCollectionsNotifyOncePerTicketAndOnlyPublishDurableBatches()
+        {
+            string folder=Path.Combine(Path.GetTempPath(),"Windrunner-order-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return StartCandidateSlot(folder);
+                var session=Session();var player=DaggerOwner();var gear=Gear(player);var power=Resource(player);
+                var slots=Prop<PlaythroughSlots>(session,"Slots");string id=Prop<string>(session,"SlotId");
+                var service=Prop<ProgressionService>(session,"Progression");
+                InvokeRule(gear,"Equip",Definition(gear,"farseer"));Call(power,"Refill");
+                var order=new System.Collections.Generic.List<string>();
+                service.Changed+=()=>order.Add("disk "+slots.Open(id).Load().daggers.Stored("farseer"));
+                Action<float> presented=delta=>order.Add("hud "+delta);
+                gear.GetType().GetEvent("ReserveChanged").AddEventHandler(gear,presented);
+                var kind=Type.GetType("AirflowPrototype.AirPowerRewardSource, Assembly-CSharp",true);
+                var ticket=Activator.CreateInstance(Type.GetType("AirflowPrototype.AirPowerReward, Assembly-CSharp",true),Enum.Parse(kind,"AirNode"));
+                Call(power,"GrantReward",ticket,2f);Call(power,"GrantReward",ticket,2f);
+                NodeReturn(power,3);NodeReturn(power,4);NodeReturn(power,1);
+                CollectionAssert.AreEqual(new[]{"hud 2","hud 3","hud 4","disk 10","hud 1"},order);
+                order.Clear();
+                NodeReturn(power,6);Call(power,"Spend",3f);
+                Assert.IsTrue((bool)InvokeRule(gear,"TryActivate",true,Time.frameCount));
+                CollectionAssert.AreEqual(new[]{"hud 6","disk 0","hud -16"},order);
+                Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"));
+                NodeReturn(power,9);InvokeRule(gear,"Equip",Definition(gear,"training"));
+                var saved=slots.Open(id).Load().daggers;
+                Assert.AreEqual("training",saved.equipped);Assert.AreEqual(9,saved.Stored("farseer"));
+                gear.GetType().GetEvent("ReserveChanged").RemoveEventHandler(gear,presented);
+                InvokeRule(gear,"Equip",Definition(gear,"farseer"));service.SetDaggerReserve("farseer",45);
+                NodeReturn(power,2);NodeReturn(power,15);NodeReturn(power,3);NodeReturn(power,4);
+                Assert.AreEqual(50,service.StoredDaggerReserve("farseer"));
+                Assert.AreEqual(45,slots.Open(id).Load().daggers.Stored("farseer"));
+                session.SendMessage("OnApplicationPause",true);
+                Assert.AreEqual(50,slots.Open(id).Load().daggers.Stored("farseer"));
+                Assert.IsFalse(service.HasPendingReserve);
+            }
+            finally
+            {
+                if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+            yield return UnloadCandidateWorld();
+        }
+
+        [UnityTest] public IEnumerator FailedReserveBarrierRetriesWhilePausedAndBlocksSlotDeparture()
+        {
+            string folder=Path.Combine(Path.GetTempPath(),"Windrunner-retry-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return StartCandidateSlot(folder);
+                var session=Session();var slots=Prop<PlaythroughSlots>(session,"Slots");
+                string id=Prop<string>(session,"SlotId");var service=Prop<ProgressionService>(session,"Progression");
+                var player=DaggerOwner();var gear=Gear(player);var power=Resource(player);
+                InvokeRule(gear,"Equip",Definition(gear,"farseer"));Call(power,"Refill");
+                var kind=Type.GetType("AirflowPrototype.AirPowerRewardSource, Assembly-CSharp",true);
+                var ticket=Activator.CreateInstance(Type.GetType("AirflowPrototype.AirPowerReward, Assembly-CSharp",true),Enum.Parse(kind,"SlingNode"));
+                Call(power,"GrantReward",ticket,9f);
+                using(var held=new FileStream(Path.Combine(folder,"write.lock"),FileMode.Open,FileAccess.ReadWrite,FileShare.None))
+                {
+                    Assert.Throws<System.Reflection.TargetInvocationException>(()=>Call(session,"ReturnToTitle"));
+                    Assert.IsFalse(Prop<bool>(session,"Busy"));
+                    Assert.IsFalse((bool)Call(session,"PrepareForQuit"));
+                    Assert.Throws<System.Reflection.TargetInvocationException>(()=>Call(session,"SaveCopy","Rejected",null,false));
+                    Assert.AreEqual(1,slots.List().Count);
+                    Assert.IsTrue(Prop<bool>(power,"RewardDeliveryBlocked"));
+                    Call(power,"GrantReward",ticket,9f);
+                    Call(power,"Spend",3f);
+                    float before=Prop<float>(power,"Current");
+                    Assert.Throws<System.Reflection.TargetInvocationException>(()=>InvokeRule(gear,"TryActivate",true,Time.frameCount));
+                    Assert.AreEqual(before,Prop<float>(power,"Current"));Assert.AreEqual(9,service.StoredDaggerReserve("farseer"));
+                    Assert.Zero(slots.Open(id).Load().daggers.Stored("farseer"));
+                    yield return null;Assert.IsTrue(WindrunnerInputHost.Active.IsPaused);
+                }
+                float limit=Time.realtimeSinceStartup+8;
+                while(service.HasPendingReserve && Time.realtimeSinceStartup<limit)yield return null;
+                Assert.IsFalse(service.HasPendingReserve);Assert.IsFalse(Prop<bool>(power,"RewardDeliveryBlocked"));
+                Assert.AreEqual(9,slots.Open(id).Load().daggers.Stored("farseer"));
+                Assert.IsTrue(WindrunnerInputHost.Active.IsPaused);
+            }
+            finally
+            {
+                if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+            yield return UnloadCandidateWorld();
+        }
+
+        [UnityTest] public IEnumerator LateReturnTargetsOutgoingSlotDuringSwitchAndActiveOverwriteRetiresWriter()
+        {
+            string folder=Path.Combine(Path.GetTempPath(),"Windrunner-handoff-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return StartCandidateSlot(folder);
+                var session=Session();var slots=Prop<PlaythroughSlots>(session,"Slots");string source=Prop<string>(session,"SlotId");
+                var player=DaggerOwner();var gear=Gear(player);var power=Resource(player);
+                InvokeRule(gear,"Equip",Definition(gear,"farseer"));Call(power,"Refill");NodeReturn(power,9);
+                Call(session,"SaveCopy","Destination",null,false);
+                string destination=slots.List().Single(x=>x.Id!=source).Id;
+                NodeReturn(power,1);Call(session,"Load",destination);NodeReturn(power,4);
+                Assert.AreEqual(14,slots.Open(source).Load().daggers.Stored("farseer"));
+                yield return Changed(World,session);
+                session=Session();var old=Prop<ProgressionService>(session,"Progression");Assert.AreEqual(9,old.StoredDaggerReserve("farseer"));
+                player=DaggerOwner();power=Resource(player);Call(power,"Refill");NodeReturn(power,1);
+                Call(session,"NewGame","Fresh",destination,true,null);
+                Assert.IsTrue(old.IsDisposed);
+                Assert.Throws<ObjectDisposedException>(()=>old.SetDaggerReserve("farseer",8));
+                yield return Changed(World,session);
+                var fresh=Prop<ProgressionService>(Session(),"Progression");
+                Assert.AreEqual("training",fresh.EquippedDagger);Assert.Zero(fresh.StoredDaggerReserve("farseer"));
+                Assert.AreEqual(14,slots.Open(source).Load().daggers.Stored("farseer"));
+            }
+            finally
+            {
+                if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+            yield return UnloadCandidateWorld();
+        }
+
+        [UnityTest] public IEnumerator FailedLateRewardKeepsOutgoingSceneUntilOriginalSlotIsDurable()
+        {
+            string folder=Path.Combine(Path.GetTempPath(),"Windrunner-late-fault-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return StartCandidateSlot(folder);
+                var session=Session();var slots=Prop<PlaythroughSlots>(session,"Slots");
+                string id=Prop<string>(session,"SlotId");
+                var player=DaggerOwner();var power=Resource(player);var gear=Gear(player);
+                InvokeRule(gear,"Equip",Definition(gear,"farseer"));Call(power,"Refill");NodeReturn(power,9);
+                Call(session,"Load",id);
+                using(var held=new FileStream(Path.Combine(folder,"write.lock"),FileMode.Open,FileAccess.ReadWrite,FileShare.None))
+                {
+                    NodeReturn(power,4);
+                    yield return new WaitForSecondsRealtime(.6f);
+                    Assert.IsTrue(session && Prop<bool>(session,"Busy"));
+                    Assert.IsTrue(Prop<ProgressionService>(session,"Progression").HasPendingReserve);
+                    Assert.AreEqual(9,slots.Open(id).Load().daggers.Stored("farseer"));
+                }
+                Call(session,"RetryPendingReserve");
+                yield return Changed(World,session);
+                Assert.AreEqual(13,Prop<ProgressionService>(Session(),"Progression").StoredDaggerReserve("farseer"));
             }
             finally
             {

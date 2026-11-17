@@ -136,6 +136,9 @@ namespace AirflowPrototype
                 yield break;
             }
 
+            // Keep the original, unclaimed ticket while the slot is unavailable.
+            while (airPower && airPower.RewardDeliveryBlocked) yield return null;
+            if (!airPower) yield break;
             airPower.GrantReward(reward,
                 settings.airPowerRestore *
                 gameplayIntensity);
