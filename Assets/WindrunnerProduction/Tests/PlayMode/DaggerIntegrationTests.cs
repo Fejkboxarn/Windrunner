@@ -82,7 +82,13 @@ namespace Windrunner.Production.Tests
                     Assert.IsTrue(File.Exists(capture));
                 }
                 Assert.AreEqual("training",progression.EquippedDagger,"Preview selection cannot equip.");
+                var menu=Object.FindAnyObjectByType(Type.GetType("Windrunner.Frontend.SessionMenu, Assembly-CSharp",true));
+                var fields=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+                var preview=menu.GetType().GetField("portrait",fields).GetValue(menu);
+                var previewModel=preview.GetType().GetField("leftModel",fields);
+                var selectedModel=(GameObject)previewModel.GetValue(preview);
                 Submit("Rotate character");Submit("Equip");yield return null;
+                Assert.AreSame(selectedModel,previewModel.GetValue(preview),"Equipping the selection must retain its displayed portrait model.");
                 Assert.AreEqual("farseer",progression.EquippedDagger);Assert.IsTrue(oldLeft==null);
                 Assert.IsNotNull(Prop<GameObject>(player,"RightModel"));Assert.AreEqual(listeners,Object.FindObjectsByType<AudioListener>().Length);
                 var animator=(Animator)playerType.GetField("rig").GetValue(player);
@@ -130,6 +136,20 @@ namespace Windrunner.Production.Tests
                     Keys();yield return null;
                 }
                 yield return null;
+                var film=Object.FindAnyObjectByType<ProgressionCinematicPlayer>();
+                Assert.IsNotNull(film);
+                using(film.Acquire())
+                {
+                    Assert.IsFalse(film.gameplayCamera.enabled);Assert.IsTrue(film.cinematicCamera.enabled);
+                    Keys(Key.R);yield return null;yield return null;Assert.AreEqual(charged,Stored());
+                }
+                yield return null;Assert.AreEqual(charged,Stored(),"A held cinematic input cannot transfer on restoration.");
+                Assert.IsTrue(film.gameplayCamera.enabled);Keys();yield return null;
+                using(UnityTimeAuthority.Pause())
+                {
+                    Keys(Key.R);yield return null;yield return null;Assert.AreEqual(charged,Stored());
+                }
+                yield return null;Keys();yield return null;
                 int bursts()=>Object.FindObjectsByType<ParticleSystem>().Count(ps=>ps.name.StartsWith("Second Wind burst"));
                 InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.DpadLeft));yield return null;yield return null;
                 Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.01f);
@@ -143,6 +163,13 @@ namespace Windrunner.Production.Tests
                 var caster=player.GetComponent(Runtime("AirCaster"));
                 var node=new GameObject("Disposable return target").AddComponent(Runtime("AirNode"));
                 node.transform.position=player.transform.position+Vector3.forward*2;
+                caster.GetType().GetMethod("NotifyPulseHit",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)
+                    .Invoke(caster,new object[]{node,1f});
+                // Change ownership while the first return is in flight.
+                var equipment=Gear(player);InvokeRule(equipment,"Equip",Definition(equipment,"training"));
+                yield return new WaitForSeconds(.35f);
+                Assert.Zero(Stored());Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.01);
+                InvokeRule(equipment,"Equip",Definition(equipment,"farseer"));
                 caster.GetType().GetMethod("NotifyPulseHit",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)
                     .Invoke(caster,new object[]{node,1f});
                 for(int i=0;i<240 && Stored()==0;i++)yield return null;
@@ -159,6 +186,27 @@ namespace Windrunner.Production.Tests
                 Call(session,"ReturnToTitle");yield return Changed(Title,session);title=Session();Submit("Continue");yield return Changed(World,title);
                 var restored=Prop<ProgressionService>(Session(),"Progression");
                 Assert.AreEqual("farseer",restored.EquippedDagger);Assert.AreEqual(bank,restored.StoredDaggerReserve("farseer"));
+                player=DaggerOwner();power=Resource(player);var dash=player.GetComponent(Runtime("AirDash"));
+                var action=WindrunnerInputHost.Active.Input.GetAction("Gameplay","DaggerAbility");
+                action.ApplyBindingOverride(0,"<Keyboard>/u"); // Runtime clone in a disposable session.
+                Keys(Key.W,Key.LeftShift);yield return null;yield return null;yield return null;
+                Assert.IsTrue(Prop<bool>(dash,"IsDashing"));Assert.Less(Prop<float>(power,"Current"),Prop<float>(power,"Max"));
+                var duringDash=Gear(player);
+                InvokeRule(duringDash,"Equip",Definition(duringDash,"training"));
+                float missing=Prop<float>(power,"Max")-Prop<float>(power,"Current");
+                NodeReturn(power,missing+6);
+                Assert.AreEqual(bank,restored.StoredDaggerReserve("farseer"));Assert.IsTrue(Prop<bool>(dash,"IsDashing"));
+                InvokeRule(duringDash,"Equip",Definition(duringDash,"farseer"));
+                NodeReturn(power,3);bank=Mathf.Min(50,bank+3);
+                Assert.AreEqual(bank,restored.StoredDaggerReserve("farseer"));
+                Keys(Key.W,Key.LeftShift,Key.R);yield return null;Assert.AreEqual(bank,restored.StoredDaggerReserve("farseer"));
+                using(UnityTimeAuthority.Slowdown(.12f))
+                {
+                    Keys(Key.W,Key.LeftShift,Key.U);yield return null;yield return null;
+                    Assert.Zero(restored.StoredDaggerReserve("farseer"));Assert.IsTrue(Prop<bool>(dash,"IsDashing"));
+                    Assert.LessOrEqual(Prop<float>(power,"Current"),Prop<float>(power,"Max"));
+                }
+                Keys();yield return null;
             }
             finally
             {
