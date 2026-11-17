@@ -1,0 +1,100 @@
+using System;
+using System.Collections;
+using System.Runtime.InteropServices;
+using System.Linq;
+using NUnit.Framework;
+using Unity.Profiling;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.Profiling;
+using UnityEngine.TestTools;
+using Windrunner.TerrainAuthoring.Editor;
+using Debug=UnityEngine.Debug;
+
+namespace Windrunner.TerrainAuthoring.Tests
+{
+    public partial class TerrainStudioTests
+    {
+        [StructLayout(LayoutKind.Sequential)]
+        struct ProcessMemory
+        {
+            public uint size,faults;
+            public UIntPtr peakWorking,working,peakPaged,paged,peakNonPaged,nonPaged,pagefile,peakPagefile,privateBytes;
+        }
+        [DllImport("kernel32.dll")] static extern IntPtr GetCurrentProcess();
+        [DllImport("psapi.dll")] static extern bool GetProcessMemoryInfo(IntPtr handle,ref ProcessMemory data,uint size);
+
+        static void RetentionSample(string label)
+        {
+            var memory=new ProcessMemory{size=(uint)Marshal.SizeOf<ProcessMemory>()};
+            Assert.IsTrue(GetProcessMemoryInfo(GetCurrentProcess(),ref memory,memory.size));
+            var terrain=Resources.FindObjectsOfTypeAll<TerrainData>();var meshes=Resources.FindObjectsOfTypeAll<Mesh>();
+            long nativeObjects=terrain.Sum(x=>Profiler.GetRuntimeMemorySizeLong(x))+meshes.Sum(x=>Profiler.GetRuntimeMemorySizeLong(x));
+            Debug.Log($"RETAIN {label} unity={Profiler.GetTotalAllocatedMemoryLong()} reserved={Profiler.GetTotalReservedMemoryLong()} mono={Profiler.GetMonoUsedSizeLong()} monoHeap={Profiler.GetMonoHeapSizeLong()} private={memory.privateBytes.ToUInt64()} ws={memory.working.ToUInt64()} nativeTerrainMesh={nativeObjects} terrains={Resources.FindObjectsOfTypeAll<TerrainData>().Length} meshes={Resources.FindObjectsOfTypeAll<Mesh>().Length}");
+        }
+        static void CollectRetention()
+        {
+            GC.Collect();GC.WaitForPendingFinalizers();GC.Collect();
+        }
+        [UnityTest,Category("Profiling")] public IEnumerator DisposableTerrainUndoRetention()
+        {
+            Assert.IsTrue(Application.isBatchMode,"Only run in a fresh batch Editor with disposable Undo history.");
+            var source=AssetDatabase.LoadAssetAtPath<TerrainData>("Assets/WindrunnerProduction/World/Terrain/CentralBasin.asset");
+            var originalHash=AssetDatabase.GetAssetDependencyHash(AssetDatabase.GetAssetPath(source));
+            CollectRetention();RetentionSample("baseline");
+            for(int cycle=1;cycle<=4;cycle++)
+            {
+                var t=Tile(-1024,512,-1024,source);
+                var roads=new StudioRoad[16];
+                for(int i=0;i<16;i++)
+                {
+                    roads[i]=StudioSetup.CreateRoad(t,i<8?new Vector2(0,(i-4)*85):new Vector2((i-12)*85,0),carriage);
+                    roads[i].transform.localScale=new Vector3(18,1,8);
+                    roads[i].transform.rotation=Quaternion.Euler(0,i<8?0:90,0);
+                }
+                Bake(t);Undo.ClearAll();CollectRetention();RetentionSample(cycle+"-ready");
+                using var counter=ProfilerRecorder.StartNew(ProfilerCategory.Memory,"GC Allocated In Frame",32);
+                yield return null;yield return null;
+                var probe=new byte[4194304];yield return null;yield return null;GC.KeepAlive(probe);
+                bool ok=counter.Valid && counter.ToArray().Any(x=>x.Value>=probe.Length);
+                for(int i=0;i<120;i++)
+                {
+                    if(counter.Valid){counter.Reset();counter.Start();}
+                    var d=t.state.working;int h=510+i%8;
+                    switch(i%6)
+                    {
+                        case 0:
+                            t.state.automatic=true;d.SetHeights(h,515,new float[,]{{.035f+i*.0001f,.045f},{.042f,.041f}});
+                            double deadline=EditorApplication.timeSinceStartup+10;
+                            while(!TerrainPainter.Empty(t.state.dirty) && EditorApplication.timeSinceStartup<deadline)yield return null;
+                            Assert.IsTrue(TerrainPainter.Empty(t.state.dirty));t.state.automatic=false;break;
+                        case 1:
+                            roads[i%16].transform.position+=new Vector3(8,0,14);Bake(t);break;
+                        case 2:
+                            var extra=StudioSetup.CreateRoad(t,new Vector2(i*2,i),carriage);Bake(t);
+                            Undo.DestroyObjectImmediate(extra.gameObject);Bake(t);break;
+                        case 3:
+                            var r=new RectInt(250,250,4,4);var w=d.GetAlphamaps(r.x,r.y,4,4);
+                            for(int a=0;a<4;a++)for(int b=0;b<4;b++)for(int c=0;c<d.alphamapLayers;c++)w[a,b,c]=c==0?1:0;
+                            d.SetAlphamaps(r.x,r.y,w);PaintHistory.Resolve(t,r,true,1);Bake(t);
+                            PaintHistory.Clear(t,0);Bake(t);break;
+                        case 4: Bake(t,new RectInt(252,252,8,8));Undo.PerformUndo();Undo.PerformRedo();break;
+                        case 5: Bake(t,new RectInt(250,250,12,12));break;
+                    }
+                    yield return null;yield return null;
+                    if(ok)Debug.Log($"ALLOC {cycle}-{i+1} framePeak={counter.ToArray().Select(x=>x.Value).DefaultIfEmpty().Max()}");
+                    RetentionSample(cycle+"-step"+(i+1));
+                    Assert.Less(Profiler.GetTotalAllocatedMemoryLong(),6000L*1024*1024,"Stop before excessive memory use.");
+                }
+                CollectRetention();RetentionSample(cycle+"-afterGC");
+                Undo.ClearAll();yield return null;CollectRetention();RetentionSample(cycle+"-clearUndo");
+                var assetPaths=new[]{AssetDatabase.GetAssetPath(t.state.working),AssetDatabase.GetAssetPath(t.state),AssetDatabase.GetAssetPath(t.ribbons.sharedMesh)};
+                scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);t=null;roads=null;
+                foreach(var path in assetPaths){Assert.IsTrue(path.StartsWith(folder+"/",StringComparison.Ordinal));Assert.IsTrue(AssetDatabase.DeleteAsset(path));}
+                yield return Resources.UnloadUnusedAssets();CollectRetention();RetentionSample(cycle+"-closed");
+            }
+            Assert.AreEqual(originalHash,AssetDatabase.GetAssetDependencyHash(AssetDatabase.GetAssetPath(source)));
+        }
+    }
+}
