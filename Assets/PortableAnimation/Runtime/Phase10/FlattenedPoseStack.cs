@@ -147,7 +147,7 @@ namespace PortableAnimation
             Animator animator,
             Playable incoming,
             AnimationClip[] overlayClips,
-            bool externallyTimed)
+            bool externallyTimed, Transform[] boundHierarchy=null)
         {
             if (animator == null)
                 throw new ArgumentNullException(nameof(animator));
@@ -157,7 +157,7 @@ namespace PortableAnimation
             try
             {
                 Transform root = animator.transform;
-                Transform[] hierarchy = root.GetComponentsInChildren<Transform>(true);
+                Transform[] hierarchy = boundHierarchy ?? root.GetComponentsInChildren<Transform>(true);
                 int boneCount = hierarchy.Length - 1;
                 if (boneCount < 1)
                     throw new InvalidOperationException("Animator has no child bones.");
@@ -266,7 +266,7 @@ namespace PortableAnimation
             boneIndices.Clear();
         }
 
-        private static string PathOf(Transform root, Transform bone)
+        public static string PathOf(Transform root, Transform bone)
         {
             var pieces = new Stack<string>();
             while (bone != null && bone != root)

@@ -381,3 +381,19 @@ Follow-up to 88236803 on codex/dagger-pack-animation. The production profile use
 ## Context-sensitive Cast and locomotion audition
 
 Follow-up to 2968e027 on codex/dagger-pack-animation. Production uses neutral idle and matched neutral run loops, starts and stops. A single Air Cast release can crossfade between standing full-body, moving upper-body and dedicated aerial poses while retaining normalized phase. The isolated clip browser supports project Humanoid clips, A/B, masks, named draft slots and alternate profile authoring. Shift+F5 starts the lane ledge drill. The [current mappings, comparison guide and verification](DaggerAnimationIntegration.md#current-context-sensitive-candidate) include all three rendered captures. Unity passed 100/100 Edit Mode and 48/48 Play Mode, 67 serialized contracts, two rendered case reruns, the Windows Development Build (zero errors, 21 warnings) and a 15-second rendered startup. Manual animation acceptance remains open.
+
+## Animation Authoring Studio V2
+
+Implemented from verified checkpoint `6cb9f475` on `codex/dagger-pack-animation`. The [artist guide, architecture audit and measured evidence](AnimationStudioV2.md) cover contextual assignments, native and custom mask composition, preview, safe draft lane testing and explicit profile saves. Existing scenes, prefabs, imported clips and production profile asset files have no serialized changes. Six new script GUIDs were checked for uniqueness.
+
+| Executed on Unity 6000.6.2f1 | Result | Evidence under Logs/ProductionMigration |
+| --- | --- | --- |
+| Full rendered Edit Mode regression suite | 107/107, zero skips | studio-v2-candidate-EditMode.xml |
+| Full Play Mode regression suite, including disposable draft lane reload | 50/50, zero skips | studio-v2-candidate-PlayMode.xml |
+| Saved disposable profile read back across an actual Editor restart | 1/1 in the second process | studio-v2-validation-EditMode.xml and studio-v2-restart-EditMode.xml |
+| Rendered real-input ledge Cast through three contexts | 1/1, one projectile release | studio-v2-context-PlayMode.xml |
+| Serialized contract script against 7bfdfe5e | 67 checked, zero failures | Tools/verify_serialized_contracts.py |
+| Main-menu Windows Development build | Succeeded, zero errors, 21 warnings, 19.81 s | studio-v2-candidate-build.json |
+| Rendered Windows startup | Initialized and survived 15 s, zero matched errors | studio-v2-candidate-rendered-player.json |
+
+The Windows executable is `Builds/studio-v2-candidate/Windrunner.exe`. An earlier compilation build also reported three obsolete object searches in AirChimeTrial, PlayerWindFeedback and AutumnPostProcessController. The final incremental build still reported mesh and shader warnings. Gameplay captures came from the rendered Editor. Manual review remains open for clip selection, throw recovery, feet, finger curls and blade grips with both dagger pairs.

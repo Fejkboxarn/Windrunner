@@ -14,6 +14,9 @@ namespace Windrunner.Frontend
     {
         PlayerSession session;
         Vector3 start;
+        UnityEngine.Object[] draftModules;
+        public void OwnDraft(params UnityEngine.Object[] modules)=>draftModules=modules;
+        void OnDestroy(){if(draftModules!=null)foreach(var module in draftModules)if(module)Destroy(module);}
         public Transform Targets { get; private set; }
         public static TraversalAcceptance Install(PlayerSession session)
         {

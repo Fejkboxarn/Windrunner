@@ -26,6 +26,13 @@ namespace PortableAnimation
             this.timings = (Timing[])timings.Clone();
             ages = new float[timings.Length]; weights = new float[timings.Length];
         }
+        public void ChangeTiming(int index,Timing timing)
+        {
+            var old=timings[index];
+            if(old.Length>0 && old.Speed>0 && timing.Speed>0)
+                ages[index]=ClipTime(index)/old.Length*timing.Length/timing.Speed;
+            timings[index]=timing;
+        }
         public bool Request(int index)
         {
             if (index < 0 || index >= Count || !timings[index].Available) return false;

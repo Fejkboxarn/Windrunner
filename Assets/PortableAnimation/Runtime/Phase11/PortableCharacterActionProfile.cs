@@ -15,6 +15,12 @@ namespace PortableAnimation
         [Tooltip("Empty applies the full-body pose.")]
         public AvatarMask mask;
         [Range(0,1)] public float weight = 1f;
+        public bool inheritClip;
+        public bool inheritMask, inheritWeight;
+        public RegionMaskSettings regions = new RegionMaskSettings();
+        public ActionVisualTiming timing = new ActionVisualTiming();
+        public bool overrideTiming, muteWhenMissing;
+        public VisualTimingFields timingFields=VisualTimingFields.All;
         public bool Available => enabled && clip && clip.humanMotion && !clip.legacy && clip.length > 0;
     }
 
@@ -39,6 +45,8 @@ namespace PortableAnimation
         [Tooltip("When false, only explicit cancellation can interrupt this action.")]
         public bool interruptible = true;
 
+        public RegionMaskSettings regions = new RegionMaskSettings();
+        public ActionVisualTiming segment = new ActionVisualTiming();
         public ActionPoseOverride stationary = new ActionPoseOverride();
         public ActionPoseOverride airborne = new ActionPoseOverride();
 
@@ -82,8 +90,9 @@ namespace PortableAnimation
                 PortableCharacterAction action = actions[i];
                 if (action == null || string.IsNullOrWhiteSpace(action.id))
                     throw new InvalidOperationException("Action " + i + " has no ID.");
+                if(action.segment!=null && !action.segment.Valid)throw new InvalidOperationException("Invalid source segment for "+action.id);
                 foreach (var variant in new[] {action.stationary, action.airborne})
-                    if (variant != null && variant.enabled && !(variant.weight >= 0 && variant.weight <= 1))
+                    if (variant != null && variant.enabled && (!(variant.weight >= 0 && variant.weight <= 1) || (variant.overrideTiming && (variant.timing==null || !variant.timing.Valid))))
                         throw new InvalidOperationException("Invalid context influence for "+action.id);
                 if (!ids.Add(action.id))
                     throw new InvalidOperationException("Duplicate action ID: " + action.id);

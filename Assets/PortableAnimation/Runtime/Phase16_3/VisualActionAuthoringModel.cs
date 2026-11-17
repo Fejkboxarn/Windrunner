@@ -55,7 +55,8 @@ namespace PortableAnimation.Authoring
         RightUpperLeg,
         RightLowerLeg,
         RightFoot,
-        RightToes
+        RightToes,
+        LeftFingers, RightFingers
     }
 
     [Serializable]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using PortableAnimation.Authoring;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
@@ -18,19 +19,54 @@ namespace PortableAnimation
         private readonly PortableCharacterActionProfile actionProfile;
         private readonly AvatarMask fullBodyMask;
         private PlayableGraph graph;
-        private AnimationLayerMixerPlayable actions;
+
         private sealed class PoseLayer
         {
             public int action;
             public ActionMotionContext context;
             public AnimationClip clip;
             public AvatarMask mask;
-            public float weight, share, lengthRatio;
+            public float weight, share;
             public AnimationClipPlayable playable;
+            public AnimationLayerMixerPlayable mixer;
+            public int input;
+            public int stackIndex;
+            public RegionMaskSettings regions,parent;
+            public FlattenedPoseStack weighted;
+            public float applied,seconds,phase,start,end=1;
+            public PortableActionPlayback.Timing timing;
         }
+        private readonly List<FlattenedPoseStack> stacks=new List<FlattenedPoseStack>();
         private readonly List<PoseLayer> layers = new List<PoseLayer>();
         private readonly bool[,] available;
         private ActionMotionContext context;
+        private (HumanBodyBones bone, AuthoringBodyRegion region,string path)[] bones;
+        private Transform[] hierarchy;
+        private PoseLayer[] clock;
+        private PoseLayer[,] choices;
+        public ActionMotionContext Context => context;
+        public float FinalRotationContribution(int action,ActionMotionContext variant,HumanBodyBones bone)
+        {
+            float remainder=1f,contribution=0;
+            for(int i=layers.Count-1;i>=0;i--)
+            {
+                var layer=layers[i];
+                float coefficient=layer.applied;
+                if(coefficient<=0)continue;
+                var region=RegionMaskSettings.Region(bone);
+                if(layer.weighted!=null)
+                {
+                    string path=null;
+                    foreach(var mapped in bones)if(mapped.bone==bone){path=mapped.path;break;}
+                    if(path==null)continue;
+                    coefficient*=layer.regions.Resolve(region,path,layer.mask,layer.phase,bone,layer.parent).rotation;
+                }
+                else if(layer.mask && !layer.mask.GetHumanoidBodyPartActive(RegionMaskSettings.Part(region)))coefficient=0;
+                if((action<0 || layer.action==action) && ((int)variant<0 || layer.context==variant))contribution+=coefficient*remainder;
+                remainder*=1-coefficient;
+            }
+            return contribution;
+        }
         private readonly PortableActionPlayback playback;
 
         private int lastFrame = -1;
@@ -52,14 +88,17 @@ namespace PortableAnimation
             for (int i = 0; i < layers.Count; i++)
             {
                 var layer = layers[i];
-                float w = actions.GetInputWeight(i + 1);
+                float w = layer.applied;
                 if (w <= pose.actionWeight) continue;
                 var entry = actionProfile.Action(layer.action);
                 pose.actionWeight = w;
                 pose.action = entry.id;
                 pose.mask = layer.mask;
                 pose.actionClip = layer.clip;
-                pose.actionSeconds = (float)layer.playable.GetTime();
+                pose.actionSeconds = layer.seconds;
+                pose.weighted = layer.weighted!=null;
+                pose.phase = layer.phase;
+                pose.weightSource = layer.regions?.source ? layer.regions.source : layer.parent?.source;
             }
         }
         public struct RecordingPose
@@ -72,6 +111,9 @@ namespace PortableAnimation
             public float weight, cycles, walk, run, actionWeight, actionSeconds;
             public string action;
             public AvatarMask mask;
+            public bool weighted;
+            public BoneWeightMask weightSource;
+            public float phase;
         }
         public GroundMotionState GroundState => ground.State;
 
@@ -86,17 +128,20 @@ namespace PortableAnimation
             optionalActions?.AssertValid();
             actionProfile = optionalActions;
             available = new bool[LiveActionCount,3];
+            clock=new PoseLayer[LiveActionCount];choices=new PoseLayer[LiveActionCount,3];
             var timings = new PortableActionPlayback.Timing[LiveActionCount];
             for (int i = 0; i < timings.Length; i++)
             {
                 var action = actionProfile.Action(i);
                 if (action.IsPlayable)
                 {
-                    layers.Add(new PoseLayer {action=i, clip=action.clip,mask=action.mask,weight=action.blendWeight,share=1});
+                    var basis=new PoseLayer {action=i,clip=action.clip,mask=action.mask,regions=action.regions,weight=action.blendWeight,share=1};
+                    ConfigureLayer(basis,action,null);
+                    clock[i]=basis;
                     AddVariant(i,ActionMotionContext.Stationary,action.stationary);
                     AddVariant(i,ActionMotionContext.Airborne,action.airborne);
                 }
-                timings[i] = new PortableActionPlayback.Timing(action.clip != null ? action.clip.length : 0f,
+                timings[i] = clock[i]!=null?clock[i].timing:new PortableActionPlayback.Timing(action.clip != null ? action.clip.length : 0f,
                     action.playbackSpeed, action.blendInSeconds, action.blendOutSeconds, action.priority,
                     action.IsPlayable, action.loopUntilCanceled, action.allowSameActionRestart, action.interruptible);
             }
@@ -115,20 +160,37 @@ namespace PortableAnimation
 
                 if (LiveActionCount > 0)
                 {
-                    actions = AnimationLayerMixerPlayable.Create(graph, layers.Count + 1);
-                    graph.Connect(ground.Output, 0, actions, 0);
-                    actions.SetInputWeight(0, 1f);
-                    for (int i=0;i<layers.Count;i++)
+                    // Preserve native layer groups until a weighted action requires a
+                    // per-bone stage. All stages feed one final Animator output.
+                    for(int i=0;i<layers.Count;)
                     {
                         var layer=layers[i];
-                        layer.lengthRatio=layer.clip.length/actionProfile.Action(layer.action).clip.length;
-                        layer.playable=AnimationClipPlayable.Create(graph,layer.clip);
-                        layer.playable.SetSpeed(0);
-                        actions.SetLayerMaskFromAvatarMask((uint)(i+1),layer.mask ? layer.mask : fullBodyMask);
-                        if (!graph.Connect(layer.playable,0,actions,i+1))
-                            throw new InvalidOperationException("Could not connect action pose "+layer.clip.name);
+                        if(layer.regions?.enabled==true)
+                        {
+                            if(hierarchy==null)BindBones(animator);
+                            int first=i;
+                            while(i<layers.Count && layers[i].regions?.enabled==true)i++;
+                            var assets=new AnimationClip[i-first];
+                            for(int n=first;n<i;n++)assets[n-first]=layers[n].clip;
+                            var stack=new FlattenedPoseStack(graph,animator,finalPose,assets,true,hierarchy);
+                            stacks.Add(stack);
+                            for(int n=first;n<i;n++){layers[n].weighted=stack;layers[n].stackIndex=n-first;}
+                            finalPose=stack.Output;continue;
+                        }
+                        int begin=i;
+                        while(i<layers.Count && layers[i].regions?.enabled!=true)i++;
+                        var group=AnimationLayerMixerPlayable.Create(graph,i-begin+1);
+                        graph.Connect(finalPose,0,group,0);group.SetInputWeight(0,1);
+                        for(int n=begin;n<i;n++)
+                        {
+                            layer=layers[n];layer.mixer=group;layer.input=n-begin+1;
+                            layer.playable=AnimationClipPlayable.Create(graph,layer.clip);
+                            layer.playable.SetSpeed(0);
+                            group.SetLayerMaskFromAvatarMask((uint)layer.input,layer.mask?layer.mask:fullBodyMask);
+                            if(!graph.Connect(layer.playable,0,group,layer.input))throw new InvalidOperationException("Cannot connect "+layer.clip.name);
+                        }
+                        finalPose=group;
                     }
-                    finalPose = actions;
                 }
 
                 var output = AnimationPlayableOutput.Create(graph,
@@ -140,7 +202,8 @@ namespace PortableAnimation
             catch
             {
                 if (graph.IsValid()) graph.Destroy();
-                if (fullBodyMask != null) UnityEngine.Object.Destroy(fullBodyMask);
+                foreach(var stack in stacks)stack.Dispose();
+            if (fullBodyMask) {if(Application.isPlaying)UnityEngine.Object.Destroy(fullBodyMask);else UnityEngine.Object.DestroyImmediate(fullBodyMask);}
                 throw;
             }
         }
@@ -157,9 +220,40 @@ namespace PortableAnimation
 
         private void AddVariant(int action, ActionMotionContext variant, ActionPoseOverride pose)
         {
-            if (pose == null || !pose.Available) return;
+            var basis=actionProfile.Action(action);
+            if(pose==null || !pose.enabled || (!pose.inheritClip && !pose.Available && !pose.muteWhenMissing))return;
             available[action,(int)variant]=true;
-            layers.Add(new PoseLayer {action=action, context=variant, clip=pose.clip, mask=pose.mask, weight=pose.weight});
+            ConfigureLayer(new PoseLayer{action=action,context=variant,clip=pose.inheritClip || !pose.Available?basis.clip:pose.clip,
+                mask=pose.inheritMask?basis.mask:pose.mask,regions=pose.regions?.enabled==true?pose.regions:pose.inheritMask?basis.regions:pose.regions,
+                parent=pose.inheritMask && pose.regions?.enabled==true?basis.regions:null,
+                weight=!pose.Available && !pose.inheritClip?0:pose.inheritWeight?basis.blendWeight:pose.weight},basis,pose);
+        }
+        private void ConfigureLayer(PoseLayer layer,PortableCharacterAction action,ActionPoseOverride pose)
+        {
+            bool Has(VisualTimingFields field)=>pose!=null && pose.overrideTiming && (pose.timingFields&field)!=0;
+            var t=pose?.timing;
+            var segment=Has(VisualTimingFields.Segment)?t:action.segment;
+            layer.start=segment?.start??0;layer.end=segment?.end??1;
+            float length=(Has(VisualTimingFields.Speed)||Has(VisualTimingFields.Segment)?layer.clip.length:action.clip.length)*(layer.end-layer.start);
+            layer.timing=new PortableActionPlayback.Timing(length,Has(VisualTimingFields.Speed)?t.speed:action.playbackSpeed,
+                Has(VisualTimingFields.FadeIn)?t.fadeIn:action.blendInSeconds,Has(VisualTimingFields.FadeOut)?t.fadeOut:action.blendOutSeconds,
+                Has(VisualTimingFields.Priority)?t.priority:action.priority,true,Has(VisualTimingFields.Recovery)?t.loop:action.loopUntilCanceled,
+                Has(VisualTimingFields.Interruption)?t.restart:action.allowSameActionRestart,Has(VisualTimingFields.Interruption)?t.interruptible:action.interruptible);
+            layers.Add(layer);choices[layer.action,(int)layer.context]=layer;
+        }
+        private void BindBones(Animator animator)
+        {
+            var transforms=new List<Transform>{animator.transform};
+            var mapped=new List<(HumanBodyBones,AuthoringBodyRegion,string)>();
+            for(int i=0;i<(int)HumanBodyBones.LastBone;i++)
+            {
+                var bone=(HumanBodyBones)i;
+                var transform=animator.GetBoneTransform(bone);
+                if(!transform || transforms.Contains(transform))continue;
+                transforms.Add(transform);
+                mapped.Add((bone,RegionMaskSettings.Region(bone),FlattenedPoseStack.PathOf(animator.transform,transform)));
+            }
+            bones=mapped.ToArray();hierarchy=transforms.ToArray();
         }
 
         public void Evaluate(in GroundMotionFrame motion) => Evaluate(motion,motion.Locomotion.LocalVelocity.magnitude);
@@ -196,19 +290,46 @@ namespace PortableAnimation
                 float share=layer.context==target ? 1f : 0f;
                 layer.share=playback.Weight(layer.action)<=0 ? share : Mathf.Lerp(layer.share,share,step);
             }
+            for(int i=0;i<clock.Length;i++)
+            {
+                var next=choices[i,(int)context]??choices[i,0];
+                if(next==clock[i])continue;
+                playback.ChangeTiming(i,next.timing);clock[i]=next;
+            }
             playback.Tick(dt);
             for(int i=0;i<layers.Count;i++)
             {
                 var layer=layers[i];
-                layer.playable.SetTime(playback.ClipTime(layer.action)*layer.lengthRatio);
-                actions.SetInputWeight(i+1,layer.share*layer.weight*playback.Weight(layer.action));
+                float phase=playback.ClipTime(layer.action)/clock[layer.action].timing.Length;
+                layer.phase=phase;
+                layer.seconds=Mathf.Lerp(layer.start,layer.end,phase)*layer.clip.length;
+                float alpha=layer.share*layer.weight*playback.Weight(layer.action);
+                if(layer.weighted!=null)
+                {
+                    if(alpha>0 || layer.applied>0)
+                    {
+                        layer.weighted.SetSampleTime(layer.stackIndex,layer.seconds);
+                        foreach(var bone in bones)
+                        {
+                            var w=layer.regions.Resolve(bone.region,bone.path,layer.mask,phase,bone.bone,layer.parent);
+                            layer.weighted.SetBoneWeights(layer.stackIndex,bone.path,new BoneChannelWeights(w.position*alpha,w.rotation*alpha,w.scale*alpha));
+                        }
+                    }
+                }
+                else
+                {
+                    layer.playable.SetTime(layer.seconds);
+                    layer.mixer.SetInputWeight(layer.input,alpha);
+                }
+                layer.applied=alpha;
             }
         }
 
         public void Dispose()
         {
             if (graph.IsValid()) graph.Destroy();
-            if (fullBodyMask != null) UnityEngine.Object.Destroy(fullBodyMask);
+            foreach(var stack in stacks)stack.Dispose();
+            if (fullBodyMask) {if(Application.isPlaying)UnityEngine.Object.Destroy(fullBodyMask);else UnityEngine.Object.DestroyImmediate(fullBodyMask);}
         }
     }
 }

@@ -139,7 +139,7 @@ namespace AirflowPrototype
             {
                 poseLine = $"{p.state}   {(p.clip ? p.clip.name : "—")}   {p.weight:P0}";
                 actionLine = $"Portable   {p.context}   {bridge.ActiveAnimationAction}";
-                layerLine = p.action==null ? null : $"{(p.actionClip ? p.actionClip.name : p.action)}   {p.actionWeight:P0}   {(p.mask ? p.mask.name : "full body")}   {p.actionSeconds:F2}s";
+                layerLine = p.action==null ? null : $"{(p.actionClip ? p.actionClip.name : p.action)}   {p.actionWeight:P0}   {(p.weighted ? (p.weightSource ? p.weightSource.name+" + regions" : "local region weights") : p.mask ? p.mask.name : "full body")}   {p.actionSeconds:F2}s";
                 motionLine += $"\n{(p.direction >= 0 ? Compass[p.direction] : "—")}   walk {p.walk:P0}   run {p.run:P0}   {p.cycles:F2} cyc/s   {(p.direction >= 0 ? p.cycles*p.clip.length : 0):F2}×";
             }
             else { poseLine = "Ground graph inactive"; actionLine = bridge.ActiveAnimationAction; layerLine = null; }

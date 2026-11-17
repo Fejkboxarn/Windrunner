@@ -1,5 +1,8 @@
 # Dagger Pack animation candidate
 
+Use the [Animation Authoring Studio V2 guide](AnimationStudioV2.md) for current browser, mask, timing and draft-lane controls.
+
+
 Local feature branch `codex/dagger-pack-animation` starts at the integrated acceptance checkpoint `3feecb35`. The production model is the existing Humanoid Character instance of `Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx`. The desired male assassin is the animation direction. This pass used the installed character and Avatar.
 
 ## Current context-sensitive candidate

@@ -29,6 +29,84 @@ namespace Windrunner.Production.Tests
             Assert.IsTrue(File.Exists(file));
         }
         [UnityTest]
+        public IEnumerator DraftLaneRunsDetachedProfilesAndReleasesThemOnReload()
+        {
+            var store=Type.GetType("AirflowPrototype.Editor.AnimationLaneDraft, Assembly-CSharp-Editor",true);
+            const string launchKey="Windrunner.Acceptance.Launch";
+            if((bool)store.GetProperty("Pending").GetValue(null) || UnityEditor.SessionState.GetBool(launchKey,false))
+                Assert.Ignore("An author owns the current lane session.");
+            if(ProjectRoot.Active){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}
+            yield return EditorSceneManager.LoadSceneAsyncInPlayMode(Legacy,new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null;
+            var bridgeType=Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp",true);
+            var bridge=(Component)Object.FindAnyObjectByType(bridgeType);
+            var source=Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(bridge,"Profile");
+            var draft=Object.Instantiate(source.standaloneActionProfile);
+            try
+            {
+                draft.Action(4).regions.enabled=true;
+                draft.Action(4).regions.bones.Add(new BoneInfluence{bone=HumanBodyBones.RightHand,weight=.51f});
+                store.GetMethod("Store").Invoke(null,new object[]{source,source.standaloneGroundProfile,draft,true});
+                UnityEditor.SessionState.SetBool(launchKey,true);
+                var launcher=Type.GetType("Windrunner.Frontend.Editor.TraversalAcceptanceLauncher, Assembly-CSharp-Editor",true);
+                launcher.GetMethod("OnPlayMode",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static)
+                    .Invoke(null,new object[]{UnityEditor.PlayModeStateChange.EnteredPlayMode});
+                var bound=Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(bridge,"Profile");
+                var actions=bound.standaloneActionProfile;var ground=bound.standaloneGroundProfile;
+                Assert.AreNotSame(source,bound);Assert.AreNotSame(draft,actions);
+                Assert.AreEqual(.51f,actions.Action(4).regions.bones[0].weight);
+                Assert.IsTrue(Prop<bool>(bridge,"PortableActive"));
+                yield return EditorSceneManager.LoadSceneAsyncInPlayMode(Legacy,new LoadSceneParameters(LoadSceneMode.Single));
+                yield return null;
+                Assert.IsTrue(!bound && !actions && !ground,"The lane retained detached profiles after scene replacement.");
+                var next=(Component)Object.FindAnyObjectByType(bridgeType);
+                Assert.AreSame(source,Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(next,"Profile"));
+                Assert.IsFalse(source.standaloneActionProfile.Action(4).regions.enabled);
+            }
+            finally
+            {
+                UnityEditor.SessionState.EraseBool(launchKey);
+                UnityEditor.SessionState.EraseString("Windrunner.Acceptance.MotionProfile");
+                store.GetMethod("Finish").Invoke(null,null);
+                Object.Destroy(draft);
+            }
+        }
+        [UnityTest]
+        public IEnumerator CustomArmMaskHasIndependentMeasuredJointInfluence()
+        {
+            const string folder="Assets/WindrunnerProduction/Animation/Generated/";
+            var ground=UnityEditor.AssetDatabase.LoadAssetAtPath<GroundMotionProfile>(folder+"WindrunnerGroundMotion.asset");
+            var source=UnityEditor.AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>(folder+"WindrunnerActionClips.asset");
+            var model=UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx");
+            Quaternion[,] samples=new Quaternion[3,2];
+            for(int k=0;k<3;k++)
+            {
+                var avatar=Object.Instantiate(model);var rig=avatar.GetComponentInChildren<Animator>();
+                rig.runtimeAnimatorController=null;rig.fireEvents=false;rig.applyRootMotion=false;rig.cullingMode=AnimatorCullingMode.AlwaysAnimate;
+                var profile=Object.Instantiate(source);
+                try
+                {
+                    var settings=profile.Action(4).regions;
+                    settings.enabled=true;
+                    settings.regions.Add(new PortableAnimation.Authoring.RegionInfluenceSettings{
+                        region=PortableAnimation.Authoring.AuthoringBodyRegion.RightUpperArm,rotation=k*.5f});
+                    using var graph=new GroundOnlyPipelineRuntime(rig,ground,profile);
+                    graph.RequestAction(4);
+                    for(int f=0;f<30;f++)
+                        graph.Evaluate(new GroundMotionFrame(new AnimationFrameState(f,1f/120,Vector3.forward,.8f,LocomotionMode.Grounded),true,0,0,false),5);
+                    samples[k,0]=rig.GetBoneTransform(HumanBodyBones.RightUpperArm).localRotation;
+                    samples[k,1]=rig.GetBoneTransform(HumanBodyBones.LeftUpperArm).localRotation;
+                }
+                finally{Object.Destroy(profile);Object.Destroy(avatar);}
+            }
+            float half=Quaternion.Angle(samples[0,0],samples[1,0]);
+            float full=Quaternion.Angle(samples[0,0],samples[2,0]);
+            Debug.Log($"Independent upper arm influence: half {half:F3}, full {full:F3}, opposite {Quaternion.Angle(samples[0,1],samples[2,1]):F3} degrees");
+            Assert.Greater(full,2f);Assert.That(half,Is.EqualTo(full*.5f).Within(full*.20f));
+            Assert.Less(Quaternion.Angle(samples[0,1],samples[2,1]),.15f);
+            yield return null;
+        }
+        [UnityTest]
         public IEnumerator ContextChangesPreserveOneActionClockAndRecoverItsLayers()
         {
             const string folder="Assets/WindrunnerProduction/Animation/Generated/";

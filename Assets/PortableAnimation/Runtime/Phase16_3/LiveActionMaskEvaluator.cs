@@ -17,7 +17,7 @@ namespace PortableAnimation
             new Dictionary<string, AuthoringBodyRegion>(StringComparer.Ordinal);
         private readonly ActionMontageProfile montage;
 
-        private static readonly (HumanBodyBones bone, AuthoringBodyRegion region)[] Mapping =
+        internal static readonly (HumanBodyBones bone, AuthoringBodyRegion region)[] Mapping =
         {
             (HumanBodyBones.Hips, AuthoringBodyRegion.Pelvis),
             (HumanBodyBones.Spine, AuthoringBodyRegion.SpineLower),

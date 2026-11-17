@@ -37,6 +37,13 @@ namespace Windrunner.Frontend.Editor
                         Debug.LogError("Lane comparison requires a valid production-only standalone profile and player.");
                     else
                     {
+                        if(AirflowPrototype.Editor.AnimationLaneDraft.Pending)
+                        {
+                            var modules=AirflowPrototype.Editor.AnimationLaneDraft.Read();
+                            profile=Object.Instantiate(profile);
+                            profile.standaloneGroundProfile=modules.ground;profile.standaloneActionProfile=modules.actions;
+                            session.GetComponent<TraversalAcceptance>().OwnDraft(profile,modules.ground,modules.actions);
+                        }
                         bridge.enabled=false;
                         using(var serialized=new SerializedObject(bridge))
                         {

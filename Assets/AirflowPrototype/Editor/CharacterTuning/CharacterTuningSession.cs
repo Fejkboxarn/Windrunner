@@ -314,7 +314,7 @@ namespace AirflowPrototype.Editor
         public void Dispose()
         {
             Undo.undoRedoPerformed-=ValidatePreview;EditorApplication.update-=WatchPreview;
-            Preview(false);
+            if(Character && Previewing)Preview(false);
             foreach(var e in Entries) {Object.DestroyImmediate(e.Draft);Object.DestroyImmediate(e.Baseline);}
             Entries.Clear();Bindings.Clear();
         }
