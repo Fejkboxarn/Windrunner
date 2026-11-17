@@ -16,7 +16,18 @@ namespace Windrunner.TerrainAuthoring.Editor
         public readonly Rect bounds;
         public readonly string key, signature;
         public RoadProfile Profile => road.profile;
-        public RoadPath(StudioRoad road,int splineIndex)
+        static readonly System.Runtime.CompilerServices.ConditionalWeakTable<StudioRoad,CachedRoad> cache=new();
+        sealed class CachedRoad { public string identity,signature; public RoadPath[] paths; }
+
+        static string Identity(StudioRoad road)
+        {
+            var id=GlobalObjectId.GetGlobalObjectIdSlow(road);
+            return id.targetObjectId==0?road.GetEntityId().ToString():id.ToString();
+        }
+
+        public RoadPath(StudioRoad road,int splineIndex):this(road,splineIndex,Identity(road),Signature(road)) {}
+
+        RoadPath(StudioRoad road,int splineIndex,string identity,string geometrySignature)
         {
             this.road=road;
             var container=road.GetComponent<SplineContainer>();
@@ -34,9 +45,8 @@ namespace Windrunner.TerrainAuthoring.Editor
             }
             float margin=Profile.width/2+Profile.shoulderMetres*(1+Profile.edgeIrregularity)+Profile.trackWidth+Profile.trackSpacing;
             bounds=Rect.MinMaxRect(lo.x-margin,lo.y-margin,hi.x+margin,hi.y+margin);
-            var id=GlobalObjectId.GetGlobalObjectIdSlow(road);
-            key=(id.targetObjectId==0?road.GetEntityId().ToString():id.ToString())+"/"+splineIndex;
-            signature=Signature(road);
+            key=identity+"/"+splineIndex;
+            signature=geometrySignature;
             // A spatial hash bounds local sampling cost even on long, folded roads.
             for(int i=1;i<points.Length;i++)
             {
@@ -81,10 +91,20 @@ namespace Windrunner.TerrainAuthoring.Editor
             foreach(var root in tile.gameObject.scene.GetRootGameObjects())
                 foreach(var road in root.GetComponentsInChildren<StudioRoad>())
                 {
-                    if(!road.isActiveAndEnabled||!road.profile)continue;
+                    if(!road.isActiveAndEnabled)continue;
+                    var issue=SetupValidation.RoadError(road);
+                    if(issue!=null)throw new System.InvalidOperationException(issue);
                     var container=road.GetComponent<SplineContainer>();
-                    for(int i=0;i<container.Splines.Count;i++)
-                        if(container.Splines[i].Count>=2)paths.Add(new RoadPath(road,i));
+                    string identity=Identity(road);
+                    string signature=Signature(road);
+                    var entry=cache.GetValue(road,_=>new CachedRoad());
+                    if(entry.identity!=identity || entry.signature!=signature)
+                    {
+                        var samples=new RoadPath[container.Splines.Count];
+                        for(int i=0;i<samples.Length;i++)samples[i]=new RoadPath(road,i,identity,signature);
+                        entry.paths=samples;entry.identity=identity;entry.signature=signature;
+                    }
+                    paths.AddRange(entry.paths);
                 }
             return paths.OrderBy(p=>p.Profile.priority).ThenBy(p=>p.key,System.StringComparer.Ordinal).ToList();
         }

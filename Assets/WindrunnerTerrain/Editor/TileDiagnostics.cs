@@ -34,6 +34,18 @@ namespace Windrunner.TerrainAuthoring.Editor
                     if(!side&&!end)continue;
                     Terrain neighbor=side?(right?terrain.rightNeighbor:terrain.leftNeighbor):(top?terrain.topNeighbor:terrain.bottomNeighbor);
                     if(neighbor!=t)notes.Add(t.name+": touching tile lacks matching Terrain neighbor link.");
+                    float start=side?Mathf.Max(o.z,origin.z):Mathf.Max(o.x,origin.x);
+                    float stop=side?Mathf.Min(o.z+s.z,origin.z+size.z):Mathf.Min(o.x+s.x,origin.x+size.x);
+                    float fixedAxis=side?(right?o.x:origin.x):(top?o.z:origin.z);
+                    float gap=0;
+                    int samples=Mathf.Max(data.heightmapResolution,t.terrainData.heightmapResolution);
+                    for(int i=0;i<samples;i++)
+                    {
+                        float along=Mathf.Lerp(start,stop,i/(samples-1f));
+                        var p=new Vector3(side?fixedAxis:along,0,side?along:fixedAxis);
+                        gap=Mathf.Max(gap,Mathf.Abs(terrain.SampleHeight(p)+origin.y-t.SampleHeight(p)-o.y));
+                    }
+                    if(gap>.02f)notes.Add($"{t.name}: sampled shared-edge height mismatch {gap:F2} m. Align adjoining heightmaps before painting.");
                     if(s!=size||t.terrainData.heightmapResolution!=data.heightmapResolution)
                         notes.Add(t.name+": different dimensions or height resolution; inspect edge sculpting and LOD.");
                     if(t.terrainData.alphamapResolution!=data.alphamapResolution)notes.Add(t.name+": different paint resolution; each side uses its own sampling grid.");

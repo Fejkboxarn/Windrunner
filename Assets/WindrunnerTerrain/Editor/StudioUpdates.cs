@@ -15,6 +15,7 @@ namespace Windrunner.TerrainAuthoring.Editor
         static double next;
         static bool inspect=true, undoHold;
         static readonly HashSet<StudioTile> blocked=new HashSet<StudioTile>();
+        public static ulong CompletedRebuilds {get;private set;}
         public static string LastResult {get;private set;}
         public static StudioTile[] Tiles()=>UnityEngine.Object.FindObjectsByType<StudioTile>(FindObjectsInactive.Exclude)
             .Where(t=>t.gameObject.scene.IsValid() && !EditorSceneManager.IsPreviewScene(t.gameObject.scene)).ToArray();
@@ -43,8 +44,8 @@ namespace Windrunner.TerrainAuthoring.Editor
                     catch(Exception e){LastResult=e.Message;Debug.LogWarning("Saved authoring inputs with pending paint: "+e.Message,t);}
                 }
                 AssetDatabase.SaveAssetIfDirty(s);
-                AssetDatabase.SaveAssetIfDirty(s.working);
-                AssetDatabase.SaveAssetIfDirty(t.ribbons.sharedMesh);
+                if(s.working)AssetDatabase.SaveAssetIfDirty(s.working);
+                if(t.ribbons.sharedMesh)AssetDatabase.SaveAssetIfDirty(t.ribbons.sharedMesh);
             }
         }
         static bool Relevant(UnityEngine.Object o)=>o is RoadProfile||o is SurfaceProfile||o is StudioRoad||o is SplineContainer||
@@ -157,7 +158,7 @@ namespace Windrunner.TerrainAuthoring.Editor
                 if(revert){t.state.automatic=false;t.state.dirty=TerrainPainter.Full(t.state.working);}
                 EditorUtility.SetDirty(t.state);EditorSceneManager.MarkSceneDirty(t.gameObject.scene);
                 LastResult=$"{regions.Sum(r=>r.width*r.height):N0} cells across {regions.Count} region(s) in {watch.Elapsed.TotalMilliseconds:F0} ms";
-                Undo.CollapseUndoOperations(group);
+                Undo.CollapseUndoOperations(group);CompletedRebuilds++;
             }
             catch {Undo.RevertAllDownToGroup(group);throw;}
             finally {if(interactive)EditorUtility.ClearProgressBar();}

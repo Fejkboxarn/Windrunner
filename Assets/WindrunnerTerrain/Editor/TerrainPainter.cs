@@ -58,7 +58,16 @@ namespace Windrunner.TerrainAuthoring.Editor
                 return "Unity Terrain must be unrotated with unit world scale.";
             var layers=state.working.terrainLayers;
             if(layers.Length==0||layers.Any(l=>!l)||layers.Distinct().Count()!=layers.Length)return "Terrain palette contains a missing or duplicate layer.";
-            if(state.protectedPaint.Concat(new[]{state.original}).Any(patch=>patch.layers.Any(l=>!layers.Contains(l))))return "Captured palette layer removed; restore it before rebuilding.";
+            string history=PaintHistory.Invalid(state,layers);
+            if(history!=null)return history;
+            if(!tile.ribbons || !tile.ribbons.sharedMesh || !tile.ribbons.GetComponent<MeshRenderer>())
+                return "Restore the wheel MeshFilter, mesh asset and MeshRenderer.";
+            if(tile.ribbons.GetComponentInChildren<Collider>(true))
+                return "Wheel wear has a Collider. Remove collision components from the detail object.";
+            if(tile.ribbons.gameObject.scene!=tile.gameObject.scene || !tile.ribbons.transform.IsChildOf(tile.terrain.transform))
+                return "The wheel renderer must belong to the target terrain.";
+            if(StudioUpdates.Tiles().Any(t=>t!=tile && t.ribbons && t.ribbons.sharedMesh==tile.ribbons.sharedMesh))
+                return "Shared wheel mesh: give each tile an independent baked mesh asset.";
             if(paths.Any(r=>!r.Profile.surface || r.Profile.carriage&&!r.Profile.trackMaterial))return "Road surface or wheel-wear material missing.";
             var collider=tile.terrain.GetComponent<TerrainCollider>();
             if(!collider||collider.terrainData!=state.working)return "TerrainCollider and Terrain must share the working TerrainData.";

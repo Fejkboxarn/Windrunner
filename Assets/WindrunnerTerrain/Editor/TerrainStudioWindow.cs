@@ -80,7 +80,7 @@ namespace Windrunner.TerrainAuthoring.Editor
                     Area();
                     if(Button("Preview selected paint","Calculates material coverage without writing TerrainData."))Preview(tile);
                     if(preview)GUILayout.Box(preview,GUILayout.Width(220),GUILayout.Height(220));
-                    if(Button("Rebuild selected region","Includes pending road or rule changes for consistency."))Rebuild(tile,Region);
+                    if(Button("Rebuild selected region","Updates the selection and changed road footprints; leaves unrelated rule changes pending."))Rebuild(tile,Region);
                     if(Button("Rebuild entire terrain","Re-evaluates the full working paint map."))Rebuild(tile,TerrainPainter.Full(s.working));
                     if(Button("Revert generated paint and wear","Restores the captured source paint plus protected overrides. Sculpting survives."))
                         Rebuild(tile,TerrainPainter.Full(s.working),true);
@@ -105,7 +105,14 @@ namespace Windrunner.TerrainAuthoring.Editor
                     EditorGUILayout.HelpBox("Use Unity's Spline tool for knots/tangents and ordinary Hierarchy duplicate/delete. Carriage wear uses draped render-only ribbons.",MessageType.Info);
                     break;
                 case 5:
+                    var issue=PaintHistory.Invalid(s,s.working.terrainLayers);
+                    if(issue!=null){EditorGUILayout.HelpBox(issue,MessageType.Error);break;}
                     Area();opacity=EditorGUILayout.Slider("Protection / blend",opacity,0,1);
+                    if(Button("Find unprotected edits","Compare the whole tile with its paint history and select pending native edits for review."))
+                    {
+                        var found=PaintHistory.ReviewNativeEdits(tile);
+                        message=TerrainPainter.Empty(found)?"No unprotected edits found.":"Review native paint "+found+" before protecting or releasing it.";
+                    }
                     if(Button("Capture selected paint","Snapshots current native paint on this rectangle."))PaintHistory.Resolve(tile,Region,true,opacity);
                     if(!TerrainPainter.Empty(s.nativeDirty))
                     {
@@ -117,7 +124,7 @@ namespace Windrunner.TerrainAuthoring.Editor
                         var patch=s.protectedPaint[i];
                         EditorGUILayout.BeginHorizontal();GUILayout.Label(patch.rect+" · "+patch.opacity.ToString("P0"));
                         if(GUILayout.Button("Clear",GUILayout.Width(60))&&Confirm("Return this captured region to automatic painting?"))
-                        {Undo.RegisterCompleteObjectUndo(s,"Remove protected paint");s.protectedPaint.RemoveAt(i--);s.dirty=TerrainPainter.Union(s.dirty,patch.rect);EditorUtility.SetDirty(s);StudioUpdates.Schedule();}
+                        {PaintHistory.Clear(tile,i--);}
                         EditorGUILayout.EndHorizontal();
                     }
                     break;
@@ -133,7 +140,7 @@ namespace Windrunner.TerrainAuthoring.Editor
                     EditorGUILayout.HelpBox("Green: below limit. Amber: within 5° of limit. Red: above limit, aerial traversal may be needed. Samples approximate grounded slopes; obstacles, momentum and step contacts require gameplay testing.",MessageType.Info);
                     SceneView.RepaintAll();break;
                 case 8:
-                    if(Button("Validate and inspect dirty bounds","Inspect palette, bindings, road grades, neighbors and pending work."))message=Diagnostics(tile);
+                    if(Button("Validate terrain setup","Read-only check of native paint, protected data, roads, seams and pending work."))message=SetupValidation.Inspect(tile,player);
                     break;
             }
             if(!string.IsNullOrEmpty(StudioUpdates.LastResult))GUILayout.Label("Last update · "+StudioUpdates.LastResult);
@@ -154,18 +161,27 @@ namespace Windrunner.TerrainAuthoring.Editor
         static bool Confirm(string text)=>EditorUtility.DisplayDialog("Terrain Studio",text,"Continue","Cancel");
         void Rebuild(StudioTile t,RectInt rect,bool revert=false)
         {
-            if(!Confirm("Replace unprotected generated coverage on the working copy? Protected paint and terrain heights are retained."))return;
-            StudioUpdates.Rebuild(t,rect,RoadPath.InScene(t),true,revert,rect!=TerrainPainter.Full(t.state.working));message=StudioUpdates.LastResult;SceneView.RepaintAll();
+            var paths=RoadPath.InScene(t);bool local=rect!=TerrainPainter.Full(t.state.working);
+            string scope=SetupValidation.Scope(t,paths,rect,local);
+            if(!Confirm(scope+"\n"+(revert?"Restore source paint, remove wheel wear and turn off automatic updates?":"Replace unprotected coverage and update affected wheel wear?")))return;
+            StudioUpdates.Rebuild(t,rect,paths,true,revert,local);message=StudioUpdates.LastResult;SceneView.RepaintAll();
         }
         void RoadRebuild(StudioTile tile)
         {
-            if(!Confirm("Rebuild pending footprints and selected road on the connected working tiles?"))return;
-            foreach(var t in StudioUpdates.Tiles().Where(t=>t.gameObject.scene==tile.gameObject.scene))
+            var plans=StudioUpdates.Tiles().Where(t=>t.gameObject.scene==tile.gameObject.scene).Select(t=>
             {
-                var paths=RoadPath.InScene(t);RectInt r=default;
-                foreach(var p in paths.Where(p=>p.road==road))r=TerrainPainter.Union(r,TerrainPainter.Pixels(t.terrain,p.bounds));
-                StudioUpdates.Rebuild(t,r,paths,true,false,true);
+                var paths=RoadPath.InScene(t);
+                var r=paths.Where(p=>p.road==road).Select(p=>TerrainPainter.Pixels(t.terrain,p.bounds)).Aggregate(default(RectInt),TerrainPainter.Union);
+                return (tile:t,paths,region:r,scope:SetupValidation.Scope(t,paths,r,true));
+            }).ToList();
+            if(!Confirm(string.Join("\n",plans.Select(p=>p.scope))+"\nRebuild these road footprints?"))return;
+            Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();
+            try
+            {
+                foreach(var plan in plans)StudioUpdates.Rebuild(plan.tile,plan.region,plan.paths,true,false,true);
+                Undo.CollapseUndoOperations(group);
             }
+            catch{Undo.RevertAllDownToGroup(group);throw;}
         }
         void Preview(StudioTile t)
         {
@@ -176,14 +192,6 @@ namespace Windrunner.TerrainAuthoring.Editor
             var pixels=new Color[r.width*r.height];
             for(int y=0;y<r.height;y++)for(int x=0;x<r.width;x++)pixels[y*r.width+x]=Color.green*map[y,x,grass]+Color.gray*map[y,x,rock]+new Color(.48f,.28f,.14f)*(1-map[y,x,grass]-map[y,x,rock]);
             preview.SetPixels(pixels);preview.Apply();message="Material coverage preview · green meadow, brown soil/road, grey stone.";
-        }
-        string Diagnostics(StudioTile t)
-        {
-            var paths=RoadPath.InScene(t);var d=t.state.working;var err=TerrainPainter.Validate(t,paths);if(err!=null)return err;
-            var palette=TerrainPainter.Palette(t,paths);var h=new TerrainPainter.Heights(terrain);int steep=0;
-            if(player)foreach(var path in paths)foreach(var point in path.points)
-                if(TerrainPainter.Heights.Contains(terrain,point)&&Vector3.Angle(h.Normal(point,1,out _),Vector3.up)>player.slopeLimit)steep++;
-            return $"{d.size.x} × {d.size.z} m · {d.alphamapWidth} × {d.alphamapHeight} paint cells\n{palette.Length} layers · {Mathf.CeilToInt(palette.Length/4f)} four-layer group(s)\nPending {StudioUpdates.Pending(t,StudioUpdates.Stamps(t,paths))}\n{steep} road samples above bound controller slope limit.\nNeighbors L/T/R/B: {terrain.leftNeighbor} / {terrain.topNeighbor} / {terrain.rightNeighbor} / {terrain.bottomNeighbor}\n"+string.Join("\n",TileDiagnostics.Layout(t,palette));
         }
         void SceneGUI(SceneView scene)
         {
@@ -196,8 +204,9 @@ namespace Windrunner.TerrainAuthoring.Editor
                 Handles.color=color;Handles.DrawAAPolyLine(2,At(rect.min),At(new Vector2(rect.xMax,rect.yMin)),At(rect.max),At(new Vector2(rect.xMin,rect.yMax)),At(rect.min));
             }
             Outline(WorldRect,Color.cyan);
-            if(section==5)foreach(var p in tile.state.protectedPaint)
+            if(section==5 && tile.state && tile.state.protectedPaint!=null)foreach(var p in tile.state.protectedPaint)
             {
+                if(p==null)continue;
                 var a=TerrainPainter.World(terrain,p.rect.x,p.rect.y);var b=TerrainPainter.World(terrain,p.rect.xMax-1,p.rect.yMax-1);Outline(new Rect(a,b-a),Color.magenta);
             }
             if(walk&&section==7&&player && Event.current.type==EventType.Repaint)
