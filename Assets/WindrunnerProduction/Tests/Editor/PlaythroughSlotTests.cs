@@ -49,6 +49,95 @@ namespace Windrunner.Production.Tests
             Assert.Throws<InvalidDataException>(()=>slots.Open(a.slotId));
             Assert.AreEqual("{\"version\":99}",File.ReadAllText(FileFor(a.slotId)));
         }
+        [Test,Platform("Win")] public void FailedReservePublicationLeavesAuthorityAndSlotRetryable()
+        {
+            var slot=slots.Create("Held destination");
+            var store=slots.Open(slot.slotId);
+            using var service=new ProgressionService(new ProgressionDefinitions(),"local-player",store);
+            var loadout=new DaggerLoadout{initialized=true,equipped="farseer"};
+            loadout.owned.Add("farseer");loadout.SetStored("farseer",9);
+            service.SaveDaggers(loadout);
+            var previous=slots.Inspect(slot.slotId).Record.revision;
+            int notifications=0;
+            service.Changed+=()=>notifications++;
+            // On Windows an open reader without delete sharing allows Inspect but blocks File.Replace.
+            using(var reader=new FileStream(FileFor(slot.slotId),FileMode.Open,FileAccess.Read,FileShare.Read))
+                Assert.Throws<IOException>(()=>service.SetDaggerReserve("farseer",13));
+            Assert.Zero(notifications);
+            Assert.AreEqual(9,service.StoredDaggerReserve("farseer"));
+            Assert.AreEqual(previous,slots.Inspect(slot.slotId).Record.revision);
+            Assert.AreEqual(9,slots.Open(slot.slotId).Load().daggers.Stored("farseer"));
+            Assert.IsEmpty(Directory.GetFiles(Path.GetDirectoryName(FileFor(slot.slotId)),"*.tmp"));
+            service.SetDaggerReserve("farseer",13);
+            Assert.AreEqual(1,notifications);
+            Assert.AreEqual(13,slots.Open(slot.slotId).Load().daggers.Stored("farseer"));
+        }
+
+        [Test,Platform("Win")] public void FailedOverwriteOfRecoveredSlotCannotPublishAnUncommittedBackup()
+        {
+            var original=slots.Create("Original");
+            string file=FileFor(original.slotId);
+            File.WriteAllText(file,"interrupted");
+            Assert.IsTrue(slots.Inspect(original.slotId).Recovered);
+            using(var held=new FileStream(file,FileMode.Open,FileAccess.Read,FileShare.Read))
+                Assert.Throws<IOException>(()=>slots.Create("Replacement",original.slotId,true,world:PlaythroughSlots.Zone01));
+            var after=slots.Inspect(original.slotId);
+            Assert.IsTrue(after.Recovered);
+            Assert.AreEqual(original.revision,after.Record.revision);
+            Assert.AreEqual(PlaythroughSlots.World,after.Record.world);
+            slots.Create("Replacement",original.slotId,true,world:PlaythroughSlots.Zone01);
+            File.WriteAllText(file,"interrupted again");
+            Assert.AreEqual(PlaythroughSlots.Zone01,slots.Inspect(original.slotId).Record.world);
+        }
+
+        [Test] public void LargeUnicodeRecordSurvivesBothPublishedCopies()
+        {
+            string content=new string('界',30000)+"🌬";
+            var slot=slots.Create("Long journey");
+            var store=slots.Open(slot.slotId);
+            var state=store.Load();state.equipmentReferences.Add(content);
+            store.Commit(state);store.Commit(state);
+            Assert.AreEqual(content,slots.Open(slot.slotId).Load().equipmentReferences[0]);
+            File.WriteAllText(FileFor(slot.slotId),"broken");
+            Assert.AreEqual(content,slots.Open(slot.slotId).Load().equipmentReferences[0]);
+        }
+
+        [Test,Platform("Win")] public void CommittedOverwriteRetainsPreviousRecoveryIfReseedingFails()
+        {
+            var original=slots.Create("Previous");
+            string file=FileFor(original.slotId);
+            using(var held=new FileStream(file+".bak",FileMode.Open,FileAccess.Read,FileShare.Read))
+            {
+                UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Warning,new System.Text.RegularExpressions.Regex("Could not refresh the recovery copy"));
+                slots.Create("New",original.slotId,true,world:PlaythroughSlots.Zone01);
+            }
+            Assert.AreEqual("New",slots.Inspect(original.slotId).Record.displayName);
+            File.WriteAllText(file,"broken");
+            Assert.IsTrue(slots.Inspect(original.slotId).Recovered);
+            Assert.AreEqual(original.revision,slots.Inspect(original.slotId).Record.revision);
+        }
+
+        [Test] public void MissingPrimaryUsesPreviousDurableRewardAndIgnoresUnpublishedStaging()
+        {
+            var slot=slots.Create("Recovery");
+            var store=slots.Open(slot.slotId);
+            var state=store.Load();
+            state.daggers=new DaggerLoadout{initialized=true,equipped="farseer"};
+            state.daggers.owned.Add("farseer");
+            state.daggers.SetStored("farseer",9);store.Commit(state);
+            state.daggers.SetStored("farseer",13);store.Commit(state);
+            string primary=FileFor(slot.slotId);
+            File.Move(primary,primary+".orphan.tmp");
+            var recovered=slots.Inspect(slot.slotId);
+            Assert.IsTrue(recovered.Recovered);
+            Assert.AreEqual(9,recovered.Record.progression.daggers.Stored("farseer"));
+            var reopened=slots.Open(slot.slotId);
+            var next=reopened.Load();next.daggers.SetStored("farseer",12);reopened.Commit(next);
+            Assert.AreEqual(12,slots.Open(slot.slotId).Load().daggers.Stored("farseer"));
+            File.WriteAllText(primary,"truncated");
+            Assert.AreEqual(9,slots.Open(slot.slotId).Load().daggers.Stored("farseer"));
+        }
+
         [Test] public void LegacyImportCopiesResolvedProgressAndRejectsFixtureIdentity()
         {
             var legacy=new ProgressionState{playerId="local-player"};

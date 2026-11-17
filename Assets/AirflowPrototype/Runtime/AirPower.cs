@@ -1,4 +1,5 @@
 using System;
+using Windrunner.Production.Diagnostics;
 using UnityEngine;
 
 namespace AirflowPrototype
@@ -104,8 +105,10 @@ namespace AirflowPrototype
 
         public void GrantReward(AirPowerReward reward, float amount)
         {
+            RewardProbe.Begin(RewardProbe.Phase.Main);
             if (!settings || reward == null || !(amount > 0) || float.IsInfinity(amount) || !reward.Claim()) return;
             float excess = State.RestoreReward(amount, settings.maxAirPower, settings.dashRestartFraction);
+            RewardProbe.End(RewardProbe.Phase.Main);
             if (excess > 0) RewardOverflow?.Invoke(reward.Source, excess);
         }
 

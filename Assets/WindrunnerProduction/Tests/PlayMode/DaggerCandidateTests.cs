@@ -42,6 +42,44 @@ namespace Windrunner.Production.Tests
             SceneManager.SetActiveScene(SceneManager.CreateScene("Dagger candidate teardown"));
             yield return SceneManager.UnloadSceneAsync(previous);
         }
+        [UnityTest] public IEnumerator SaveBetweenSlingAndNodeDeliveriesCapturesOnlyEarnedReserve()
+        {
+            string folder=Path.Combine(Path.GetTempPath(),"Windrunner-returns-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return StartCandidateSlot(folder);
+                var session=Session();
+                var slots=Prop<PlaythroughSlots>(session,"Slots");
+                string id=Prop<string>(session,"SlotId");
+                var player=DaggerOwner();var gear=Gear(player);var power=Resource(player);
+                InvokeRule(gear,"Equip",Definition(gear,"farseer"));
+                Call(power,"Refill");Call(power,"Spend",5f);
+                var source=Type.GetType("AirflowPrototype.AirPowerRewardSource, Assembly-CSharp",true);
+                var sling=Activator.CreateInstance(Type.GetType("AirflowPrototype.AirPowerReward, Assembly-CSharp",true),Enum.Parse(source,"SlingNode"));
+                Call(power,"GrantReward",sling,14f);Call(power,"GrantReward",sling,14f);
+                Call(session,"Save");
+                Assert.AreEqual(9,slots.Open(id).Load().daggers.Stored("farseer"));
+                Call(session,"SaveCopy","Between deliveries",null,false);
+                string copied=slots.List().Single(x=>x.Id!=id).Id;
+                NodeReturn(power,4);
+                Assert.AreEqual(13,slots.Open(id).Load().daggers.Stored("farseer"));
+                Call(power,"Spend",3f);
+                Assert.IsTrue((bool)InvokeRule(gear,"TryActivate",true,Time.frameCount));
+                Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.001);
+                Assert.Zero(slots.Open(id).Load().daggers.Stored("farseer"));
+                Call(session,"Load",copied);yield return Changed(World,session);
+                var saved=Prop<ProgressionService>(Session(),"Progression");
+                Assert.AreEqual("farseer",saved.EquippedDagger);
+                Assert.AreEqual(9,saved.StoredDaggerReserve("farseer"));
+            }
+            finally
+            {
+                if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+            yield return UnloadCandidateWorld();
+        }
+
         [UnityTest] public IEnumerator LateRewardDuringSameSlotLoadAndRepeatedCopies()
         {
             string folder=Path.Combine(Path.GetTempPath(),"Windrunner-copy-"+Guid.NewGuid().ToString("N"));
@@ -103,6 +141,23 @@ namespace Windrunner.Production.Tests
                 Assert.Zero(Prop<ProgressionService>(Session(),"Progression").StoredDaggerReserve("farseer"));
             }
             finally{if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);if(Directory.Exists(folder))Directory.Delete(folder,true);}
+            yield return UnloadCandidateWorld();
+        }
+
+        [UnityTest,Category("Profiling")] public IEnumerator RenderedRewardPersistence()
+        {
+            string folder=Path.Combine(Path.GetTempPath(),"Windrunner-reward-profile-"+Guid.NewGuid().ToString("N"));
+            try
+            {
+                yield return StartCandidateSlot(folder);
+                var type=Type.GetType("Windrunner.Daggers.RewardBenchmark, Assembly-CSharp",true);
+                yield return (IEnumerator)type.GetMethod("Measure").Invoke(null,null);
+            }
+            finally
+            {
+                if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
             yield return UnloadCandidateWorld();
         }
 

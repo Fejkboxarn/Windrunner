@@ -173,7 +173,7 @@ namespace Windrunner.Frontend
             }
             catch{Busy=false;arriving=null;handoff.service?.Dispose();throw;}
         }
-#if UNITY_EDITOR
+#if UNITY_EDITOR || ENABLE_PROFILER
         public void UseTestDirectory(string directory)
         {
             if(!IsTitle || Busy)throw new InvalidOperationException();

@@ -1,4 +1,5 @@
 using System;
+using Windrunner.Production.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Windrunner.Production.Progression
     {
         public const string World = "starting-world", Arrival = "arrival", Zone01 = "zone-01";
         [Serializable] private sealed class Envelope { public int version; public string body, checksum; }
+        private static readonly UTF8Encoding SlotEncoding = new UTF8Encoding(false, true);
         private readonly string root;
         public PlaythroughSlots(string directory) { root = Path.GetFullPath(directory); }
         private string DirectoryFor(string id)
@@ -80,7 +82,7 @@ namespace Windrunner.Production.Progression
         private IDisposable LockWrites()
         {
             Directory.CreateDirectory(root);
-            return new FileStream(Path.Combine(root,"write.lock"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);
+            return new FileStream(Path.Combine(root,"write.lock"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None,1);
         }
         public PlaythroughRecord Create(string name, string replace=null, bool confirmed=false, ProgressionState import=null, string world=World)
         {
@@ -117,39 +119,92 @@ namespace Windrunner.Production.Progression
             public ProgressionState Load()=>ProgressionCodec.Decode(ProgressionCodec.Encode(record.progression));
             public void Commit(ProgressionState state)
             {
+                RewardProbe.Begin(RewardProbe.Phase.Lock);
                 using var writeLock=slots.LockWrites();
+                RewardProbe.End(RewardProbe.Phase.Lock);
+                RewardProbe.Begin(RewardProbe.Phase.Inspect);
                 var current=slots.Inspect(record.slotId);
+                RewardProbe.End(RewardProbe.Phase.Inspect);
                 if(current.Record?.revision!=record.revision)throw new IOException("Playthrough changed since it was loaded.");
                 var next=current.Record;
+                RewardProbe.Begin(RewardProbe.Phase.Validate);
                 next.progression=ProgressionCodec.Decode(ProgressionCodec.Encode(state));
+                RewardProbe.End(RewardProbe.Phase.Validate);
                 if(next.progression.playerId!=record.progression.playerId)throw new InvalidDataException("Player identity changed.");
                 slots.Write(next,!current.Recovered,false);record=next;
             }
+        }
+        private static void Publish(string staged, string destination, string backup)
+        {
+            if (File.Exists(destination)) File.Replace(staged,destination,backup);
+            else File.Move(staged,destination);
         }
         private void Write(PlaythroughRecord record,bool retainPrevious,bool newPlaythrough)
         {
             string directory=DirectoryFor(record.slotId);Directory.CreateDirectory(directory);
             string file=Path.Combine(directory,"session.json"),temp=file+"."+Guid.NewGuid().ToString("N")+".tmp";
             record.savedUtc=DateTime.UtcNow.Ticks;record.revision=Guid.NewGuid().ToString("N");
+            RewardProbe.Begin(RewardProbe.Phase.Serialize);
             string body=JsonUtility.ToJson(record);
             string json=JsonUtility.ToJson(new Envelope{version=1,body=body,checksum=Digest(body)});
+            RewardProbe.End(RewardProbe.Phase.Serialize);
             try
             {
-                using(var stream=new FileStream(temp,FileMode.CreateNew,FileAccess.Write,FileShare.None))
-                using(var writer=new StreamWriter(stream)){writer.Write(json);writer.Flush();stream.Flush(true);}
+                RewardProbe.Begin(RewardProbe.Phase.TempWrite);
+                using(var stream=new FileStream(temp,FileMode.CreateNew,FileAccess.Write,FileShare.None,1))
+                {
+                    // Avoid two stream buffers on small reward snapshots and a second full-size
+                    // byte array when a long-running playthrough grows large.
+                    if (json.Length <= 16384)
+                    {
+                        byte[] payload = SlotEncoding.GetBytes(json);
+                        stream.Write(payload, 0, payload.Length);
+                    }
+                    else
+                    {
+                        using var writer = new StreamWriter(stream, SlotEncoding, 1024, true);
+                        writer.Write(json);
+                    }
+                    RewardProbe.End(RewardProbe.Phase.TempWrite);
+                    RewardProbe.Begin(RewardProbe.Phase.Flush);
+                    stream.Flush(true);
+                    RewardProbe.End(RewardProbe.Phase.Flush);
+                }
                 if(newPlaythrough)
                 {
                     string backupTemp=temp+".bak";
                     try
                     {
                         File.Copy(temp,backupTemp);
-                        if(File.Exists(file+".bak")) File.Replace(backupTemp,file+".bak",null);
-                        else File.Move(backupTemp,file+".bak");
+                        using (var backupStream = new FileStream(backupTemp,FileMode.Open,FileAccess.Write,FileShare.None))
+                            backupStream.Flush(true);
+                        string backup = file+".bak";
+                        if (!File.Exists(file) && !File.Exists(backup))
+                        {
+                            // A fresh slot is recoverable even if interrupted before its primary appears.
+                            File.Move(backupTemp,backup);
+                            File.Move(temp,file);
+                        }
+                        else
+                        {
+                            // Until the replacement commits, the previous backup may be the only
+                            // readable snapshot. Never publish a proposed playthrough over that copy.
+                            Publish(temp,file,null);
+                            try { Publish(backupTemp,backup,null); }
+                            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
+                            {
+                                Debug.LogWarning("Playthrough saved. Could not refresh the recovery copy: "+e.Message);
+                            }
+                        }
                     }
                     finally { if(File.Exists(backupTemp))File.Delete(backupTemp); }
                 }
-                if(File.Exists(file))File.Replace(temp,file,retainPrevious?file+".bak":null);
-                else File.Move(temp,file);
+                else
+                {
+                    RewardProbe.Begin(RewardProbe.Phase.Publish);
+                    Publish(temp,file,retainPrevious?file+".bak":null);
+                    RewardProbe.End(RewardProbe.Phase.Publish);
+                }
             }
             finally {if(File.Exists(temp))File.Delete(temp);}
         }

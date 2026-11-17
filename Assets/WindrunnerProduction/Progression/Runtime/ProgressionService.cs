@@ -1,4 +1,5 @@
 using System;
+using Windrunner.Production.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,6 +26,15 @@ namespace Windrunner.Production.Progression
         public bool OwnsDagger(string id)=>state.daggers?.owned.Contains(id)==true;
         public float DaggerCooldownRemaining(string effectId)=>state.daggers?.Remaining(effectId)??0f;
         public void AdvanceDaggerCooldowns(float seconds)=>state.daggers?.Advance(seconds);
+        public void SetDaggerReserve(string pairId, float amount) => Commit(next =>
+        {
+            if (string.IsNullOrWhiteSpace(pairId) || !(amount >= 0) || float.IsInfinity(amount))
+                throw new ArgumentException("Invalid dagger reserve.");
+            if (next.daggers == null || !next.daggers.owned.Contains(pairId))
+                throw new InvalidOperationException("Dagger is not owned.");
+            next.daggers.SetStored(pairId, amount);
+            return true;
+        });
         public void SaveDaggers(DaggerLoadout record)=>Commit(next=>{
             next.daggers=UnityEngine.JsonUtility.FromJson<DaggerLoadout>(UnityEngine.JsonUtility.ToJson(record));
             return true;
@@ -62,6 +72,7 @@ namespace Windrunner.Production.Progression
             var next = ProgressionCodec.Copy(state);
             if (!operation(next)) return false;
             store.Commit(next); state = next;
+            RewardProbe.Begin(RewardProbe.Phase.Notify);
             publishing = true;
             try
             {
@@ -69,6 +80,7 @@ namespace Windrunner.Production.Progression
                     try { listener(); } catch (Exception ex) { try { ListenerFailed?.Invoke(ex); } catch { /* Diagnostic callbacks cannot invalidate committed state. */ } }
             }
             finally { publishing = false; }
+            RewardProbe.End(RewardProbe.Phase.Notify);
             return true;
         }
         public QuestStatus Status(string id) => Status(state, id);

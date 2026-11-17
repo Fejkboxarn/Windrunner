@@ -1,4 +1,5 @@
 using System;
+using Windrunner.Production.Diagnostics;
 using AirflowPrototype;
 using Windrunner.Production.Progression;
 namespace Windrunner.Daggers
@@ -21,15 +22,17 @@ namespace Windrunner.Daggers
         }
         void Collect(AirPowerRewardSource source, float excess)
         {
+            RewardProbe.Begin(RewardProbe.Phase.OverflowRules);
             var pair = Equipped;
             if (!pair || !(pair.active is SecondWind wind) || (wind.eligibleSources & source) == 0) return;
             float old = Stored(pair);
             float next = UnityEngine.Mathf.Min(wind.capacity, old + excess * wind.storageRatio);
             if (next == old) return;
-            var state = progression.ReadDaggers();
-            state.SetStored(pair.id, next);
-            progression.SaveDaggers(state);
+            RewardProbe.End(RewardProbe.Phase.OverflowRules);
+            progression.SetDaggerReserve(pair.id, next);
+            RewardProbe.Begin(RewardProbe.Phase.ReserveHud);
             ReserveChanged?.Invoke(next - old);
+            RewardProbe.End(RewardProbe.Phase.ReserveHud);
         }
         public bool Owns(DaggerPair pair)=>pair && progression.OwnsDagger(pair.id);
         public DaggerEquipment(DaggerCatalog catalog,ProgressionService service,AirPower resource)
@@ -93,9 +96,7 @@ namespace Windrunner.Daggers
             float stored = Stored(pair);
             if (pair.active is SecondWind wind) stored = UnityEngine.Mathf.Min(stored, wind.capacity);
             if (pair.active.Unavailable(power, stored) != null) return false;
-            var state = progression.ReadDaggers();
-            state.SetStored(pair.id, 0);
-            progression.SaveDaggers(state);
+            progression.SetDaggerReserve(pair.id, 0);
             lastActivation = pressFrame;
             pair.active.Execute(power, stored);
             ReserveChanged?.Invoke(-stored);
