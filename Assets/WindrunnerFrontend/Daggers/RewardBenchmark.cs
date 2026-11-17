@@ -45,6 +45,23 @@ namespace Windrunner.Daggers
             Application.Quit();
         }
 
+        // Kernel/user times exclude time the gameplay thread spends blocked in durable I/O.
+        // Windows accounts these coarsely, so aggregate differences across all measured samples.
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        static extern IntPtr GetCurrentThread();
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        static extern bool GetThreadTimes(IntPtr thread,out long created,out long exited,out long kernel,out long user);
+#endif
+        static long CurrentThreadCpuTicks()
+        {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            if (GetThreadTimes(GetCurrentThread(),out _,out _,out long kernel,out long user))
+                return kernel+user;
+#endif
+            return -1;
+        }
+
         static double Percentile(double[] values, double fraction)
         {
             Array.Sort(values);
@@ -100,6 +117,8 @@ namespace Windrunner.Daggers
                 for(int j=0;j<phases.Length;j++) phases[j]=new double[samples];
                 int count=mode=="burst"?4:1;
                 int writes=0;
+                long cpuTicks=0;
+                bool cpuAvailable=true;
                 for(int i=-4;i<samples;i++)
                 {
                     power.Refill();
@@ -107,6 +126,7 @@ namespace Windrunner.Daggers
                     yield return null;
                     Array.Clear(RewardProbe.Ticks,0,phases.Length);
                     RewardProbe.Writes=0;
+                    long cpuStart=CurrentThreadCpuTicks();
                     long start=Stopwatch.GetTimestamp();
                     RewardProbe.Active=true;
                     try
@@ -115,8 +135,11 @@ namespace Windrunner.Daggers
                     }
                     finally { RewardProbe.Active=false; }
                     long elapsed=Stopwatch.GetTimestamp()-start;
+                    long cpuEnd=CurrentThreadCpuTicks();
                     if(i>=0)
                     {
+                        cpuAvailable &= cpuStart>=0 && cpuEnd>=cpuStart;
+                        cpuTicks += cpuEnd-cpuStart;
                         times[i]=elapsed*1000d/Stopwatch.Frequency;
                         writes+=RewardProbe.Writes;
                         for(int j=0;j<phases.Length;j++) phases[j][i]=RewardProbe.Ticks[j]*1000d/Stopwatch.Frequency;
@@ -131,7 +154,7 @@ namespace Windrunner.Daggers
                     }
                     yield return null;
                 }
-                string breakdown="";
+                string breakdown=cpuAvailable ? FormattableString.Invariant($" threadCpuMeanMs={TimeSpan.FromTicks(cpuTicks).TotalMilliseconds/samples:F3}") : " threadCpuMeanMs=unavailable";
                 for(int j=0;j<phases.Length;j++)
                     breakdown+=" "+(RewardProbe.Phase)j+"="+Percentile(phases[j],.5).ToString("F3",System.Globalization.CultureInfo.InvariantCulture);
                 Debug.Log(FormattableString.Invariant($"REWARD_PROFILE {mode} n={samples} writes={writes} ms50={Percentile(times,.5):F3} ms95={Percentile(times,.95):F3} frameBytes50={Percentile(bytes,.5)} frame50={Percentile(frames,.5):F2} frame95={Percentile(frames,.95):F2}{breakdown}"));

@@ -22,6 +22,7 @@ try {
     }
     $id = $fixture[0].Groups[2].Value
     $revision = $fixture[0].Groups[3].Value
+    $snapshots = [ordered]@{}
     foreach ($name in 'session.json','session.json.bak') {
         $envelope = Get-Content -LiteralPath (Join-Path $root "$id/$name") -Raw -Encoding UTF8 | ConvertFrom-Json
         $hash = [Security.Cryptography.SHA256]::Create()
@@ -33,7 +34,10 @@ try {
             (($name -eq 'session.json.bak') -ne ($record.revision -eq $revision))) {
             throw "Invalid quit snapshot in $name. Fixture retained."
         }
+        $snapshots[$name] = [ordered]@{revision=$record.revision; checksum=$digest; reserve=$reserve[0].amount}
     }
+    [ordered]@{slot=$id; beforeQuit=$revision; world='zone-01'; equipped='farseer'; validated=$snapshots} |
+        ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $project "Logs/ProductionMigration/$Label-quit-check.json")
     Write-Output 'Graceful quit published a new revision and retained the preceding verified 13-unit reserve as backup.'
     Remove-Item -LiteralPath $root -Recurse -Force
 }

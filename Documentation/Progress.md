@@ -357,3 +357,7 @@ Unity 6000.6.2f1 passed 86/86 Edit Mode and 39/39 Play Mode cases. The separate 
 ### Unified dagger integration
 
 The local `codex/dagger-integration` branch fast-forwarded from unified `cc31b179` to dagger `f7f9552d`. Checkpoint `a3191ffc` fixes a reproduced stale same-slot handoff during a late return and retains the selected portrait models on equip. Checkpoint `81dbef4a` adds disposable slot-cycle, live tuning, cinematic/input, Dash and rendered lifecycle regressions. Unity passed 137 distinct cases and the serialized gate reported zero failures. Both Windows Development targets built and passed rendered startup. See the [integration report and manual checklist](DaggerIntegrationCandidate.md) and [test evidence](DaggerIntegrationResults.json) for warning counts, measured costs and outstanding human acceptance.
+
+### Reward persistence and interrupted overwrites
+
+Checkpoint `cf22d5bf` reduces reserve transaction allocations and fixes a reproduced overwrite that could replace the only valid recovery copy. Immediate durability remains in effect. Unity passed 91/91 Edit Mode, 41/41 Play Mode and 3/3 selected rendered cases. The Windows player still shows a storage-bound hitch on four overflow deliveries. The [reward persistence report](RewardPersistence.md) records paired timings, shutdown and checksum checks, the Windows build and remaining manual acceptance.

@@ -1,0 +1,416 @@
+{
+  "baseline": "3b9bf18c",
+  "fixCheckpoint": "cf22d5bf",
+  "unity": "6000.6.2f1",
+  "runs": {
+    "rewardOverwriteRepro-EditMode": {
+      "result": "Failed(Child)",
+      "total": "1",
+      "passed": "0",
+      "failed": "1",
+      "skipped": "0",
+      "sha256": "62d4cf5cd46bb7a85acc7da5b7b3c4e7490adc39da6a5c3b3c46e3523a2e6a53"
+    },
+    "rewardVerified-EditMode": {
+      "result": "Passed",
+      "total": "91",
+      "passed": "91",
+      "failed": "0",
+      "skipped": "0",
+      "sha256": "278c16e719cde1a3dfd1b5bbbd913ef39190c6f7b8022a5921ec23752d9c6a3b"
+    },
+    "rewardVerified-PlayMode": {
+      "result": "Passed",
+      "total": "41",
+      "passed": "41",
+      "failed": "0",
+      "skipped": "0",
+      "sha256": "3fea6c347815e82a0bc2ec176cae8991915038bcf1b80523e91af06559b11cad"
+    },
+    "rewardVerifiedRender-PlayMode": {
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0",
+      "sha256": "5f0bbee9877c44beca6b447f1a3d2949a6161572461cee364f9e36ec1449dbd8"
+    },
+    "rewardsBefore-PlayMode": {
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "sha256": "bf2d2c96c8308ef6b8e8eba61e42106265f3c99c87ad347d4a726e607d5b6590"
+    },
+    "rewardsAfter-PlayMode": {
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "sha256": "214347b1f7090254369d1025bd58a9b8270a8bdb6d4ec76f96a189c694ca290f"
+    }
+  },
+  "measurements": {
+    "EditorBefore": {
+      "logSha256": "dd9a596254f2e5d2d2c8c17e80420dee3f2c9c36ba19cd9ed44fb8cfd52535c4",
+      "traversal": {
+        "frames": 120,
+        "distance": 3.34,
+        "frame50": 6.02,
+        "frame95": 6.04,
+        "frameBytes50": 137025
+      },
+      "burst": {
+        "n": 40,
+        "writes": 160,
+        "ms50": 33.484,
+        "ms95": 43.725,
+        "frameBytes50": 284738,
+        "frame50": 34.66,
+        "frame95": 44.93,
+        "threadCpuMeanMs": 6.25,
+        "Main": 0.002,
+        "OverflowRules": 0.06,
+        "Notify": 0.493,
+        "ReserveHud": 0.172,
+        "Lock": 0.861,
+        "Inspect": 0.817,
+        "Validate": 0.083,
+        "Serialize": 0.092,
+        "TempWrite": 0.92,
+        "Flush": 9.646,
+        "Publish": 19.534
+      },
+      "single": {
+        "n": 40,
+        "writes": 40,
+        "ms50": 8.783,
+        "ms95": 9.675,
+        "frameBytes50": 72499,
+        "frame50": 9.88,
+        "frame95": 11.07,
+        "threadCpuMeanMs": 1.563,
+        "Main": 0.0,
+        "OverflowRules": 0.024,
+        "Notify": 0.127,
+        "ReserveHud": 0.043,
+        "Lock": 0.28,
+        "Inspect": 0.213,
+        "Validate": 0.023,
+        "Serialize": 0.024,
+        "TempWrite": 0.251,
+        "Flush": 2.275,
+        "Publish": 5.149
+      },
+      "main-only": {
+        "n": 40,
+        "writes": 0,
+        "ms50": 0.001,
+        "ms95": 0.002,
+        "frameBytes50": 138628,
+        "frame50": 6.02,
+        "frame95": 6.04,
+        "threadCpuMeanMs": 0.0,
+        "Main": 0.0,
+        "OverflowRules": 0.0,
+        "Notify": 0.0,
+        "ReserveHud": 0.0,
+        "Lock": 0.0,
+        "Inspect": 0.0,
+        "Validate": 0.0,
+        "Serialize": 0.0,
+        "TempWrite": 0.0,
+        "Flush": 0.0,
+        "Publish": 0.0
+      }
+    },
+    "EditorAfter": {
+      "logSha256": "180aa6864dbd86d6ab1fbf86ae1cd2c4abe4a070acd1c5c645243be66bc920db",
+      "traversal": {
+        "frames": 120,
+        "distance": 3.34,
+        "frame50": 6.02,
+        "frame95": 6.05,
+        "frameBytes50": 135490
+      },
+      "burst": {
+        "n": 40,
+        "writes": 160,
+        "ms50": 34.457,
+        "ms95": 44.556,
+        "frameBytes50": 244235,
+        "frame50": 35.51,
+        "frame95": 45.57,
+        "threadCpuMeanMs": 7.422,
+        "Main": 0.002,
+        "OverflowRules": 0.002,
+        "Notify": 0.482,
+        "ReserveHud": 0.163,
+        "Lock": 0.86,
+        "Inspect": 0.811,
+        "Validate": 0.083,
+        "Serialize": 0.09,
+        "TempWrite": 0.915,
+        "Flush": 9.438,
+        "Publish": 21.097
+      },
+      "single": {
+        "n": 40,
+        "writes": 40,
+        "ms50": 8.002,
+        "ms95": 8.958,
+        "frameBytes50": 62504,
+        "frame50": 9.04,
+        "frame95": 10.39,
+        "threadCpuMeanMs": 0.781,
+        "Main": 0.0,
+        "OverflowRules": 0.0,
+        "Notify": 0.115,
+        "ReserveHud": 0.038,
+        "Lock": 0.275,
+        "Inspect": 0.213,
+        "Validate": 0.024,
+        "Serialize": 0.024,
+        "TempWrite": 0.241,
+        "Flush": 1.326,
+        "Publish": 5.425
+      },
+      "main-only": {
+        "n": 40,
+        "writes": 0,
+        "ms50": 0.001,
+        "ms95": 0.001,
+        "frameBytes50": 135461,
+        "frame50": 6.02,
+        "frame95": 6.05,
+        "threadCpuMeanMs": 0.0,
+        "Main": 0.0,
+        "OverflowRules": 0.0,
+        "Notify": 0.0,
+        "ReserveHud": 0.0,
+        "Lock": 0.0,
+        "Inspect": 0.0,
+        "Validate": 0.0,
+        "Serialize": 0.0,
+        "TempWrite": 0.0,
+        "Flush": 0.0,
+        "Publish": 0.0
+      }
+    },
+    "WindowsBefore": {
+      "logSha256": "b001101661418eace6d82666b2277879da63966a760620045dba7661df431f02",
+      "traversal": {
+        "frames": 120,
+        "distance": 3.34,
+        "frame50": 6.02,
+        "frame95": 6.02,
+        "frameBytes50": 410
+      },
+      "burst": {
+        "n": 40,
+        "writes": 160,
+        "ms50": 34.722,
+        "ms95": 37.893,
+        "frameBytes50": 280870,
+        "frame50": 35.48,
+        "frame95": 38.71,
+        "threadCpuMeanMs": 6.25,
+        "Main": 0.002,
+        "OverflowRules": 0.051,
+        "Notify": 0.432,
+        "ReserveHud": 0.121,
+        "Lock": 0.812,
+        "Inspect": 0.738,
+        "Validate": 0.074,
+        "Serialize": 0.082,
+        "TempWrite": 0.908,
+        "Flush": 9.632,
+        "Publish": 21.084
+      },
+      "single": {
+        "n": 40,
+        "writes": 40,
+        "ms50": 9.057,
+        "ms95": 9.992,
+        "frameBytes50": 70545,
+        "frame50": 9.97,
+        "frame95": 10.78,
+        "threadCpuMeanMs": 1.953,
+        "Main": 0.0,
+        "OverflowRules": 0.021,
+        "Notify": 0.111,
+        "ReserveHud": 0.033,
+        "Lock": 0.258,
+        "Inspect": 0.193,
+        "Validate": 0.02,
+        "Serialize": 0.021,
+        "TempWrite": 0.245,
+        "Flush": 2.271,
+        "Publish": 5.457
+      },
+      "main-only": {
+        "n": 40,
+        "writes": 0,
+        "ms50": 0.001,
+        "ms95": 0.001,
+        "frameBytes50": 3880,
+        "frame50": 6.02,
+        "frame95": 6.03,
+        "threadCpuMeanMs": 0.0,
+        "Main": 0.001,
+        "OverflowRules": 0.0,
+        "Notify": 0.0,
+        "ReserveHud": 0.0,
+        "Lock": 0.0,
+        "Inspect": 0.0,
+        "Validate": 0.0,
+        "Serialize": 0.0,
+        "TempWrite": 0.0,
+        "Flush": 0.0,
+        "Publish": 0.0
+      }
+    },
+    "WindowsAfter": {
+      "logSha256": "3915f7da2a75cc6216da0a421cf561026a4dbb5430c8592c5ba3c266b8e3bdd5",
+      "traversal": {
+        "frames": 120,
+        "distance": 3.34,
+        "frame50": 6.02,
+        "frame95": 6.02,
+        "frameBytes50": 410
+      },
+      "burst": {
+        "n": 40,
+        "writes": 160,
+        "ms50": 35.002,
+        "ms95": 42.898,
+        "frameBytes50": 240411,
+        "frame50": 35.94,
+        "frame95": 43.64,
+        "threadCpuMeanMs": 6.25,
+        "Main": 0.002,
+        "OverflowRules": 0.002,
+        "Notify": 0.455,
+        "ReserveHud": 0.13,
+        "Lock": 0.811,
+        "Inspect": 0.772,
+        "Validate": 0.076,
+        "Serialize": 0.083,
+        "TempWrite": 0.894,
+        "Flush": 9.639,
+        "Publish": 21.328
+      },
+      "single": {
+        "n": 40,
+        "writes": 40,
+        "ms50": 7.988,
+        "ms95": 9.811,
+        "frameBytes50": 61587,
+        "frame50": 8.89,
+        "frame95": 10.7,
+        "threadCpuMeanMs": 1.563,
+        "Main": 0.001,
+        "OverflowRules": 0.0,
+        "Notify": 0.12,
+        "ReserveHud": 0.036,
+        "Lock": 0.263,
+        "Inspect": 0.208,
+        "Validate": 0.022,
+        "Serialize": 0.021,
+        "TempWrite": 0.25,
+        "Flush": 1.358,
+        "Publish": 5.443
+      },
+      "main-only": {
+        "n": 40,
+        "writes": 0,
+        "ms50": 0.001,
+        "ms95": 0.001,
+        "frameBytes50": 1828,
+        "frame50": 6.02,
+        "frame95": 6.02,
+        "threadCpuMeanMs": 0.0,
+        "Main": 0.0,
+        "OverflowRules": 0.0,
+        "Notify": 0.0,
+        "ReserveHud": 0.0,
+        "Lock": 0.0,
+        "Inspect": 0.0,
+        "Validate": 0.0,
+        "Serialize": 0.0,
+        "TempWrite": 0.0,
+        "Flush": 0.0,
+        "Publish": 0.0
+      }
+    }
+  },
+  "windows": {
+    "rewardsBefore": {
+      "result": "Succeeded",
+      "errors": 0,
+      "warnings": 24,
+      "scenes": [
+        "Assets/WindrunnerFrontend/Scenes/MainMenu.unity",
+        "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
+        "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
+      ],
+      "seconds": 23.9909204,
+      "sameWarningHeadlinesAsIntegratedDagger": true,
+      "quitVerification": {
+        "slot": "a20f9e658416470aab446288fb6af639",
+        "beforeQuit": "6e0a6419decd4df2bc2d3c6fed0be62c",
+        "world": "zone-01",
+        "equipped": "farseer",
+        "validated": {
+          "session.json": {
+            "revision": "2fc8c52ce13c48e19c15cae425772429",
+            "checksum": "DNj7ezHCleuXav+GMP9zERMiYePKPBy120RoClSEPts=",
+            "reserve": 13.0
+          },
+          "session.json.bak": {
+            "revision": "6e0a6419decd4df2bc2d3c6fed0be62c",
+            "checksum": "d5M6dYf7IXKSqOT1LOgOa9p58eXQYqF0hGJJbakT0UQ=",
+            "reserve": 13.0
+          }
+        }
+      }
+    },
+    "rewardsAfter": {
+      "result": "Succeeded",
+      "errors": 0,
+      "warnings": 24,
+      "scenes": [
+        "Assets/WindrunnerFrontend/Scenes/MainMenu.unity",
+        "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
+        "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
+      ],
+      "seconds": 24.0965916,
+      "sameWarningHeadlinesAsIntegratedDagger": true,
+      "quitVerification": {
+        "slot": "c6695f7041a74b19871b88ec600bf328",
+        "beforeQuit": "83ddd392eec247128d9d3399d9c3cab8",
+        "world": "zone-01",
+        "equipped": "farseer",
+        "validated": {
+          "session.json": {
+            "revision": "3f2195966dca476a81f5ce56e7444dce",
+            "checksum": "RF3byI1OV7EsTwRyc+WmkIe9LJOAKgw4dPbanIUbbdU=",
+            "reserve": 13.0
+          },
+          "session.json.bak": {
+            "revision": "83ddd392eec247128d9d3399d9c3cab8",
+            "checksum": "5xDVvS1/v2kF9EbsIKcZ5jhh1eWikrL0Uve9GzJZFPA=",
+            "reserve": 13.0
+          }
+        }
+      }
+    }
+  },
+  "serialized": {
+    "baseline": "7bfdfe5e",
+    "sourceContracts": 65,
+    "failures": []
+  }
+}
