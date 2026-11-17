@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
@@ -18,9 +19,20 @@ namespace PortableAnimation
         private readonly AvatarMask fullBodyMask;
         private PlayableGraph graph;
         private AnimationLayerMixerPlayable actions;
-        private AnimationClipPlayable[] clips;
+        private sealed class PoseLayer
+        {
+            public int action;
+            public ActionMotionContext context;
+            public AnimationClip clip;
+            public AvatarMask mask;
+            public float weight, share, lengthRatio;
+            public AnimationClipPlayable playable;
+        }
+        private readonly List<PoseLayer> layers = new List<PoseLayer>();
+        private readonly bool[,] available;
+        private ActionMotionContext context;
         private readonly PortableActionPlayback playback;
-        private readonly float[] layerWeights;
+
         private int lastFrame = -1;
 
         public bool IsLoopingSlot(int index) => playback.IsLoopingSlot(index);
@@ -35,22 +47,26 @@ namespace PortableAnimation
         public void ReadRecordingPose(out RecordingPose pose)
         {
             pose = new RecordingPose { state = ground.State, cycles = ground.CyclesPerSecond,
-                walk = ground.WalkBlend, run = ground.RunBlend };
+                context = context, walk = ground.WalkBlend, run = ground.RunBlend };
             ground.ReadDominant(out pose.clip, out pose.weight, out pose.direction);
-            for (int i = 0; i < LiveActionCount; i++)
+            for (int i = 0; i < layers.Count; i++)
             {
+                var layer = layers[i];
                 float w = actions.GetInputWeight(i + 1);
                 if (w <= pose.actionWeight) continue;
-                var entry = actionProfile.Action(i);
+                var entry = actionProfile.Action(layer.action);
                 pose.actionWeight = w;
                 pose.action = entry.id;
-                pose.mask = entry.mask;
-                pose.actionSeconds = playback.ClipTime(i);
+                pose.mask = layer.mask;
+                pose.actionClip = layer.clip;
+                pose.actionSeconds = (float)layer.playable.GetTime();
             }
         }
         public struct RecordingPose
         {
             public GroundMotionState state;
+            public ActionMotionContext context;
+            public AnimationClip actionClip;
             public AnimationClip clip;
             public int direction;
             public float weight, cycles, walk, run, actionWeight, actionSeconds;
@@ -69,12 +85,17 @@ namespace PortableAnimation
             motionProfile.AssertStandaloneValid();
             optionalActions?.AssertValid();
             actionProfile = optionalActions;
-            layerWeights = new float[LiveActionCount];
+            available = new bool[LiveActionCount,3];
             var timings = new PortableActionPlayback.Timing[LiveActionCount];
             for (int i = 0; i < timings.Length; i++)
             {
                 var action = actionProfile.Action(i);
-                layerWeights[i] = action.blendWeight;
+                if (action.IsPlayable)
+                {
+                    layers.Add(new PoseLayer {action=i, clip=action.clip,mask=action.mask,weight=action.blendWeight,share=1});
+                    AddVariant(i,ActionMotionContext.Stationary,action.stationary);
+                    AddVariant(i,ActionMotionContext.Airborne,action.airborne);
+                }
                 timings[i] = new PortableActionPlayback.Timing(action.clip != null ? action.clip.length : 0f,
                     action.playbackSpeed, action.blendInSeconds, action.blendOutSeconds, action.priority,
                     action.IsPlayable, action.loopUntilCanceled, action.allowSameActionRestart, action.interruptible);
@@ -94,25 +115,18 @@ namespace PortableAnimation
 
                 if (LiveActionCount > 0)
                 {
-                    actions = AnimationLayerMixerPlayable.Create(graph, LiveActionCount + 1);
+                    actions = AnimationLayerMixerPlayable.Create(graph, layers.Count + 1);
                     graph.Connect(ground.Output, 0, actions, 0);
                     actions.SetInputWeight(0, 1f);
-                    clips = new AnimationClipPlayable[LiveActionCount];
-                    for (int i = 0; i < LiveActionCount; i++)
+                    for (int i=0;i<layers.Count;i++)
                     {
-                        if (!actionProfile.Action(i).IsPlayable) continue;
-                        clips[i] = AnimationClipPlayable.Create(graph,
-                            actionProfile.Action(i).clip);
-                        clips[i].SetSpeed(0d);
-                        clips[i].SetTime(0d);
-                        // A single tree: each action keeps its own masked layer
-                        // while outgoing phases fade back toward locomotion.
-                        actions.SetLayerMaskFromAvatarMask((uint)(i + 1), actionProfile.Action(i).mask != null
-                            ? actionProfile.Action(i).mask : fullBodyMask);
-                        if (!graph.Connect(clips[i], 0, actions, i + 1))
-                            throw new InvalidOperationException(
-                                "Action layer could not connect clip " + i);
-                        actions.SetInputWeight(i + 1, 0f);
+                        var layer=layers[i];
+                        layer.lengthRatio=layer.clip.length/actionProfile.Action(layer.action).clip.length;
+                        layer.playable=AnimationClipPlayable.Create(graph,layer.clip);
+                        layer.playable.SetSpeed(0);
+                        actions.SetLayerMaskFromAvatarMask((uint)(i+1),layer.mask ? layer.mask : fullBodyMask);
+                        if (!graph.Connect(layer.playable,0,actions,i+1))
+                            throw new InvalidOperationException("Could not connect action pose "+layer.clip.name);
                     }
                     finalPose = actions;
                 }
@@ -137,16 +151,26 @@ namespace PortableAnimation
                 index >= actionProfile.Count)
                 return false;
             if (!playback.Request(index)) return false;
-            clips[index].SetTime(0d);
+
             return true;
         }
 
-        public void Evaluate(in GroundMotionFrame motion)
+        private void AddVariant(int action, ActionMotionContext variant, ActionPoseOverride pose)
+        {
+            if (pose == null || !pose.Available) return;
+            available[action,(int)variant]=true;
+            layers.Add(new PoseLayer {action=action, context=variant, clip=pose.clip, mask=pose.mask, weight=pose.weight});
+        }
+
+        public void Evaluate(in GroundMotionFrame motion) => Evaluate(motion,motion.Locomotion.LocalVelocity.magnitude);
+        public void Evaluate(in GroundMotionFrame motion,float horizontalMetresPerSecond)
         {
             if (!graph.IsValid()) throw new ObjectDisposedException(nameof(GroundOnlyPipelineRuntime));
             if (motion.Locomotion.FrameId == lastFrame) return;
             lastFrame = motion.Locomotion.FrameId;
             ground.Tick(in motion);
+            if(actionProfile)
+                context=actionProfile.SelectContext(motion.Grounded,horizontalMetresPerSecond,context);
             UpdateAction(motion.Locomotion.DeltaTime);
             graph.Evaluate(motion.Locomotion.DeltaTime);
         }
@@ -162,12 +186,22 @@ namespace PortableAnimation
         private void UpdateAction(float dt)
         {
             if (LiveActionCount == 0) return;
-            playback.Tick(dt);
-            for (int i = 0; i < clips.Length; i++)
+            // Switch visual inputs on the existing action clock. A context change
+            // cannot request an action, emit feedback or restart its release.
+            float step = 1f - Mathf.Exp(-3f*dt/actionProfile.contextFadeSeconds);
+            for(int i=0;i<layers.Count;i++)
             {
-                if (!clips[i].IsValid()) continue;
-                clips[i].SetTime(playback.ClipTime(i));
-                actions.SetInputWeight(i + 1, layerWeights[i] * Mathf.Clamp01(playback.Weight(i)));
+                var layer=layers[i];
+                var target=available[layer.action,(int)context] ? context : ActionMotionContext.GroundedMoving;
+                float share=layer.context==target ? 1f : 0f;
+                layer.share=playback.Weight(layer.action)<=0 ? share : Mathf.Lerp(layer.share,share,step);
+            }
+            playback.Tick(dt);
+            for(int i=0;i<layers.Count;i++)
+            {
+                var layer=layers[i];
+                layer.playable.SetTime(playback.ClipTime(layer.action)*layer.lengthRatio);
+                actions.SetInputWeight(i+1,layer.share*layer.weight*playback.Weight(layer.action));
             }
         }
 

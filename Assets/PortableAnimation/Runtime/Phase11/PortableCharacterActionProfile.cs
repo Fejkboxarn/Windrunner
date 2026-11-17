@@ -4,6 +4,20 @@ using UnityEngine;
 
 namespace PortableAnimation
 {
+    public enum ActionMotionContext { GroundedMoving, Stationary, Airborne }
+
+    [Serializable]
+    public sealed class ActionPoseOverride
+    {
+        public bool enabled;
+        [Tooltip("An empty or incompatible clip uses the complete base action mapping.")]
+        public AnimationClip clip;
+        [Tooltip("Empty applies the full-body pose.")]
+        public AvatarMask mask;
+        [Range(0,1)] public float weight = 1f;
+        public bool Available => enabled && clip && clip.humanMotion && !clip.legacy && clip.length > 0;
+    }
+
     [Serializable]
     public sealed class PortableCharacterAction
     {
@@ -25,6 +39,9 @@ namespace PortableAnimation
         [Tooltip("When false, only explicit cancellation can interrupt this action.")]
         public bool interruptible = true;
 
+        public ActionPoseOverride stationary = new ActionPoseOverride();
+        public ActionPoseOverride airborne = new ActionPoseOverride();
+
         public bool IsPlayable => clip != null && clip.length > 0f && !clip.legacy && clip.humanMotion;
     }
 
@@ -39,11 +56,24 @@ namespace PortableAnimation
         [SerializeField] private List<PortableCharacterAction> actions =
             new List<PortableCharacterAction>();
 
+        [Min(0)] public float stationaryEnterSpeed = .15f;
+        [Min(0)] public float stationaryExitSpeed = .45f;
+        [Min(.001f)] public float contextFadeSeconds = .12f;
+
+        public ActionMotionContext SelectContext(bool grounded,float metresPerSecond, ActionMotionContext previous)
+        {
+            if (!grounded) return ActionMotionContext.Airborne;
+            float threshold = previous == ActionMotionContext.Stationary ? stationaryExitSpeed : stationaryEnterSpeed;
+            return metresPerSecond <= threshold ? ActionMotionContext.Stationary : ActionMotionContext.GroundedMoving;
+        }
         public int Count => actions != null ? actions.Count : 0;
         public PortableCharacterAction Action(int index) => actions[index];
 
         public void AssertValid()
         {
+            if (!(stationaryEnterSpeed >= 0 && stationaryExitSpeed > stationaryEnterSpeed &&
+                  !float.IsInfinity(stationaryExitSpeed) && contextFadeSeconds > 0 && !float.IsInfinity(contextFadeSeconds)))
+                throw new InvalidOperationException("Invalid action movement thresholds or context fade.");
             if (actions == null)
                 throw new InvalidOperationException("Action list is missing.");
             var ids = new HashSet<string>(StringComparer.Ordinal);
@@ -52,6 +82,9 @@ namespace PortableAnimation
                 PortableCharacterAction action = actions[i];
                 if (action == null || string.IsNullOrWhiteSpace(action.id))
                     throw new InvalidOperationException("Action " + i + " has no ID.");
+                foreach (var variant in new[] {action.stationary, action.airborne})
+                    if (variant != null && variant.enabled && !(variant.weight >= 0 && variant.weight <= 1))
+                        throw new InvalidOperationException("Invalid context influence for "+action.id);
                 if (!ids.Add(action.id))
                     throw new InvalidOperationException("Duplicate action ID: " + action.id);
                 // Unassigned/incompatible actions are safe reserved slots. The

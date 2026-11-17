@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853b6254808b4655807061fc23f04bb1, type: 3}
   m_Name: WindrunnerActionClips
   m_EditorClassIdentifier: PortableAnimation.Runtime::PortableAnimation.PortableCharacterActionProfile
+  stationaryEnterSpeed: 0.15
+  stationaryExitSpeed: 0.45
+  contextFadeSeconds: 0.12
   actions:
   - id: DoubleJumpFlip
     group: Flip
@@ -61,18 +64,33 @@ MonoBehaviour:
     loopUntilCanceled: 1
     interruptible: 1
     blendWeight: 0.6
+    stationary:
+      enabled: 1
+      clip: {fileID: 7400000, guid: 6d1132187ccb39b458f35f60dc1a70b4, type: 2}
+      mask: {fileID: 0}
+      weight: 0.85
   - id: CastRelease
     group: Cast
     clip: {fileID: 7400000, guid: 3c22cd64846a70d439f6864c07b07b8f, type: 2}
     mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
     blendInSeconds: 0.04
     blendOutSeconds: 0.14
-    priority: 35
+    priority: 12
     allowSameActionRestart: 0
-    playbackSpeed: 2.4
+    playbackSpeed: 1.1
     loopUntilCanceled: 0
     interruptible: 1
     blendWeight: 0.8
+    stationary:
+      enabled: 1
+      clip: {fileID: 7400000, guid: 7de4eefb6acf2e049b698d5ec98bcc05, type: 2}
+      mask: {fileID: 0}
+      weight: 1
+    airborne:
+      enabled: 1
+      clip: {fileID: 7400000, guid: de7c5b8c5f8029e48a1de7ea18d2064f, type: 2}
+      mask: {fileID: 0}
+      weight: 0.8
   - id: AirDash
     group: Dash
     clip: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}

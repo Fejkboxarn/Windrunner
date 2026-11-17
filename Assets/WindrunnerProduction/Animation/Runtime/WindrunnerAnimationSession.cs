@@ -308,7 +308,7 @@ namespace Windrunner.Production.Animation
                     motion.VerticalSpeed, motion.YawRate, motion.JumpStarted);
                 if (standaloneGraph != null)
                 {
-                    standaloneGraph.Evaluate(in ground);
+                    standaloneGraph.Evaluate(in ground,motion.HorizontalSpeed);
                 }
                 else
                 {

@@ -26,7 +26,7 @@ namespace AirflowPrototype
         [SerializeField] bool visible, detailed = true;
         [SerializeField, Range(.7f, 1.3f)] float size = 1;
         [SerializeField, Range(0, 3)] int corner;
-        string inputLine, poseLine, motionLine, headingLine, actionLine, stickLine;
+        string inputLine, poseLine, motionLine, headingLine, actionLine, layerLine, stickLine;
         GUIStyle style, badge;
         public bool Visible => visible;
         public Vector2 Movement { get; private set; }
@@ -138,10 +138,11 @@ namespace AirflowPrototype
             if (bridge.ReadRecordingPose(out var p))
             {
                 poseLine = $"{p.state}   {(p.clip ? p.clip.name : "—")}   {p.weight:P0}";
-                actionLine = $"Portable   {bridge.ActiveAnimationAction}   {(p.action == null ? "" : $"layer {p.action} {p.actionWeight:P0}  {(p.mask ? p.mask.name : "full body")}  {p.actionSeconds:F2}s")}";
+                actionLine = $"Portable   {p.context}   {bridge.ActiveAnimationAction}";
+                layerLine = p.action==null ? null : $"{(p.actionClip ? p.actionClip.name : p.action)}   {p.actionWeight:P0}   {(p.mask ? p.mask.name : "full body")}   {p.actionSeconds:F2}s";
                 motionLine += $"\n{(p.direction >= 0 ? Compass[p.direction] : "—")}   walk {p.walk:P0}   run {p.run:P0}   {p.cycles:F2} cyc/s   {(p.direction >= 0 ? p.cycles*p.clip.length : 0):F2}×";
             }
-            else { poseLine = "Ground graph inactive"; actionLine = bridge.ActiveAnimationAction; }
+            else { poseLine = "Ground graph inactive"; actionLine = bridge.ActiveAnimationAction; layerLine = null; }
         }
         static string Heading(Vector3 v) => v.sqrMagnitude < .0001f ? "—" :
             Mathf.RoundToInt(Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg).ToString();
@@ -152,7 +153,7 @@ namespace AirflowPrototype
             style ??= new GUIStyle(GUI.skin.label) { fontSize = 15, normal = { textColor = Color.white } };
             badge ??= new GUIStyle(style) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, wordWrap = false };
             float scale = Mathf.Min(Screen.width / 1280f, Screen.height / 720f) * size;
-            float w = 475, h = (detailed ? 299 : 233) + (stickLine == null ? 0 : 20);
+            float w = 475, h = (detailed ? 299 : 233) + (stickLine == null ? 0 : 20) + (layerLine == null ? 0 : 21);
             var matrix = GUI.matrix;
             var color = GUI.color;
             GUI.matrix = Matrix4x4.TRS(new Vector3((corner & 1) == 0 ? Screen.width - (w + 10)*scale : 10*scale,
@@ -181,7 +182,7 @@ namespace AirflowPrototype
             }
             y += 5;
             Line("ANIMATION");
-            Line(poseLine); Line(actionLine);
+            Line(poseLine); Line(actionLine); if(layerLine!=null) Line(layerLine);
             if (detailed) { GUI.Label(new Rect(12,y,w-20,48),motionLine,style); y += 45; Line(headingLine); }
             GUI.color = color; GUI.matrix = matrix;
         }

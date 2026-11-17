@@ -10,6 +10,72 @@ namespace Windrunner.Production.Tests
     public sealed class PortableActionPlaybackTests
     {
         [Test]
+        public void AlternativeActionDraftSavesItsOwnModuleAndSupportsUndo()
+        {
+            const string installedPath="Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset";
+            var installed=AssetDatabase.LoadAssetAtPath<WindrunnerAnimationProfile>(installedPath);
+            var module=installed.standaloneActionProfile;
+            string before=EditorJsonUtility.ToJson(module);
+            string folder="AnimationContextDraft-"+System.Guid.NewGuid().ToString("N");
+            AssetDatabase.CreateFolder("Assets",folder);
+            string root="Assets/"+folder;
+            var host=new GameObject("Disposable animation author");
+            var sessionType=System.Type.GetType("AirflowPrototype.Editor.CharacterTuningSession, Assembly-CSharp-Editor",true);
+            System.IDisposable session=null;
+            try
+            {
+                session=(System.IDisposable)System.Activator.CreateInstance(sessionType,new object[]{host});
+                var alternate=Object.Instantiate(installed);
+                alternate.standaloneActionProfile=Object.Instantiate(module);
+                AssetDatabase.CreateAsset(alternate.standaloneActionProfile,root+"/actions.asset");
+                AssetDatabase.CreateAsset(alternate,root+"/character.asset");
+                sessionType.GetMethod("IncludeAnimationProfile",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)
+                    .Invoke(session,new object[]{alternate});
+                var entries=(System.Collections.IEnumerable)sessionType.GetField("Entries").GetValue(session);
+                PortableCharacterActionProfile pending=null;
+                foreach(var e in entries)
+                    if(e.GetType().GetField("Draft").GetValue(e) is PortableCharacterActionProfile draftActions)pending=draftActions;
+                Assert.IsNotNull(pending);
+                pending.Action(4).stationary.clip=module.Action(4).airborne.clip;
+                Assert.AreSame(module.Action(4).stationary.clip,alternate.standaloneActionProfile.Action(4).stationary.clip);
+                sessionType.GetMethod("Save").Invoke(session,null);
+                var saved=AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>(root+"/actions.asset");
+                Assert.AreSame(module.Action(4).airborne.clip,saved.Action(4).stationary.clip);
+                string guid=AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(module.Action(4).airborne.clip));
+                Assert.That(System.IO.File.ReadAllText(root+"/actions.asset"),
+                    Does.Match(@"stationary:\s+enabled: 1\s+clip: \{fileID: 7400000, guid: "+guid));
+                Undo.PerformUndo();
+                Assert.AreSame(module.Action(4).stationary.clip,saved.Action(4).stationary.clip);
+                Assert.AreEqual(before,EditorJsonUtility.ToJson(module));
+            }
+            finally{session?.Dispose();Object.DestroyImmediate(host);AssetDatabase.DeleteAsset(root);}
+        }
+
+        [Test]
+        public void ActionContextUsesMeasuredSpeedWithASeparateStopThreshold()
+        {
+            var profile=AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>(
+                "Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset");
+            var mode=ActionMotionContext.Stationary;
+            foreach(float speed in new[]{.14f,.33f,.44f})
+                Assert.AreEqual(mode,profile.SelectContext(true,speed,mode));
+            mode=profile.SelectContext(true,.46f,mode);
+            Assert.AreEqual(ActionMotionContext.GroundedMoving,mode);
+            Assert.AreEqual(mode,profile.SelectContext(true,.2f,mode));
+            Assert.AreEqual(ActionMotionContext.Stationary,profile.SelectContext(true,.14f,mode));
+            Assert.AreEqual(ActionMotionContext.Airborne,profile.SelectContext(false,0,mode));
+            var clone=Object.Instantiate(profile);
+            try
+            {
+                clone.stationaryExitSpeed=clone.stationaryEnterSpeed;
+                Assert.Throws<System.InvalidOperationException>(clone.AssertValid);
+                Assert.IsTrue(profile.Action(4).stationary.Available);
+                Assert.IsTrue(profile.Action(4).airborne.Available);
+                Assert.IsNull(profile.Action(4).stationary.mask);
+            }
+            finally{Object.DestroyImmediate(clone);}
+        }
+        [Test]
         public void ClipPreviewRetargetsBothHandsWithoutMovingTheSceneAvatar()
         {
             const string path="Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity";
@@ -23,6 +89,30 @@ namespace Windrunner.Production.Tests
             {
                 type.GetMethod("Bind",flags).Invoke(window,null);
                 Assert.IsNull(type.GetField("issue",flags).GetValue(window));
+                type.GetField("projectPaths",flags).SetValue(window,new[]{
+                    "Assets/DarkSorcerer_AnimSet/Animations/Humanoid/Inplace/Standing_Throw_1.anim",
+                    "Assets/DarkSorcerer_AnimSet/Animations/Humanoid/Inplace/idle_keep_inplace.fbx"});
+                type.GetField("showLibrary",flags).SetValue(window,true);
+                type.GetMethod("IndexProjectBatch",flags).Invoke(window,null);
+                var hits=(System.Collections.IList)type.GetField("matches",flags).GetValue(window);
+                Assert.GreaterOrEqual(hits.Count,2,"Include native and embedded Humanoid clips in project browsing.");
+                type.GetMethod("OpenDraft",flags).Invoke(window,null);
+                var destinationNames=(string[])type.GetField("slotLabels",flags).GetValue(window);
+                CollectionAssert.Contains(destinationNames,"CastRelease/stationary");
+                CollectionAssert.Contains(destinationNames,"Ground/MoveForward");
+                var draft=type.GetField("draft",flags).GetValue(window);
+                var entries=(System.Collections.IEnumerable)draft.GetType().GetField("Entries").GetValue(draft);
+                foreach(var entry in entries)
+                {
+                    var field=entry.GetType().GetField("Draft");
+                    if(!(field.GetValue(entry) is PortableCharacterActionProfile candidate))continue;
+                    var stored=(PortableCharacterActionProfile)entry.GetType().GetField("Source").GetValue(entry);
+                    var clipBefore=stored.Action(4).stationary.clip;
+                    candidate.Action(4).stationary.clip=candidate.Action(4).airborne.clip;
+                    Assert.AreSame(clipBefore,stored.Action(4).stationary.clip);
+                    draft.GetType().GetMethod("Revert").Invoke(draft,null);
+                    Assert.AreSame(clipBefore,candidate.Action(4).stationary.clip);
+                }
                 var rig=(Animator)type.GetField("previewRig",flags).GetValue(window);
                 var bridge=(Component)type.GetField("bridge",flags).GetValue(window);
                 var live=(Animator)bridge.GetType().GetProperty("HumanoidAnimator").GetValue(bridge);
@@ -69,6 +159,12 @@ namespace Windrunner.Production.Tests
                         var model=(GameObject)daggerType.GetMethod("Mount").Invoke(null,new[]{Field("Model"),socket,Field("Offset"),Field("Euler")});
                         mounts.Add((model.transform,index,little));
                     }
+                }
+                for(int i=0;i<profile.standaloneActionProfile.Count;i++)
+                {
+                    var entry=profile.standaloneActionProfile.Action(i);
+                    if(entry.stationary?.Available==true)assigned.Add(entry.stationary.clip);
+                    if(entry.airborne?.Available==true)assigned.Add(entry.airborne.clip);
                 }
                 var turn=rig.transform.rotation;
                 foreach(var clip in assigned)

@@ -24,7 +24,29 @@ namespace Windrunner.Frontend.Editor
         {
             if(!SessionState.GetBool(Pending,false)) return;
             if(state==PlayModeStateChange.EnteredPlayMode)
-                TraversalAcceptance.Install(Object.FindAnyObjectByType<PlayerSession>());
+            {
+                var session=Object.FindAnyObjectByType<PlayerSession>();
+                TraversalAcceptance.Install(session);
+                string guid=SessionState.GetString("Windrunner.Acceptance.MotionProfile","");
+                SessionState.EraseString("Windrunner.Acceptance.MotionProfile");
+                if (!string.IsNullOrEmpty(guid))
+                {
+                    var profile=AssetDatabase.LoadAssetAtPath<Windrunner.Production.Animation.WindrunnerAnimationProfile>(AssetDatabase.GUIDToAssetPath(guid));
+                    var bridge=session.character.GetComponentInChildren<AirflowPrototype.AirflowPortableAnimationBridge>(true);
+                    if (!profile || !profile.productionOnly || !profile.useStandaloneCharacterGraph || !profile.ValidateForLiveGraph(out _) || !bridge)
+                        Debug.LogError("Lane comparison requires a valid production-only standalone profile and player.");
+                    else
+                    {
+                        bridge.enabled=false;
+                        using(var serialized=new SerializedObject(bridge))
+                        {
+                            serialized.FindProperty("profile").objectReferenceValue=profile;
+                            serialized.ApplyModifiedPropertiesWithoutUndo();
+                        }
+                        bridge.enabled=true;
+                    }
+                }
+            }
             if(state!=PlayModeStateChange.EnteredEditMode) return;
             var path=SessionState.GetString(Previous,"");
             EditorSceneManager.playModeStartScene=string.IsNullOrEmpty(path)?null:AssetDatabase.LoadAssetAtPath<SceneAsset>(path);

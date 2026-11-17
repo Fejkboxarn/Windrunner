@@ -84,6 +84,14 @@ namespace AirflowPrototype.Editor
             string ns=type.Namespace ?? "";
             return ns.StartsWith("AirflowPrototype") || ns.StartsWith("Windrunner") || ns.StartsWith("PortableAnimation");
         }
+        // Explicitly include an alternative animation profile for isolated authoring.
+        // Its child module drafts use the same validation, Undo and save transaction.
+        internal void IncludeAnimationProfile(Windrunner.Production.Animation.WindrunnerAnimationProfile profile)
+        {
+            if(!profile || !profile.useStandaloneCharacterGraph || !profile.standaloneGroundProfile || !profile.standaloneActionProfile)
+                throw new ArgumentException("Choose a standalone profile with ground and action modules.");
+            Add(profile);
+        }
         private Entry Add(ScriptableObject source)
         {
             var existing=Entries.Find(e=>e.Source==source); if(existing!=null) return existing;

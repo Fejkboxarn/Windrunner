@@ -22,8 +22,8 @@
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset",
       "baseline_sha256": "74aaee047dfcfd3011e9dc78acd9cc68fd1d4fe15f93da9007213f243b08a306",
-      "approved_sha256": "67c310e2aad99e58e0169b8706a4407956a96be4d7c6f8760ab49b726dbd84d9",
-      "reason": "User-authorized placeholder action integration. Reuses audited Humanoid flip/Sling clips, reserves missing Cast/Dash/start slots, preserves GUID and automatic-start setting. Later Dagger Pack mappings and phase tuning are recorded in DaggerAnimationIntegration.md."
+      "approved_sha256": "94cc074c31d478ae768c43e774b1b2b8c25c456ab97082cc28bffd90d621c2c2",
+      "reason": "Portable character actions on the installed Avatar. Cast movement thresholds, fallback masks, weights, priority and phase timing are documented in DaggerAnimationIntegration.md."
     },
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset",
@@ -34,8 +34,8 @@
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset",
       "baseline_sha256": "94170bfffec3bc97b76f63bbc629ef1cc965dcc9be47a9eab569318f0d84bfdb",
-      "approved_sha256": "cfb2bf23654730538de80ad1e39d77181d05c9a5c11db90225d9db83fe334a1b",
-      "reason": "Start, stop, pivot, fall and landing slots were completed during migration. Dagger Pack mappings, authored gait timing and production turn fallback are recorded in DaggerAnimationIntegration.md."
+      "approved_sha256": "db1201b3faf3ed7cb5304963a166a43509c074d7fb30314c12bb2d950987bbdf",
+      "reason": "Start, stop, pivot, fall and landing slots were completed during migration. Neutral idle/run assignments, authored gait timing and production turn fallback are recorded in DaggerAnimationIntegration.md."
     },
     {
       "path": "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",

@@ -34,6 +34,11 @@ namespace Windrunner.Frontend
             deck.transform.SetParent(transform,true);
             deck.transform.position=start+new Vector3(0,-.65f,9);
             deck.transform.localScale=new Vector3(46,1,64);
+            var ledge=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            ledge.name="Cast context drop";
+            ledge.transform.SetParent(transform,true);
+            ledge.transform.position=LedgeStart+Vector3.down*1.15f;
+            ledge.transform.localScale=new Vector3(2.1f,2,3);
             // Eight reference rays sit below the feet; they cannot affect motor contacts.
             for (int bearing=0; bearing<360; bearing+=45)
             {
@@ -66,10 +71,13 @@ namespace Windrunner.Frontend
             node.name="Acceptance "+source.name;
             if(node.TryGetComponent<AirSlingNodeWander>(out var wander)) wander.enabled=false;
         }
-        void Home()
+        Vector3 LedgeStart => start+new Vector3(-6,2,-2);
+        void Home() => ResetAt(start);
+        void ThrowLedge() => ResetAt(LedgeStart);
+        void ResetAt(Vector3 origin)
         {
             session.character.enabled=false;
-            session.character.transform.SetPositionAndRotation(start,Quaternion.identity);
+            session.character.transform.SetPositionAndRotation(origin,Quaternion.identity);
             session.character.enabled=true;
             session.orbit.ResetAfterTeleport(0);
             Physics.SyncTransforms();
@@ -78,7 +86,7 @@ namespace Windrunner.Frontend
         {
             var keyboard=Keyboard.current;
             if(keyboard==null || WindrunnerInputHost.GameplayPresentationBlocked) return;
-            if(keyboard.f5Key.wasPressedThisFrame) Home();
+            if(keyboard.f5Key.wasPressedThisFrame){if(keyboard.shiftKey.isPressed)ThrowLedge();else Home();}
             if(keyboard.f6Key.wasPressedThisFrame) Targets.gameObject.SetActive(!Targets.gameObject.activeSelf);
             if(keyboard.f7Key.wasPressedThisFrame) session.daggers.power.Spend(session.daggers.power.Max*.25f);
             if(keyboard.f8Key.wasPressedThisFrame)
@@ -87,12 +95,14 @@ namespace Windrunner.Frontend
         void OnGUI()
         {
             if(WindrunnerInputHost.GameplayPresentationBlocked) return;
-            GUI.Box(new Rect(12,12,535,142),
+            GUI.Box(new Rect(12,12,535,167),
                 "DEVELOPMENT  ·  Traversal and rewards\nAim forward: hold/release Cast on an Air Node. Sling to the target at right.\n"+
                 "Compare an early release with the marked perfect window. Equip Farseer in Arsenal.\n"+
                 "F5 return to deck   ·   F6 remove/restore targets   ·   F7 spend 25% AirPower\n"+
                 "F8 deliver four test rewards. Use the equipped ability to transfer reserve.\n"+
                 "Insert: input + pose. Follow heading rays at 45°, 90°, 180°; reverse and strafe.\n"+
+                "Shift+F5: Cast ledge. Release at rest, then strafe right off the edge.\n"+
+                "Use partial stick for walking. Open Arsenal to compare grips.\n"+
                 "Stop Play and relaunch the acceptance lane for a fresh session.");
         }
     }

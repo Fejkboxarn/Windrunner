@@ -2,6 +2,51 @@
 
 Local feature branch `codex/dagger-pack-animation` starts at the integrated acceptance checkpoint `3feecb35`. The production model is the existing Humanoid Character instance of `Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx`. The desired male assassin is the animation direction. This pass used the installed character and Avatar.
 
+## Current context-sensitive candidate
+
+This section supersedes the earlier candidate mappings below. The clip inventory CSV lists each pack asset and its current production slots. Standing_Throw_1 is outside that pack. The production ground and action profiles in Assets/WindrunnerProduction/Animation/Generated are the authority for current assignments.
+
+### Air Cast
+
+| Phase | Stationary | Grounded moving / base fallback | Airborne |
+| --- | --- | --- | --- |
+| Charge, held until release or cancellation | Block_Loop, full body, 85% | Block_Loop, UpperBody mask, 60% | Same masked base; no dedicated aerial windup assigned |
+| Release and recovery | DarkSorcerer_AnimSet/Animations/Humanoid/Inplace/Standing_Throw_1, full body, 100% | Dagger pack Combo_Attack_Air_Wave_01, UpperBody, 80% | Dagger pack Air_throw_01, full body, 80%, blended over the aerial base |
+
+The stationary throw has an authored 2.167 s standing gesture. The aerial candidate has 95 Humanoid channels, zero net root translation and a 0.917 s duration. Air_throw_02 travels 3.586 source units and is a comparison candidate only. Both masks on the stationary assignments are deliberately empty. The release envelope uses the 0.917 s base clip at 1.1× (0.833 s), with 0.04 s entry and 0.14 s recovery. Each variant samples the same normalized phase, so the stationary gesture is compressed to that envelope. Charge loops at 1× with 0.09/0.14 s fades. The existing charge and release gameplay events retain sole authority for consumption, projectile emission and rewards. Recovery uses the authored release tail and a fade to the current base. No dedicated recovery clip or invented melee action was added.
+
+An airborne motor sample selects Airborne immediately. Grounded speed at or below 0.15 m/s enters Stationary; once stationary, speed must exceed 0.45 m/s to leave. Landing above the entry threshold selects moving. A context change moves approximately 95% toward the new layer mixture in 0.12 s. It never requests the action again. A disabled, absent, legacy or incompatible override falls back to the base clip **and its mask and weight**. A missing base action stays unavailable. Cast release priority is 12, below Dash (15), Sling travel/charge (20), Sling impact (30) and flip (40). All other actions retain their authored base mappings. Imported events and root motion are disabled on the production Animator.
+
+### Idle, running and turn choices
+
+| Slot | Candidate assignment | Alternative for comparison |
+| --- | --- | --- |
+| Neutral / ready idle | Idle | Idle_Combat for dagger-ready breathing; idle_keep from DarkSorcerer Inplace for a different attitude. Audition first; personality variations are never triggered at random. |
+| Forward / backward run | Run_Loop_F_0 / Run_Loop_B_180 | Matching Run_Combat_Loop clips |
+| Right / left strafe | Run_Loop_F_R_90 / Run_Loop_F_L_90 | Matching combat variants |
+| FR, BR, BL, FL run | Run_Loop_F_R_45, Run_Loop_B_R_45, Run_Loop_B_L_45, Run_Loop_F_L_45 | Matching combat diagonals |
+| Starts and stops | Run_Start_ and Run_Stop_ with F_0, B_180, F_L_90, F_R_90 according to heading | Corresponding Run_Combat_Start_ and Run_Combat_Stop_ clips |
+| Reversal / moving turn | Continuous directional blend | Run_Combat_Fast_Turn_L/R remain assigned for preview only |
+| Stationary camera orbit | Motor retains facing; idle continues | Turn_Combat_90_L/R remain available for isolated preview |
+
+The two forward run choices share 0.667 s duration and 2.82 source units of travel. The neutral forward start has -0.005 source units of vertical displacement against +0.285 for the combat start. This candidate auditions a less guarded posture and reduced vertical excursion without changing movement, gait cadence or turn ownership. Starts/stops still use short 0.22/0.26 s presentation envelopes. Foot contact, compressed gestures, torso separation and the protagonist's personality need footage. Melee attack families in the pack are available for isolated comparison only.
+
+### Compare or change a slot
+
+1. Open StartingWorld or Zone 01 and choose **Tools > Windrunner > Acceptance > Dagger clip preview**, or open it from Character Tuning. Click **Load clip on production model**. Use pack category and search, the project object picker, or the optional project Humanoid index for imported FBX sub-clips. The index runs in batches in Edit Mode; closing its foldout pauses indexing.
+2. Pick candidate A, **Pin current clip as A**, then choose B. Drag the A/B weight, or use **Play A → B**. Try the assigned idle, run and fall bases and the UpperBody mask. Pause, scrub, orbit and vary playback speed to compare wrists, hips and feet. The isolated model uses the production Avatar and grip geometry.
+3. Expand **Production assignments and draft tuning**, select a named destination and click **Audition slot** to load its effective clip, base, mask and weight. **Assign B to draft** stages a replacement. Base action settings govern playback speed, phase fades, interruption, priority and looping across its variants. Variant mask and influence are separate. Empty mask means full body. Use standard Unity Undo or **Revert drafts**. **Save drafts** commits profile edits explicitly in Edit Mode. Close/reload the window after external edits. Entering Play discards unsaved drafts.
+4. To compare complete profiles without changing a scene, duplicate the animation profile and any child modules you intend to change. Assign the duplicate modules to that profile. Choose it in **Author / lane profile** before opening draft assignments. The named slot editor then edits the duplicate modules. Modules still shared by reference are shared edits, so duplicate each module you plan to change. Start the lane. This rebuilds the portable graph for the isolated Play session. Leave the field empty for the installed production profile. The preview graph is independent of gameplay.
+5. Press **Insert** in the lane. Compare idle, partial-stick walking, full run, strafe, stops and reversals. Press **Shift+F5** for the Cast ledge, hold and release Cast toward the node, then strafe right off the edge and land. Repeat with the release initiated while moving and airborne. Compare the action clip, context, mask and speed in the overlay with the hips, wrists and feet. **F5** returns to the main deck for jump, Dash, Sling, Second Wind and Arsenal checks. Record 1080p/60 at normal speed, including the frames just before and after each release.
+
+### Verification of this candidate
+
+Unity 6000.6.2f1 passed 100/100 Edit Mode and 48/48 Play Mode cases, zero skipped. The serialized contract audit checked 67 contracts with zero failures. The Windows Development Build succeeded with zero errors and 21 warnings. Its rendered title-screen smoke check ran for 15 seconds with no matched errors. Raw results are under Logs/ProductionMigration in cast-authoring-final-EditMode.xml, cast-context-final-PlayMode.xml, cast-context-final-build.json and cast-context-final-rendered-player.json. The executable is Builds/cast-context-final/Windrunner.exe.
+
+The two selected rendered Play Mode cases also passed (context-drop-PlayMode.xml and context-leg-parity-PlayMode.xml). A single real projectile release remained active while the character started moving and stepped off the ledge. The captured dominant layers were Standing_Throw_1 at 100%, Combo_Attack_Air_Wave_01 at 79%, and Air_throw_01 at 65% mid-transition. The render files are context-stationary-throw-639305284494909342.png, context-moving-throw-639305284496327490.png and context-airborne-throw-639305284497253911.png.
+
+A matched locomotion-only rig provided the reference pose. Across both thighs and calves the maximum local joint difference was 50.88° during the stationary throw and 1.68° after 0.15 s of moving-context blending. Tests also exercised normalized phase continuity, landing, missing overrides, cancellation, priority, root stability, grip geometry and scene reload. The editor suite checked native and FBX library entries and saved and undid a contextual replacement in a disposable alternate profile. The screenshots and joint measurements cover sampled frames. Foot contact, throw readability, timing against the visible projectile, and the final idle/run preference remain open for recorded gameplay review.
+
 ## Pack audit
 
 [DaggerClipInventory.csv](DaggerClipInventory.csv) indexes **all 578 standalone clips**, including path, internal clip name, GUID, duration in seconds, sample rate, loop flag, Humanoid muscle count, authored root displacement and rotation between endpoints, endpoint muscle differences, weapon coverage, use decision, production slot and playback settings. Filter the production_slots column for the 39 distinct clips serving 41 slots. Translation is in source RootT units. Rotation is the shortest angle between endpoint quaternions. The muscle seam column is the RMS difference across the 95 normalized muscle channels at the first and last keys. The separate root XYZ ranges measure excursion within the clip, including movement that returns to its start. Left/right arm columns give the largest muscle-channel range on each side. A zero endpoint difference cannot establish smooth velocity across a seam or absence of rotation during a clip.

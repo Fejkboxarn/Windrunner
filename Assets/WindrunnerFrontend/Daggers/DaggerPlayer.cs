@@ -62,6 +62,9 @@ namespace Windrunner.Daggers
         }
         void QueueRefresh()=>refresh=true;
         Transform CreateGrip(Transform hand,HumanBodyBones finger,Transform original)
+            => CreateHandGrip(rig,hand,finger,original);
+
+        public static Transform CreateHandGrip(Animator rig, Transform hand,HumanBodyBones finger,Transform original)
         {
             var grip=new GameObject(finger==HumanBodyBones.LeftMiddleProximal?"Left dagger grip":"Right dagger grip").transform;
             grip.SetParent(hand,false);

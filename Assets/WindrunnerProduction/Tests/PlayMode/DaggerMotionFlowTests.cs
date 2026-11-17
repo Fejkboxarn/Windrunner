@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System;
+using PortableAnimation;
 using System.Collections;
 using System.IO;
 using NUnit.Framework;
@@ -26,6 +27,81 @@ namespace Windrunner.Production.Tests
             ScreenCapture.CaptureScreenshot(file);
             for(int i=0;i<120 && !File.Exists(file);i++){view.Repaint();yield return null;}
             Assert.IsTrue(File.Exists(file));
+        }
+        [UnityTest]
+        public IEnumerator ContextChangesPreserveOneActionClockAndRecoverItsLayers()
+        {
+            const string folder="Assets/WindrunnerProduction/Animation/Generated/";
+            var ground=UnityEditor.AssetDatabase.LoadAssetAtPath<GroundMotionProfile>(folder+"WindrunnerGroundMotion.asset");
+            var source=UnityEditor.AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>(folder+"WindrunnerActionClips.asset");
+            var profile=Object.Instantiate(source);
+            var avatar=Object.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx"));
+            var rig=avatar.GetComponentInChildren<Animator>();
+            rig.applyRootMotion=false;rig.fireEvents=false;rig.cullingMode=AnimatorCullingMode.AlwaysAnimate;
+            var peer=Object.Instantiate(avatar);
+            var baseRig=peer.GetComponentInChildren<Animator>();
+            var legs=new[]{HumanBodyBones.LeftUpperLeg,HumanBodyBones.RightUpperLeg,HumanBodyBones.LeftLowerLeg,HumanBodyBones.RightLowerLeg};
+            float LegDifference()
+            {
+                float maximum=0;
+                foreach(var bone in legs)
+                    maximum=Mathf.Max(maximum,Quaternion.Angle(rig.GetBoneTransform(bone).localRotation,
+                        baseRig.GetBoneTransform(bone).localRotation));
+                return maximum;
+            }
+            try
+            {
+                int frame=0;
+                foreach(bool missing in new[]{false,true})
+                {
+                    if(missing)profile.Action(4).airborne.clip=null;
+                    using var graph=new GroundOnlyPipelineRuntime(rig,ground,profile);
+                    using var baseGraph=new GroundOnlyPipelineRuntime(baseRig,ground,null);
+                    GroundOnlyPipelineRuntime.RecordingPose Step(int frames,bool grounded,float speed)
+                    {
+                        for(int i=0;i<frames;i++)
+                        {
+                            var state=new AnimationFrameState(frame++,1f/120,Vector3.forward*speed,
+                                Mathf.Clamp01(speed/8.5f),grounded?LocomotionMode.Grounded:LocomotionMode.Airborne);
+                            var sample=new GroundMotionFrame(state,grounded,0,0,false);
+                            graph.Evaluate(sample,speed);
+                            baseGraph.Evaluate(sample,speed);
+                        }
+                        graph.ReadRecordingPose(out var pose);return pose;
+                    }
+                    var position=avatar.transform.position;var rotation=avatar.transform.rotation;
+                    Step(2,true,0);Assert.IsTrue(graph.RequestAction(4));
+                    var idle=Step(12,true,0);
+                    Assert.AreSame(profile.Action(4).stationary.clip,idle.actionClip);
+                    Assert.Greater(idle.actionWeight,.98f);Assert.IsFalse(idle.mask);
+                    float standingLegDegrees=LegDifference();
+                    Assert.Greater(standingLegDegrees,2f,"Stationary throw should visibly own retargeted leg joints.");
+                    var moving=Step(18,true,4);
+                    Assert.AreSame(profile.Action(4).clip,moving.actionClip);
+                    Assert.AreSame(profile.Action(4).mask,moving.mask);
+                    float movingLegDegrees=LegDifference();
+                    Debug.Log($"Context lower-body comparison: standing {standingLegDegrees:F2} deg, moving {movingLegDegrees:F2} deg");
+                    Assert.Less(movingLegDegrees,3f,"Moving legs should converge to the locomotion-only peer.");
+                    var air=Step(18,false,4);
+                    Assert.AreSame(missing?profile.Action(4).clip:profile.Action(4).airborne.clip,air.actionClip);
+                    Assert.That(air.actionSeconds/air.actionClip.length,Is.EqualTo(
+                        48f/120*profile.Action(4).playbackSpeed/profile.Action(4).clip.length).Within(.002));
+                    var landed=Step(18,true,0);
+                    Assert.AreSame(idle.actionClip,landed.actionClip);
+                    Assert.Greater(landed.actionSeconds,idle.actionSeconds);
+                    Assert.Less(Vector3.Distance(position,avatar.transform.position),.001f);
+                    Assert.Less(Quaternion.Angle(rotation,avatar.transform.rotation),.1f);
+                    graph.CancelGroup("Cast");
+                    Assert.IsNull(Step(32,true,0).action);
+                    Assert.IsTrue(graph.RequestAction(4));
+                    Assert.IsTrue(graph.RequestAction(1));
+                    Assert.IsFalse(graph.RequestAction(4));
+                    Assert.AreEqual("SlingTravel",graph.ActiveAction);
+                }
+            }
+            finally{Object.Destroy(peer);Object.Destroy(avatar);Object.Destroy(profile);}
+            yield return null;
         }
         [UnityTest] public IEnumerator DaggerCastRetargetsProductionRigAndRecoversAfterRelease()
         {
@@ -90,7 +166,7 @@ namespace Windrunner.Production.Tests
                 move.RemoveBindingOverride(up);
                 yield return null;yield return null;
                 Assert.AreEqual(Vector2.zero,Prop<Vector2>(overlay,"Movement"));
-                lane.GetMethod("Home",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).Invoke(deck,null);
+                lane.GetMethod("ThrowLedge",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).Invoke(deck,null);
                 var owner=(Behaviour)bridge;
                 owner.enabled=false; owner.enabled=true;
                 Assert.AreEqual(1,bridge.GetComponents(overlayType).Length);
@@ -117,11 +193,39 @@ namespace Windrunner.Production.Tests
                 for(int i=0;i<70;i++)yield return null;
                 Assert.AreEqual("CastCharge",Prop<string>(bridge,"ActiveAnimationAction"));
                 Assert.AreEqual(observed+1,feedback.ObservedCount,"Pose recovery must not replay gameplay feedback.");
+                var caster=bridge.GetComponent(Type.GetType("AirflowPrototype.AirCaster, Assembly-CSharp",true));
+                var pulse=caster.GetType().GetEvent("PulseReleased");
+                int releaseCount=0;
+                Action<float,bool> countRelease=(amount,perfect)=>releaseCount++;
+                pulse.AddEventHandler(caster,countRelease);
                 InputSystem.QueueStateEvent(mouse,new MouseState());
                 yield return null;yield return null;
                 Assert.AreEqual("CastRelease",Prop<string>(bridge,"ActiveAnimationAction"));
-                yield return CaptureRecording("dagger-cast-release");
+                for(int i=0;i<10;i++)yield return null;
+                yield return CaptureRecording("context-stationary-throw");
+                InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.D));
+                for(int i=0;i<9;i++)yield return null;
+                yield return CaptureRecording("context-moving-throw");
+                GroundOnlyPipelineRuntime.RecordingPose ActualPose()
+                {
+                    object[] args={null};
+                    Assert.IsTrue((bool)bridge.GetType().GetMethod("ReadRecordingPose").Invoke(bridge,args));
+                    return (GroundOnlyPipelineRuntime.RecordingPose)args[0];
+                }
+                bool airborneThrow=false;
+                for(int i=0;i<35;i++)
+                {
+                    var pose=ActualPose();
+                    if(pose.context==ActionMotionContext.Airborne && pose.actionClip && pose.actionClip.name=="Air_throw_01")
+                    {airborneThrow=true;break;}
+                    yield return null;
+                }
+                Assert.IsTrue(airborneThrow,"Walking off the ledge should crossfade the same release to the authored air throw.");
+                yield return CaptureRecording("context-airborne-throw");
+                InputSystem.QueueStateEvent(keyboard,new KeyboardState());
                 for(int i=0;i<75;i++)yield return null;
+                Assert.AreEqual(1,releaseCount,"Changing animation context must not deliver a second projectile release.");
+                pulse.RemoveEventHandler(caster,countRelease);
                 Assert.AreNotEqual("CastRelease",Prop<string>(bridge,"ActiveAnimationAction"));
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.Insert));
                 yield return null;yield return null;
