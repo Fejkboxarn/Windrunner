@@ -91,46 +91,74 @@ namespace Windrunner.Production.Tests
                 Assert.AreEqual(start.x,player.transform.position.x,.02f);
                 Submit("Back");yield return null;yield return null;
                 Assert.IsFalse(host.IsPaused);Assert.IsTrue(surface==null);
+                float Stored()=>progression.StoredDaggerReserve("farseer");
+                Type Runtime(string name)=>Type.GetType("AirflowPrototype."+name+", Assembly-CSharp",true);
+                var meter=GameObject.Find("Second Wind reserve");
+                Assert.IsNotNull(meter);var caption=meter.GetComponentInChildren<Text>();
+                Assert.That(caption.text,Does.Contain("0 / 50"));
+                var health=(Component)Object.FindAnyObjectByType(Runtime("AirSlingNodeHealth"));
+                Assert.IsTrue((bool)Call(health,"TakeDamage",int.MaxValue));
+                Assert.IsFalse((bool)Call(health,"TakeDamage",int.MaxValue));
+                for(int i=0;i<240 && Stored()==0;i++)yield return null;
+                float charged=Stored();Assert.Greater(charged,0);Assert.LessOrEqual(charged,50);
+                Assert.That(caption.text,Does.Not.Contain("   0 /"));
+                if(rendered)
+                {
+                    var view=UnityEditor.EditorWindow.GetWindow(typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.GameView"));
+                    string shot=Path.GetFullPath("Logs/ProductionMigration/reserve-hud-"+DateTime.UtcNow.Ticks+".png");
+                    view.Repaint();yield return null;ScreenCapture.CaptureScreenshot(shot);
+                    for(int i=0;i<60 && !File.Exists(shot);i++){view.Repaint();yield return null;}
+                    Assert.IsTrue(File.Exists(shot));
+                    var frame=new Texture2D(2,2);
+                    try
+                    {
+                        Assert.IsTrue(frame.LoadImage(File.ReadAllBytes(shot)));
+                        var fill=(RectTransform)meter.transform.Find("Stored AirPower");
+                        var screen=RectTransformUtility.WorldToScreenPoint(null,fill.TransformPoint(
+                            new Vector3(fill.rect.xMin+fill.rect.width*.1f,fill.rect.center.y)));
+                        var pixel=frame.GetPixel(Mathf.RoundToInt(screen.x),Mathf.RoundToInt(screen.y));
+                        Assert.Greater(pixel.g-pixel.r,.12f,"The cyan reserve must be visible over the world HUD.");
+                    }
+                    finally {Object.Destroy(frame);}
+                }
                 Keys(Key.R);yield return null;yield return null;
-                Assert.AreEqual(0,progression.DaggerCooldownRemaining("second-wind"),"Full AirPower rejects the press.");
-                Keys();yield return null;
-                Call(power,"Spend",Prop<float>(power,"Max"));
-                Assert.IsTrue(Prop<bool>(power,"IsDepletedLocked"));
+                Assert.AreEqual(charged,Stored(),"Full main bar preserves stored energy.");
+                Keys();yield return null;Call(power,"Spend",10f);
                 using(var block=host.Input.BlockGameplay())
                 {
-                    Keys(Key.R);yield return null;yield return null;
-                    Assert.Zero(progression.DaggerCooldownRemaining("second-wind"));
+                    Keys(Key.R);yield return null;yield return null;Assert.AreEqual(charged,Stored());
                     Keys();yield return null;
                 }
                 yield return null;
                 int bursts()=>Object.FindObjectsByType<ParticleSystem>().Count(ps=>ps.name.StartsWith("Second Wind burst"));
                 InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.DpadLeft));yield return null;yield return null;
-                Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.01f);Assert.IsFalse(Prop<bool>(power,"IsDepletedLocked"));
-                Assert.Greater(progression.DaggerCooldownRemaining("second-wind"),28);Assert.AreEqual(1,bursts());
-                Call(power,"Spend",15f);Keys(Key.R);yield return null;yield return null;
-                Assert.Less(Prop<float>(power,"Current"),Prop<float>(power,"Max")-10);Assert.AreEqual(1,bursts());
-                InputSystem.RemoveDevice(pad);yield return null;Keys();yield return null;
+                Assert.AreEqual(Prop<float>(power,"Max"),Prop<float>(power,"Current"),.01f);
+                Assert.Zero(Stored());Assert.AreEqual(1,bursts());
+                InputSystem.RemoveDevice(pad);yield return null;
                 pad=InputSystem.AddDevice<Gamepad>();yield return null;
+                Call(power,"Spend",15f);
                 InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.DpadLeft));yield return null;
-                Assert.Less(Prop<float>(power,"Current"),Prop<float>(power,"Max"));
+                Assert.Less(Prop<float>(power,"Current"),Prop<float>(power,"Max"));Assert.AreEqual(1,bursts());
                 InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;
+                var caster=player.GetComponent(Runtime("AirCaster"));
+                var node=new GameObject("Disposable return target").AddComponent(Runtime("AirNode"));
+                node.transform.position=player.transform.position+Vector3.forward*2;
+                caster.GetType().GetMethod("NotifyPulseHit",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)
+                    .Invoke(caster,new object[]{node,1f});
+                for(int i=0;i<240 && Stored()==0;i++)yield return null;
+                float bank=Stored();Assert.Greater(bank,0);
                 host.SetPaused(true);yield return null;Submit("Dagger Arsenal");yield return null;
-                var frozen=progression.DaggerCooldownRemaining("second-wind");
-                Submit("Training Daggers");Submit("Equip");yield return null;
-                Submit("Farseer's Daggers");Submit("Equip");yield return null;
-                Assert.AreEqual(frozen,progression.DaggerCooldownRemaining("second-wind"));
-                Submit("Back");Submit("Resume");yield return null;
-                using(var slow=UnityTimeAuthority.Slowdown(.2f))
-                {
-                    float before=progression.DaggerCooldownRemaining("second-wind"),scaled=Time.time;
-                    for(int i=0;i<7;i++)yield return null;
-                    Assert.AreEqual(Time.time-scaled,before-progression.DaggerCooldownRemaining("second-wind"),.035f);
-                }
-                Call(session,"Save");var saved=slots.Open(id).Load().daggers;Assert.AreEqual("farseer",saved.equipped);
-                Assert.Greater(saved.Remaining("second-wind"),25);Assert.AreEqual(2,saved.owned.Distinct().Count());
+                Assert.IsFalse(meter.activeInHierarchy);
+                Submit("Training Daggers");Submit("Equip");yield return null;Submit("Back");Submit("Resume");yield return null;
+                Assert.IsFalse(meter.activeInHierarchy);
+                host.SetPaused(true);yield return null;Submit("Dagger Arsenal");Submit("Farseer's Daggers");Submit("Equip");yield return null;
+                Assert.AreEqual(bank,Stored());Submit("Back");Submit("Resume");yield return null;yield return null;
+                Assert.IsTrue(meter.activeInHierarchy);Assert.AreEqual(bank,Stored());
+                Call(session,"Save");Assert.AreEqual(bank,slots.Open(id).Load().daggers.Stored("farseer"));
+                Assert.Zero(slots.Open(other.slotId).Load().daggers?.Stored("farseer")??0);
                 Call(session,"ReturnToTitle");yield return Changed(Title,session);title=Session();Submit("Continue");yield return Changed(World,title);
                 var restored=Prop<ProgressionService>(Session(),"Progression");
-                Assert.AreEqual("farseer",restored.EquippedDagger);Assert.AreEqual(saved.Remaining("second-wind"),restored.DaggerCooldownRemaining("second-wind"),.7f);
+                Assert.AreEqual("farseer",restored.EquippedDagger);Assert.AreEqual(bank,restored.StoredDaggerReserve("farseer"));
             }
             finally
             {

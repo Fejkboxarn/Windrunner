@@ -27,6 +27,12 @@ namespace Windrunner.Daggers
         int interruption;
         float nextHud,flashUntil;
         DaggerPair shown;
+        RectTransform reserveMeter, reserveFill;
+        Text reserveCaption;
+        float chargeFlashUntil;
+        float lastCapacity;
+        bool lastFull;
+
         public bool GameplayAllowed=>isActiveAndEnabled && session && !session.Busy && session.character && session.character.enabled &&
             session.character.gameObject.activeInHierarchy && session.input.Input!=null && !session.input.Input.IsGameplayBlocked && Time.timeScale>0;
         void Start()
@@ -48,7 +54,8 @@ namespace Windrunner.Daggers
             interruption=session.input.Input.InterruptionVersion;
             progression.Changed+=QueueRefresh;
             Equipment.EquippedChanged+=Show;Equipment.Activated+=Pulse;
-            CreateHud();Show(Equipment.Equipped);
+            Equipment.Listen(true);Equipment.ReserveChanged+=ReserveUpdated;
+            CreateHud();CreateReserveMeter();Show(Equipment.Equipped);
         }
         void QueueRefresh()=>refresh=true;
         Transform CreateGrip(Transform hand,HumanBodyBones finger,Transform original)
@@ -64,6 +71,7 @@ namespace Windrunner.Daggers
         {
             if(Equipment==null)return;
             if(refresh){refresh=false;Equipment.Synchronize();}
+            Equipment.ReconcileEquippedCapacity();
             var input=session && session.input ? session.input.Input : null;
             if(input==null){hud.SetActive(false);waitForRelease=true;return;}
             var action=input.GetAction("Gameplay","DaggerAbility");
@@ -72,15 +80,25 @@ namespace Windrunner.Daggers
             {waitForRelease=true;interruption=input.InterruptionVersion;}
             if(allowed)
             {
-                Equipment.Tick(Time.deltaTime);
+
                 if(!action.IsPressed())waitForRelease=false;
                 if(!waitForRelease && action.WasPressedThisFrame())Equipment.TryActivate(true,Time.frameCount);
             }
             hud.SetActive(allowed && shown);
+            if (reserveMeter)
+            {
+                var wind = shown ? shown.active as SecondWind : null;
+                reserveMeter.gameObject.SetActive(allowed && wind);
+                if (wind && (lastCapacity != wind.capacity || lastFull != (power.Current >= power.Max) ||
+                    (chargeFlashUntil > 0 && Time.unscaledTime >= chargeFlashUntil)))
+                {
+                    DrawReserve();
+                }
+            }
             if(shown && Time.unscaledTime>=nextHud)
             {
                 nextHud=Time.unscaledTime+.12f;
-                label.text=Time.time<flashUntil?shown.active.displayName:Equipment.Status(shown);
+                label.text=Time.time<flashUntil?shown.active.displayName:Equipment.Status(shown,false);
             }
         }
         public static GameObject Mount(GameObject prefab,Transform grip,Vector3 offset,Vector3 euler)
@@ -96,6 +114,7 @@ namespace Windrunner.Daggers
             foreach(var item in passiveHandles)item?.Dispose();passiveHandles.Clear();
             Retire(LeftModel);Retire(RightModel);LeftModel=RightModel=null;
             shown=pair;flashUntil=0;nextHud=0;
+            DrawReserve();
             if(!pair)return;
             LeftModel=Mount(pair.leftModel,LeftGrip,pair.leftOffset,pair.leftEuler);
             RightModel=Mount(pair.rightModel,RightGrip,pair.rightOffset,pair.rightEuler);
@@ -108,6 +127,66 @@ namespace Windrunner.Daggers
             if(!pair.activationVfx)return;
             var fx=Instantiate(pair.activationVfx,RightGrip.position,Quaternion.identity,transform);
             fx.Play();Destroy(fx.gameObject,2f);
+        }
+        void CreateReserveMeter()
+        {
+            // Both production worlds already serialize the main meter's resource binding.
+            foreach (var view in FindObjectsByType<AirPowerProgressBarUI>())
+            {
+                if (view.Resource != power || !view.Meter || view.gameObject.scene != gameObject.scene) continue;
+                var panel = new GameObject("Second Wind reserve",typeof(RectTransform),typeof(Image));
+                reserveMeter = (RectTransform)panel.transform;
+                reserveMeter.SetParent(view.Meter,false);
+                reserveMeter.anchorMin = new Vector2(.18f,.5f);
+                reserveMeter.anchorMax = new Vector2(.82f,.5f);
+                reserveMeter.sizeDelta = new Vector2(0,24);
+                reserveMeter.anchoredPosition = new Vector2(0,27);
+                var track = panel.GetComponent<Image>();
+                track.color = new Color(.025f,.09f,.11f,.95f); track.raycastTarget=false;
+                reserveFill = (RectTransform)new GameObject("Stored AirPower",typeof(RectTransform),typeof(Image)).transform;
+                reserveFill.SetParent(panel.transform,false);
+                reserveFill.GetComponent<Image>().raycastTarget=false;
+                reserveCaption = new GameObject("Stored amount",typeof(RectTransform),typeof(Text)).GetComponent<Text>();
+                reserveCaption.transform.SetParent(panel.transform,false);
+                reserveCaption.rectTransform.anchorMin=Vector2.zero; reserveCaption.rectTransform.anchorMax=Vector2.one;
+                reserveCaption.rectTransform.sizeDelta=Vector2.zero; reserveCaption.rectTransform.anchoredPosition=Vector2.zero;
+                reserveCaption.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"); reserveCaption.fontSize=16;
+                reserveCaption.alignment=TextAnchor.MiddleCenter; reserveCaption.raycastTarget=false;
+                return;
+            }
+        }
+        void ReserveUpdated(float delta)
+        {
+            if (delta>0 && shown && shown.active is SecondWind wind)
+            {
+                chargeFlashUntil=Time.unscaledTime+.25f;
+                if(wind.chargeVfx)
+                {
+                    var fx=Instantiate(wind.chargeVfx,LeftGrip.position,Quaternion.identity,transform);
+                    fx.Play();Destroy(fx.gameObject,2f);
+                }
+            }
+            nextHud=0;
+            DrawReserve();
+        }
+        void DrawReserve()
+        {
+            if(!reserveMeter)return;
+            var wind=shown ? shown.active as SecondWind : null;
+            reserveMeter.gameObject.SetActive(wind && GameplayAllowed);
+            if(!wind)return;
+            float value=Equipment.Stored(shown);
+            lastCapacity=wind.capacity; lastFull=power.Current>=power.Max;
+            if(Time.unscaledTime>=chargeFlashUntil)chargeFlashUntil=0;
+            var fill=reserveFill.GetComponent<Image>();
+            fill.color=chargeFlashUntil>0?Color.Lerp(wind.meterColor,Color.white,.45f):wind.meterColor;
+            fill.sprite=wind.meterSprite;
+            reserveFill.anchorMin=Vector2.zero;
+            reserveFill.anchorMax=new Vector2(Mathf.Clamp01(value/wind.capacity),1);
+            reserveFill.offsetMin=reserveFill.offsetMax=Vector2.zero;
+            string status=value>=wind.capacity?" · FULL":"";
+            if(value>0 && !lastFull)status+=" · READY";
+            reserveCaption.text=$"SECOND WIND   {value:0.#} / {wind.capacity:0.#}{status}";
         }
         void CreateHud()
         {
@@ -126,6 +205,7 @@ namespace Windrunner.Daggers
         {
             if(Equipment==null)return;
             Equipment.EquippedChanged+=Show;Equipment.Activated+=Pulse;
+            Equipment.Listen(true);
             originalA.forceRenderingOff=originalB.forceRenderingOff=true;
             Show(Equipment.Equipped);waitForRelease=true;
         }
@@ -133,6 +213,7 @@ namespace Windrunner.Daggers
         {
             if(Equipment==null)return;
             Equipment.EquippedChanged-=Show;Equipment.Activated-=Pulse;
+            Equipment.Listen(false);
             if(hud)hud.SetActive(false);
             Show(null);
             if(originalA)originalA.forceRenderingOff=hidA;
@@ -142,6 +223,8 @@ namespace Windrunner.Daggers
         {
             if(Equipment==null)return;
             progression.Changed-=QueueRefresh;Equipment.EquippedChanged-=Show;Equipment.Activated-=Pulse;
+            Equipment.ReserveChanged-=ReserveUpdated;
+            if(reserveMeter)Destroy(reserveMeter.gameObject);
             if(hud)Destroy(hud);
             if(LeftGrip)Destroy(LeftGrip.gameObject);if(RightGrip)Destroy(RightGrip.gameObject);
         }

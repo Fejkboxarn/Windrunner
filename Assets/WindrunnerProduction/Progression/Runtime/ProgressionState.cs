@@ -54,12 +54,30 @@ namespace Windrunner.Production.Progression
         public string effectId;
         public float remaining;
     }
+    [Serializable] public sealed class DaggerReserve
+    {
+        public string pairId;
+        public float amount;
+    }
     [Serializable] public sealed class DaggerLoadout
     {
         public bool initialized;
         public string equipped;
         public List<string> owned = new List<string>();
         public List<DaggerCooldown> cooldowns = new List<DaggerCooldown>();
+        public List<DaggerReserve> reserves = new List<DaggerReserve>();
+        public float Stored(string pairId)
+        {
+            if (reserves != null)
+                foreach (var entry in reserves) if (entry.pairId == pairId) return entry.amount;
+            return 0;
+        }
+        public void SetStored(string pairId, float amount)
+        {
+            reserves ??= new List<DaggerReserve>();
+            reserves.RemoveAll(entry => entry.pairId == pairId);
+            if (amount > 0) reserves.Add(new DaggerReserve { pairId = pairId, amount = amount });
+        }
         public float Remaining(string id) => cooldowns.Find(c=>c.effectId==id)?.remaining ?? 0f;
         public void Advance(float seconds)
         {

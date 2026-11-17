@@ -3,6 +3,23 @@ using UnityEngine;
 
 namespace AirflowPrototype
 {
+    [Flags]
+    public enum AirPowerRewardSource { AirNode = 1, SlingNode = 2 }
+
+    // One delivery per earned return stream, even if a resource callback re-enters.
+    public sealed class AirPowerReward
+    {
+        public readonly AirPowerRewardSource Source;
+        bool delivered;
+        public AirPowerReward(AirPowerRewardSource source) { Source = source; }
+        internal bool Claim()
+        {
+            if (delivered) return false;
+            delivered = true;
+            return true;
+        }
+    }
+
     /// <summary>
     /// Existing serialized reference and public API preserved; game rules live in AirPowerState.
     /// Keep this component on the player while legacy systems still GetComponent<AirPower>().
@@ -82,6 +99,15 @@ namespace AirflowPrototype
         }
 
         bool IAirPowerBudget.SpendAndHasRemaining(float amount) => Spend(amount);
+
+        public event Action<AirPowerRewardSource,float> RewardOverflow;
+
+        public void GrantReward(AirPowerReward reward, float amount)
+        {
+            if (!settings || reward == null || !(amount > 0) || float.IsInfinity(amount) || !reward.Claim()) return;
+            float excess = State.RestoreReward(amount, settings.maxAirPower, settings.dashRestartFraction);
+            if (excess > 0) RewardOverflow?.Invoke(reward.Source, excess);
+        }
 
         public void Restore(float amount)
         {

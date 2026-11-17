@@ -35,6 +35,9 @@ namespace Windrunner.Production.Progression
                 state.puzzles.Any(p => p == null || p.mechanisms == null) || state.persistentFacts.Any(f => f == null))
                 throw new InvalidDataException("Invalid progression records.");
             var daggers=state.daggers;
+            if (daggers?.reserves != null && (daggers.reserves.Any(r => r == null || string.IsNullOrWhiteSpace(r.pairId) ||
+                !(r.amount >= 0) || float.IsInfinity(r.amount)) || daggers.reserves.Select(r => r.pairId).Distinct().Count() != daggers.reserves.Count))
+                throw new InvalidDataException("Invalid dagger reserve.");
             if(daggers!=null && daggers.initialized &&
                 (daggers.owned==null || daggers.cooldowns==null || daggers.owned.Any(string.IsNullOrWhiteSpace) ||
                  daggers.owned.Distinct().Count()!=daggers.owned.Count ||

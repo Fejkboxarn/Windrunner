@@ -20,6 +20,7 @@ namespace Windrunner.Production.Progression
         public bool HasPersistentFact(FactKind kind, string targetId) => state.persistentFacts.Any(f => f.kind == kind && f.targetId == targetId);
         public DaggerLoadout ReadDaggers()=>state.daggers==null?new DaggerLoadout():
             UnityEngine.JsonUtility.FromJson<DaggerLoadout>(UnityEngine.JsonUtility.ToJson(state.daggers));
+        public float StoredDaggerReserve(string pairId) => state.daggers?.Stored(pairId) ?? 0;
         public string EquippedDagger=>state.daggers?.equipped;
         public bool OwnsDagger(string id)=>state.daggers?.owned.Contains(id)==true;
         public float DaggerCooldownRemaining(string effectId)=>state.daggers?.Remaining(effectId)??0f;

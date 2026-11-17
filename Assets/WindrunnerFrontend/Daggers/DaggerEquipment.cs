@@ -11,6 +11,26 @@ namespace Windrunner.Daggers
         int lastActivation=-1;
         public DaggerPair Equipped=>Catalog.Find(progression.EquippedDagger);
         public event Action<DaggerPair> EquippedChanged, Activated;
+        public event Action<float> ReserveChanged;
+        public float Stored(DaggerPair pair) => pair ? progression.StoredDaggerReserve(pair.id) : 0;
+        public void Listen(bool enabled)
+        {
+            if (!power) return;
+            power.RewardOverflow -= Collect;
+            if (enabled) power.RewardOverflow += Collect;
+        }
+        void Collect(AirPowerRewardSource source, float excess)
+        {
+            var pair = Equipped;
+            if (!pair || !(pair.active is SecondWind wind) || (wind.eligibleSources & source) == 0) return;
+            float old = Stored(pair);
+            float next = UnityEngine.Mathf.Min(wind.capacity, old + excess * wind.storageRatio);
+            if (next == old) return;
+            var state = progression.ReadDaggers();
+            state.SetStored(pair.id, next);
+            progression.SaveDaggers(state);
+            ReserveChanged?.Invoke(next - old);
+        }
         public bool Owns(DaggerPair pair)=>pair && progression.OwnsDagger(pair.id);
         public DaggerEquipment(DaggerCatalog catalog,ProgressionService service,AirPower resource)
         {
@@ -31,6 +51,16 @@ namespace Windrunner.Daggers
                 {state.owned.Add(pair.id);changed=true;}
             if(!string.IsNullOrEmpty(state.equipped) && (!Catalog.Find(state.equipped)||!state.owned.Contains(state.equipped)))
             {state.equipped="";changed=true;}
+            foreach (var pair in Catalog.pairs)
+            {
+                if (!pair || !(pair.active is SecondWind wind)) continue;
+                if (state.cooldowns.RemoveAll(c => c.effectId == wind.id) > 0) changed = true;
+                if (state.Stored(pair.id) > wind.capacity)
+                {
+                    state.SetStored(pair.id, wind.capacity);
+                    changed = true;
+                }
+            }
             if(changed)progression.SaveDaggers(state);
         }
         public bool Equip(DaggerPair pair)
@@ -40,24 +70,37 @@ namespace Windrunner.Daggers
             var state=progression.ReadDaggers();state.equipped=pair?pair.id:"";progression.SaveDaggers(state);
             EquippedChanged?.Invoke(pair);return true;
         }
-        public void Tick(float scaledSeconds)=>progression.AdvanceDaggerCooldowns(scaledSeconds);
-        public float Remaining(DaggerPair pair)=>pair && pair.active?progression.DaggerCooldownRemaining(pair.active.id):0;
-        public string Status(DaggerPair pair)
+        public void ReconcileEquippedCapacity()
         {
-            if(!pair || !pair.active)return "No active ability";
-            float seconds=Remaining(pair);
-            if(seconds>0)return "Cooldown · "+UnityEngine.Mathf.CeilToInt(seconds)+" s";
-            return pair.active.Unavailable(power)??"Ready";
+            var pair = Equipped;
+            if (pair && pair.active is SecondWind wind && Stored(pair) > wind.capacity)
+            {
+                Synchronize();
+                ReserveChanged?.Invoke(0);
+            }
         }
-        public bool TryActivate(bool permitted,int pressFrame)
+        public string Status(DaggerPair pair, bool includeBalance=true)
         {
-            var pair=Equipped;
-            if(!permitted || pressFrame==lastActivation || !pair || !pair.active || Remaining(pair)>0 || pair.active.Unavailable(power)!=null)return false;
-            var effect=pair.active;var state=progression.ReadDaggers();
-            state.cooldowns.RemoveAll(c=>c.effectId==effect.id);
-            state.cooldowns.Add(new DaggerCooldown{effectId=effect.id,remaining=effect.cooldown});
-            progression.SaveDaggers(state);lastActivation=pressFrame;
-            effect.Execute(power);Activated?.Invoke(pair);return true;
+            if (!pair || !pair.active) return "No active ability";
+            float stored = Stored(pair);
+            string status = pair.active.Unavailable(power, stored) ?? "Ready";
+            return includeBalance && pair.active is SecondWind wind ? $"{stored:0.#}/{wind.capacity:0.#} · {status}" : status;
+        }
+        public bool TryActivate(bool permitted, int pressFrame)
+        {
+            var pair = Equipped;
+            if (!permitted || pressFrame == lastActivation || !pair || !pair.active) return false;
+            float stored = Stored(pair);
+            if (pair.active is SecondWind wind) stored = UnityEngine.Mathf.Min(stored, wind.capacity);
+            if (pair.active.Unavailable(power, stored) != null) return false;
+            var state = progression.ReadDaggers();
+            state.SetStored(pair.id, 0);
+            progression.SaveDaggers(state);
+            lastActivation = pressFrame;
+            pair.active.Execute(power, stored);
+            ReserveChanged?.Invoke(-stored);
+            Activated?.Invoke(pair);
+            return true;
         }
     }
 }

@@ -28,6 +28,9 @@ namespace AirflowPrototype
             "Procedural Progress Bars asset.")]
         [SerializeField] private MonoBehaviour proceduralProgressBar;
 
+        public AirPower Resource => airPower;
+        public RectTransform Meter => proceduralProgressBar ? proceduralProgressBar.transform as RectTransform : null;
+
         [Header("Plugin Animation")]
         [Tooltip(
             "When enabled, Air Power increases use BarFill and decreases use " +

@@ -176,10 +176,10 @@ namespace AirflowPrototype
 
             _deliveryRoutine =
                 StartCoroutine(
-                    DeliverAirPowerAfterDelay());
+                    DeliverAirPowerAfterDelay(new AirPowerReward(AirPowerRewardSource.SlingNode)));
         }
 
-        private IEnumerator DeliverAirPowerAfterDelay()
+        private IEnumerator DeliverAirPowerAfterDelay(AirPowerReward reward)
         {
             float delay =
                 Mathf.Max(
@@ -204,7 +204,7 @@ namespace AirflowPrototype
                     0f,
                     airPowerRewardMultiplier);
 
-            airPower.Restore(
+            airPower.GrantReward(reward,
                 amount);
 
             RewardDelivered?.Invoke();

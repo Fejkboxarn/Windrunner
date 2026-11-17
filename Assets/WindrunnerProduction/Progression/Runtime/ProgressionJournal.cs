@@ -253,7 +253,7 @@ namespace Windrunner.Production.Progression
                 GUILayout.Label(Binding("Journal") + " · full objectives", ProgressionUiTheme.Muted); GUILayout.EndArea();
             }
             GUI.Label(new Rect(630, 348, 24, 24), "+", ProgressionUiTheme.Heading);
-            GUILayout.BeginArea(new Rect(320, 592, 640, 104), ProgressionUiTheme.Card);
+            GUILayout.BeginArea(new Rect(320, 492, 640, 104), ProgressionUiTheme.Card);
             GUILayout.Label(interaction != null && interaction.Target != null ? interaction.Prompt : interaction?.Candidate != null ? interaction.Candidate.prompt + " · " + interaction.Rejection : "Aim at a nearby character or object • " + Binding("Journal") + " opens your journal", ProgressionUiTheme.Body);
             if (Time.unscaledTime < notificationUntil) GUILayout.Label(notification, ProgressionUiTheme.Muted);
             GUILayout.EndArea();

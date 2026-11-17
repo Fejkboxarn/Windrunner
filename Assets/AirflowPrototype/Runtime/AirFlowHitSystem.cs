@@ -112,7 +112,7 @@ namespace AirflowPrototype
 
             StartCoroutine(
                 DeliverRewardAfterDelay(
-                    node,
+                    new AirPowerReward(AirPowerRewardSource.AirNode), node,
                     gameplayIntensity,
                     presentationIntensity,
                     Mathf.Max(
@@ -121,7 +121,7 @@ namespace AirflowPrototype
         }
 
         private IEnumerator DeliverRewardAfterDelay(
-            AirNode node,
+            AirPowerReward reward, AirNode node,
             float gameplayIntensity,
             float presentationIntensity,
             float delay)
@@ -136,7 +136,7 @@ namespace AirflowPrototype
                 yield break;
             }
 
-            airPower.Restore(
+            airPower.GrantReward(reward,
                 settings.airPowerRestore *
                 gameplayIntensity);
 

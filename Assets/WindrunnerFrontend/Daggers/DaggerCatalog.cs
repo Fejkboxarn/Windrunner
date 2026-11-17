@@ -28,24 +28,27 @@ namespace Windrunner.Daggers
                     if(model.GetComponentsInChildren<MeshRenderer>(true).Length==0 || model.GetComponentsInChildren<Behaviour>(true).Length!=0 || model.GetComponentsInChildren<Collider>(true).Length!=0 ||
                        model.GetComponentsInChildren<Rigidbody>(true).Length!=0)return model.name+" must contain render-only geometry.";
                 if(Array.Exists(p.passives,e=>!e))return p.name+" contains a missing passive effect.";
-                if(p.activationVfx)
-                {
-                    if(p.activationVfx.GetComponentsInChildren<Behaviour>(true).Length!=0 ||
-                        p.activationVfx.GetComponentsInChildren<Collider>(true).Length!=0 ||
-                        p.activationVfx.GetComponentsInChildren<Rigidbody>(true).Length!=0)
-                        return p.name+" needs an activation burst without gameplay or audio components.";
-                    foreach(var ps in p.activationVfx.GetComponentsInChildren<ParticleSystem>(true))
-                        if(ps.main.loop)return p.name+" needs a non-looping activation burst.";
-                }
+                if (!ValidBurst(p.activationVfx) || (p.active is SecondWind reserve && !ValidBurst(reserve.chargeVfx)))
+                    return p.name+" needs a non-looping particle burst without gameplay, physics or audio components.";
                 var a=p.active;if(!a)continue;
-                if(a is SecondWind wind && !(wind.restoreFraction>0 && wind.restoreFraction<=1))return p.name+" needs a restoration fraction greater than zero and at most one.";
-                if(string.IsNullOrWhiteSpace(a.id) || !(a.cooldown>0) || float.IsInfinity(a.cooldown) || (effects.TryGetValue(a.id,out var other)&&other!=a))
-                    return p.name+" needs a valid stable effect ID and positive cooldown.";
+                if(a is SecondWind wind && !(wind.capacity>0 && !float.IsInfinity(wind.capacity) && wind.storageRatio>=0 && wind.storageRatio<=1 && wind.transferEfficiency>0 && wind.transferEfficiency<=1))return p.name+" needs a positive finite reserve capacity and valid conversion settings.";
+                if(string.IsNullOrWhiteSpace(a.id) || (effects.TryGetValue(a.id,out var other)&&other!=a))
+                    return p.name+" needs a valid stable effect ID.";
                 effects[a.id]=a;
             }
             if(!tolerateRemovedDefinitions && Array.Exists(startingPairs,p=>!p || !Array.Exists(pairs,v=>v==p)))return "Starting pairs must belong to the arsenal.";
             if(initialPair && Array.IndexOf(startingPairs,initialPair)<0)return "Initial pair must be initially owned.";
             return null;
+        }
+        static bool ValidBurst(ParticleSystem effect)
+        {
+            if (!effect) return true;
+            if (effect.GetComponentsInChildren<Behaviour>(true).Length != 0 ||
+                effect.GetComponentsInChildren<Collider>(true).Length != 0 ||
+                effect.GetComponentsInChildren<Rigidbody>(true).Length != 0) return false;
+            foreach (var particles in effect.GetComponentsInChildren<ParticleSystem>(true))
+                if (particles.main.loop) return false;
+            return true;
         }
     }
 }

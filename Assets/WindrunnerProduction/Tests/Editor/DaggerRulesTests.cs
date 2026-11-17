@@ -52,12 +52,63 @@ namespace Windrunner.Production.Tests
                 Assert.IsFalse((bool)Call(recovered,"Equip",pair));
                 Pairs(catalog,"pairs",training,pair);Call(recovered,"Synchronize");
                 Assert.IsTrue((bool)Call(recovered,"Equip",pair));
-                Assert.AreEqual(17,reopened.DaggerCooldownRemaining("second-wind"));
+                Assert.Zero(reopened.DaggerCooldownRemaining("second-wind"));
+                Assert.Zero(reopened.StoredDaggerReserve("farseer"));
             }
             finally{Object.DestroyImmediate(catalog);Object.DestroyImmediate(pair);}
         }
 
-        [Test] public void SecondWindUsesLiveCapacityAndPublishesOneRecoveryPerAcceptedPress()
+        [Test] public void OnlySelectedRewardSourceChargesAtConfiguredRatio()
+        {
+            var catalog=Object.Instantiate(AssetDatabase.LoadMainAssetAtPath(Folder+"Arsenal.asset"));
+            var pair=Object.Instantiate(AssetDatabase.LoadMainAssetAtPath(Folder+"Farseer's Daggers.asset"));
+            var effect=Object.Instantiate(AssetDatabase.LoadMainAssetAtPath(Folder+"Second Wind.asset"));
+            var root=new GameObject("Resource test");
+            var settings=ScriptableObject.CreateInstance(Runtime("AirflowPrototype.AirflowMovementSettings"));
+            try
+            {
+                var source=Runtime("AirflowPrototype.AirPowerRewardSource");
+                effect.GetType().GetField("eligibleSources").SetValue(effect,Enum.Parse(source,"SlingNode"));
+                effect.GetType().GetField("storageRatio").SetValue(effect,.5f);
+                pair.GetType().GetField("active").SetValue(pair,effect);
+                Pairs(catalog,"pairs",pair);Pairs(catalog,"startingPairs",pair);
+                catalog.GetType().GetField("initialPair").SetValue(catalog,pair);
+                using var service=new ProgressionService(new ProgressionDefinitions(),"player",new MemoryProgressionStore());
+                var power=root.AddComponent(Runtime("AirflowPrototype.AirPower"));
+                Call(power,"Configure",settings,true);
+                var rules=Activator.CreateInstance(Runtime("Windrunner.Daggers.DaggerEquipment"),catalog,service,power);
+                Call(rules,"Listen",true);
+                void Return(string kind)=>Call(power,"GrantReward",Activator.CreateInstance(Runtime("AirflowPrototype.AirPowerReward"),Enum.Parse(source,kind)),40f);
+                Return("AirNode");Assert.Zero(service.StoredDaggerReserve("farseer"));
+                Return("SlingNode");Assert.AreEqual(20,service.StoredDaggerReserve("farseer"));
+                effect.GetType().GetField("capacity").SetValue(effect,8f);Call(rules,"Synchronize");
+                Assert.AreEqual(8,service.StoredDaggerReserve("farseer"));
+                Call(rules,"Listen",false);Return("SlingNode");Assert.AreEqual(8,service.StoredDaggerReserve("farseer"));
+            }
+            finally
+            {
+                Object.DestroyImmediate(root);Object.DestroyImmediate(settings);Object.DestroyImmediate(catalog);
+                Object.DestroyImmediate(pair);Object.DestroyImmediate(effect);
+            }
+        }
+
+        [Test] public void OldSlotWithOnlyCooldownLoadsEmptyAndPreservesEquippedPair()
+        {
+            var loadout=new DaggerLoadout{initialized=true,equipped="farseer"};
+            loadout.owned.Add("farseer");
+            loadout.cooldowns.Add(new DaggerCooldown{effectId="second-wind",remaining=28f});
+            string legacy=ProgressionCodec.Encode(new ProgressionState{playerId="player",daggers=loadout})
+                .Replace(",\"reserves\":[]","");
+            Assert.That(legacy,Does.Not.Contain("\"reserves\""));
+            var store=new MemoryProgressionStore();store.Commit(ProgressionCodec.Decode(legacy));
+            using var service=new ProgressionService(new ProgressionDefinitions(),"player",store);
+            var catalog=AssetDatabase.LoadMainAssetAtPath(Folder+"Arsenal.asset");
+            Activator.CreateInstance(Runtime("Windrunner.Daggers.DaggerEquipment"),catalog,service,null);
+            Assert.AreEqual("farseer",store.Load().daggers.equipped);
+            Assert.Zero(service.StoredDaggerReserve("farseer"));Assert.Zero(store.Load().daggers.Remaining("second-wind"));
+        }
+
+        [Test] public void RewardOverflowAndReleaseConserveEnergyAtLiveCapacity()
         {
             var root=new GameObject("Rule test player");
             var settings=ScriptableObject.CreateInstance(Runtime("AirflowPrototype.AirflowMovementSettings"));
@@ -70,16 +121,35 @@ namespace Windrunner.Production.Tests
                 var catalog=AssetDatabase.LoadMainAssetAtPath(Folder+"Arsenal.asset");
                 var rules=Activator.CreateInstance(Runtime("Windrunner.Daggers.DaggerEquipment"),catalog,service,power);
                 Call(rules,"Equip",AssetDatabase.LoadMainAssetAtPath(Folder+"Farseer's Daggers.asset"));
+                Call(rules,"Listen",true);Call(rules,"Listen",true);
+                float Stored()=>service.StoredDaggerReserve("farseer");
                 bool Press(bool allowed,int frame)=>(bool)Call(rules,"TryActivate",allowed,frame);
-                Assert.IsFalse(Press(true,1));Assert.Zero(service.DaggerCooldownRemaining("second-wind"));
-                max.SetValue(settings,79f);Call(power,"Spend",79f);
-                int recovered=0;Action observe=()=>recovered++;
-                power.GetType().GetEvent("RecoveredFromDepletion").AddEventHandler(power,observe);
+                object Reward(string source)=>Activator.CreateInstance(Runtime("AirflowPrototype.AirPowerReward"),
+                    Enum.Parse(Runtime("AirflowPrototype.AirPowerRewardSource"),source));
+                void Grant(object reward,float amount)=>Call(power,"GrantReward",reward,amount);
+                Assert.IsFalse(Press(true,1));
+                Call(power,"Spend",20f);
+                var ticket=Reward("AirNode");
+                Action<float,float> replay=(current,maximum)=>Grant(ticket,50);
+                var changed=power.GetType().GetEvent("Changed");
+                changed.AddEventHandler(power,replay);
+                try { Grant(ticket,50); } finally { changed.RemoveEventHandler(power,replay); }
+                Assert.AreEqual(30,Stored());Grant(ticket,50);Assert.AreEqual(30,Stored());
+                Assert.IsFalse(Press(true,1));Assert.AreEqual(30,Stored());
+                max.SetValue(settings,79f);
                 Assert.IsFalse(Press(false,2));Assert.IsTrue(Press(true,2));
-                Assert.AreEqual(79f,power.GetType().GetProperty("Current").GetValue(power));Assert.AreEqual(1,recovered);
-                Call(rules,"Tick",30f);Call(power,"Spend",79f);
-                Assert.IsFalse(Press(true,2));Assert.Zero(service.DaggerCooldownRemaining("second-wind"));
-                Assert.IsTrue(Press(true,3));Assert.AreEqual(2,recovered);
+                Assert.AreEqual(71f,power.GetType().GetProperty("Current").GetValue(power));
+                Assert.Zero(Stored());Call(power,"Refill");Call(power,"Restore",100f);Assert.Zero(Stored());
+                Grant(Reward("SlingNode"),120);Assert.AreEqual(50,Stored());
+                Call(power,"Spend",10f);Assert.IsFalse(Press(true,2));Assert.IsTrue(Press(true,3));
+                Assert.AreEqual(79f,power.GetType().GetProperty("Current").GetValue(power));Assert.Zero(Stored());
+                Call(rules,"Equip",AssetDatabase.LoadMainAssetAtPath(Folder+"Training Daggers.asset"));
+                Grant(Reward("AirNode"),100);Assert.Zero(Stored());
+                var far=AssetDatabase.LoadMainAssetAtPath(Folder+"Farseer's Daggers.asset");Call(rules,"Equip",far);
+                Grant(Reward("AirNode"),33);Assert.AreEqual(33,Stored());
+                var oversized=service.ReadDaggers();oversized.SetStored("farseer",88);service.SaveDaggers(oversized);
+                Call(rules,"Synchronize");Assert.AreEqual(50,Stored());
+                Call(rules,"Listen",false);
             }
             finally{Object.DestroyImmediate(root);Object.DestroyImmediate(settings);}
         }

@@ -114,7 +114,7 @@ namespace Windrunner.Frontend
             var equipment=session.daggers.Equipment;
             string detail=inspected?inspected.displayName+"\n"+inspected.description:"No daggers owned";
             if(inspected && inspected.active)
-                detail+="\n\n"+inspected.active.displayName+" · "+inspected.active.cooldown+" s\n"+inspected.active.description+"\n"+equipment.Status(inspected);
+                detail+="\n\n"+inspected.active.displayName+"\n"+inspected.active.description+"\n"+equipment.Status(inspected);
             else detail+="\nNo active ability";
             if(inspected)foreach(var passive in inspected.passives)detail+="\n"+passive.displayName+" · "+passive.description;
             Page("Dagger Arsenal",detail,ArsenalBack);

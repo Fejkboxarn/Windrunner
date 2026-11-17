@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Windrunner.Daggers.SecondWind
   id: second-wind
   displayName: Second Wind
-  description: Restore AirPower up to its current maximum.
-  cooldown: 30
-  restoreFraction: 1
-  allowAtFull: 0
+  description: Bank excess AirPower from node rewards. Release the reserve into the main meter; unused energy dissipates.
+  capacity: 50
+  eligibleSources: 3
+  storageRatio: 1
+  transferEfficiency: 1
+  meterColor: {r: 0.10, g: 0.65, b: 0.72, a: 1}

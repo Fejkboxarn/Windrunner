@@ -65,7 +65,7 @@ namespace Windrunner.Frontend.Editor
             var burst=PrefabUtility.SaveAsPrefabAsset(gust,Folder+"/Second Wind burst.prefab").GetComponent<ParticleSystem>();
             DestroyImmediate(gust);
             var active=CreateInstance<SecondWind>();active.id="second-wind";active.displayName="Second Wind";
-            active.description="Restore AirPower up to its current maximum.";active.cooldown=30;
+            active.description="Bank excess AirPower from node rewards. Release the reserve into the main meter; unused energy dissipates.";
             AssetDatabase.CreateAsset(active,Folder+"/Second Wind.asset");
             DaggerPair Make(string id,string name,bool powered)
             {

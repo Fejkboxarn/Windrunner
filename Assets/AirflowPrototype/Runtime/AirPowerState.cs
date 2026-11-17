@@ -92,6 +92,14 @@ namespace AirflowPrototype
             return true;
         }
 
+        public float RestoreReward(float amount, float max, float restartFraction)
+        {
+            ReconcileCapacity(max, restartFraction);
+            float excess = Mathf.Max(0, amount - Mathf.Max(0, max - Current));
+            Restore(amount, max, restartFraction);
+            return excess;
+        }
+
         public void Restore(float amount, float max, float dashRestartFraction)
         {
             if (amount <= 0f)
