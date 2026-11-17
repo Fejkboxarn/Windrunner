@@ -361,3 +361,7 @@ The local `codex/dagger-integration` branch fast-forwarded from unified `cc31b17
 ### Reward persistence and interrupted overwrites
 
 Checkpoint `cf22d5bf` reduces reserve transaction allocations and fixes a reproduced overwrite that could replace the only valid recovery copy. Immediate durability remains in effect. Unity passed 91/91 Edit Mode, 41/41 Play Mode and 3/3 selected rendered cases. The Windows player still shows a storage-bound hitch on four overflow deliveries. The [reward persistence report](RewardPersistence.md) records paired timings, shutdown and checksum checks, the Windows build and remaining manual acceptance.
+
+### Same-frame reward persistence
+
+Checkpoint `78c95b37` batches only positive traversal reserve collections and keeps critical progression and activation debits immediately durable. On the matched rendered Windows player, four fresh-slot returns used one publication and a 10.83 ms median affected frame (control 27.98 ms). Isolated fresh-slot frames remained slower in both run orders. All 152 distinct Unity cases passed, as did 65 serialized source checks, both Windows Development builds, three forced-termination recovery cases and the graceful-quit snapshot check. See the [batching report and manual acceptance](RewardBatching.md) and [paired measurements](RewardBatchingResults.json).

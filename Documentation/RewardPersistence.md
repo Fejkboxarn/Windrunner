@@ -1,5 +1,7 @@
 # Reward persistence and slot recovery
 
+This report records the synchronous baseline at `30752891`. The [same-frame batching report](RewardBatching.md) documents the subsequent approved policy and measurements.
+
 Baseline `3b9bf18c` on `codex/dagger-integration`. Unity 6000.6.2f1, Windows x64, rendered Direct3D 11. The benchmark creates a fresh Zone 01 playthrough in a unique temporary directory. Each burst has four independent three-unit Air Node returns with full main AirPower and Farseer's equipped. The single-return case exercises one overflow. The main-only control spends five units before one three-unit return. Reset, transfer, menu navigation and reload occur outside the timed callbacks. A separate 120-frame traversal control moves the production character through the Input System with a virtual gamepad.
 
 ## Persistence decision
