@@ -139,7 +139,7 @@ namespace AirflowPrototype
             if (bridge.ReadRecordingPose(out var p))
             {
                 poseLine = $"{p.state}   {(p.clip ? p.clip.name : "—")}   {p.weight:P0}";
-                actionLine = $"Portable   {p.context}   {bridge.ActiveAnimationAction}";
+                actionLine = bridge.DebugIsolateLocomotion ? "Locomotion isolated · gameplay/action clocks active" : $"Portable   {p.context}   {bridge.ActiveAnimationAction}";
                 layerLine = p.action==null ? null : $"{(p.actionClip ? p.actionClip.name : p.action)}   {p.actionWeight:P0}   {(p.weighted ? (p.weightSource ? p.weightSource.name+" + regions" : "local region weights") : p.mask ? p.mask.name : "full body")}   {p.actionSeconds:F2}s";
                 if(detailed && Time.unscaledTime>=nextTimingUpdate)
                 {

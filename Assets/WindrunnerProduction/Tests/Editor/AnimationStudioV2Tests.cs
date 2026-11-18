@@ -320,6 +320,7 @@ namespace Windrunner.Production.Tests
                 Call("InitializeStudio"); Call("SelectGround", (int)GroundPose.MoveForward);
                 var ground = (GroundMotionProfile)Get("draftGround");
                 string key = GroundMotionProfile.TimingSlot(GroundPose.MoveForward);
+                string originalCalibration = JsonUtility.ToJson(ground.Adaptive(key));
                 var timing = ground.EditPlayback(key); timing.mode = VisualPlaybackMode.AuthoredSpeed;
                 var adaptive = ground.EditAdaptive(key); adaptive.enabled = true;
                 adaptive.referenceSpeed = 8; adaptive.smoothingSeconds = 0;
@@ -346,7 +347,7 @@ namespace Windrunner.Production.Tests
                     }
                 Assert.IsTrue(adaptive.enabled); Assert.AreEqual(8, adaptive.referenceSpeed);
                 var session = Get("draft"); session.GetType().GetMethod("Revert").Invoke(session, null);
-                Assert.IsNull(ground.Adaptive(key));
+                Assert.AreEqual(originalCalibration, JsonUtility.ToJson(ground.Adaptive(key)));
             }
             finally
             {

@@ -37,6 +37,7 @@ namespace PortableAnimation
             public float applied,seconds,phase,start,end=1;
             public PortableActionPlayback.Timing timing;
         }
+        private static readonly RegionMaskSettings nativeMaskWeights = new RegionMaskSettings();
         private readonly List<FlattenedPoseStack> stacks=new List<FlattenedPoseStack>();
         private readonly List<PoseLayer> layers = new List<PoseLayer>();
         private readonly bool[,] available;
@@ -60,7 +61,8 @@ namespace PortableAnimation
                     string path=null;
                     foreach(var mapped in bones)if(mapped.bone==bone){path=mapped.path;break;}
                     if(path==null)continue;
-                    coefficient*=layer.regions.Resolve(region,path,layer.mask,layer.phase,bone,layer.parent).rotation;
+                    var settings = layer.regions?.enabled == true ? layer.regions : nativeMaskWeights;
+                    coefficient*=settings.Resolve(region,path,layer.mask,layer.phase,bone,layer.parent).rotation;
                 }
                 else if(layer.mask && !layer.mask.GetHumanoidBodyPartActive(RegionMaskSettings.Part(region)))coefficient=0;
                 if((action<0 || layer.action==action) && ((int)variant<0 || layer.context==variant))contribution+=coefficient*remainder;
@@ -75,6 +77,12 @@ namespace PortableAnimation
         public bool IsLoopingSlot(int index) => playback.IsLoopingSlot(index);
         public bool HasActiveAction => playback.ActiveIndex >= 0;
         public bool IsValid => graph.IsValid();
+        private bool debugIsolateLocomotion;
+        public bool DebugIsolateLocomotion
+        {
+            get => debugIsolateLocomotion;
+            set { if (Application.isEditor || Debug.isDebugBuild) debugIsolateLocomotion = value; }
+        }
         public int LiveActionCount => actionProfile != null ? actionProfile.Count : 0;
         public string ActiveAction => playback.ActiveIndex < 0 ? "None" :
             actionProfile.Action(playback.ActiveIndex).id;
@@ -103,7 +111,7 @@ namespace PortableAnimation
                 pose.actionClip = layer.clip;
                 pose.actionSeconds = layer.seconds;
                 pose.timing = LayerTiming(layer);
-                pose.weighted = layer.weighted!=null;
+                pose.weighted = layer.regions?.enabled == true;
                 pose.phase = layer.phase;
                 pose.weightSource = layer.regions?.source ? layer.regions.source : layer.parent?.source;
             }
@@ -194,8 +202,10 @@ namespace PortableAnimation
 
                 if (LiveActionCount > 0)
                 {
-                    // Preserve native layer groups until a weighted action requires a
-                    // per-bone stage. All stages feed one final Animator output.
+                    // Native Humanoid layers may precede transform-weighted composition.
+                    // Once transforms are composed, keep later layers in the same
+                    // space: a downstream Humanoid mixer can reconstruct masked legs
+                    // instead of preserving the already-composed bone transforms.
                     for(int i=0;i<layers.Count;)
                     {
                         var layer=layers[i];
@@ -203,7 +213,7 @@ namespace PortableAnimation
                         {
                             if(hierarchy==null)BindBones(animator);
                             int first=i;
-                            while(i<layers.Count && layers[i].regions?.enabled==true)i++;
+                            i = layers.Count;
                             var assets=new AnimationClip[i-first];
                             for(int n=first;n<i;n++)assets[n-first]=layers[n].clip;
                             var stack=new FlattenedPoseStack(graph,animator,finalPose,assets,true,hierarchy);
@@ -344,7 +354,7 @@ namespace PortableAnimation
                 layer.phase=phase;
                 layer.seconds=Mathf.Min(Mathf.Lerp(layer.start,layer.end,phase)*layer.clip.length,
                     Mathf.Max(0,layer.clip.length-.0001f));
-                float alpha=layer.share*layer.weight*playback.Weight(layer.action);
+                float alpha=debugIsolateLocomotion ? 0 : layer.share*layer.weight*playback.Weight(layer.action);
                 if(layer.weighted!=null)
                 {
                     if(alpha>0 || layer.applied>0)
@@ -352,7 +362,8 @@ namespace PortableAnimation
                         layer.weighted.SetSampleTime(layer.stackIndex,layer.seconds);
                         foreach(var bone in bones)
                         {
-                            var w=layer.regions.Resolve(bone.region,bone.path,layer.mask,phase,bone.bone,layer.parent);
+                            var settings = layer.regions?.enabled == true ? layer.regions : nativeMaskWeights;
+                            var w=settings.Resolve(bone.region,bone.path,layer.mask,phase,bone.bone,layer.parent);
                             layer.weighted.SetBoneWeights(layer.stackIndex,bone.path,new BoneChannelWeights(w.position*alpha,w.rotation*alpha,w.scale*alpha));
                         }
                     }

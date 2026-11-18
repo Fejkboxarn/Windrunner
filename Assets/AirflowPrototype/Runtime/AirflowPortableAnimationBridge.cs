@@ -53,6 +53,14 @@ namespace AirflowPrototype
                 return visuals == null || !visuals.LegacyProceduralAnimationEnabled;
             }
         }
+        public bool DebugIsolateLocomotion => session != null && session.DebugIsolateLocomotion;
+        [ContextMenu("Development/Toggle locomotion-only pose")]
+        public void ToggleLocomotionIsolation()
+        {
+            if (session != null && (Application.isEditor || Debug.isDebugBuild))
+                session.DebugIsolateLocomotion = !session.DebugIsolateLocomotion;
+        }
+
         public string LastError => session != null ? session.LastError : "Not initialized";
 
         public void Configure(WindrunnerAnimationProfile newProfile, PlayerMotor newMotor,

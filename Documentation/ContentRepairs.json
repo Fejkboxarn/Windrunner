@@ -34,8 +34,8 @@
     {
       "path": "Assets/WindrunnerProduction/Animation/Generated/WindrunnerGroundMotion.asset",
       "baseline_sha256": "94170bfffec3bc97b76f63bbc629ef1cc965dcc9be47a9eab569318f0d84bfdb",
-      "approved_sha256": "2adcbd1372ea2164b705d6b7e69ffab166e8e82531a157a99c10c3d64d9a6e85",
-      "reason": "Start, stop, pivot, fall and landing slots were completed during migration. Neutral idle/run assignments, authored gait timing and production turn fallback are recorded in DaggerAnimationIntegration.md. Timing extension audit preserves the artist-authored 2fa990e0 profile byte content, including new run assignments, stationary Combo_Attack_05_04 and weighted Cast regions. See AnimationPlayback.md and AnimationTimingAudit.csv. This records the actual task baseline without asserting visual acceptance."
+      "approved_sha256": "7d6ddb1f7a8d3de9a27f467fdf1eb3e9081d5d6fad17b138696f0a44348b16f5",
+      "reason": "Start, stop, pivot, fall and landing slots were completed during migration. Neutral idle/run assignments, authored gait timing and production turn fallback are recorded in DaggerAnimationIntegration.md. Timing extension audit preserves the artist-authored 2fa990e0 profile byte content, including new run assignments, stationary Combo_Attack_05_04 and weighted Cast regions. See AnimationPlayback.md and AnimationTimingAudit.csv. This records the actual task baseline without asserting visual acceptance. Verified artist checkpoint 788c4400 adds the forward-run 1x override with adaptive disabled; the leg-composition fix preserves these authored bytes."
     },
     {
       "path": "Assets/AirflowPrototype/Generated/Batch1_Playground.unity",

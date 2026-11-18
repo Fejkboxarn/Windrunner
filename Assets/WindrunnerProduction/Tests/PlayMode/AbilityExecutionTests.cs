@@ -486,6 +486,64 @@ namespace Windrunner.Production.Tests
             Assert.That(Get(power, "Current"), Is.EqualTo(85f));
         }
 
+#if UNITY_EDITOR
+        [UnityTest]
+        public IEnumerator SustainedDashAnimationFollowsManualAndRewardLatchUntilRecovery()
+        {
+            // Use the installed tuning on the disposable fixture, including its real dash drain.
+            UnityEditor.EditorJsonUtility.FromJsonOverwrite(UnityEditor.EditorJsonUtility.ToJson(
+                UnityEditor.AssetDatabase.LoadMainAssetAtPath("Assets/AirflowPrototype/Generated/Batch1_MovementSettings.asset")), movement);
+            // Disposable fixture surface allows sustained production-speed travel.
+            foreach (var collider in UnityEngine.Object.FindObjectsByType<BoxCollider>())
+                if (collider.gameObject.scene == scene && collider.transform.localScale.x == 100)
+                    collider.transform.localScale = new Vector3(400, 1, 400);
+            var profile = UnityEditor.AssetDatabase.LoadAssetAtPath<Windrunner.Production.Animation.WindrunnerAnimationProfile>(
+                "Assets/WindrunnerProduction/Animation/Generated/WindrunnerAnimationProfile.asset");
+            var model = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx");
+            var avatar = UnityEngine.Object.Instantiate(model, player.transform); assets.Add(avatar);
+            var animator = avatar.GetComponentInChildren<Animator>(); animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+            using var feedback = new Windrunner.Production.Feedback.FeedbackService(null, null, null, null, null, false);
+            var emitter = Add(player, "AirflowProductionFeedbackEmitter");
+            Call(emitter, "Configure", null, caster, sling, null, power);
+            Call(emitter, "BindFeedbackService", feedback);
+            var bridge = Add(player, "AirflowPortableAnimationBridge");
+            Call(bridge, "Configure", profile, motor, sling, animator, camera);
+            Call(bridge, "BindFeedbackService", feedback);
+            yield return Frames(30);
+            Assert.IsTrue((bool)Get(bridge, "PortableActive"));
+            int starts = 0, stops = 0;
+            Observe(dash, "DashStarted", () => starts++); Observe(dash, "DashStopped", () => stops++);
+            var thigh = animator.GetBoneTransform(HumanBodyBones.RightUpperLeg);
+            Quaternion first = thigh.localRotation; float excursion = 0;
+            Keys(Key.W, Key.LeftShift);
+            for (int frame = 0; frame < 240; frame++)
+            {
+                yield return null;
+                if (frame < 30) { first = thigh.localRotation; continue; }
+                Assert.IsTrue((bool)Get(dash, "IsDashing"));
+                Assert.AreEqual("AirDash", Get(bridge, "ActiveAnimationAction"));
+                excursion = Mathf.Max(excursion, Quaternion.Angle(first, thigh.localRotation));
+            }
+            Assert.Greater(excursion, 40, "Sustained gameplay Dash lost the leg stride.");
+            Debug.Log($"Sustained production Dash speed {Get(motor, "HorizontalSpeed")} m/s; thigh excursion {excursion:F3} degrees; remaining AirPower {Get(power, "Current")}");
+            Keys(Key.W); yield return Frames(30);
+            Assert.IsFalse((bool)Get(dash, "IsDashing")); Assert.AreEqual("None", Get(bridge, "ActiveAnimationAction"));
+            Call(dash, "TriggerAutoDash");
+            for (int frame = 0; frame < 180; frame++)
+            {
+                yield return null;
+                if (frame < 3) continue;
+                Assert.IsTrue((bool)Get(dash, "IsAutoDashLatched"));
+                Assert.IsTrue((bool)Get(dash, "IsDashing"));
+                Assert.AreEqual("AirDash", Get(bridge, "ActiveAnimationAction"));
+            }
+            Keys(); yield return Frames(30);
+            Assert.IsFalse((bool)Get(dash, "IsDashing")); Assert.IsFalse((bool)Get(dash, "IsAutoDashLatched"));
+            Assert.AreEqual("None", Get(bridge, "ActiveAnimationAction"));
+            Assert.AreEqual(2, starts); Assert.AreEqual(2, stops);
+        }
+#endif
+
         [UnityTest]
         public IEnumerator DashDepletionRewardReactivationPauseAndInterruption()
         {

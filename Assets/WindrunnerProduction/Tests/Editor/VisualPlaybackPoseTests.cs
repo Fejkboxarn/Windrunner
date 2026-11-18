@@ -75,6 +75,7 @@ namespace Windrunner.Production.Tests
         {
             var source = AssetDatabase.LoadAssetAtPath<GroundMotionProfile>(Folder + "WindrunnerGroundMotion.asset");
             var profile = Object.Instantiate(source);
+            string originalSource = EditorJsonUtility.ToJson(source);
             string key = GroundMotionProfile.TimingSlot(GroundPose.MoveForward);
             var settings = profile.EditPlayback(key);
             settings.mode = VisualPlaybackMode.AuthoredSpeed; settings.baseSpeed = .5f; settings.reverse = true;
@@ -88,7 +89,7 @@ namespace Windrunner.Production.Tests
                 Assert.That(current.EffectiveSpeed,Is.EqualTo(-.5f).Within(.00001));
                 Assert.That(original.ReadTiming((int)GroundPose.MoveForward).EffectiveSpeed,Is.EqualTo(1).Within(.00001));
                 Assert.That(original.ReadTiming((int)GroundPose.MoveLeft).EffectiveSpeed,Is.EqualTo(1).Within(.00001));
-                Assert.IsNull(source.Playback(key));
+                Assert.AreEqual(originalSource, EditorJsonUtility.ToJson(source));
             }
             finally{graph.Destroy();Object.DestroyImmediate(profile);}
         }

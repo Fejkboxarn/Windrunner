@@ -362,7 +362,7 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
       "baseline_sha256": "fb6aadf2aee307056d9c51be60a708b779ffc19b6815e4e3c12623c7068e4914",
-      "approved_sha256": "c0e584d93595c31509f747535881d6e5654612da7e2a20c1bfc2f3db61ceb53b",
+      "approved_sha256": "c375574813360176e8fc4f1202a47616a4486a3d21829d05852da8a9b74353ca",
       "removed_fields": [
         [
           "PlayerCustomAnimationDriver",
@@ -389,7 +389,7 @@
           "legacyArms"
         ]
       ],
-      "reason": "Retired concrete legacy animation dependencies; all scene references were null before removal, production-only parity validated. The current bridge also exposes evaluated pose diagnostics and attaches its player-bound recorder in development. Adaptive locomotion observes frame-resolved displacement through this bridge; serialized fields match checkpoint 8e2e12bd exactly."
+      "reason": "Retired concrete legacy animation dependencies; all scene references were null before removal, production-only parity validated. The current bridge also exposes evaluated pose diagnostics and attaches its player-bound recorder in development. Adaptive locomotion observes frame-resolved displacement through this bridge; serialized fields match checkpoint 8e2e12bd exactly. A development-only pose isolation facade adds no serialized fields and preserves the retired-field set."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",

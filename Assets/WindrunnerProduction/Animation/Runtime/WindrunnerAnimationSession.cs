@@ -92,6 +92,11 @@ namespace Windrunner.Production.Animation
         public int ObservedEvents { get; private set; }
         public int MappedEvents { get; private set; }
         public int StartedActions { get; private set; }
+        public bool DebugIsolateLocomotion
+        {
+            get => standaloneGraph != null && standaloneGraph.DebugIsolateLocomotion;
+            set { if (standaloneGraph != null) standaloneGraph.DebugIsolateLocomotion = value; }
+        }
         public int BlockedActions { get; private set; }
         public FeedbackKey LastObservedEvent { get; private set; }
         public ContextualMotionState LastContext { get; private set; }
