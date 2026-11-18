@@ -26632,5 +26632,39 @@
     "Assets/WindrunnerProduction/Tests/PlayMode/TraversalScenarioProfileTests.cs": "d385f389f7c0dd66a347263e4043417c37470aa72fb911cb5c35842930b1d3cd",
     "Assets/WindrunnerProduction/Tests/PlayMode/WaterfallAudioRegressionTests.cs": "8a0ea536bc219c0273d8f471ddef161a2e52ef93d3790e52171d0ab96a22fd03",
     "Assets/WindrunnerProduction/Tests/PlayMode/Windrunner.Production.Tests.PlayMode.asmdef": "69f34e2f9390743c2be39bcdcd14dbd1bcf8455e0ec744f835fbff991c8408e9"
+  },
+  "terrain_prototype_transfer": {
+    "baseline": "11bb927b",
+    "unity": "6000.6.2f1",
+    "td_source": "35bb713bc5530eff70e70230257e804c0f614f2b",
+    "edit_mode": {
+      "label": "prototype-transfer-final",
+      "passed": 142,
+      "failed": 0,
+      "skipped": 0,
+      "new_transfer_cases": 5
+    },
+    "targeted_intermediate": {
+      "label": "prototype-transfer-3",
+      "passed": 3
+    },
+    "prior_failed_runs": [
+      "prototype-transfer-1: zero-resolution map query and inherited graphics-only fixture",
+      "prototype-transfer-2: untitled additive fixture setup"
+    ],
+    "serialized_contracts": {
+      "label": "prototype-transfer-serialized",
+      "checked": 67,
+      "failures": []
+    },
+    "zone01": "Disposable Studio editable working copy from CentralBasin.asset; original bytes and Studio rules/history unchanged",
+    "play_mode": "Not run: Editor-only change",
+    "windows_build": "Not run: Editor-only change",
+    "manual": "Window interaction and visual inspection pending",
+    "source_sha256": {
+      "Assets/WindrunnerTerrain/Editor/TerrainPrototypeTransfer.cs": "420410ae7d29637d662f960d277c96d90c8ede7eb47db2fa066873fa67909ec9",
+      "Assets/WindrunnerTerrain/Editor/TerrainPrototypeTransferWindow.cs": "c3a5343e9159c5e532599584dbbed12f36eaa90fef961b984e1b68229e49bdb0",
+      "Assets/WindrunnerTerrain/Tests/Editor/TerrainPrototypeTransferTests.cs": "f7b62cea4b3f0345b593aa3aab01c4a8db9d2fd68f37ed3309fc861e23f18b5c"
+    }
   }
 }

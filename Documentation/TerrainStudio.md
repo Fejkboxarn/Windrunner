@@ -103,3 +103,8 @@ The Editor reuses a road’s sampled geometry while its spline, profile, identit
 Automated verification passed 75/75 Edit Mode and 35/35 Play Mode, with the network workload and rendered comparison each passing separately. The disposable graded-road fixture compared 85 production motor displacement calls, collision flags, ray contact positions and normals before painting, after carriage baking and after changing wear and spacing. The protected-junction fixture exercised automatic updates, save/reopen, release and Undo/Redo. Rendered coverage was visible at both camera positions. The regular and disposable painted Windows builds had 21 and 8 warnings respectively, zero errors, and each initialized for a 15-second rendered startup check. The painted package included the working TerrainData and wheel mesh and excluded authoring history. See TestResults.json for individual runs and raw timing samples.
 
 To repeat the editing workload, close Unity and run `./Tools/Run-UnityTests.ps1 -Platform EditMode -Filter IntersectingNetworkWorkload -Label <fresh-label>`. Use a new label for each run. The designer checklist above remains open.
+
+
+## Transfer existing terrain palettes
+
+Use **Tools > Windrunner > Terrain Prototype Transfer** to append tree, grass/detail and TerrainLayer definitions from another Terrain. See [the transfer guide](TerrainPrototypeTransfer.md) for explicit source/target selection, working-copy safety, preview and Undo. Existing painted indices are retained. Disable Automatic Updates before transfer; the tool does not change Studio rules or protected overrides.
