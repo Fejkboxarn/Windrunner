@@ -26737,5 +26737,48 @@
       "Assets/WindrunnerTerrain/Editor/TerrainPrototypeTransfer.cs": "53036dffe62b6dde53a9e5c304ccfb5a269761866184fe5aa7d295510dbca2ad",
       "Assets/WindrunnerTerrain/Tests/Editor/ForestAssetImportTests.cs": "5bf96acf970f84483397c1cd492e80b8d7b2e4ca0e3f9706718ea3a3a0cd3f33"
     }
+  },
+  "zone01_worldbuilding": {
+    "branch": "feature/zone01-world-blockout",
+    "baseline": "ef495740",
+    "edit_mode": {
+      "label": "zone-worldbuilding-edit",
+      "passed": 146,
+      "failed": 0,
+      "skipped": 0
+    },
+    "play_mode": {
+      "label": "zone-worldbuilding-play",
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0
+    },
+    "serialized_contracts": {
+      "checked": 67,
+      "failures": [],
+      "label": "zone-worldbuilding-serialized"
+    },
+    "preservation": {
+      "original_transforms": 464,
+      "component_configurations": 242,
+      "serialized_records_retained": 571,
+      "extended_child_lists": 4,
+      "terrain_bytes": "unchanged",
+      "original_gameplay_paths": "unchanged"
+    },
+    "nodes": {
+      "count": 8,
+      "routes": [
+        2,
+        3,
+        3
+      ],
+      "production_acquisition": "8/8 in actual Zone 01",
+      "sling": "Existing three AirSlingNode creatures retained; new AirNodes are Cast-only"
+    },
+    "rendered_evidence": "Logs/ProductionMigration/zone-worldbuilding-gameplay.png",
+    "manual": "Route comfort, perfect/normal Cast on each new placement, camera clearance and combined Sling acceptance pending",
+    "windows_build": "Not run",
+    "new_guids_unique": 5
   }
 }
