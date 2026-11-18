@@ -30,6 +30,7 @@ namespace AirflowPrototype
             original = materialField.GetValue(bar) as Material;
             if (original == null) return;
             instance = new Material(original) { name = original.name + " (Windrunner runtime)", hideFlags = HideFlags.DontSave };
+            Windrunner.Production.WindrunnerUITheme.Current.TintMeter(instance);
             materialField.SetValue(bar, instance);
             graphic = bar.GetComponent<Graphic>();
             if (graphic != null)

@@ -83,8 +83,8 @@ namespace Windrunner.Production.Progression
             if (input.ProgressionPressed("JournalCategoryPrevious")) SetCategory((category + 2) % 3);
             if (input.ProgressionPressed("JournalNext")) SelectNext(1);
             if (input.ProgressionPressed("JournalPrevious")) SelectNext(-1);
-            if (input.ProgressionPressed("JournalScrollDown")) detailScroll.y += 180;
-            if (input.ProgressionPressed("JournalScrollUp")) detailScroll.y = Mathf.Max(0, detailScroll.y - 180);
+            if (input.ProgressionPressed("JournalScrollDown")) { detailScroll.y += 180; contextScroll.y += 180; }
+            if (input.ProgressionPressed("JournalScrollUp")) { detailScroll.y = Mathf.Max(0, detailScroll.y - 180); contextScroll.y = Mathf.Max(0, contextScroll.y - 180); }
             if (input.ProgressionPressed("TrackQuest")) TrackSelected();
             if (cinematics != null && input.ProgressionPressed("ViewCutscene"))
             {
@@ -96,7 +96,7 @@ namespace Windrunner.Production.Progression
                 if (definition?.content == null) cinematics.AcknowledgeMissingContent(pending.id); else cinematics.Play(pending.id, pending.status != CinematicStatus.Pending);
             }
         }
-        private Vector2 navigationScroll, detailScroll, hudScroll;
+        private Vector2 navigationScroll, detailScroll, hudScroll, contextScroll;
         private int category, selectedChallenge;
         private bool revealSelection;
         public string SelectedQuestId => questIds.Count == 0 || (category == 1 && catalog.definitions.quests.Find(q => q.id == questIds[selected]).kind != QuestKind.Story) ? null : questIds[selected];
@@ -145,13 +145,14 @@ namespace Windrunner.Production.Progression
         }
         private void DrawJournal()
         {
-            GUILayout.BeginArea(new Rect(32, 24, 1216, 620), ProgressionUiTheme.Card);
+            var previousColor=GUI.color;GUI.color=WindrunnerUITheme.Current.background;GUI.DrawTexture(new Rect(0,0,1280,720),Texture2D.whiteTexture);GUI.color=previousColor;
+            GUILayout.BeginArea(new Rect(32, 24, 1216, 660), ProgressionUiTheme.Card);
             GUILayout.BeginHorizontal(); GUILayout.Label("QUEST JOURNAL", ProgressionUiTheme.Title);
             if (GUILayout.Button("Close  ·  " + Binding("JournalBack"), ProgressionUiTheme.Button, GUILayout.Width(250))) SetOpen(false);
             GUILayout.EndHorizontal();
             GUILayout.Label(Binding("JournalPrevious") + " / " + Binding("JournalNext") + " select   •   " + Binding("JournalCategoryNext") + " category   •   " + Binding("TrackQuest") + " track   •   " + Binding("JournalScrollUp") + " / " + Binding("JournalScrollDown") + " scroll", ProgressionUiTheme.Muted);
             GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical(GUILayout.Width(390));
+            GUILayout.BeginVertical(GUILayout.Width(300));
             SetCategory(GUILayout.Toolbar(category, new[] { "All quests", "Stories", "Challenges" }, ProgressionUiTheme.Button));
             navigationScroll = GUILayout.BeginScrollView(navigationScroll);
             if (category != 2)
@@ -182,7 +183,7 @@ namespace Windrunner.Production.Progression
                 }
             }
             GUILayout.EndScrollView(); GUILayout.EndVertical(); GUILayout.Space(24);
-            GUILayout.BeginVertical();
+            GUILayout.BeginVertical(GUILayout.Width(520));
             detailScroll = GUILayout.BeginScrollView(detailScroll);
             var selectedQuest = catalog.definitions.quests.Find(q => q.id == SelectedQuestId);
             if (category == 2)
@@ -225,7 +226,9 @@ namespace Windrunner.Production.Progression
                     if (GUILayout.Button(snapshot.trackedQuestId == selectedQuest.id ? "Stop tracking" : "Track this quest  ·  " + Binding("TrackQuest"), ProgressionUiTheme.Button))
                         service.Track(snapshot.trackedQuestId == selectedQuest.id ? null : selectedQuest.id);
             }
-            GUILayout.Space(20); GUILayout.Label("RELATIONSHIPS", ProgressionUiTheme.Heading);
+            GUILayout.EndScrollView();GUILayout.EndVertical();GUILayout.Space(24);
+            GUILayout.BeginVertical();contextScroll=GUILayout.BeginScrollView(contextScroll);
+            GUILayout.Label("YOUR CONNECTIONS", ProgressionUiTheme.Heading);
             foreach (var r in catalog.definitions.relationships)
                 GUILayout.Label(RankLabel(r,snapshot.relationships.Find(x => x.id == r.id)?.rank ?? 0),ProgressionUiTheme.Body);
             if (cinematics != null)
@@ -248,13 +251,14 @@ namespace Windrunner.Production.Progression
         {
             if (!string.IsNullOrEmpty(hud))
             {
-                GUILayout.BeginArea(new Rect(920, 24, 336, 240), ProgressionUiTheme.Card);
+                GUILayout.BeginArea(new Rect(940, 32, 308, 210), ProgressionUiTheme.Card);
                 GUILayout.Label("TRACKED QUEST", ProgressionUiTheme.Heading);
                 hudScroll = GUILayout.BeginScrollView(hudScroll); GUILayout.Label(hud, ProgressionUiTheme.Body); GUILayout.EndScrollView();
                 GUILayout.Label(Binding("Journal") + " · full objectives", ProgressionUiTheme.Muted); GUILayout.EndArea();
             }
             GUI.Label(new Rect(630, 348, 24, 24), "+", ProgressionUiTheme.Heading);
-            GUILayout.BeginArea(new Rect(320, 492, 640, 104), ProgressionUiTheme.Card);
+            if(interaction?.Target==null && interaction?.Candidate==null && Time.unscaledTime>=notificationUntil)return;
+            GUILayout.BeginArea(new Rect(360, 520, 560, 104), ProgressionUiTheme.Card);
             GUILayout.Label(interaction != null && interaction.Target != null ? interaction.Prompt : interaction?.Candidate != null ? interaction.Candidate.prompt + " · " + interaction.Rejection : "Aim at a nearby character or object • " + Binding("Journal") + " opens your journal", ProgressionUiTheme.Body);
             if (Time.unscaledTime < notificationUntil) GUILayout.Label(notification, ProgressionUiTheme.Muted);
             GUILayout.EndArea();

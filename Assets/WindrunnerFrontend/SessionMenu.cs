@@ -59,7 +59,7 @@ namespace Windrunner.Frontend
             if(preview && Time.unscaledTime>=expires){Revert();Video();}
             if(!session.input.IsPaused)
             {
-                ClosePortrait();ui.Root.SetActive(false);
+                ClosePortrait();ui.Hide();
                 if(session.daggers && session.daggers.Equipment!=null && session.daggers.GameplayAllowed &&
                     session.input.Input.ButtonPressed("DaggerArsenal"))
                 {
@@ -68,7 +68,7 @@ namespace Windrunner.Frontend
                 }
                 return;
             }
-            if(!ui.Root.activeSelf){Home();backFrame=Time.frameCount;return;}
+            if(!ui.IsOpen){Home();backFrame=Time.frameCount;return;}
             if(session.Error!=displayedSaveError)
             {
                 displayedSaveError=session.Error;
@@ -155,7 +155,7 @@ namespace Windrunner.Frontend
             portrait.Dispose();portrait=null;portraitSurface=null;
             if(ui.Root)ui.RestoreMessage();
         }
-        private void Resume(){session.input.SetPaused(false);ui.Root.SetActive(false);}
+        private void Resume(){session.input.SetPaused(false);ui.Hide();}
         private void Quit()
         {
             if (!session.PrepareForQuit()) { Home(); return; }
@@ -166,7 +166,7 @@ namespace Windrunner.Frontend
 #endif
         }
         private void Confirm(string title,string note,Action yes,Action no)
-        {Page(title,note,no);ui.Choice("Cancel",no);ui.Choice("Confirm",yes);End(false);}
+        {Page(title,note,no);ui.Choice("Cancel",no);ui.Choice("Confirm",yes);ui.Focus(true);}
         private void Slots(string mode)
         {
             var entries=session.Slots.List();Page(mode,Checkpoint,Home);
@@ -218,7 +218,14 @@ namespace Windrunner.Frontend
         {
             Page("Settings","Preferences apply to every playthrough.",Home);
             ui.Choice("Sound",Sound);ui.Choice("Display",()=>{draft=DesktopOptions.Current();Video();});
-            ui.Choice("Controls",Controls);End();
+            ui.Choice("Controls",Controls);ui.Choice("Accessibility",Accessibility);End();
+        }
+        private void Accessibility()
+        {
+            Page("Accessibility","Presentation preferences apply immediately. Gameplay timing is unchanged.",Settings);
+            ui.Choice("Reduced motion    "+(Windrunner.Production.WindrunnerUITheme.ReducedMotion?"On":"Off"),()=>{Windrunner.Production.WindrunnerUITheme.ReducedMotion=!Windrunner.Production.WindrunnerUITheme.ReducedMotion;Accessibility();});
+            ui.Choice("Menu text scale    "+Mathf.RoundToInt(Windrunner.Production.WindrunnerUITheme.Scale*100)+"%",()=>{var value=Windrunner.Production.WindrunnerUITheme.Scale;Windrunner.Production.WindrunnerUITheme.Scale=value>=1.19f?1:value+.1f;Accessibility();});
+            End();
         }
         private void Sound()
         {
@@ -234,8 +241,7 @@ namespace Windrunner.Frontend
         }
         private void VolumeRows(string name,float level,Action<float> set)
         {
-            ui.Choice(name+"    "+Mathf.RoundToInt(100*level)+"%    −",()=>{set(level-.1f);Sound();},level>0);
-            ui.Choice(name+"    +",()=>{set(level+.1f);Sound();},level<1);
+            ui.Slider(name,level,set);
         }
         private static T Next<T>(T[] values,T current)=>values[(Array.IndexOf(values,current)+1)%values.Length];
         private void Video()

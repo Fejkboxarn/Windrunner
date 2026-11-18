@@ -159,7 +159,7 @@ namespace Windrunner.Daggers
                 reserveMeter.sizeDelta = new Vector2(0,24);
                 reserveMeter.anchoredPosition = new Vector2(0,27);
                 var track = panel.GetComponent<Image>();
-                track.color = new Color(.025f,.09f,.11f,.95f); track.raycastTarget=false;
+                track.color = Windrunner.Production.WindrunnerUITheme.Current.panel; track.raycastTarget=false;
                 reserveFill = new GameObject("Stored AirPower",typeof(RectTransform),typeof(Image)).GetComponent<Image>();
                 reserveFill.transform.SetParent(panel.transform,false);
                 reserveFill.raycastTarget=false;
@@ -183,7 +183,7 @@ namespace Windrunner.Daggers
                 reserveCaption.transform.SetParent(panel.transform,false);
                 reserveCaption.rectTransform.anchorMin=Vector2.zero; reserveCaption.rectTransform.anchorMax=Vector2.one;
                 reserveCaption.rectTransform.sizeDelta=Vector2.zero; reserveCaption.rectTransform.anchoredPosition=Vector2.zero;
-                reserveCaption.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"); reserveCaption.fontSize=16;
+                reserveCaption.font=Windrunner.Production.WindrunnerUITheme.Current.Font; reserveCaption.color=Windrunner.Production.WindrunnerUITheme.Current.ink; reserveCaption.fontSize=16;
                 reserveCaption.alignment=TextAnchor.MiddleCenter; reserveCaption.raycastTarget=false;
                 return;
             }
@@ -212,7 +212,8 @@ namespace Windrunner.Daggers
             lastCapacity=wind.capacity; lastFull=power.Current>=power.Max;
             if(Time.unscaledTime>=chargeFlashUntil)chargeFlashUntil=0;
             float fraction=Mathf.Clamp01(value/wind.capacity);
-            var tint=chargeFlashUntil>0?Color.Lerp(wind.meterColor,Color.white,.45f):wind.meterColor;
+            var reserveColor=Color.Lerp(Windrunner.Production.WindrunnerUITheme.Current.accent,Windrunner.Production.WindrunnerUITheme.Current.ink,.25f);
+            var tint=chargeFlashUntil>0?Color.Lerp(reserveColor,Color.white,.45f):reserveColor;
             reserveFill.color=tint;
             if (reserveStyle)
             {
@@ -241,7 +242,7 @@ namespace Windrunner.Daggers
             icon=badge.GetComponent<Image>();icon.raycastTarget=false;
             var r=icon.rectTransform;r.anchorMin=r.anchorMax=new Vector2(1,0);r.anchoredPosition=new Vector2(-175,56);r.sizeDelta=new Vector2(44,44);
             var caption=new GameObject("Ability status",typeof(RectTransform),typeof(Text));caption.transform.SetParent(badge.transform,false);
-            label=caption.GetComponent<Text>();label.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");label.fontSize=19;label.raycastTarget=false;
+            label=caption.GetComponent<Text>();label.font=Windrunner.Production.WindrunnerUITheme.Current.Font;label.color=Windrunner.Production.WindrunnerUITheme.Current.ink;label.fontSize=19;label.raycastTarget=false;
             label.alignment=TextAnchor.MiddleLeft;label.rectTransform.sizeDelta=new Vector2(145,52);label.rectTransform.anchoredPosition=new Vector2(102,0);
         }
         void OnEnable()

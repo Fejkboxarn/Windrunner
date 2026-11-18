@@ -154,7 +154,7 @@ namespace Windrunner.Production.Tests
                 InputSystem.QueueStateEvent(mouse,m.WithButton(MouseButton.Left,false));yield return null;yield return null;
                 Assert.IsNotNull(Choice("Sound"));
                 InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.South));yield return null;yield return null;
-                Assert.IsNotNull(Choice("Music    +"));
+                Assert.IsNotNull(Object.FindObjectsByType<Slider>().FirstOrDefault(s=>s.name=="Music"));
                 InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;
                 InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.East));yield return null;yield return null;
                 Assert.IsNotNull(Choice("Sound"));InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;

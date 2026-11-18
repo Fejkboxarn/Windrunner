@@ -26780,5 +26780,102 @@
     "manual": "Route comfort, perfect/normal Cast on each new placement, camera clearance and combined Sling acceptance pending",
     "windows_build": "Not run",
     "new_guids_unique": 5
+  },
+  "cinematic_ui": {
+    "baseline": "5b743597",
+    "branch": "codex/cinematic-ui",
+    "edit_mode": {
+      "label": "ui-release-edit",
+      "result": "Passed",
+      "total": 146,
+      "passed": 146,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "Logs/ProductionMigration/ui-release-edit-EditMode.xml"
+    },
+    "play_mode": {
+      "label": "ui-release-play",
+      "result": "Passed",
+      "total": 57,
+      "passed": 57,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "Logs/ProductionMigration/ui-release-play-PlayMode.xml"
+    },
+    "rendered_screens": {
+      "label": "ui-screens-accepted",
+      "result": "Passed",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "Logs/ProductionMigration/ui-screens-accepted-PlayMode.xml"
+    },
+    "capture_count": 30,
+    "resolutions": [
+      [
+        1280,
+        720
+      ],
+      [
+        1600,
+        900
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        2560,
+        1440
+      ],
+      [
+        2560,
+        1080
+      ]
+    ],
+    "coverage": "Title/settings at all five; all redesigned screens at 1080p, Arsenal/Journal/Save and 120% reduced-motion Settings additionally at 720p. Last slider precision and Journal scrolling changes are covered by final full Play Mode; settled screenshot layout is unchanged.",
+    "serialized_contracts": {
+      "passed": 67,
+      "failed": 0,
+      "evidence": "Logs/ProductionMigration/ui-release-serialized.json"
+    },
+    "new_guids": 7,
+    "duplicate_guids": 0,
+    "windows_build": {
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/cinematic-ui-candidate/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "errors": 0,
+      "warnings": 24,
+      "seconds": 32.8570596,
+      "development": true,
+      "evidence": "Logs/ProductionMigration/cinematic-ui-candidate-build.json"
+    },
+    "manual": "Art direction, motion quality, physical controller, high-speed HUD contrast and optional future sounds remain unaccepted. Production placeholder character retained.",
+    "earlier_failures": [
+      "ui-screens-second: test-only CanvasRenderer.GetMesh signature compile error, corrected",
+      "ui-screens-third: missing CanvasRenderer on new backdrop, corrected and mesh asserted",
+      "ui-navigation-first: 27/28; unused optional UI AudioSource violated route count, changed to lazy creation",
+      "ui-interaction-check: test-only obsolete GetInstanceID compile error, corrected to EntityId",
+      "ui-interaction-second: stale title list before disposable directory refresh, fixture corrected"
+    ],
+    "protected_branches": {
+      "feature/zone01-world-blockout": "5b743597",
+      "codex/dagger-pack-animation": "bbc9af04"
+    },
+    "rendered_startup": {
+      "label": "cinematic-ui-candidate-rendered",
+      "seconds": 15,
+      "survived": true,
+      "rendered": true,
+      "totalProcessCpuSeconds": 12.671875,
+      "peakWorkingSetBytes": 287248384,
+      "privateBytesAtEnd": 457904128,
+      "hasPlayerInitialization": true,
+      "errors": [],
+      "termination": "Harness stops only its launched process after observation",
+      "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+    }
   }
 }

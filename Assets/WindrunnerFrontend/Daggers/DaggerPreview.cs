@@ -47,7 +47,7 @@ namespace Windrunner.Daggers
             }
             var cameraObject=new GameObject("Portrait camera");cameraObject.transform.SetParent(stage.transform,false);
             camera=cameraObject.AddComponent<Camera>();camera.enabled=false;camera.cullingMask=1<<Layer;
-            camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.055f,.108f,.119f);
+            camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Windrunner.Production.WindrunnerUITheme.Current.background;
             var center=Quaternion.Inverse(player.transform.rotation)*(bounds.center-player.transform.position);
             var height=Mathf.Max(1.5f,bounds.size.y);
             camera.transform.localPosition=center+new Vector3(0,height*.035f,height*player.catalog.previewDistance);
