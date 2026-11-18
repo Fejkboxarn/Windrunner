@@ -36,6 +36,7 @@ namespace Windrunner.Production.Animation
         [Header("Batch 4B: independent character locomotion (recommended)")]
         [Tooltip("Uses a standalone eight-way locomotion graph. No weapon/hero/hit/aim testbed dependencies.")]
         public bool useStandaloneCharacterGraph = true;
+        [System.NonSerialized] public bool previewOriginalTiming;
         public GroundMotionProfile standaloneGroundProfile;
         public PortableCharacterActionProfile standaloneActionProfile;
 

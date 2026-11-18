@@ -19,30 +19,12 @@ namespace AirflowPrototype.Editor
             rebuild=false;DisposeComposition();RefreshUsed();
             draftDirty=draft.Entries.Any(e=>CharacterTuningSession.Content(e.Draft)!=CharacterTuningSession.Content(e.Baseline));
             hasUnsavedChanges=draftDirty;saveChangesMessage="Save the staged animation profile changes?";
+            previewGround=Instantiate(timingComparison == 1 ? draftProfile.standaloneGroundProfile : draftGround);
+            previewActions=Instantiate(timingComparison == 1 ? draftProfile.standaloneActionProfile : Actions);
+            previewGround.hideFlags=previewActions.hideFlags=HideFlags.HideAndDontSave;
             isolatedOutput.SetTarget(composed?null:previewRig);
-            if(!composed)
-            {
-                var chosen=clip;
-                var elapsed=playhead;
-                if(!candidate)
-                {
-                    if(action>=0)chosen=Resolved(action,activeContext);
-                    else
-                    {
-                        using var so=new SerializedObject(draftGround);
-                        chosen=so.FindProperty(slots[slot].path).objectReferenceValue as AnimationClip;
-                    }
-                }
-                var libraryClip=clip;
-                if(chosen && selected.GetAnimationClip()!=chosen)SetPreviewClip(chosen);
-                mixer.SetInputWeight(1,chosen?1:0);
-                clip=libraryClip;playhead=elapsed;
-                return;
-            }
             try
             {
-                previewGround=Instantiate(draftGround);previewActions=Instantiate(Actions);
-                previewGround.hideFlags=previewActions.hideFlags=HideFlags.HideAndDontSave;
                 if(candidate && clip)
                 {
                     using var so=new SerializedObject(action<0?(ScriptableObject)previewGround:previewActions);
@@ -62,7 +44,25 @@ namespace AirflowPrototype.Editor
                     foreach(var v in new[]{a.stationary,a.airborne})
                     {v.mask=null;v.regions.enabled=false;}
                 }
-                composition=new GroundOnlyPipelineRuntime(previewRig,previewGround,previewActions);
+                if (!composed)
+                {
+                    AnimationClip chosen;
+                    if (action >= 0)
+                    {
+                        var a = previewActions.Action(action);
+                        var v = activeContext == 0 ? a.stationary : activeContext == 2 ? a.airborne : null;
+                        chosen = v != null && v.enabled && v.Available && !v.inheritClip ? v.clip : a.clip;
+                    }
+                    else
+                    {
+                        using var so = new SerializedObject(previewGround);
+                        chosen = so.FindProperty(slots[slot].path).objectReferenceValue as AnimationClip;
+                    }
+                    var libraryClip=clip;var elapsed=playhead;
+                    if(chosen && selected.GetAnimationClip()!=chosen)SetPreviewClip(chosen);
+                    mixer.SetInputWeight(1,chosen?1:0);clip=libraryClip;playhead=elapsed;
+                }
+                composition=new GroundOnlyPipelineRuntime(previewRig,previewGround,previewActions,timingComparison == 2,composed);
                 previewFrame=0;
                 bool stop=action<0 && slots[slot].label.IndexOf("Stop",StringComparison.OrdinalIgnoreCase)>=0;
                 bool starting=action<0 && slots[slot].label.Contains("Start");
@@ -70,6 +70,11 @@ namespace AirflowPrototype.Editor
                 bool land=action<0 && slot==(int)GroundPose.Land;
                 for(int i=0;i<75;i++)PreviewTick(starting?0:stop?8.5f:PreviewSpeed(),jump || (!land && activeContext!=2),true);
                 if(action>=0)composition.RequestAction(action);
+                else
+                {
+                    composition.ResetGroundPlayback();
+                    PreviewTick(PreviewSpeed(),activeContext!=2,false,0);
+                }
                 evaluated=0;
             }
             catch(Exception ex){DisposeComposition();issue=ex.Message;}
@@ -82,7 +87,7 @@ namespace AirflowPrototype.Editor
             if(name.Contains("Walk"))return 8.5f*(draftGround.IdleToWalkEnd+draftGround.WalkToRunStart)*.5f;
             return 8.5f;
         }
-        void PreviewTick(float metres,bool grounded,bool warmup=false)
+        void PreviewTick(float metres,bool grounded,bool warmup=false,float delta=-1)
         {
             string direction=action>=0?"Forward":slots[slot].label;
             float x=direction.IndexOf("Right",StringComparison.OrdinalIgnoreCase)>=0?1:
@@ -95,7 +100,7 @@ namespace AirflowPrototype.Editor
             float yaw=!warmup && (pivot||turn)?(direction.Contains("Left")?-1:1)*(draftGround.TurnRateThreshold+1):0;
             bool jump=action<0 && slot==(int)GroundPose.JumpStart;
             var velocity=new Vector3(x,0,z).normalized*metres;
-            float dt=previewStep;
+            float dt=delta<0?previewStep:delta;
             var motion=new AnimationFrameState(previewFrame++,dt,velocity,Mathf.Clamp01(metres/8.5f),
                 grounded?LocomotionMode.Grounded:LocomotionMode.Airborne);
             composition.Evaluate(new GroundMotionFrame(motion,grounded,direction.Contains("Rise") || jump?3:-2,yaw,jump && !warmup && previewFrame==76),metres);
@@ -104,6 +109,8 @@ namespace AirflowPrototype.Editor
         {
             while(evaluated+previewStep<=playhead+.00001f)
             {PreviewTick(PreviewSpeed(),activeContext!=2);evaluated+=previewStep;}
+            timingSample = action >= 0 ? composition.ReadActionTiming(action,Mode) :
+                composition.ReadGroundTiming(slots[slot].path);
         }
         HumanBodyBones Representative(AuthoringBodyRegion region)
         {
@@ -150,6 +157,8 @@ namespace AirflowPrototype.Editor
                 var errors=draft.Validate();
                 if(errors.Count>0)throw new InvalidOperationException(string.Join("\n",errors));
                 AnimationLaneDraft.Store(draftProfile,draftGround,Actions);
+                SessionState.SetBool("Windrunner.AnimationStudio.SavedTiming",timingComparison == 1);
+                SessionState.SetBool("Windrunner.AnimationStudio.OriginalTiming",timingComparison == 2);
                 EditorApplication.ExecuteMenuItem("Tools/Windrunner/Acceptance/Play traversal and rewards lane");
             }
             catch(Exception ex){issue=ex.Message;}

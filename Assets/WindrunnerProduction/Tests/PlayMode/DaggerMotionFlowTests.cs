@@ -41,6 +41,7 @@ namespace Windrunner.Production.Tests
             var bridgeType=Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp",true);
             var bridge=(Component)Object.FindAnyObjectByType(bridgeType);
             var source=Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(bridge,"Profile");
+            var originalJson=UnityEditor.EditorJsonUtility.ToJson(source.standaloneActionProfile);
             var draft=Object.Instantiate(source.standaloneActionProfile);
             try
             {
@@ -61,7 +62,7 @@ namespace Windrunner.Production.Tests
                 Assert.IsTrue(!bound && !actions && !ground,"The lane retained detached profiles after scene replacement.");
                 var next=(Component)Object.FindAnyObjectByType(bridgeType);
                 Assert.AreSame(source,Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(next,"Profile"));
-                Assert.IsFalse(source.standaloneActionProfile.Action(4).regions.enabled);
+                Assert.AreEqual(originalJson,UnityEditor.EditorJsonUtility.ToJson(source.standaloneActionProfile));
             }
             finally
             {
@@ -86,7 +87,7 @@ namespace Windrunner.Production.Tests
                 var profile=Object.Instantiate(source);
                 try
                 {
-                    var settings=profile.Action(4).regions;
+                    var settings=profile.Action(4).regions = new RegionMaskSettings();
                     settings.enabled=true;
                     settings.regions.Add(new PortableAnimation.Authoring.RegionInfluenceSettings{
                         region=PortableAnimation.Authoring.AuthoringBodyRegion.RightUpperArm,rotation=k*.5f});
@@ -113,6 +114,11 @@ namespace Windrunner.Production.Tests
             var ground=UnityEditor.AssetDatabase.LoadAssetAtPath<GroundMotionProfile>(folder+"WindrunnerGroundMotion.asset");
             var source=UnityEditor.AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>(folder+"WindrunnerActionClips.asset");
             var profile=Object.Instantiate(source);
+            // This case tests the native full-body/upper-body boundary. Artist-authored
+            // weighted masks are covered separately and may intentionally animate legs.
+            profile.Action(4).regions=new RegionMaskSettings();
+            profile.Action(4).stationary.regions=new RegionMaskSettings();
+            profile.Action(4).airborne.regions=new RegionMaskSettings();
             var avatar=Object.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
                 "Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx"));
             var rig=avatar.GetComponentInChildren<Animator>();
@@ -155,7 +161,7 @@ namespace Windrunner.Production.Tests
                     Assert.Greater(idle.actionWeight,.98f);Assert.IsFalse(idle.mask);
                     float standingLegDegrees=LegDifference();
                     Assert.Greater(standingLegDegrees,2f,"Stationary throw should visibly own retargeted leg joints.");
-                    var moving=Step(18,true,4);
+                    var moving=Step(30,true,4);
                     Assert.AreSame(profile.Action(4).clip,moving.actionClip);
                     Assert.AreSame(profile.Action(4).mask,moving.mask);
                     float movingLegDegrees=LegDifference();
@@ -164,7 +170,7 @@ namespace Windrunner.Production.Tests
                     var air=Step(18,false,4);
                     Assert.AreSame(missing?profile.Action(4).clip:profile.Action(4).airborne.clip,air.actionClip);
                     Assert.That(air.actionSeconds/air.actionClip.length,Is.EqualTo(
-                        48f/120*profile.Action(4).playbackSpeed/profile.Action(4).clip.length).Within(.002));
+                        60f/120*profile.Action(4).playbackSpeed/profile.Action(4).clip.length).Within(.002));
                     var landed=Step(18,true,0);
                     Assert.AreSame(idle.actionClip,landed.actionClip);
                     Assert.Greater(landed.actionSeconds,idle.actionSeconds);
@@ -181,7 +187,9 @@ namespace Windrunner.Production.Tests
             finally{Object.Destroy(peer);Object.Destroy(avatar);Object.Destroy(profile);}
             yield return null;
         }
-        [UnityTest] public IEnumerator DaggerCastRetargetsProductionRigAndRecoversAfterRelease()
+        [UnityTest] public IEnumerator DaggerCastRetargetsProductionRigAndRecoversAfterRelease() => CastContextPlayback(false);
+        [UnityTest] public IEnumerator ReverseCurveCastKeepsOneProjectileAndGameplayTiming() => CastContextPlayback(true);
+        IEnumerator CastContextPlayback(bool customTiming)
         {
             if(ProjectRoot.Active){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}
             yield return EditorSceneManager.LoadSceneAsyncInPlayMode(Legacy,new LoadSceneParameters(LoadSceneMode.Single));
@@ -204,6 +212,23 @@ namespace Windrunner.Production.Tests
                 var lane=Type.GetType("Windrunner.Frontend.TraversalAcceptance, Assembly-CSharp",true);
                 var deck=lane.GetMethod("Install").Invoke(null,new object[]{Session()});
                 var bridge=(Component)Object.FindAnyObjectByType(Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp",true));
+                if(customTiming)
+                {
+                    var profile=Object.Instantiate(Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(bridge,"Profile"));
+                    var actions=Object.Instantiate(profile.standaloneActionProfile);
+                    profile.standaloneActionProfile=actions;
+                    foreach(var playbackSettings in new[]{actions.Action(4).playback,actions.Action(4).stationary.playback,actions.Action(4).airborne.playback})
+                    {
+                        playbackSettings.mode=VisualPlaybackMode.AuthoredSpeed;
+                        playbackSettings.baseSpeed=.8f;playbackSettings.reverse=true;playbackSettings.useCurve=true;
+                        playbackSettings.speedCurve=AnimationCurve.Linear(0,.7f,1,1.2f);
+                    }
+                    lane.GetMethod("OwnDraft").Invoke(deck,new object[]{new Object[]{profile,actions}});
+                    ((Behaviour)bridge).enabled=false;
+                    using(var serialized=new UnityEditor.SerializedObject(bridge))
+                    {serialized.FindProperty("profile").objectReferenceValue=profile;serialized.ApplyModifiedPropertiesWithoutUndo();}
+                    ((Behaviour)bridge).enabled=true;
+                }
                 var animator=Prop<Animator>(bridge,"HumanoidAnimator");
                 // Batch Game view can be culled between screenshots. Sample the actual pose every fixture frame.
                 animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;
@@ -280,10 +305,10 @@ namespace Windrunner.Production.Tests
                 yield return null;yield return null;
                 Assert.AreEqual("CastRelease",Prop<string>(bridge,"ActiveAnimationAction"));
                 for(int i=0;i<10;i++)yield return null;
-                yield return CaptureRecording("context-stationary-throw");
+                yield return CaptureRecording(customTiming?"reverse-curve-stationary-throw":"context-stationary-throw");
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.D));
                 for(int i=0;i<9;i++)yield return null;
-                yield return CaptureRecording("context-moving-throw");
+                yield return CaptureRecording(customTiming?"reverse-curve-moving-throw":"context-moving-throw");
                 GroundOnlyPipelineRuntime.RecordingPose ActualPose()
                 {
                     object[] args={null};
@@ -299,7 +324,7 @@ namespace Windrunner.Production.Tests
                     yield return null;
                 }
                 Assert.IsTrue(airborneThrow,"Walking off the ledge should crossfade the same release to the authored air throw.");
-                yield return CaptureRecording("context-airborne-throw");
+                yield return CaptureRecording(customTiming?"reverse-curve-airborne-throw":"context-airborne-throw");
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState());
                 for(int i=0;i<75;i++)yield return null;
                 Assert.AreEqual(1,releaseCount,"Changing animation context must not deliver a second projectile release.");

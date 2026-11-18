@@ -16,6 +16,7 @@ namespace PortableAnimation
     public sealed class GroundOnlyPipelineRuntime : IDisposable
     {
         private readonly GroundMotionSource ground;
+        private readonly bool originalTiming;
         private readonly PortableCharacterActionProfile actionProfile;
         private readonly AvatarMask fullBodyMask;
         private PlayableGraph graph;
@@ -85,6 +86,7 @@ namespace PortableAnimation
             pose = new RecordingPose { state = ground.State, cycles = ground.CyclesPerSecond,
                 context = context, walk = ground.WalkBlend, run = ground.RunBlend };
             ground.ReadDominant(out pose.clip, out pose.weight, out pose.direction);
+            pose.timing = ground.DominantTiming;
             for (int i = 0; i < layers.Count; i++)
             {
                 var layer = layers[i];
@@ -96,11 +98,35 @@ namespace PortableAnimation
                 pose.mask = layer.mask;
                 pose.actionClip = layer.clip;
                 pose.actionSeconds = layer.seconds;
+                pose.timing = LayerTiming(layer);
                 pose.weighted = layer.weighted!=null;
                 pose.phase = layer.phase;
                 pose.weightSource = layer.regions?.source ? layer.regions.source : layer.parent?.source;
             }
         }
+        VisualPlaybackSample LayerTiming(PoseLayer layer)
+        {
+            var active = clock[layer.action];
+            if (active.timing.Visual != null)
+            {
+                var sample = playback.VisualSample(layer.action);
+                float ratio = layer.clip.length * (layer.end-layer.start) / (active.clip.length * (active.end-active.start));
+                return new VisualPlaybackSample(layer.seconds,layer.clip.length,sample.BaseSpeed,sample.CurveMultiplier,
+                    sample.EffectiveSpeed*ratio,sample.EstimatedSeconds,sample.Mode,sample.Held);
+            }
+            var timing=active.timing;
+            return new VisualPlaybackSample(layer.seconds,layer.clip.length,timing.Speed,1,
+                layer.clip.length*(layer.end-layer.start)*timing.Speed/timing.Length,
+                timing.Length/timing.Speed,VisualPlaybackMode.ExistingTiming);
+        }
+        public VisualPlaybackSample ReadActionTiming(int index,ActionMotionContext variant)
+        {
+            if(index<0 || index>=LiveActionCount)return default;
+            var layer=choices[index,(int)variant]??choices[index,0];
+            return layer==null?default:LayerTiming(layer);
+        }
+        public VisualPlaybackSample ReadGroundTiming(string key) => ground.ReadTiming(key);
+        public void ResetGroundPlayback() => ground.ResetPlayback();
         public struct RecordingPose
         {
             public GroundMotionState state;
@@ -114,12 +140,13 @@ namespace PortableAnimation
             public bool weighted;
             public BoneWeightMask weightSource;
             public float phase;
+            public VisualPlaybackSample timing;
         }
         public GroundMotionState GroundState => ground.State;
 
         public GroundOnlyPipelineRuntime(Animator animator,
             GroundMotionProfile motionProfile,
-            PortableCharacterActionProfile optionalActions)
+            PortableCharacterActionProfile optionalActions, bool originalTiming = false, bool outputEnabled = true)
         {
             if (animator == null) throw new ArgumentNullException(nameof(animator));
             if (motionProfile == null)
@@ -127,6 +154,7 @@ namespace PortableAnimation
             motionProfile.AssertStandaloneValid();
             optionalActions?.AssertValid();
             actionProfile = optionalActions;
+            this.originalTiming = originalTiming;
             available = new bool[LiveActionCount,3];
             clock=new PoseLayer[LiveActionCount];choices=new PoseLayer[LiveActionCount,3];
             var timings = new PortableActionPlayback.Timing[LiveActionCount];
@@ -155,7 +183,7 @@ namespace PortableAnimation
             try
             {
                 graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
-                ground = new GroundMotionSource(graph, motionProfile, true);
+                ground = new GroundMotionSource(graph, motionProfile, true, originalTiming);
                 Playable finalPose = ground.Output;
 
                 if (LiveActionCount > 0)
@@ -194,7 +222,7 @@ namespace PortableAnimation
                 }
 
                 var output = AnimationPlayableOutput.Create(graph,
-                    "CharacterPose", animator);
+                    "CharacterPose", outputEnabled ? animator : null);
                 output.SetSourcePlayable(finalPose);
                 graph.Play();
                 graph.Evaluate(0f);
@@ -235,10 +263,16 @@ namespace PortableAnimation
             var segment=Has(VisualTimingFields.Segment)?t:action.segment;
             layer.start=segment?.start??0;layer.end=segment?.end??1;
             float length=(Has(VisualTimingFields.Speed)||Has(VisualTimingFields.Segment)?layer.clip.length:action.clip.length)*(layer.end-layer.start);
+            var settings = pose?.playback;
+            if (settings == null || settings.mode == VisualPlaybackMode.ExistingTiming) settings = action.playback;
+            if (originalTiming) settings = new VisualPlaybackSettings { mode = VisualPlaybackMode.AuthoredSpeed,
+                maximumActionSeconds = Mathf.Min(300,Mathf.Max(10,layer.clip.length*(layer.end-layer.start)+1)) };
+            var visual = settings != null && settings.mode != VisualPlaybackMode.ExistingTiming
+                ? new VisualPlaybackClock(settings, layer.clip.length, layer.start, layer.end) : null;
             layer.timing=new PortableActionPlayback.Timing(length,Has(VisualTimingFields.Speed)?t.speed:action.playbackSpeed,
                 Has(VisualTimingFields.FadeIn)?t.fadeIn:action.blendInSeconds,Has(VisualTimingFields.FadeOut)?t.fadeOut:action.blendOutSeconds,
                 Has(VisualTimingFields.Priority)?t.priority:action.priority,true,Has(VisualTimingFields.Recovery)?t.loop:action.loopUntilCanceled,
-                Has(VisualTimingFields.Interruption)?t.restart:action.allowSameActionRestart,Has(VisualTimingFields.Interruption)?t.interruptible:action.interruptible);
+                Has(VisualTimingFields.Interruption)?t.restart:action.allowSameActionRestart,Has(VisualTimingFields.Interruption)?t.interruptible:action.interruptible, visual);
             layers.Add(layer);choices[layer.action,(int)layer.context]=layer;
         }
         private void BindBones(Animator animator)
@@ -302,7 +336,8 @@ namespace PortableAnimation
                 var layer=layers[i];
                 float phase=playback.ClipTime(layer.action)/clock[layer.action].timing.Length;
                 layer.phase=phase;
-                layer.seconds=Mathf.Lerp(layer.start,layer.end,phase)*layer.clip.length;
+                layer.seconds=Mathf.Min(Mathf.Lerp(layer.start,layer.end,phase)*layer.clip.length,
+                    Mathf.Max(0,layer.clip.length-.0001f));
                 float alpha=layer.share*layer.weight*playback.Weight(layer.action);
                 if(layer.weighted!=null)
                 {

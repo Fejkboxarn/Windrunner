@@ -31,6 +31,8 @@ namespace PortableAnimation
         private float pivotCooldown;
         private bool firstTick = true;
         private readonly bool standalone;
+        private readonly float[] visualDurations = new float[(int)GroundPose.Count];
+        private readonly float[] stopDurations = new float[4];
         private float lastMovingSpeed;
         public int StopDirection { get; private set; }
         public int CurrentMoveDirection => DirectionIndex(lastHeading);
@@ -60,7 +62,7 @@ namespace PortableAnimation
             run = move * runShare;
         }
 
-        public GroundMotionController(GroundMotionProfile settings, bool standalone = false)
+        public GroundMotionController(GroundMotionProfile settings, bool standalone = false, bool originalTiming = false)
         {
             profile = settings ?? throw new ArgumentNullException(nameof(settings));
             this.standalone = standalone;
@@ -68,6 +70,19 @@ namespace PortableAnimation
             else profile.AssertValid();
             weights[(int)GroundPose.Idle] = 1f;
             desired[(int)GroundPose.Idle] = 1f;
+            float Duration(AnimationClip clip, string key)
+            {
+                var timing = originalTiming ? new VisualPlaybackSettings { mode = VisualPlaybackMode.AuthoredSpeed,
+                    maximumActionSeconds = clip ? Mathf.Min(300,Mathf.Max(10,clip.length+1)) : 10 } : profile.Playback(key);
+                if (!clip || timing == null || timing.mode == VisualPlaybackMode.ExistingTiming) return 0;
+                var clock = new VisualPlaybackClock(timing, clip.length);
+                return (float)Math.Min(clock.Duration, timing.maximumActionSeconds);
+            }
+            for (int i = 0; i < visualDurations.Length; i++)
+                visualDurations[i] = Duration(profile.Clip((GroundPose)i), GroundMotionProfile.TimingSlot((GroundPose)i));
+            for (int i = 0; i < 4; i++)
+                stopDurations[i] = Duration(profile.StopClip(i), i == 0 ? GroundMotionProfile.TimingSlot(GroundPose.Stop)
+                    : i == 1 ? "stopBackward" : i == 2 ? "stopLeft" : "stopRight");
         }
 
         public void Advance(in GroundMotionFrame frame)
@@ -241,6 +256,8 @@ namespace PortableAnimation
                 case GroundPose.Land: fallback = profile.LandSeconds; break;
                 default: fallback = 1f; break;
             }
+            float custom = pose == GroundPose.Stop ? stopDurations[StopDirection] : visualDurations[(int)pose];
+            if (custom > 0) return custom;
             return pose == GroundPose.Stop ? profile.StopDuration(StopDirection)
                 : profile.DurationFor(pose, fallback);
         }
@@ -324,6 +341,7 @@ namespace PortableAnimation
                     break;
                 case GroundMotionState.Idle:
                     desired[(int)GroundPose.Idle] = 1f;
+
                     break;
                 default:
                     desired[(int)oneShot] = 1f;

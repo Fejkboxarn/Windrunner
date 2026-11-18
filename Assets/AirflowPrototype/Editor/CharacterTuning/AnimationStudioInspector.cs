@@ -89,6 +89,7 @@ namespace AirflowPrototype.Editor
                 else if(inherited)EditorGUILayout.HelpBox("Enable Customize context to override this phase.",MessageType.Info);
                 else if(settingsTab==1)MaskControls(so,prefix,contextual);
                 else TimingControls(so,prefix,contextual);
+                if(action < 0) SpeedControls(so, "");
                 if(so.ApplyModifiedProperties()){rebuild=true;issue=null;}
             }
         }
@@ -107,6 +108,8 @@ namespace AirflowPrototype.Editor
         }
         void TimingControls(SerializedObject so,string prefix,bool contextual)
         {
+            SpeedControls(so, prefix);
+            GUILayout.Label("Transitions and phase envelope", EditorStyles.boldLabel);
             bool own=!contextual || EditorGUILayout.Toggle("Override timing fields",so.FindProperty(prefix+".overrideTiming").boolValue);
             if(contextual)so.FindProperty(prefix+".overrideTiming").boolValue=own;
             if(!own){GUILayout.Label("Uses base phase timing.");return;}
@@ -128,7 +131,7 @@ namespace AirflowPrototype.Editor
                     EditorGUILayout.PropertyField(so.FindProperty(contextual?root+".restart":prefix+".allowSameActionRestart"),new GUIContent("Allow same-phase restart"));
             }
             Field(VisualTimingFields.Segment,"Release entry (normalized)","start");
-            Field(VisualTimingFields.Speed,"Playback speed","speed","playbackSpeed");
+            Field(VisualTimingFields.Speed,"Existing-mode speed","speed","playbackSpeed");
             Field(VisualTimingFields.FadeIn,"Blend in (s)","fadeIn","blendInSeconds");
             Field(VisualTimingFields.FadeOut,"Recovery fade (s)","fadeOut","blendOutSeconds");
             Field(VisualTimingFields.Priority,"Priority","priority","priority");

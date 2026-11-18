@@ -29,6 +29,8 @@ namespace Windrunner.Production.Tests
                 var rig=Field<Animator>("previewRig");
                 var profile=(PortableCharacterActionProfile)type.GetProperty("Actions",Hidden).GetValue(window);
                 var ground=Field<GroundMotionProfile>("draftGround");
+                string sourceBefore=EditorJsonUtility.ToJson(AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>("Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset"));
+                profile.Action(4).regions = new RegionMaskSettings();
                 var rule=new RegionInfluenceSettings{region=AuthoringBodyRegion.RightUpperArm,rotation=.5f};
                 profile.Action(4).regions.enabled=true;profile.Action(4).regions.regions.Add(rule);
                 Call("SelectAction",4,1);
@@ -54,7 +56,7 @@ namespace Windrunner.Production.Tests
                 rule.rotation=0;Call("BuildPreview");Call("AdvancePreview");
                 Assert.Greater(Quaternion.Angle(expected,rig.GetBoneTransform(HumanBodyBones.RightUpperArm).localRotation),2);
                 var saved=AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>("Assets/WindrunnerProduction/Animation/Generated/WindrunnerActionClips.asset");
-                Assert.IsFalse(saved.Action(4).regions.enabled);
+                Assert.AreEqual(sourceBefore,EditorJsonUtility.ToJson(saved));
                 if(SystemInfo.graphicsDeviceType!=UnityEngine.Rendering.GraphicsDeviceType.Null)
                 {
                     rule.rotation=.5f;
@@ -138,6 +140,12 @@ namespace Windrunner.Production.Tests
                     var draft=(PortableCharacterActionProfile)type.GetProperty("Actions",Hidden).GetValue(window);
                     var air=draft.Action(4).airborne;
                     air.clip=expected;air.regions.enabled=true;
+                    air.playback.mode=VisualPlaybackMode.AuthoredSpeed;air.playback.baseSpeed=.7f;
+                    air.playback.reverse=true;air.playback.useCurve=true;
+                    air.playback.speedCurve=AnimationCurve.Linear(0,.5f,1,1.5f);
+                    var ground=(GroundMotionProfile)type.GetField("draftGround",Hidden).GetValue(window);
+                    ground.EditPlayback(GroundMotionProfile.TimingSlot(GroundPose.Idle)).mode=VisualPlaybackMode.AuthoredSpeed;
+                    ground.EditPlayback(GroundMotionProfile.TimingSlot(GroundPose.Idle)).baseSpeed=.65f;
                     air.regions.bones.Add(new BoneInfluence{bone=HumanBodyBones.RightHand,weight=.37f});
                     var session=type.GetField("draft",Hidden).GetValue(window);
                     session.GetType().GetMethod("Save").Invoke(session,null);
@@ -160,6 +168,10 @@ namespace Windrunner.Production.Tests
                 var reloaded=AssetDatabase.LoadAssetAtPath<Windrunner.Production.Animation.WindrunnerAnimationProfile>(rootPath);
                 var phase=reloaded.standaloneActionProfile.Action(4);
                 Assert.AreSame(expected,phase.airborne.clip);
+                Assert.IsTrue(phase.airborne.playback.reverse);
+                Assert.AreEqual(.7f,phase.airborne.playback.baseSpeed);
+                Assert.AreEqual(.75f,phase.airborne.playback.speedCurve.Evaluate(.25f),.0001);
+                Assert.AreEqual(.65f,reloaded.standaloneGroundProfile.Playback(GroundMotionProfile.TimingSlot(GroundPose.Idle)).baseSpeed);
                 Assert.AreSame(installed.standaloneActionProfile.Action(4).stationary.clip,phase.stationary.clip);
                 Assert.AreSame(expected,phase.clip);Assert.IsTrue(phase.airborne.regions.enabled);
                 Assert.AreEqual(.37f,phase.airborne.regions.bones.Find(b=>b.bone==HumanBodyBones.RightHand).weight);
@@ -225,6 +237,61 @@ namespace Windrunner.Production.Tests
             Assert.AreEqual(.6f,Resolve(),.0001);
             local.bones.Add(new BoneInfluence{bone=HumanBodyBones.RightHand,weight=.81f});
             Assert.AreEqual(.81f,Resolve());
+        }
+
+        [Test]
+        public void TimingComparisonModesUseTheProductionSamplerAndKeepDraft()
+        {
+            var type=Type.GetType("AirflowPrototype.Editor.DaggerMotionPreview, Assembly-CSharp-Editor",true);
+            var window=(EditorWindow)ScriptableObject.CreateInstance(type);
+            object Get(string name)=>type.GetField(name,Hidden).GetValue(window);
+            void Set(string name,object value)=>type.GetField(name,Hidden).SetValue(window,value);
+            void Call(string name,params object[] args)=>type.GetMethod(name,Hidden).Invoke(window,args);
+            try
+            {
+                Call("InitializeStudio");Call("SelectAction",4,1);
+                var profile=(PortableCharacterActionProfile)type.GetProperty("Actions",Hidden).GetValue(window);
+                var a=profile.Action(4);
+                a.playback.mode=VisualPlaybackMode.AuthoredSpeed;a.playback.baseSpeed=.5f;
+                a.playback.reverse=true;a.playback.useCurve=true;
+                a.playback.speedCurve=AnimationCurve.Linear(0,.7f,1,1.3f);
+                var oracle=new VisualPlaybackClock(a.playback,a.clip.length,a.segment.start,a.segment.end);
+                Set("playhead",.25f);
+                foreach(bool composed in new[]{true,false})
+                {
+                    Set("composed",composed);Set("timingComparison",0);Call("BuildPreview");Call("AdvancePreview");
+                    Assert.IsNull(Get("issue"));
+                    var sample=(VisualPlaybackSample)Get("timingSample");
+                    Assert.That(sample.SourceSeconds,Is.EqualTo(oracle.Sample(.25).SourceSeconds).Within(.0002));
+                    Assert.Less(sample.EffectiveSpeed,0);
+                    Set("timingComparison",2);Call("BuildPreview");Call("AdvancePreview");
+                    var original=(VisualPlaybackSample)Get("timingSample");
+                    Assert.That(original.SourceSeconds,Is.EqualTo(.25f).Within(.0001));
+                    Assert.That(original.EffectiveSpeed,Is.EqualTo(1).Within(.0001));
+                    Set("timingComparison",1);Call("BuildPreview");Call("AdvancePreview");
+                    var saved=(VisualPlaybackSample)Get("timingSample");
+                    Assert.That(saved.SourceSeconds,Is.EqualTo(.25f*a.playbackSpeed).Within(.0001));
+                }
+                Assert.IsTrue(a.playback.reverse);Assert.AreEqual(.5f,a.playback.baseSpeed);
+                if(SystemInfo.graphicsDeviceType!=UnityEngine.Rendering.GraphicsDeviceType.Null)
+                {
+                    Set("timingComparison",0);Set("composed",true);Set("playing",false);Set("settingsTab",2);Set("rebuild",true);
+                    for(int i=0;i<8;i++)Call("IndexProjectBatch");
+                    foreach(int mode in new[]{0,1,2})
+                    {
+                        Set("timingComparison",mode);Set("rebuild",true);
+                        CaptureWindow(window);
+                        File.Copy("Logs/ProductionMigration/animation-studio-v2.png",
+                            "Logs/ProductionMigration/animation-studio-speed-"+mode+".png",true);
+                    }
+                }
+            }
+            finally
+            {
+                typeof(EditorWindow).GetProperty("hasUnsavedChanges").SetValue(window,false);
+                if(typeof(EditorWindow).GetField("m_Parent",Hidden).GetValue(window) is Object host && host)window.Close();
+                if(window)Object.DestroyImmediate(window);
+            }
         }
 
         static void CaptureWindow(EditorWindow window)

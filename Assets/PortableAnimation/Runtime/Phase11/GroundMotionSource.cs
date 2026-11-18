@@ -30,6 +30,48 @@ namespace PortableAnimation
         private readonly AnimationClipPlayable[] playables = new AnimationClipPlayable[Total];
         private readonly AnimationClip[] assets = new AnimationClip[Total];
         private readonly double[] playbackTimes = new double[Total];
+        private readonly VisualPlaybackClock[] visualClocks = new VisualPlaybackClock[Total];
+        private readonly double[] visualTimes = new double[Total];
+        private readonly VisualPlaybackSample[] sampledTiming = new VisualPlaybackSample[Total];
+        private readonly bool[] runAvailable = new bool[8], walkAvailable = new bool[8];
+        public VisualPlaybackSample DominantTiming
+        {
+            get
+            {
+                int best = 0;
+                for (int i = 1; i < Total; i++)
+                    if (mixer.GetInputWeight(i) > mixer.GetInputWeight(best)) best = i;
+                return sampledTiming[best];
+            }
+        }
+        public VisualPlaybackSample ReadTiming(int index) => sampledTiming[index];
+        public VisualPlaybackSample ReadTiming(string key)
+        {
+            for (int i=0;i<Total;i++) if(timingKeys[i]==key) return sampledTiming[i];
+            return default;
+        }
+        static readonly string[] timingKeys = CreateTimingKeys();
+        static string[] CreateTimingKeys()
+        {
+            var keys=new string[Total];
+            for(int i=0;i<Total;i++)keys[i]=TimingKey(i);
+            return keys;
+        }
+        public void ResetPlayback()
+        {
+            Array.Clear(visualTimes,0,visualTimes.Length);
+            Array.Clear(playbackTimes,0,playbackTimes.Length);
+            movementCycle=profile.EntryGaitPhase;airTime=0;
+        }
+        public static string TimingKey(int index)
+        {
+            if (index < OriginalCount) return GroundMotionProfile.TimingSlot((GroundPose)index);
+            string[] extras = { "walkForward", "walkBackward", "walkLeft", "walkRight",
+                "stopBackward", "stopLeft", "stopRight",
+                "runForwardRight", "runBackwardRight", "runBackwardLeft", "runForwardLeft",
+                "walkForwardRight", "walkBackwardRight", "walkBackwardLeft", "walkForwardLeft" };
+            return extras[index - OriginalCount];
+        }
 
         private readonly float[] directionWeights = new float[8];
         private readonly float[] targetDirectionWeights = new float[8];
@@ -86,12 +128,12 @@ namespace PortableAnimation
         }
 
         public GroundMotionSource(PlayableGraph graph, GroundMotionProfile settings,
-            bool standalone = false)
+            bool standalone = false, bool originalTiming = false)
         {
             profile = settings ?? throw new ArgumentNullException(nameof(settings));
             if (standalone) profile.AssertStandaloneValid();
             else profile.AssertValid();
-            controller = new GroundMotionController(profile, standalone);
+            controller = new GroundMotionController(profile, standalone, originalTiming);
             mixer = AnimationMixerPlayable.Create(graph, Total);
 
             // Legacy semantic poses / one-shots.
@@ -163,6 +205,10 @@ namespace PortableAnimation
                         "Missing GroundMotion asset at index " + i);
                 }
 
+                var timing = originalTiming ? new VisualPlaybackSettings { mode = VisualPlaybackMode.AuthoredSpeed }
+                    : profile.Playback(TimingKey(i));
+                if (timing != null && timing.mode != VisualPlaybackMode.ExistingTiming)
+                    visualClocks[i] = new VisualPlaybackClock(timing, assets[i].length);
                 playables[i] = AnimationClipPlayable.Create(graph, assets[i]);
                 playables[i].SetSpeed(0d);
                 playables[i].SetTime(0d);
@@ -173,12 +219,19 @@ namespace PortableAnimation
                     i == (int)GroundPose.Idle ? 1f : 0f);
             }
 
+            for (int i = 0; i < 8; i++)
+            {
+                runAvailable[i] = profile.HasUsableDirectionalClip(false, i);
+                walkAvailable[i] = profile.HasUsableDirectionalClip(true, i);
+            }
             directionWeights[0] = 1f;
             targetDirectionWeights[0] = 1f;
         }
 
         public void Tick(in GroundMotionFrame frame)
         {
+            var oldState = controller.State;
+            var oldPose = controller.PrimaryPose;
             controller.Advance(in frame);
             float dt = Mathf.Max(0f, frame.Locomotion.DeltaTime);
             if (sharedAirLoop)
@@ -300,6 +353,40 @@ namespace PortableAnimation
                 else
                     SetTime(idx, playbackTimes[idx]);
             }
+            for (int i = 0; i < Total; i++)
+            {
+                if (!HasPlayable(i)) continue;
+                var clock = visualClocks[i];
+                float alpha = mixer.GetInputWeight(i);
+                bool directional = IsRunDirectionalIndex(i) || IsWalkDirectionalIndex(i) || i >= RunDiagonalOffset;
+                bool looping = directional || i == (int)GroundPose.Idle || i == (int)GroundPose.Fall ||
+                    i == (int)GroundPose.Rise && sharedAirLoop;
+                if (clock != null)
+                {
+                    bool selected = i == (int)controller.PrimaryPose ||
+                        i >= StopOffset && i < RunDiagonalOffset && controller.State == GroundMotionState.Stopping &&
+                        i == StopOffset + controller.StopDirection - 1;
+                    if (!looping && selected && (oldState != controller.State || oldPose != controller.PrimaryPose))
+                        visualTimes[i] = 0;
+                    if (looping ? directional ? controller.State == GroundMotionState.Moving : alpha > .00001f : selected)
+                        visualTimes[i] += dt;
+                    sampledTiming[i] = clock.Sample(visualTimes[i], looping);
+                    var sample=sampledTiming[i];
+                    SetTime(i, sample.SourceSeconds);
+                    sampledTiming[i]=new VisualPlaybackSample((float)playbackTimes[i],sample.SourceLength,sample.BaseSpeed,
+                        sample.CurveMultiplier,sample.EffectiveSpeed,sample.EstimatedSeconds,sample.Mode,sample.Held);
+                }
+                else
+                {
+                    float rate = directional ? CyclesPerSecond * assets[i].length :
+                        i == (int)GroundPose.Idle ? idleRate :
+                        i == (int)GroundPose.Fall || i == (int)GroundPose.Rise && sharedAirLoop ? airRate :
+                        assets[i].length / (i < OriginalCount ? profile.DurationFor((GroundPose)i, FallbackDuration((GroundPose)i))
+                            : profile.StopDuration(i - StopOffset + 1));
+                    sampledTiming[i] = new VisualPlaybackSample((float)playbackTimes[i], assets[i].length,
+                        rate, 1, rate, rate > 0 ? assets[i].length / rate : double.PositiveInfinity, VisualPlaybackMode.ExistingTiming);
+                }
+            }
         }
 
         private void UpdateDirectionalBlend(Vector2 localDirection, float dt)
@@ -338,7 +425,12 @@ namespace PortableAnimation
 
             if (sum <= 0.0001f)
             {
-                directionWeights[0] = 1f;
+                for (int i = 0; i < 8; i++)
+            {
+                runAvailable[i] = profile.HasUsableDirectionalClip(false, i);
+                walkAvailable[i] = profile.HasUsableDirectionalClip(true, i);
+            }
+            directionWeights[0] = 1f;
                 sum = 1f;
             }
 
@@ -351,12 +443,10 @@ namespace PortableAnimation
         {
             Array.Clear(output, 0, output.Length);
 
-            bool[] available = new bool[8];
+            bool[] available = walk ? walkAvailable : runAvailable;
             int availableCount = 0;
             for (int direction = 0; direction < 8; direction++)
             {
-                available[direction] =
-                    profile.HasUsableDirectionalClip(walk, direction);
                 if (available[direction])
                     availableCount++;
             }

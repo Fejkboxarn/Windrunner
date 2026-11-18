@@ -256,7 +256,7 @@ namespace Windrunner.Production.Animation
                 if (profile.useStandaloneCharacterGraph)
                 {
                     standaloneGraph = new GroundOnlyPipelineRuntime(animator,
-                        profile.standaloneGroundProfile, profile.standaloneActionProfile);
+                        profile.standaloneGroundProfile, profile.standaloneActionProfile, profile.previewOriginalTiming);
                 }
                 else
                 {

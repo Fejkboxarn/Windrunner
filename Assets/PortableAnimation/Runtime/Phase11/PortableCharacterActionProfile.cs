@@ -16,6 +16,7 @@ namespace PortableAnimation
         public AvatarMask mask;
         [Range(0,1)] public float weight = 1f;
         public bool inheritClip;
+        public VisualPlaybackSettings playback = new VisualPlaybackSettings();
         public bool inheritMask, inheritWeight;
         public RegionMaskSettings regions = new RegionMaskSettings();
         public ActionVisualTiming timing = new ActionVisualTiming();
@@ -28,6 +29,7 @@ namespace PortableAnimation
     public sealed class PortableCharacterAction
     {
         public string id = "Action";
+        public VisualPlaybackSettings playback = new VisualPlaybackSettings();
         [Tooltip("Related phases, e.g. Sling or Cast. Cancellation can target this group.")]
         public string group = "";
         public AnimationClip clip;
@@ -90,6 +92,9 @@ namespace PortableAnimation
                 PortableCharacterAction action = actions[i];
                 if (action == null || string.IsNullOrWhiteSpace(action.id))
                     throw new InvalidOperationException("Action " + i + " has no ID.");
+                action.playback?.AssertValid();
+                action.stationary?.playback?.AssertValid();
+                action.airborne?.playback?.AssertValid();
                 if(action.segment!=null && !action.segment.Valid)throw new InvalidOperationException("Invalid source segment for "+action.id);
                 foreach (var variant in new[] {action.stationary, action.airborne})
                     if (variant != null && variant.enabled && (!(variant.weight >= 0 && variant.weight <= 1) || (variant.overrideTiming && (variant.timing==null || !variant.timing.Valid))))

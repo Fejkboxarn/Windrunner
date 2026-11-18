@@ -25,12 +25,13 @@ namespace AirflowPrototype.Editor
         int groundSlots => slots.FindIndex(s=>s.path.StartsWith("actions.",StringComparison.Ordinal));
         static readonly string[] ContextNames={"Idle","Moving","Airborne"};
         static readonly string[] Categories={"All","Idle","Movement","Jump","Airborne","Cast","Dash","Sling","Combat"};
-        static readonly string[] Tabs={"Assignment","Body mask","Timing"};
+        static readonly string[] Tabs={"Assignment","Body mask","Timing & Speed"};
         ActionMotionContext Mode => activeContext==0?ActionMotionContext.Stationary:
             activeContext==2?ActionMotionContext.Airborne:ActionMotionContext.GroundedMoving;
         PortableCharacterActionProfile Actions => draft?.Entries.Find(e=>e.Source==draftProfile.standaloneActionProfile)?.Draft as PortableCharacterActionProfile;
         ActionPoseOverride Variant => action<0 || activeContext==1?null:activeContext==0?Actions.Action(action).stationary:Actions.Action(action).airborne;
-        float Duration => composed?Mathf.Max(1.5f,clip?clip.length:1):selected.IsValid() && selected.GetAnimationClip()?Mathf.Max(.01f,selected.GetAnimationClip().length):1;
+        float Duration => (float)Math.Max(1.5, double.IsInfinity(timingSample.EstimatedSeconds) ? 10 :
+            Math.Min(300, Math.Max(clip ? clip.length : 1, timingSample.EstimatedSeconds)));
         void UndoPreview(){rebuild=true;Repaint();}
         void DisposeComposition()
         {
@@ -226,7 +227,9 @@ namespace AirflowPrototype.Editor
                 if(next!=composed){composed=next;rebuild=true;}
                 skeleton=GUILayout.Toggle(skeleton,"Bones",EditorStyles.toolbarButton);
             }
-            if(rebuild || composed && composition!=null && playhead+.00001f<evaluated)BuildPreview();
+            int comparison = GUILayout.Toolbar(timingComparison, TimingModes);
+            if (comparison != timingComparison) { timingComparison = comparison; rebuild = true; }
+            if(rebuild || composition!=null && playhead+.00001f<evaluated)BuildPreview();
             if(!previewRig)return;
             var rect=GUILayoutUtility.GetRect(140,160,GUILayout.ExpandWidth(true),GUILayout.ExpandHeight(true));
             var ev=Event.current;
@@ -241,7 +244,8 @@ namespace AirflowPrototype.Editor
             }
             if(ev.type==EventType.Repaint)
             {
-                if(composed && composition!=null)AdvancePreview();else if(!composed)EvaluatePose(playhead,mixer.GetInputWeight(1));
+                if(composition!=null)AdvancePreview();
+                if(!composed)EvaluatePose(timingSample.SourceSeconds,mixer.GetInputWeight(1));
                 Vector3 pivot=center+studio.camera.transform.right*(-pan.x)+Vector3.up*pan.y;
                 studio.camera.transform.position=pivot+Quaternion.Euler(pitch,angle,0)*Vector3.forward*distance*zoom;
                 studio.camera.transform.LookAt(pivot);
@@ -252,13 +256,15 @@ namespace AirflowPrototype.Editor
             using(new EditorGUILayout.HorizontalScope())
             {
                 if(GUILayout.Button(playing?"Pause":"Play"))playing=!playing;
+                if(GUILayout.Button("< frame")){playing=false;playhead=Mathf.Max(0,playhead-previewStep);rebuild=true;}
+                if(GUILayout.Button("frame >")){playing=false;playhead+=previewStep;}
                 if(GUILayout.Button("Restart")){playhead=0;rebuild=true;}
                 loop=GUILayout.Toggle(loop,"Loop");
                 if(GUILayout.Button(candidate?"B · candidate":"A · assigned"))
                 {candidate=!candidate;rebuild=true;}
             }
             playhead=EditorGUILayout.Slider("Time (s)",playhead,0,Duration);
-            speed=EditorGUILayout.Slider("Preview speed",speed,.1f,2);
+            speed=EditorGUILayout.Slider("Preview time scale",speed,.1f,2);
             Matrix();
         }
         void Matrix()

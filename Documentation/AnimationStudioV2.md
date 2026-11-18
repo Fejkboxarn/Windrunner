@@ -1,5 +1,8 @@
 # Animation Authoring Studio V2
 
+For per-slot speeds, curves, reverse and original/saved/draft comparison, use the [Timing & Speed guide](AnimationPlayback.md).
+
+
 ## Compare and edit on the production character
 
 1. Open **Tools > Windrunner > Animation Authoring Studio V2** in Edit Mode. The toolbar shows the root character profile whose ground and action modules will receive explicit saves. The Studio can load the production Avatar and dagger mounts in a preview scene even from the title scene.

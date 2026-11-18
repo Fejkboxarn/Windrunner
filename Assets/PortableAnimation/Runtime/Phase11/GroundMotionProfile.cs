@@ -22,6 +22,30 @@ namespace PortableAnimation
         fileName = "GroundMotionProfile")]
     public sealed class GroundMotionProfile : ScriptableObject
     {
+        [Serializable]
+        public sealed class SlotPlayback
+        {
+            public string slot;
+            public VisualPlaybackSettings playback = new VisualPlaybackSettings();
+        }
+        [SerializeField] private System.Collections.Generic.List<SlotPlayback> slotPlayback = new System.Collections.Generic.List<SlotPlayback>();
+        public VisualPlaybackSettings Playback(string slot)
+        {
+            if (slotPlayback != null)
+                foreach (var entry in slotPlayback)
+                    if (entry != null && entry.slot == slot) return entry.playback;
+            return null;
+        }
+        public VisualPlaybackSettings EditPlayback(string slot)
+        {
+            var current = Playback(slot);
+            if (current != null) return current;
+            var entry = new SlotPlayback { slot = slot };
+            slotPlayback.Add(entry);
+            return entry.playback;
+        }
+        public static string TimingSlot(GroundPose pose) => "clips.Array.data[" + (int)pose + "]";
+
         [SerializeField] private WeaponPoseProfile previousPipeline;
         [SerializeField] private AnimationClip[] clips =
             new AnimationClip[(int)GroundPose.Count];
@@ -441,6 +465,8 @@ namespace PortableAnimation
         /// </summary>
         public void AssertStandaloneValid()
         {
+            if (slotPlayback != null)
+                foreach (var entry in slotPlayback) entry?.playback?.AssertValid();
             if (clips == null || clips.Length != (int)GroundPose.Count)
                 throw new InvalidOperationException(
                     "GroundMotion internal semantic slot array must have 18 entries.");

@@ -40,7 +40,15 @@ namespace Windrunner.Frontend.Editor
                         if(AirflowPrototype.Editor.AnimationLaneDraft.Pending)
                         {
                             var modules=AirflowPrototype.Editor.AnimationLaneDraft.Read();
+                            if (SessionState.GetBool("Windrunner.AnimationStudio.SavedTiming",false))
+                            {
+                                Object.Destroy(modules.ground);Object.Destroy(modules.actions);
+                                modules=(Object.Instantiate(profile.standaloneGroundProfile),Object.Instantiate(profile.standaloneActionProfile));
+                            }
+                            SessionState.EraseBool("Windrunner.AnimationStudio.SavedTiming");
                             profile=Object.Instantiate(profile);
+                            profile.previewOriginalTiming=SessionState.GetBool("Windrunner.AnimationStudio.OriginalTiming",false);
+                            SessionState.EraseBool("Windrunner.AnimationStudio.OriginalTiming");
                             profile.standaloneGroundProfile=modules.ground;profile.standaloneActionProfile=modules.actions;
                             session.GetComponent<TraversalAcceptance>().OwnDraft(profile,modules.ground,modules.actions);
                         }

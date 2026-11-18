@@ -277,7 +277,7 @@ namespace Windrunner.Production.Tests
                     Assert.AreEqual(heading, actual);
                     Assert.AreSame(profile.RunDirectionalClip(heading), clip);
                     Assert.Greater(weight, .99f);
-                    Assert.That(source.CyclesPerSecond * clip.length, Is.EqualTo(1.25f).Within(.002f));
+                    Assert.That(source.CyclesPerSecond * clip.length, Is.EqualTo(1.25f * profile.MovementPlaybackRate * clip.length / profile.RunDirectionalClip(0).length).Within(.002f));
                 }
                 const float walkingSpeed = .4f;
                 for (int i=0; i<120; i++)
