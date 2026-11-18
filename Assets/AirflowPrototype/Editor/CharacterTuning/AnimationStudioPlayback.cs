@@ -8,6 +8,8 @@ namespace AirflowPrototype.Editor
     public sealed partial class DaggerMotionPreview
     {
         [SerializeField] int timingComparison;
+        [SerializeField] bool simulateGroundSpeed;
+        [SerializeField] float simulatedGroundSpeed = 6;
         int speedPreset;
         string speedClipboard;
         VisualPlaybackSample timingSample;
@@ -19,6 +21,7 @@ namespace AirflowPrototype.Editor
         {
             EditorGUILayout.Space();
             GUILayout.Label("Timing & Speed", EditorStyles.boldLabel);
+            if (action < 0 && GroundMotionProfile.IsDirectionalSlot(slots[slot].path)) AdaptiveControls(so);
             SerializedProperty settings = null;
             if (action >= 0) settings = so.FindProperty(prefix + ".playback");
             else
@@ -50,6 +53,13 @@ namespace AirflowPrototype.Editor
             if (GUILayout.Button("Reset to original 1.0×"))
             {
                 SetSpeedPreset(settings, 0);
+                if (action < 0)
+                {
+                    var list = so.FindProperty("slotPlayback");
+                    for (int i = 0; i < list.arraySize; i++)
+                        if (list.GetArrayElementAtIndex(i).FindPropertyRelative("slot").stringValue == slots[slot].path)
+                            list.GetArrayElementAtIndex(i).FindPropertyRelative("adaptive").FindPropertyRelative("enabled").boolValue = false;
+                }
             }
             if (mode.enumValueIndex != 0)
             {
@@ -106,6 +116,92 @@ namespace AirflowPrototype.Editor
                     }
             }
             TimingReadout();
+        }
+
+        void AdaptiveControls(SerializedObject so)
+        {
+            GUILayout.Label("Adaptive Speed", EditorStyles.boldLabel);
+            string key = slots[slot].path;
+            var playback = draftGround.Playback(key);
+            var adaptive = draftGround.Adaptive(key);
+            int mode = adaptive?.enabled == true ? 3 : playback == null || playback.mode == VisualPlaybackMode.ExistingTiming ? 0 :
+                playback.mode == VisualPlaybackMode.AuthoredSpeed && playback.baseSpeed == 1 && !playback.useCurve && !playback.reverse && playback.entryHoldSeconds == 0 ? 1 : 2;
+            int next = EditorGUILayout.Popup("Locomotion mode", mode, new[] { "Existing authored settings", "Original 1×", "Fixed designer speed", "Adaptive movement speed" });
+            if (next != mode)
+            {
+                so.ApplyModifiedProperties();
+                Undo.RecordObject(draftGround, "Set locomotion speed mode");
+                playback = draftGround.EditPlayback(key);
+                adaptive = draftGround.EditAdaptive(key);
+                adaptive.enabled = next == 3;
+                playback.mode = next == 0 ? VisualPlaybackMode.ExistingTiming : VisualPlaybackMode.AuthoredSpeed;
+                if (next == 1)
+                {
+                    playback.baseSpeed = 1; playback.useCurve = false; playback.reverse = false; playback.entryHoldSeconds = 0;
+                }
+                so.Update(); rebuild = true;
+            }
+            var list = so.FindProperty("slotPlayback");
+            SerializedProperty entry = null;
+            for (int i = 0; i < list.arraySize; i++)
+                if (list.GetArrayElementAtIndex(i).FindPropertyRelative("slot").stringValue == key) entry = list.GetArrayElementAtIndex(i);
+            if (entry != null)
+            {
+                var config = entry.FindPropertyRelative("adaptive");
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(config.FindPropertyRelative("enabled"), new GUIContent("Enable Adaptive Speed"));
+                if (EditorGUI.EndChangeCheck() && config.FindPropertyRelative("enabled").boolValue)
+                    entry.FindPropertyRelative("playback").FindPropertyRelative("mode").enumValueIndex = (int)VisualPlaybackMode.AuthoredSpeed;
+                if (config.FindPropertyRelative("enabled").boolValue)
+                {
+                    var policy = entry.FindPropertyRelative("playback").FindPropertyRelative("mode");
+                    if (policy.enumValueIndex != (int)VisualPlaybackMode.AuthoredSpeed)
+                        EditorGUILayout.HelpBox("Choose Adaptive movement speed above to replace duration fitting with explicit source timing.", MessageType.Warning);
+                    void Field(string name, string label) => EditorGUILayout.PropertyField(config.FindPropertyRelative(name), new GUIContent(label));
+                    Field("referenceSpeed", "Reference speed (m/s)");
+                    Field("minimumSpeed", "Minimum multiplier ×");
+                    Field("maximumSpeed", "Maximum multiplier ×");
+                    Field("smoothingSeconds", "Speed smoothing (s)");
+                    Field("designerMultiplier", "Designer multiplier ×");
+                    Field("useResponseCurve", "Use speed response curve");
+                    if (config.FindPropertyRelative("useResponseCurve").boolValue)
+                    {
+                        GUILayout.Label("Movement/reference ratio → multiplier", EditorStyles.miniLabel);
+                        Field("responseCurve", "Speed response curve");
+                    }
+                    Field("phaseGroup", "Phase group (0 = independent)");
+                    Field("leftContact", "Manual left contact (0–1)");
+                    Field("rightContact", "Manual right contact (0–1)");
+                    Field("calibrated", "Visually calibrated");
+                    if (!config.FindPropertyRelative("calibrated").boolValue)
+                        EditorGUILayout.HelpBox("Uncalibrated. Match observed travel to a 1× cycle, then enter its reference speed. Contact markers require visual review.", MessageType.Info);
+                    EditorGUILayout.HelpBox("Final speed = source base × source curve × smoothed adaptive multiplier. Compatible groups share a blend-weighted cycle frequency. Group 0 preserves independent reverse and source curves.", MessageType.Info);
+                }
+            }
+            EditorGUI.BeginChangeCheck();
+            simulateGroundSpeed = EditorGUILayout.Toggle("Simulate ground speed", simulateGroundSpeed);
+            if (simulateGroundSpeed) simulatedGroundSpeed = EditorGUILayout.Slider("Ground speed (m/s)", simulatedGroundSpeed, 0, 40);
+            if (EditorGUI.EndChangeCheck()) Repaint();
+            if (composition != null)
+            {
+                var value = composition.ReadGroundAdaptive(key);
+                var timing = composition.ReadGroundTiming(key);
+                if (value.Enabled)
+                    GUILayout.Label($"Actual {value.ActualSpeed:F2} m/s / reference {value.ReferenceSpeed:F2} = {value.Ratio:F2}\nResponse {value.Response:F2} × designer {value.Designer:F2} → smoothed {value.Multiplier:F2}×\nFinal {timing.EffectiveSpeed:F2}× · phase {timing.Progress:P0}" +
+                        (value.Synchronized ? " · synchronized" : ""), EditorStyles.wordWrappedMiniLabel);
+                if (adaptive != null)
+                {
+                    Rect strip = EditorGUILayout.GetControlRect(false, 20);
+                    EditorGUI.DrawRect(strip, new Color(.12f, .16f, .20f));
+                    float left = strip.x + adaptive.leftContact * strip.width;
+                    float right = strip.x + adaptive.rightContact * strip.width;
+                    EditorGUI.LabelField(new Rect(Mathf.Min(left, strip.xMax-14), strip.y, 14, 20), "L");
+                    EditorGUI.LabelField(new Rect(Mathf.Min(right, strip.xMax-14), strip.y, 14, 20), "R");
+                    EditorGUI.DrawRect(new Rect(strip.x + timing.Progress * strip.width, strip.y, 2, strip.height), Color.yellow);
+                }
+                float frequency = timing.SourceLength > 0 ? Mathf.Abs(timing.EffectiveSpeed) / timing.SourceLength : 0;
+                GUILayout.Label(frequency > 0 ? $"{frequency:F2} cycles/s · {1/frequency:F2}s per cycle · {2*frequency:F2} contacts/s if two contacts/cycle" : "Cycle held", EditorStyles.wordWrappedMiniLabel);
+            }
         }
 
         static void SetSpeedPreset(SerializedProperty settings, int preset)

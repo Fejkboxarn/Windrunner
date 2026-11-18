@@ -17,6 +17,7 @@ namespace AirflowPrototype
         public PlayerMovementPhase LastPhase { get; private set; }
         public int Frame { get; private set; } = -1;
         public int StepsThisFrame { get; private set; }
+        public Vector3 ResolvedDisplacement { get; private set; }
 
         public PlayerDisplacementAuthority(CharacterController controller)
         {
@@ -25,10 +26,13 @@ namespace AirflowPrototype
 
         public CollisionFlags Apply(Vector3 displacement, PlayerMovementPhase phase, int frame)
         {
-            if (Frame != frame) { Frame = frame; StepsThisFrame = 0; }
+            if (Frame != frame) { Frame = frame; StepsThisFrame = 0; ResolvedDisplacement = Vector3.zero; }
             LastPhase = phase;
             StepsThisFrame++;
-            return Controller.Move(displacement);
+            Vector3 before = Controller.transform.position;
+            var flags = Controller.Move(displacement);
+            ResolvedDisplacement += Controller.transform.position - before;
+            return flags;
         }
     }
 }

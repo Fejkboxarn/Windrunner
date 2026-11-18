@@ -29,6 +29,94 @@ namespace Windrunner.Production.Tests
             Assert.IsTrue(File.Exists(file));
         }
         [UnityTest]
+        public IEnumerator ResolvedAnimationMotionObservesCollisionAndAccumulatesOrderedSteps()
+        {
+            var actor = new GameObject("Disposable movement observer");
+            actor.transform.position = new Vector3(5000, 5000, 5000);
+            var controller = actor.AddComponent<CharacterController>();
+            controller.radius = .3f; controller.height = 2;
+            var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            wall.name = "Disposable blocking wall";
+            wall.transform.position = actor.transform.position + Vector3.forward;
+            wall.transform.localScale = new Vector3(5, 5, .2f);
+            var type = Type.GetType("AirflowPrototype.PlayerDisplacementAuthority, Assembly-CSharp", true);
+            var phaseType = Type.GetType("AirflowPrototype.PlayerMovementPhase, Assembly-CSharp", true);
+            var authority = Activator.CreateInstance(type, new object[] { controller });
+            var apply = type.GetMethod("Apply");
+            Vector3 Observed() => (Vector3)type.GetProperty("ResolvedDisplacement").GetValue(authority);
+            void Move(Vector3 delta, int frame) => apply.Invoke(authority, new[] { (object)delta, Enum.ToObject(phaseType, 0), frame });
+            try
+            {
+                Physics.SyncTransforms();
+                var start = actor.transform.position;
+                Move(Vector3.forward * 2, 1);
+                Assert.That(Observed().z, Is.LessThan(1));
+                Assert.That(Vector3.Distance(Observed(), actor.transform.position-start), Is.LessThan(.001));
+                Move(Vector3.right * .2f, 1);
+                Assert.That(Vector3.Distance(Observed(), actor.transform.position-start), Is.LessThan(.001));
+                for (int frame = 2; frame < 10; frame++) Move(Vector3.forward, frame);
+                Assert.That(Observed().magnitude, Is.LessThan(.01), "Held movement into the wall must report blocked travel.");
+                Move(Vector3.back * .2f, 10);
+                Assert.That(Observed().z, Is.LessThan(-.19));
+            }
+            finally { Object.Destroy(actor); Object.Destroy(wall); }
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator AdaptiveGroundCadencePreservesActionClocksAndRootAuthority()
+        {
+            const string folder = "Assets/WindrunnerProduction/Animation/Generated/";
+            var source = UnityEditor.AssetDatabase.LoadAssetAtPath<GroundMotionProfile>(folder+"WindrunnerGroundMotion.asset");
+            var adaptive = Object.Instantiate(source);
+            var actions = UnityEditor.AssetDatabase.LoadAssetAtPath<PortableCharacterActionProfile>(folder+"WindrunnerActionClips.asset");
+            var model = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/AirflowPrototype/VampGirl_V2/Vamgirl_Windrunner.fbx");
+            var actor = Object.Instantiate(model); var peer = Object.Instantiate(model);
+            try
+            {
+                for (int i = 0; i < 33; i++)
+                {
+                    string key = GroundMotionSource.TimingKey(i);
+                    if (!GroundMotionProfile.IsDirectionalSlot(key)) continue;
+                    adaptive.EditPlayback(key).mode = VisualPlaybackMode.AuthoredSpeed;
+                    var settings = adaptive.EditAdaptive(key); settings.enabled = true; settings.referenceSpeed = 5;
+                }
+                Animator Rig(GameObject obj)
+                {
+                    var rig = obj.GetComponentInChildren<Animator>(); rig.runtimeAnimatorController = null;
+                    rig.applyRootMotion = false; rig.fireEvents = false; rig.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+                    return rig;
+                }
+                using var graph = new GroundOnlyPipelineRuntime(Rig(actor), adaptive, actions);
+                using var control = new GroundOnlyPipelineRuntime(Rig(peer), source, actions);
+                int frame = 0;
+                for (int action = 0; action < actions.Count; action++)
+                {
+                    Assert.AreEqual(control.RequestAction(action), graph.RequestAction(action));
+                    for (int i = 0; i < 90; i++)
+                    {
+                        float speed = i < 30 ? i*.5f : i < 60 ? 0 : 8.5f;
+                        bool grounded = i < 45 || i > 65;
+                        var velocity = Quaternion.Euler(0, i*9, 0)*Vector3.forward*speed;
+                        var state = new AnimationFrameState(frame++, 1f/60, velocity, speed/8.5f,
+                            grounded ? LocomotionMode.Grounded : LocomotionMode.Airborne);
+                        var motion = new GroundMotionFrame(state, grounded, grounded ? 0 : -3, 0, false, speed);
+                        graph.Evaluate(motion, speed); control.Evaluate(motion, speed);
+                        for (int context = 0; context < 3; context++)
+                            Assert.That(graph.ReadActionTiming(action, (ActionMotionContext)context).SourceSeconds,
+                                Is.EqualTo(control.ReadActionTiming(action, (ActionMotionContext)context).SourceSeconds).Within(.00001));
+                        Assert.AreEqual(control.ActiveAction, graph.ActiveAction);
+                    }
+                    graph.CancelAction(); control.CancelAction();
+                }
+                Assert.That(actor.transform.position.sqrMagnitude, Is.LessThan(.000001));
+                Assert.That(Quaternion.Angle(actor.transform.rotation, Quaternion.identity), Is.LessThan(.001));
+            }
+            finally { Object.Destroy(actor); Object.Destroy(peer); Object.Destroy(adaptive); }
+            yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator DraftLaneRunsDetachedProfilesAndReleasesThemOnReload()
         {
             var store=Type.GetType("AirflowPrototype.Editor.AnimationLaneDraft, Assembly-CSharp-Editor",true);
@@ -189,7 +277,8 @@ namespace Windrunner.Production.Tests
         }
         [UnityTest] public IEnumerator DaggerCastRetargetsProductionRigAndRecoversAfterRelease() => CastContextPlayback(false);
         [UnityTest] public IEnumerator ReverseCurveCastKeepsOneProjectileAndGameplayTiming() => CastContextPlayback(true);
-        IEnumerator CastContextPlayback(bool customTiming)
+        [UnityTest] public IEnumerator AdaptiveLocomotionCastKeepsProductionReleaseTiming() => CastContextPlayback(false, true);
+        IEnumerator CastContextPlayback(bool customTiming, bool adaptiveTiming = false)
         {
             if(ProjectRoot.Active){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}
             yield return EditorSceneManager.LoadSceneAsyncInPlayMode(Legacy,new LoadSceneParameters(LoadSceneMode.Single));
@@ -212,18 +301,29 @@ namespace Windrunner.Production.Tests
                 var lane=Type.GetType("Windrunner.Frontend.TraversalAcceptance, Assembly-CSharp",true);
                 var deck=lane.GetMethod("Install").Invoke(null,new object[]{Session()});
                 var bridge=(Component)Object.FindAnyObjectByType(Type.GetType("AirflowPrototype.AirflowPortableAnimationBridge, Assembly-CSharp",true));
-                if(customTiming)
+                if(customTiming || adaptiveTiming)
                 {
                     var profile=Object.Instantiate(Prop<Windrunner.Production.Animation.WindrunnerAnimationProfile>(bridge,"Profile"));
                     var actions=Object.Instantiate(profile.standaloneActionProfile);
                     profile.standaloneActionProfile=actions;
-                    foreach(var playbackSettings in new[]{actions.Action(4).playback,actions.Action(4).stationary.playback,actions.Action(4).airborne.playback})
+                    if (customTiming) foreach(var playbackSettings in new[]{actions.Action(4).playback,actions.Action(4).stationary.playback,actions.Action(4).airborne.playback})
                     {
                         playbackSettings.mode=VisualPlaybackMode.AuthoredSpeed;
                         playbackSettings.baseSpeed=.8f;playbackSettings.reverse=true;playbackSettings.useCurve=true;
                         playbackSettings.speedCurve=AnimationCurve.Linear(0,.7f,1,1.2f);
                     }
-                    lane.GetMethod("OwnDraft").Invoke(deck,new object[]{new Object[]{profile,actions}});
+                    var ground = Object.Instantiate(profile.standaloneGroundProfile);
+                    profile.standaloneGroundProfile = ground;
+                    if (adaptiveTiming)
+                        for (int slot = 0; slot < 33; slot++)
+                        {
+                            string key = GroundMotionSource.TimingKey(slot);
+                            if (!GroundMotionProfile.IsDirectionalSlot(key)) continue;
+                            ground.EditPlayback(key).mode = VisualPlaybackMode.AuthoredSpeed;
+                            var calibration = ground.EditAdaptive(key); calibration.enabled = true;
+                            calibration.referenceSpeed = 7; calibration.phaseGroup = 1;
+                        }
+                    lane.GetMethod("OwnDraft").Invoke(deck,new object[]{new Object[]{profile,actions,ground}});
                     ((Behaviour)bridge).enabled=false;
                     using(var serialized=new UnityEditor.SerializedObject(bridge))
                     {serialized.FindProperty("profile").objectReferenceValue=profile;serialized.ApplyModifiedPropertiesWithoutUndo();}
@@ -305,10 +405,10 @@ namespace Windrunner.Production.Tests
                 yield return null;yield return null;
                 Assert.AreEqual("CastRelease",Prop<string>(bridge,"ActiveAnimationAction"));
                 for(int i=0;i<10;i++)yield return null;
-                yield return CaptureRecording(customTiming?"reverse-curve-stationary-throw":"context-stationary-throw");
+                yield return CaptureRecording(adaptiveTiming?"adaptive-stationary-throw":customTiming?"reverse-curve-stationary-throw":"context-stationary-throw");
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.D));
                 for(int i=0;i<9;i++)yield return null;
-                yield return CaptureRecording(customTiming?"reverse-curve-moving-throw":"context-moving-throw");
+                yield return CaptureRecording(adaptiveTiming?"adaptive-moving-throw":customTiming?"reverse-curve-moving-throw":"context-moving-throw");
                 GroundOnlyPipelineRuntime.RecordingPose ActualPose()
                 {
                     object[] args={null};
@@ -324,7 +424,7 @@ namespace Windrunner.Production.Tests
                     yield return null;
                 }
                 Assert.IsTrue(airborneThrow,"Walking off the ledge should crossfade the same release to the authored air throw.");
-                yield return CaptureRecording(customTiming?"reverse-curve-airborne-throw":"context-airborne-throw");
+                yield return CaptureRecording(adaptiveTiming?"adaptive-airborne-throw":customTiming?"reverse-curve-airborne-throw":"context-airborne-throw");
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState());
                 for(int i=0;i<75;i++)yield return null;
                 Assert.AreEqual(1,releaseCount,"Changing animation context must not deliver a second projectile release.");

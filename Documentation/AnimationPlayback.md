@@ -77,3 +77,6 @@ The rendered reverse-curve gameplay rerun passed **1/1** in `playback-rendered-P
 The **Windows Development build succeeded with zero errors and 24 warnings**, in 32.01 seconds, at `Builds/playback-candidate/Windrunner.exe`. Warning subjects match the earlier Studio V2 compilation build, including mesh import flags, shader diagnostics and three obsolete object searches in unchanged AirChimeTrial, PlayerWindFeedback and AutumnPostProcessController. `playback-candidate-build.json` records every warning.
 
 The rendered Windows startup initialized and survived 15 seconds with no matched errors (`playback-candidate-rendered-player.json`). This checks startup only. Gameplay rendering evidence comes from the Unity Editor, and artistic acceptance remains manual.
+
+
+See [Adaptive locomotion authoring](AdaptiveLocomotion.md) for optional movement-driven walk/run cadence, calibration, synchronized groups and production diagnostics.

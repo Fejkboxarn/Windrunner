@@ -33,6 +33,27 @@ namespace PortableAnimation
         private readonly VisualPlaybackClock[] visualClocks = new VisualPlaybackClock[Total];
         private readonly double[] visualTimes = new double[Total];
         private readonly VisualPlaybackSample[] sampledTiming = new VisualPlaybackSample[Total];
+        private readonly AdaptiveLocomotionClock[] adaptiveClocks = new AdaptiveLocomotionClock[Total];
+        private readonly AdaptiveLocomotionSettings[] adaptiveSettings = new AdaptiveLocomotionSettings[Total];
+        private readonly AdaptiveLocomotionSample[] adaptiveSamples = new AdaptiveLocomotionSample[Total];
+        private readonly float[] groupRates = new float[9], groupWeights = new float[9];
+        private readonly double[] groupPhases = new double[9];
+        private readonly float[] groupMinimum = new float[9], groupMaximum = new float[9];
+        public AdaptiveLocomotionSample ReadAdaptive(string key)
+        {
+            for (int i = 0; i < Total; i++) if (timingKeys[i] == key) return adaptiveSamples[i];
+            return default;
+        }
+        public AdaptiveLocomotionSample DominantAdaptive
+        {
+            get
+            {
+                int best = 0;
+                for (int i = 1; i < Total; i++)
+                    if (mixer.GetInputWeight(i) > mixer.GetInputWeight(best)) best = i;
+                return adaptiveSamples[best];
+            }
+        }
         private readonly bool[] runAvailable = new bool[8], walkAvailable = new bool[8];
         public VisualPlaybackSample DominantTiming
         {
@@ -62,6 +83,7 @@ namespace PortableAnimation
             Array.Clear(visualTimes,0,visualTimes.Length);
             Array.Clear(playbackTimes,0,playbackTimes.Length);
             movementCycle=profile.EntryGaitPhase;airTime=0;
+            for (int i = 0; i < groupPhases.Length; i++) groupPhases[i] = profile.EntryGaitPhase;
         }
         public static string TimingKey(int index)
         {
@@ -80,6 +102,7 @@ namespace PortableAnimation
 
         private double movementCycle;
         public float CyclesPerSecond { get; private set; }
+        public float ActualGroundSpeed { get; private set; }
         public void ReadDominant(out AnimationClip clip, out float blend, out int direction)
         {
             clip = null;
@@ -205,6 +228,12 @@ namespace PortableAnimation
                         "Missing GroundMotion asset at index " + i);
                 }
 
+                var adaptive = originalTiming ? null : profile.Adaptive(TimingKey(i));
+                if (adaptive?.enabled == true)
+                {
+                    adaptiveSettings[i] = adaptive;
+                    adaptiveClocks[i] = new AdaptiveLocomotionClock(adaptive);
+                }
                 var timing = originalTiming ? new VisualPlaybackSettings { mode = VisualPlaybackMode.AuthoredSpeed }
                     : profile.Playback(TimingKey(i));
                 if (timing != null && timing.mode != VisualPlaybackMode.ExistingTiming)
@@ -219,6 +248,19 @@ namespace PortableAnimation
                     i == (int)GroundPose.Idle ? 1f : 0f);
             }
 
+            for (int group = 0; group < groupMaximum.Length; group++) groupMaximum[group] = float.PositiveInfinity;
+            for (int i = 0; i < Total; i++)
+            {
+                var calibration = adaptiveSettings[i];
+                if (calibration == null || calibration.phaseGroup == 0) continue;
+                int group = calibration.phaseGroup;
+                float basis = profile.Playback(timingKeys[i]).baseSpeed / assets[i].length;
+                groupMinimum[group] = Mathf.Max(groupMinimum[group], basis * calibration.minimumSpeed);
+                groupMaximum[group] = Mathf.Min(groupMaximum[group], basis * calibration.maximumSpeed);
+                if (groupMinimum[group] > groupMaximum[group])
+                    throw new InvalidOperationException("Phase group " + group + " has incompatible cadence clamps. Adjust calibration or use separate groups.");
+            }
+
             for (int i = 0; i < 8; i++)
             {
                 runAvailable[i] = profile.HasUsableDirectionalClip(false, i);
@@ -226,10 +268,12 @@ namespace PortableAnimation
             }
             directionWeights[0] = 1f;
             targetDirectionWeights[0] = 1f;
+            for (int i = 0; i < groupPhases.Length; i++) groupPhases[i] = profile.EntryGaitPhase;
         }
 
         public void Tick(in GroundMotionFrame frame)
         {
+            ActualGroundSpeed = frame.ActualGroundSpeed;
             var oldState = controller.State;
             var oldPose = controller.PrimaryPose;
             controller.Advance(in frame);
@@ -353,6 +397,7 @@ namespace PortableAnimation
                 else
                     SetTime(idx, playbackTimes[idx]);
             }
+            AdvanceAdaptive(in frame, dt);
             for (int i = 0; i < Total; i++)
             {
                 if (!HasPlayable(i)) continue;
@@ -369,12 +414,16 @@ namespace PortableAnimation
                     if (!looping && selected && (oldState != controller.State || oldPose != controller.PrimaryPose))
                         visualTimes[i] = 0;
                     if (looping ? directional ? controller.State == GroundMotionState.Moving : alpha > .00001f : selected)
-                        visualTimes[i] += dt;
+                        visualTimes[i] += dt * (adaptiveClocks[i] != null ? adaptiveSamples[i].Multiplier : 1);
                     sampledTiming[i] = clock.Sample(visualTimes[i], looping);
                     var sample=sampledTiming[i];
+                    float adaptiveMultiplier = adaptiveClocks[i] != null ? adaptiveSamples[i].Multiplier : 1;
+                    double estimate = adaptiveMultiplier > 0 ? sample.EstimatedSeconds / adaptiveMultiplier : double.PositiveInfinity;
                     SetTime(i, sample.SourceSeconds);
                     sampledTiming[i]=new VisualPlaybackSample((float)playbackTimes[i],sample.SourceLength,sample.BaseSpeed,
-                        sample.CurveMultiplier,sample.EffectiveSpeed,sample.EstimatedSeconds,sample.Mode,sample.Held);
+                        sample.CurveMultiplier,sample.EffectiveSpeed * adaptiveMultiplier,
+                        estimate,sample.Mode,sample.Held);
+                    ApplySynchronizedTiming(i);
                 }
                 else
                 {
@@ -387,6 +436,44 @@ namespace PortableAnimation
                         rate, 1, rate, rate > 0 ? assets[i].length / rate : double.PositiveInfinity, VisualPlaybackMode.ExistingTiming);
                 }
             }
+        }
+
+        private void AdvanceAdaptive(in GroundMotionFrame frame, float dt)
+        {
+            Array.Clear(groupRates, 0, groupRates.Length);
+            Array.Clear(groupWeights, 0, groupWeights.Length);
+            for (int i = 0; i < Total; i++)
+            {
+                if (adaptiveClocks[i] == null) continue;
+                adaptiveSamples[i] = adaptiveClocks[i].Advance(frame.ActualGroundSpeed, dt);
+                int group = adaptiveSettings[i].phaseGroup;
+                if (group == 0) continue;
+                float alpha = mixer.GetInputWeight(i);
+                groupRates[group] += alpha * profile.Playback(timingKeys[i]).baseSpeed * adaptiveSamples[i].Multiplier / assets[i].length;
+                groupWeights[group] += alpha;
+            }
+            for (int group = 1; group < groupRates.Length; group++)
+            {
+                if (groupWeights[group] <= .00001f) continue;
+                groupRates[group] = Mathf.Clamp(groupRates[group] / groupWeights[group], groupMinimum[group], groupMaximum[group]);
+                if (controller.State == GroundMotionState.Moving && frame.Grounded)
+                    groupPhases[group] = Repeat01(groupPhases[group] + dt * groupRates[group]);
+            }
+        }
+        private void ApplySynchronizedTiming(int index)
+        {
+            var settings = adaptiveSettings[index];
+            if (settings == null || settings.phaseGroup == 0) return;
+            int group = settings.phaseGroup;
+            SetTime(index, Repeat01(groupPhases[group] + settings.leftContact) * assets[index].length);
+            var previous = sampledTiming[index];
+            float effective = groupRates[group] * assets[index].length;
+            sampledTiming[index] = new VisualPlaybackSample((float)playbackTimes[index], assets[index].length,
+                previous.BaseSpeed, 1, effective, effective > 0 ? assets[index].length / effective : double.PositiveInfinity,
+                VisualPlaybackMode.AuthoredSpeed, effective == 0);
+            var sample = adaptiveSamples[index];
+            adaptiveSamples[index] = new AdaptiveLocomotionSample(true, sample.ActualSpeed, sample.ReferenceSpeed,
+                sample.Ratio, sample.Response, sample.Designer, sample.Multiplier, true);
         }
 
         private void UpdateDirectionalBlend(Vector2 localDirection, float dt)

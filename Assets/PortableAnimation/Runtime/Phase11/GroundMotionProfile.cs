@@ -27,6 +27,7 @@ namespace PortableAnimation
         {
             public string slot;
             public VisualPlaybackSettings playback = new VisualPlaybackSettings();
+            public AdaptiveLocomotionSettings adaptive = new AdaptiveLocomotionSettings();
         }
         [SerializeField] private System.Collections.Generic.List<SlotPlayback> slotPlayback = new System.Collections.Generic.List<SlotPlayback>();
         public VisualPlaybackSettings Playback(string slot)
@@ -43,6 +44,50 @@ namespace PortableAnimation
             var entry = new SlotPlayback { slot = slot };
             slotPlayback.Add(entry);
             return entry.playback;
+        }
+        public AdaptiveLocomotionSettings Adaptive(string slot)
+        {
+            if (slotPlayback != null)
+                foreach (var entry in slotPlayback)
+                    if (entry != null && entry.slot == slot) return entry.adaptive;
+            return null;
+        }
+        public AdaptiveLocomotionSettings EditAdaptive(string slot)
+        {
+            EditPlayback(slot);
+            foreach (var entry in slotPlayback)
+                if (entry.slot == slot) return entry.adaptive ??= new AdaptiveLocomotionSettings();
+            throw new InvalidOperationException("Missing locomotion assignment.");
+        }
+        public bool HasAdaptiveLocomotion
+        {
+            get
+            {
+                if (slotPlayback != null)
+                    foreach (var entry in slotPlayback)
+                        if (entry?.adaptive?.enabled == true && IsDirectionalSlot(entry.slot)) return true;
+                return false;
+            }
+        }
+        public static bool IsDirectionalSlot(string slot)
+        {
+            return slot == TimingSlot(GroundPose.MoveForward) || slot == TimingSlot(GroundPose.MoveBackward) ||
+                slot == TimingSlot(GroundPose.MoveLeft) || slot == TimingSlot(GroundPose.MoveRight) ||
+                slot.StartsWith("walk", StringComparison.Ordinal) || slot.StartsWith("run", StringComparison.Ordinal);
+        }
+        void ValidatePlayback()
+        {
+            if (slotPlayback == null) return;
+            foreach (var entry in slotPlayback)
+            {
+                entry?.playback?.AssertValid();
+                entry?.adaptive?.AssertValid();
+                if (entry?.adaptive?.enabled != true) continue;
+                if (!IsDirectionalSlot(entry.slot) || entry.playback == null || entry.playback.mode != VisualPlaybackMode.AuthoredSpeed)
+                    throw new InvalidOperationException("Adaptive playback requires a directional loop with AuthoredSpeed timing.");
+                if (entry.adaptive.phaseGroup > 0 && (entry.playback.reverse || entry.playback.useCurve || entry.playback.entryHoldSeconds > 0))
+                    throw new InvalidOperationException("Synchronized cycles require forward timing without source-progress curves or entry holds. Use phase group 0 for independent playback.");
+            }
         }
         public static string TimingSlot(GroundPose pose) => "clips.Array.data[" + (int)pose + "]";
 
@@ -392,6 +437,7 @@ namespace PortableAnimation
 
         public void AssertValid()
         {
+            ValidatePlayback();
             if (previousPipeline == null)
                 throw new InvalidOperationException(
                     "Phase 11 requires the validated Phase 10 weapon profile.");
@@ -465,8 +511,7 @@ namespace PortableAnimation
         /// </summary>
         public void AssertStandaloneValid()
         {
-            if (slotPlayback != null)
-                foreach (var entry in slotPlayback) entry?.playback?.AssertValid();
+            ValidatePlayback();
             if (clips == null || clips.Length != (int)GroundPose.Count)
                 throw new InvalidOperationException(
                     "GroundMotion internal semantic slot array must have 18 entries.");
@@ -500,15 +545,17 @@ namespace PortableAnimation
         public readonly float VerticalVelocity;
         // Degrees per second about the character's up axis, positive to the right.
         public readonly float YawRate;
+        public readonly float ActualGroundSpeed;
 
         public GroundMotionFrame(AnimationFrameState locomotion, bool grounded,
-            float verticalVelocity, float yawRate, bool jumpRequested = false)
+            float verticalVelocity, float yawRate, bool jumpRequested = false, float actualGroundSpeed = -1)
         {
             Locomotion = locomotion;
             Grounded = grounded;
             JumpRequested = jumpRequested;
             VerticalVelocity = verticalVelocity;
             YawRate = yawRate;
+            ActualGroundSpeed = actualGroundSpeed >= 0 ? actualGroundSpeed : new Vector2(locomotion.LocalVelocity.x, locomotion.LocalVelocity.z).magnitude;
         }
     }
 }

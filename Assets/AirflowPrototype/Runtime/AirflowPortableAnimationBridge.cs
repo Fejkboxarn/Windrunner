@@ -223,10 +223,13 @@ namespace AirflowPrototype
             float aimPitch = Mathf.Atan2(look.y,
                 new Vector2(look.x, look.z).magnitude) * Mathf.Rad2Deg;
 
+            Vector3 resolved = motor.Displacement.Frame == Time.frameCount
+                ? motor.Displacement.ResolvedDisplacement / Time.deltaTime : Vector3.zero;
+            resolved = basis.InverseTransformDirection(Vector3.ProjectOnPlane(resolved, Vector3.up));
             var frame = new WindrunnerMotionFrame(Time.frameCount, dt, local,
                 motor.HorizontalSpeed, motor.VerticalSpeed, turnRate,
                 aimYaw, aimPitch, grounded, jumpEdge,
-                sling != null && sling.IsSlinging);
+                sling != null && sling.IsSlinging, resolved);
             // Once a higher-priority transient ends, resume any still-held traversal pose.
             // Impact is a one-shot. Only initial graph recovery can reconstruct it.
             if (hadActionAtEvaluation && PortableActive && !session.HasActiveStandaloneAction)

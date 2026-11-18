@@ -82,6 +82,7 @@ namespace AirflowPrototype.Editor
         float PreviewSpeed()
         {
             if(action>=0)return activeContext==0?0:6;
+            if (simulateGroundSpeed && GroundMotionProfile.IsDirectionalSlot(slots[slot].path)) return simulatedGroundSpeed;
             string name=slots[slot].label;
             if(activeContext==0 || name.Contains("Stop") || name.Contains("Turn"))return 0;
             if(name.Contains("Walk"))return 8.5f*(draftGround.IdleToWalkEnd+draftGround.WalkToRunStart)*.5f;
@@ -103,7 +104,7 @@ namespace AirflowPrototype.Editor
             float dt=delta<0?previewStep:delta;
             var motion=new AnimationFrameState(previewFrame++,dt,velocity,Mathf.Clamp01(metres/8.5f),
                 grounded?LocomotionMode.Grounded:LocomotionMode.Airborne);
-            composition.Evaluate(new GroundMotionFrame(motion,grounded,direction.Contains("Rise") || jump?3:-2,yaw,jump && !warmup && previewFrame==76),metres);
+            composition.Evaluate(new GroundMotionFrame(motion,grounded,direction.Contains("Rise") || jump?3:-2,yaw,jump && !warmup && previewFrame==76,metres),metres);
         }
         void AdvancePreview()
         {

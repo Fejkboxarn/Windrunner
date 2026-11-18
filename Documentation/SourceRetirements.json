@@ -362,7 +362,7 @@
     {
       "path": "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
       "baseline_sha256": "fb6aadf2aee307056d9c51be60a708b779ffc19b6815e4e3c12623c7068e4914",
-      "approved_sha256": "5d1f66a3daa50a7013dc523286330f3a60a337d01b5fb46541798494e19164f5",
+      "approved_sha256": "c0e584d93595c31509f747535881d6e5654612da7e2a20c1bfc2f3db61ceb53b",
       "removed_fields": [
         [
           "PlayerCustomAnimationDriver",
@@ -389,7 +389,7 @@
           "legacyArms"
         ]
       ],
-      "reason": "Retired concrete legacy animation dependencies; all scene references were null before removal, production-only parity validated. The current bridge also exposes evaluated pose diagnostics and attaches its player-bound recorder in development."
+      "reason": "Retired concrete legacy animation dependencies; all scene references were null before removal, production-only parity validated. The current bridge also exposes evaluated pose diagnostics and attaches its player-bound recorder in development. Adaptive locomotion observes frame-resolved displacement through this bridge; serialized fields match checkpoint 8e2e12bd exactly."
     },
     {
       "path": "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",

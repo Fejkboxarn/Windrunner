@@ -84,9 +84,13 @@ namespace PortableAnimation
         public void ReadRecordingPose(out RecordingPose pose)
         {
             pose = new RecordingPose { state = ground.State, cycles = ground.CyclesPerSecond,
-                context = context, walk = ground.WalkBlend, run = ground.RunBlend };
+                context = context, walk = ground.WalkBlend, run = ground.RunBlend, actualGroundSpeed = ground.ActualGroundSpeed };
             ground.ReadDominant(out pose.clip, out pose.weight, out pose.direction);
             pose.timing = ground.DominantTiming;
+            pose.groundTiming = ground.DominantTiming;
+            pose.adaptive = ground.DominantAdaptive;
+            if (pose.adaptive.Enabled && pose.groundTiming.SourceLength > 0)
+                pose.cycles = Mathf.Abs(pose.groundTiming.EffectiveSpeed) / pose.groundTiming.SourceLength;
             for (int i = 0; i < layers.Count; i++)
             {
                 var layer = layers[i];
@@ -126,6 +130,7 @@ namespace PortableAnimation
             return layer==null?default:LayerTiming(layer);
         }
         public VisualPlaybackSample ReadGroundTiming(string key) => ground.ReadTiming(key);
+        public AdaptiveLocomotionSample ReadGroundAdaptive(string key) => ground.ReadAdaptive(key);
         public void ResetGroundPlayback() => ground.ResetPlayback();
         public struct RecordingPose
         {
@@ -134,13 +139,14 @@ namespace PortableAnimation
             public AnimationClip actionClip;
             public AnimationClip clip;
             public int direction;
-            public float weight, cycles, walk, run, actionWeight, actionSeconds;
+            public float weight, cycles, walk, run, actionWeight, actionSeconds, actualGroundSpeed;
             public string action;
             public AvatarMask mask;
             public bool weighted;
             public BoneWeightMask weightSource;
             public float phase;
-            public VisualPlaybackSample timing;
+            public VisualPlaybackSample timing, groundTiming;
+            public AdaptiveLocomotionSample adaptive;
         }
         public GroundMotionState GroundState => ground.State;
 

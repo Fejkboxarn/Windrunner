@@ -149,8 +149,11 @@ namespace AirflowPrototype
                         timing.Mode==PortableAnimation.VisualPlaybackMode.FixedVisualDuration?"Fixed visual duration":"Authored speed";
                     timingLine=$"{policy}   source {timing.SourceSeconds:F2}/{timing.SourceLength:F2}s";
                     timingLine+=$"\nbase {timing.BaseSpeed:F2}x / curve {timing.CurveMultiplier:F2}x / effective {timing.EffectiveSpeed:F2}x";
+                    if (p.adaptive.Enabled)
+                        timingLine += $"\nGround {p.adaptive.ActualSpeed:F1}/{p.adaptive.ReferenceSpeed:F1} m/s · adaptive {p.adaptive.Multiplier:F2}x · designer {p.adaptive.Designer:F2}x\nGround final {p.groundTiming.EffectiveSpeed:F2}x · phase {p.groundTiming.Progress:P0}";
                 }
-                motionLine += $"\n{(p.direction >= 0 ? Compass[p.direction] : "—")}   walk {p.walk:P0}   run {p.run:P0}   {p.cycles:F2} cyc/s   {(p.direction >= 0 ? p.cycles*p.clip.length : 0):F2}×";
+                motionLine = $"Travel {p.actualGroundSpeed:F1} m/s   ·   motor {motor.HorizontalSpeed:F1} m/s";
+                motionLine += $"\n{(p.direction >= 0 ? Compass[p.direction] : "—")}   walk {p.walk:P0}   run {p.run:P0}   {p.cycles:F2} cyc/s   {p.groundTiming.EffectiveSpeed:F2}×";
             }
             else { poseLine = "Ground graph inactive"; actionLine = bridge.ActiveAnimationAction; layerLine = null; }
         }
@@ -163,7 +166,7 @@ namespace AirflowPrototype
             style ??= new GUIStyle(GUI.skin.label) { fontSize = 15, normal = { textColor = Color.white } };
             badge ??= new GUIStyle(style) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, wordWrap = false };
             float scale = Mathf.Min(Screen.width / 1280f, Screen.height / 720f) * size;
-            float w = 475, h = (detailed ? 341 : 233) + (stickLine == null ? 0 : 20) + (layerLine == null ? 0 : 21);
+            float w = 475, h = (detailed ? 383 : 233) + (stickLine == null ? 0 : 20) + (layerLine == null ? 0 : 21);
             var matrix = GUI.matrix;
             var color = GUI.color;
             GUI.matrix = Matrix4x4.TRS(new Vector3((corner & 1) == 0 ? Screen.width - (w + 10)*scale : 10*scale,
@@ -193,7 +196,7 @@ namespace AirflowPrototype
             y += 5;
             Line("ANIMATION");
             Line(poseLine); Line(actionLine); if(layerLine!=null) Line(layerLine);
-            if (detailed) { GUI.Label(new Rect(12,y,w-20,48),motionLine,style); y += 45; Line(headingLine); GUI.Label(new Rect(12,y,w-20,42),timingLine,style); y += 42; }
+            if (detailed) { GUI.Label(new Rect(12,y,w-20,48),motionLine,style); y += 45; Line(headingLine); GUI.Label(new Rect(12,y,w-20,84),timingLine,style); y += 84; }
             GUI.color = color; GUI.matrix = matrix;
         }
     }

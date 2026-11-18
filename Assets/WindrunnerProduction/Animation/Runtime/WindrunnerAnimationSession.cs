@@ -12,6 +12,7 @@ namespace Windrunner.Production.Animation
         public readonly int FrameId;
         public readonly float DeltaTime;
         public readonly Vector3 LocalVelocity;
+        public readonly Vector3 ResolvedLocalVelocity;
         public readonly float HorizontalSpeed;
         public readonly float VerticalSpeed;
         public readonly float YawRate;
@@ -24,11 +25,12 @@ namespace Windrunner.Production.Animation
         public WindrunnerMotionFrame(int frameId, float deltaTime, Vector3 localVelocity,
             float horizontalSpeed, float verticalSpeed, float yawRate,
             float aimYaw, float aimPitch, bool grounded, bool jumpStarted,
-            bool slinging)
+            bool slinging, Vector3? resolvedLocalVelocity = null)
         {
             FrameId = frameId;
             DeltaTime = deltaTime;
             LocalVelocity = localVelocity;
+            ResolvedLocalVelocity = resolvedLocalVelocity ?? localVelocity;
             HorizontalSpeed = horizontalSpeed;
             VerticalSpeed = verticalSpeed;
             YawRate = yawRate;
@@ -298,14 +300,18 @@ namespace Windrunner.Production.Animation
             if (!PortableActive) return;
             try
             {
-                Vector3 local = motion.LocalVelocity / full * speedMultiplier;
+                bool adaptive = profile != null && profile.standaloneGroundProfile != null && profile.standaloneGroundProfile.HasAdaptiveLocomotion;
+                Vector3 observed = adaptive && motion.Grounded ? motion.ResolvedLocalVelocity : motion.LocalVelocity;
+                float groundNormalized = adaptive && motion.Grounded ? Mathf.Clamp01(new Vector2(observed.x, observed.z).magnitude / full * speedMultiplier) : normalized;
+                Vector3 local = observed / full * speedMultiplier;
                 if (profile != null && Mathf.Abs(profile.locomotionYawOffset) > 0.01f)
                     local = Quaternion.Euler(0f, profile.locomotionYawOffset, 0f) * local;
                 var state = new AnimationFrameState(motion.FrameId,
                     Mathf.Clamp(motion.DeltaTime, 0f, 0.1f), new Vector3(local.x, 0f, local.z),
-                    normalized, motion.Grounded ? LocomotionMode.Grounded : LocomotionMode.Airborne);
+                    groundNormalized, motion.Grounded ? LocomotionMode.Grounded : LocomotionMode.Airborne);
                 var ground = new GroundMotionFrame(state, motion.Grounded,
-                    motion.VerticalSpeed, motion.YawRate, motion.JumpStarted);
+                    motion.VerticalSpeed, motion.YawRate, motion.JumpStarted,
+                    new Vector2(motion.ResolvedLocalVelocity.x, motion.ResolvedLocalVelocity.z).magnitude);
                 if (standaloneGraph != null)
                 {
                     standaloneGraph.Evaluate(in ground,motion.HorizontalSpeed);

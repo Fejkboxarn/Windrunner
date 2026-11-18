@@ -146,6 +146,13 @@ namespace Windrunner.Production.Tests
                     var ground=(GroundMotionProfile)type.GetField("draftGround",Hidden).GetValue(window);
                     ground.EditPlayback(GroundMotionProfile.TimingSlot(GroundPose.Idle)).mode=VisualPlaybackMode.AuthoredSpeed;
                     ground.EditPlayback(GroundMotionProfile.TimingSlot(GroundPose.Idle)).baseSpeed=.65f;
+                    string adaptiveKey = GroundMotionProfile.TimingSlot(GroundPose.MoveForward);
+                    ground.EditPlayback(adaptiveKey).mode = VisualPlaybackMode.AuthoredSpeed;
+                    var adaptive = ground.EditAdaptive(adaptiveKey);
+                    adaptive.enabled = true; adaptive.referenceSpeed = 7.25f;
+                    adaptive.useResponseCurve = true; adaptive.responseCurve = AnimationCurve.Linear(0, .3f, 2, 1.4f);
+                    adaptive.phaseGroup = 2; adaptive.leftContact = .2f;
+
                     air.regions.bones.Add(new BoneInfluence{bone=HumanBodyBones.RightHand,weight=.37f});
                     var session=type.GetField("draft",Hidden).GetValue(window);
                     session.GetType().GetMethod("Save").Invoke(session,null);
@@ -172,6 +179,12 @@ namespace Windrunner.Production.Tests
                 Assert.AreEqual(.7f,phase.airborne.playback.baseSpeed);
                 Assert.AreEqual(.75f,phase.airborne.playback.speedCurve.Evaluate(.25f),.0001);
                 Assert.AreEqual(.65f,reloaded.standaloneGroundProfile.Playback(GroundMotionProfile.TimingSlot(GroundPose.Idle)).baseSpeed);
+                var restored = reloaded.standaloneGroundProfile.Adaptive(GroundMotionProfile.TimingSlot(GroundPose.MoveForward));
+                Assert.IsTrue(restored.enabled); Assert.AreEqual(7.25f, restored.referenceSpeed);
+                Assert.IsTrue(restored.useResponseCurve); Assert.AreEqual(2, restored.phaseGroup);
+                Assert.AreEqual(.2f, restored.leftContact);
+                Assert.AreEqual(1.4f, restored.responseCurve.Evaluate(2), .0001);
+
                 Assert.AreSame(installed.standaloneActionProfile.Action(4).stationary.clip,phase.stationary.clip);
                 Assert.AreSame(expected,phase.clip);Assert.IsTrue(phase.airborne.regions.enabled);
                 Assert.AreEqual(.37f,phase.airborne.regions.bones.Find(b=>b.bone==HumanBodyBones.RightHand).weight);
@@ -291,6 +304,55 @@ namespace Windrunner.Production.Tests
                 typeof(EditorWindow).GetProperty("hasUnsavedChanges").SetValue(window,false);
                 if(typeof(EditorWindow).GetField("m_Parent",Hidden).GetValue(window) is Object host && host)window.Close();
                 if(window)Object.DestroyImmediate(window);
+            }
+        }
+
+        [Test]
+        public void AdaptiveStudioComparisonUsesRuntimeSpeedAndRetainsUnsavedCalibration()
+        {
+            var type = Type.GetType("AirflowPrototype.Editor.DaggerMotionPreview, Assembly-CSharp-Editor", true);
+            var window = (EditorWindow)ScriptableObject.CreateInstance(type);
+            object Get(string name) => type.GetField(name, Hidden).GetValue(window);
+            void Set(string name, object value) => type.GetField(name, Hidden).SetValue(window, value);
+            void Call(string name, params object[] args) => type.GetMethod(name, Hidden).Invoke(window, args);
+            try
+            {
+                Call("InitializeStudio"); Call("SelectGround", (int)GroundPose.MoveForward);
+                var ground = (GroundMotionProfile)Get("draftGround");
+                string key = GroundMotionProfile.TimingSlot(GroundPose.MoveForward);
+                var timing = ground.EditPlayback(key); timing.mode = VisualPlaybackMode.AuthoredSpeed;
+                var adaptive = ground.EditAdaptive(key); adaptive.enabled = true;
+                adaptive.referenceSpeed = 8; adaptive.smoothingSeconds = 0;
+                Set("simulateGroundSpeed", true); Set("simulatedGroundSpeed", 6f); Set("playhead", .25f);
+                foreach (bool composed in new[] { true, false })
+                {
+                    Set("composed", composed); Set("timingComparison", 0); Call("BuildPreview"); Call("AdvancePreview");
+                    Assert.IsNull(Get("issue"));
+                    var sample = (VisualPlaybackSample)Get("timingSample");
+                    Assert.That(sample.EffectiveSpeed, Is.EqualTo(.75f).Within(.0001));
+                    Assert.That(sample.SourceSeconds, Is.EqualTo(.25f*.75f).Within(.0001));
+                    Set("timingComparison", 2); Call("BuildPreview"); Call("AdvancePreview");
+                    Assert.That(((VisualPlaybackSample)Get("timingSample")).EffectiveSpeed, Is.EqualTo(1).Within(.0001));
+                }
+                Set("composed", true); Set("timingComparison", 0); Set("playing", false);
+                for (int i = 0; i < 8; i++) Call("IndexProjectBatch");
+                if (SystemInfo.graphicsDeviceType != UnityEngine.Rendering.GraphicsDeviceType.Null)
+                    foreach (float speed in new[] { 3f, 8f, 12f })
+                    {
+                        Set("simulatedGroundSpeed", speed); Set("rebuild", true);
+                        CaptureWindow(window);
+                        File.Copy("Logs/ProductionMigration/animation-studio-v2.png",
+                            "Logs/ProductionMigration/adaptive-locomotion-"+speed+".png", true);
+                    }
+                Assert.IsTrue(adaptive.enabled); Assert.AreEqual(8, adaptive.referenceSpeed);
+                var session = Get("draft"); session.GetType().GetMethod("Revert").Invoke(session, null);
+                Assert.IsNull(ground.Adaptive(key));
+            }
+            finally
+            {
+                typeof(EditorWindow).GetProperty("hasUnsavedChanges").SetValue(window, false);
+                if (typeof(EditorWindow).GetField("m_Parent", Hidden).GetValue(window) is Object host && host) window.Close();
+                if (window) Object.DestroyImmediate(window);
             }
         }
 
