@@ -56,6 +56,7 @@ namespace Windrunner.Production.Tests
         {
             const string hunt="basin-hunt", delivery="ridge-retrieval";
             float capture=Time.captureDeltaTime;
+            bool oldWayfinder=WindrunnerUITheme.ObjectiveWayfinder;WindrunnerUITheme.ObjectiveWayfinder=true;
             string temp=Path.Combine(Path.GetTempPath(),"Windrunner-zone-"+Guid.NewGuid().ToString("N"));
             if(ProjectRoot.Active){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}
             try
@@ -85,6 +86,10 @@ namespace Windrunner.Production.Tests
                 interaction.Probe();Assert.AreSame(npc,interaction.Target);Assert.That(interaction.Prompt,Does.Contain("Accept"));
                 Assert.IsTrue(npc.TryUse(actor,InteractionChannel.Input));
                 Assert.AreEqual(hunt,service.Snapshot().trackedQuestId);
+                yield return null;Assert.IsTrue(journal.Wayfinder.Visible);Assert.AreEqual("North Basin",journal.Wayfinder.Binding.areaId);
+                Assert.IsTrue(journal.SetOpen(true));yield return null;Assert.IsFalse(journal.Wayfinder.Visible);journal.SetOpen(false);
+                WindrunnerUITheme.ObjectiveWayfinder=false;yield return null;Assert.IsFalse(journal.Wayfinder.Visible);
+                WindrunnerUITheme.ObjectiveWayfinder=true;yield return null;Assert.IsTrue(journal.Wayfinder.Visible);
                 var enemies=Object.FindObjectsByType(Type.GetType("AirflowPrototype.EnemyProgressionAdapter, Assembly-CSharp",true)).Cast<Component>().ToArray();
                 Assert.AreEqual(3,enemies.Length);
                 int Count()=>service.Snapshot().quests.Single(q=>q.id==hunt).objectives.Single().count;
@@ -104,15 +109,19 @@ namespace Windrunner.Production.Tests
                     Respawn();identity.SetValue(enemy,valid);Hit();StrikeCallback(enemy);Assert.AreEqual(before+1,Count());
                 }
                 Assert.AreEqual(QuestStatus.ReadyToTurnIn,service.Status(hunt));
+                yield return null;Assert.AreSame(npc.transform,journal.Wayfinder.Target);
                 Assert.IsTrue(npc.TryUse(actor,InteractionChannel.Input));
                 Assert.AreEqual(1,service.Snapshot().relationships.Single().rank);
                 Assert.AreEqual(QuestStatus.Locked,service.Status(delivery));
-                Assert.IsTrue(film.IsPlaying);Assert.IsFalse(film.gameplayCamera.enabled);
-                Assert.IsTrue(film.Skip());Assert.IsTrue(film.gameplayCamera.enabled);
+                Assert.IsTrue(film.IsPlaying);Assert.IsTrue(film.IsPlaceholderPlaying);Assert.IsFalse(film.gameplayCamera.enabled);
+                yield return null;Assert.IsFalse(journal.Wayfinder.Visible);
+                Assert.IsTrue(film.Skip());Assert.IsFalse(film.IsPlaceholderPlaying);Assert.IsTrue(film.gameplayCamera.enabled);
                 Assert.IsTrue(npc.TryUse(actor,InteractionChannel.Input));
                 Assert.AreEqual(QuestStatus.Active,service.Status(delivery));Assert.IsFalse(item.Carrying);
+                yield return null;Assert.AreSame(item.transform,journal.Wayfinder.Target);
                 Approach(actor,item.transform);Assert.IsTrue(item.TryUse(actor,InteractionChannel.Input));
                 Assert.IsFalse(item.TryUse(actor,InteractionChannel.Input));Assert.IsFalse(item.itemModel.activeSelf);
+                yield return null;Assert.AreSame(npc.transform,journal.Wayfinder.Target);
                 using(var slow=UnityTimeAuthority.Slowdown(.25f))
                 {
                     yield return null;double remaining=item.Remaining;
@@ -130,11 +139,13 @@ namespace Windrunner.Production.Tests
                 npc=Object.FindAnyObjectByType<RelationshipContact>();actor=npc.owner;item=npc.retrieval;service=actor.Service;
                 Assert.AreEqual(QuestStatus.Completed,service.Status(hunt));Assert.AreEqual(QuestStatus.Active,service.Status(delivery));
                 Assert.IsFalse(item.Carrying);Assert.IsTrue(item.itemModel.activeSelf);Assert.AreEqual(1,service.Snapshot().rewards.Count);
+                journal=Object.FindAnyObjectByType<ProgressionJournal>();yield return null;Assert.AreSame(item.transform,journal.Wayfinder.Target);Assert.IsFalse(npc.cinematics.IsPlaceholderPlaying);
                 Approach(actor,item.transform);Assert.IsTrue(item.TryUse(actor,InteractionChannel.Input));
                 double deadline=Time.timeAsDouble+item.Remaining;
                 while(Time.timeAsDouble < deadline+.1)yield return null;
                 Assert.IsFalse(item.Carrying);Assert.IsFalse(item.itemModel.activeSelf);Assert.AreEqual(QuestStatus.Active,service.Status(delivery));
                 Assert.AreEqual(0,item.Remaining);Assert.IsFalse(item.Deliver(actor,npc));
+                yield return null;Assert.AreSame(item.transform,journal.Wayfinder.Target);
                 Assert.AreEqual(1,service.Snapshot().rewards.Count,"Expiry must not grant delivery credit.");
                 Assert.IsFalse(item.TryUse(actor,InteractionChannel.Input));
                 yield return new WaitForSeconds(item.respawnSeconds+.25f);
@@ -146,8 +157,11 @@ namespace Windrunner.Production.Tests
                 float timeout=Time.realtimeSinceStartup+10;
                 while(npc.cinematics.IsPlaying && Time.realtimeSinceStartup<timeout)yield return null;
                 Assert.AreEqual(CinematicStatus.Watched,service.Snapshot().cutscenes.Single(c=>c.id=="ridge-retrieval-milestone").status);
-                Assert.IsTrue(npc.cinematics.gameplayCamera.enabled);
-                Assert.IsTrue(npc.cinematics.Play("ridge-retrieval-milestone",true));Assert.IsTrue(npc.cinematics.Skip());
+                Assert.IsTrue(npc.cinematics.gameplayCamera.enabled);Assert.IsFalse(npc.cinematics.IsPlaceholderPlaying);
+                Assert.IsTrue(npc.cinematics.Play("ridge-retrieval-milestone",true));Assert.IsTrue(npc.cinematics.IsPlaceholderPlaying);Assert.IsTrue(npc.cinematics.Skip());Assert.IsFalse(npc.cinematics.IsPlaceholderPlaying);
+                var definition=npc.cinematics.catalog.definitions.cutscenes.Find(c=>c.id=="ridge-retrieval-milestone");
+                try{definition.isPlaceholder=false;Assert.IsTrue(npc.cinematics.Play(definition.id,true));Assert.IsFalse(npc.cinematics.IsPlaceholderPlaying);npc.cinematics.enabled=false;Assert.IsFalse(npc.cinematics.IsPlaying);}
+                finally{definition.isPlaceholder=true;npc.cinematics.enabled=true;}
                 Assert.AreEqual(2,service.Snapshot().relationships.Single().rank);Assert.AreEqual(2,service.Snapshot().rewards.Count);
                 Assert.AreEqual(2,service.Snapshot().cutscenes.Count);
                 session=Session();Call(session,"Load",id);yield return Changed(World,session);
@@ -155,7 +169,7 @@ namespace Windrunner.Production.Tests
             }
             finally
             {
-                Time.captureDeltaTime=capture;
+                Time.captureDeltaTime=capture;WindrunnerUITheme.ObjectiveWayfinder=oldWayfinder;
                 if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
                 if(Directory.Exists(temp))Directory.Delete(temp,true);
             }

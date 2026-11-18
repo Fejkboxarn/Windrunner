@@ -110,7 +110,7 @@ namespace AirflowPrototype.EditorTools
             foreach (string character in new[] { "a", "b" })
             {
                 string prefix = "fixture-" + character;
-                d.cutscenes.Add(new CutsceneDefinition { id = prefix + "-cutscene", displayName = "Engineering marker" });
+                d.cutscenes.Add(new CutsceneDefinition { id = prefix + "-cutscene", displayName = "Engineering marker", isPlaceholder = true });
                 d.relationships.Add(new RelationshipDefinition { id = prefix, displayName = "Engineering character " + character, ranks = new List<string> { "Fixture rank" }, chapters = new List<ChapterDefinition> {
                     new ChapterDefinition { id = prefix + "-chapter", rank = 1, questId = prefix + "-quest", cutsceneId = prefix + "-cutscene" } } });
                 var group = new ObjectiveGroup { id = "open", objectives = new List<ObjectiveDefinition> {

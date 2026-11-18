@@ -34,6 +34,7 @@ namespace Windrunner.Production
                 return current;
             }
         }
+        public static bool ObjectiveWayfinder { get => PlayerPrefs.GetInt("Windrunner.UI.ObjectiveWayfinder",1)!=0; set { PlayerPrefs.SetInt("Windrunner.UI.ObjectiveWayfinder",value?1:0); PlayerPrefs.Save(); } }
         public static bool ReducedMotion {get=>PlayerPrefs.GetInt("Windrunner.UI.ReducedMotion",0)!=0;set{PlayerPrefs.SetInt("Windrunner.UI.ReducedMotion",value?1:0);PlayerPrefs.Save();}}
         public static float Scale {get=>Mathf.Clamp(PlayerPrefs.GetFloat("Windrunner.UI.Scale",1),1,1.2f);set{PlayerPrefs.SetFloat("Windrunner.UI.Scale",Mathf.Clamp(value,1,1.2f));PlayerPrefs.Save();}}
         public void TintMeter(Material material)

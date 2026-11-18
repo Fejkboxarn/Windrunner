@@ -14,6 +14,9 @@ namespace Windrunner.Production.Progression
         public PlayerInteractionController interaction;
         public ProgressionCinematicPlayer cinematics;
         public ProgressionAreaMarker[] areas = Array.Empty<ProgressionAreaMarker>();
+        public ObjectiveAnchor[] objectiveAnchors = Array.Empty<ObjectiveAnchor>();
+        public WayfinderPresentation Wayfinder { get; } = new WayfinderPresentation();
+        private float nextAnchorCheck;
         private ProgressionService service;
         private ProgressionState snapshot;
         private readonly List<string> questIds = new List<string>();
@@ -34,7 +37,7 @@ namespace Windrunner.Production.Progression
             if (service == null) return;
             bool previouslyBound = snapshot != null;
             var previous = snapshot;
-            snapshot = service.Snapshot(); questIds.Clear();
+            snapshot = service.Snapshot(); RefreshWayfinder(); questIds.Clear();
             foreach (var q in catalog.definitions.quests)
                 if (service.Status(q.id) != QuestStatus.Locked) questIds.Add(q.id);
             selected = Mathf.Clamp(selected, 0, Mathf.Max(0, questIds.Count - 1));
@@ -71,6 +74,12 @@ namespace Windrunner.Production.Progression
             else { pauseLease?.Dispose(); inputLease?.Dispose(); cursorLease?.Dispose(); pauseLease = null; inputLease = null; cursorLease = null; }
             return true;
         }
+        private void LateUpdate()
+        {
+            if(Time.unscaledTime>=nextAnchorCheck){nextAnchorCheck=Time.unscaledTime+.2f;RefreshWayfinder();}
+            Wayfinder.Update(actor,interaction ? interaction.view : null,IsOpen || actor?.Input==null || actor.Input.IsGameplayBlocked || (cinematics && cinematics.IsPlaying));
+        }
+        private void RefreshWayfinder() => Wayfinder.SetBinding(WayfinderRules.Select(service,snapshot,catalog,objectiveAnchors,actor));
         private void Update()
         {
             if (service == null) Bind();
@@ -249,6 +258,7 @@ namespace Windrunner.Production.Progression
         public static string StatusLabel(QuestStatus value) => value == QuestStatus.ReadyToTurnIn ? "Ready to turn in" : value.ToString();
         private void DrawHud()
         {
+            Wayfinder.Draw();
             if (!string.IsNullOrEmpty(hud))
             {
                 GUILayout.BeginArea(new Rect(940, 32, 308, 210), ProgressionUiTheme.Card);

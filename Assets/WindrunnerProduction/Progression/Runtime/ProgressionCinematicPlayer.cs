@@ -16,6 +16,8 @@ namespace Windrunner.Production.Progression
         private CutsceneDefinition playing;
         private bool pausedByMenu;
         public bool IsPlaying => session?.Current != null;
+        public bool IsPlaceholderPlaying => isActiveAndEnabled && IsPlaying && playing != null && playing.isPlaceholder;
+        private void OnGUI() => PlaceholderCinematicWarning.Draw(IsPlaceholderPlaying);
         public bool CanStart => actor?.Service != null && actor.Input != null && !actor.Input.IsGameplayBlocked &&
             !UnityTimeAuthority.IsPaused && safety is IProgressionControlSafety guard && guard.CanStartCinematic;
         public bool Play(string id, bool replay = false)

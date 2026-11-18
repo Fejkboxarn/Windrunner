@@ -13,7 +13,7 @@ namespace AirflowPrototype.Editor
         [Serializable]
         private sealed class Result
         {
-            public string result, outputPath, unity, utc;
+            public string result, outputPath, unity, utc, version;
             public int errors, warnings;
             public double seconds;
             public ulong bytes;
@@ -54,7 +54,7 @@ namespace AirflowPrototype.Editor
             var result = new Result
             {
                 result = summary.result.ToString(), outputPath = summary.outputPath,
-                unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
+                version = PlayerSettings.bundleVersion, unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
                 errors = (int)summary.totalErrors, warnings = (int)summary.totalWarnings,
                 seconds = summary.totalTime.TotalSeconds, bytes = summary.totalSize,
                 scenes = scenes,

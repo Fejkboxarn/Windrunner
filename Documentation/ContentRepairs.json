@@ -54,6 +54,12 @@
       "baseline_sha256": "9205c5463d6cc34eb71d95d5d2b7bb20c6ffe97c7b5cf15a94de068bae82d3df",
       "approved_sha256": "d409edc6e3f577869fa6a5ef4c899b248aa87b07fb1d63033ca0d532f566fbec",
       "reason": "Dagger equipment adds two Gameplay actions and four bindings. Removing those entries reproduces the unified template exactly, including existing action and binding IDs."
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "baseline_sha256": "2d07fb2a6d641f7fa7dab73d96df9975e23b7def2ee5ed9660b42077c7fbe901",
+      "approved_sha256": "030df86ac96b1e9f98ba00b580703be24cc0ecd3ff5a5794bcd22438afe98701",
+      "reason": "Development version 0.5.0. Preserves two pre-existing local Windows Store defaults (metroPackageVersion 1.0.0.0 and metroTileShortName Windrunner); no rendering, input, balance or world settings changes."
     }
   ]
 }

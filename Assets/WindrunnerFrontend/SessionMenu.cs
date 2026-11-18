@@ -29,6 +29,8 @@ namespace Windrunner.Frontend
         private float expires;
         private VideoPlayer replay;
         private RawImage picture;
+        private CutsceneDefinition replayDefinition;
+        private void OnGUI()=>PlaceholderCinematicWarning.Draw(picture && replayDefinition!=null && replayDefinition.isPlaceholder);
         private const string Checkpoint="Saving records your progress. Loading returns you to the starting clearing.";
         private void Start()
         {
@@ -218,7 +220,12 @@ namespace Windrunner.Frontend
         {
             Page("Settings","Preferences apply to every playthrough.",Home);
             ui.Choice("Sound",Sound);ui.Choice("Display",()=>{draft=DesktopOptions.Current();Video();});
-            ui.Choice("Controls",Controls);ui.Choice("Accessibility",Accessibility);End();
+            ui.Choice("Interface",Interface);ui.Choice("Controls",Controls);ui.Choice("Accessibility",Accessibility);End();
+        }
+        private void Interface()
+        {
+            Page("Interface","Objective distances are straight-line distances, not routes.",Settings);
+            ui.Choice("Objective Wayfinder: "+(Windrunner.Production.WindrunnerUITheme.ObjectiveWayfinder?"ON":"OFF"),()=>{Windrunner.Production.WindrunnerUITheme.ObjectiveWayfinder=!Windrunner.Production.WindrunnerUITheme.ObjectiveWayfinder;Interface();});End();
         }
         private void Accessibility()
         {
@@ -315,7 +322,7 @@ namespace Windrunner.Frontend
                 ui.Choice(entry.displayName+status,()=>GalleryAccess.Replay(record?.progression,entry.id,()=>{
                     afterReplay=()=>Gallery(parent);Page(entry.displayName,"",StopReplay);ui.Choice("End playback",StopReplay);End(false);
                     picture=ui.VideoSurface((float)entry.galleryReplay.width/Math.Max(1f,entry.galleryReplay.height));
-                    replay.clip=entry.galleryReplay;replay.audioOutputMode=VideoAudioOutputMode.Direct;
+                    replayDefinition=entry;replay.clip=entry.galleryReplay;replay.audioOutputMode=VideoAudioOutputMode.Direct;
                     if(entry.galleryReplay.audioTrackCount>0)replay.SetDirectAudioVolume(0,prefs.Volume);
                     replay.Play();
                 }),unlocked && entry.galleryReplay!=null);
@@ -326,7 +333,7 @@ namespace Windrunner.Frontend
         private void ReplayFailed(VideoPlayer player,string error){StopReplay();ui.Status("Playback failed. "+error);}
         private void StopReplay()
         {
-            replay.Stop();
+            replayDefinition=null;replay.Stop();
             if(picture!=null)Destroy(picture.transform.parent.gameObject);
             ui.RestoreList();var done=afterReplay;afterReplay=null;done?.Invoke();
         }

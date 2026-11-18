@@ -8542,6 +8542,39 @@ MonoBehaviour:
   - {fileID: 2088795085}
   - {fileID: 1421067784}
   - {fileID: 1387005760}
+  objectiveAnchors:
+  - questId: basin-hunt
+    objectiveId: defeat
+    phase: 0
+    anchor: {fileID: 424593282}
+    label: North Basin
+    approximateArea: 1
+    areaId: North Basin
+    retrieval: {fileID: 0}
+  - questId: basin-hunt
+    objectiveId:
+    phase: 1
+    anchor: {fileID: 101792422}
+    label: Return to Waykeeper
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
+  - questId: ridge-retrieval
+    objectiveId: deliver
+    phase: 0
+    anchor: {fileID: 615797035}
+    label: East overlook
+    approximateArea: 1
+    areaId: East overlook
+    retrieval: {fileID: 615797034}
+  - questId: ridge-retrieval
+    objectiveId:
+    phase: 1
+    anchor: {fileID: 101792422}
+    label: Return to Waykeeper
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
 --- !u!114 &863015130
 MonoBehaviour:
   m_ObjectHideFlags: 0
