@@ -12,6 +12,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dc7ae47b5b47b45b27e84e7a2c90bd, type: 3}
   m_Name: WindrunnerGroundMotion
   m_EditorClassIdentifier: PortableAnimation.Runtime::PortableAnimation.GroundMotionProfile
+  slotPlayback:
+  - slot: 'clips.Array.data[5]'
+    playback:
+      mode: 1
+      baseSpeed: 1
+      reverse: 0
+      useCurve: 0
+      speedCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      entryHoldSeconds: 0
+      fixedSeconds: 1
+      maximumActionSeconds: 10
+    adaptive:
+      enabled: 0
+      calibrated: 0
+      referenceSpeed: 6
+      minimumSpeed: 0.65
+      maximumSpeed: 1.5
+      smoothingSeconds: 0.08
+      designerMultiplier: 1
+      useResponseCurve: 0
+      responseCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 2
+          value: 2
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      phaseGroup: 0
+      leftContact: 0
+      rightContact: 0.5
   previousPipeline: {fileID: 0}
   clips:
   - {fileID: 7400000, guid: 6e2a16a2d2ff48f4c8e1ac679382aecb, type: 2}
