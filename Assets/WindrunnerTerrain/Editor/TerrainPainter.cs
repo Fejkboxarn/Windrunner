@@ -9,6 +9,15 @@ namespace Windrunner.TerrainAuthoring.Editor
     public static class TerrainPainter
     {
         public static bool Writing {get;private set;}
+        // Prototype-only edits can allocate control textures without changing painted weights.
+        // Callers must verify exact paint preservation and retain Undo rollback on failure.
+        internal static void WithoutNativePaintTracking(Action write)
+        {
+            bool previous = Writing;
+            Writing = true;
+            try { write(); }
+            finally { Writing = previous; }
+        }
         public static RectInt Full(TerrainData d)=>new RectInt(0,0,d.alphamapWidth,d.alphamapHeight);
         public static bool Empty(RectInt r)=>r.width<=0||r.height<=0;
         public static RectInt Bounds(int x,int y,int right,int top)=>new RectInt(x,y,Mathf.Max(0,right-x),Mathf.Max(0,top-y));

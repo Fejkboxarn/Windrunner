@@ -73,3 +73,8 @@
 
 # Normalize text line endings in the repository.
 * text=auto
+
+# TriForge source package: mixed-case model/image extensions and large PNG textures.
+"Assets/TriForge Assets/**/*.[fF][bB][xX]" filter=lfs diff=lfs merge=lfs -text
+"Assets/TriForge Assets/**/*.[tT][gG][aA]" filter=lfs diff=lfs merge=lfs -text
+"Assets/TriForge Assets/**/*.[pP][nN][gG]" filter=lfs diff=lfs merge=lfs -text

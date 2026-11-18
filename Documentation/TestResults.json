@@ -26690,5 +26690,52 @@
     "source_branch_unchanged": true,
     "manual_acceptance": "Window and painted palette visual inspection remains pending",
     "ignored_archive_backup": "Logs/ProductionMigration/blockout-preserved-forest-archive/manifest.json"
+  },
+  "forest_asset_transfer": {
+    "branch": "feature/zone01-world-blockout",
+    "baseline": "c5707d33",
+    "source": "bbc9af04",
+    "forest_source_commit": "11bb927b",
+    "vendor_files": 859,
+    "excluded_demo_files": 78,
+    "edit_mode": {
+      "label": "forest-import-final",
+      "passed": 145,
+      "failed": 0,
+      "skipped": 0
+    },
+    "forest_audit": {
+      "prefabs": 170,
+      "renderers": 214,
+      "mesh_filters": 235,
+      "material_assets_including_subassets": 61,
+      "terrain_layers": 23,
+      "rendered_samples": [
+        "Birch 1",
+        "Bush 1",
+        "Rock 1",
+        "Grass 01 Autumn"
+      ],
+      "zone01_open": "Passed",
+      "all_23_layer_transfer": "Passed: disposable editable Zone 01 copy, unchanged paint and Studio state"
+    },
+    "known_vendor_exceptions": "See Documentation/ForestAssetTransfer.md; original collider, Avatar, importer remap and optional Amplify dependencies remain unresolved and are explicitly asserted, not reported fixed.",
+    "serialized_contracts": {
+      "checked": 67,
+      "failures": [],
+      "label": "forest-import-serialized"
+    },
+    "lfs_verified_payloads": 169,
+    "duplicate_forest_guids": 0,
+    "vendor_text_and_metadata": "Exact source match",
+    "archive": "Preserved, not imported or committed",
+    "play_mode": "Not run for this asset/Editor transfer",
+    "windows_build": "Not run",
+    "manual": "Lighting, LOD, optional wind/effects and collision acceptance pending",
+    "source_sha256": {
+      "Assets/WindrunnerTerrain/Editor/TerrainPainter.cs": "1d2c079d2168907751de11ee212393a0df7b58d15ef6ea10c55b9783c8112d01",
+      "Assets/WindrunnerTerrain/Editor/TerrainPrototypeTransfer.cs": "53036dffe62b6dde53a9e5c304ccfb5a269761866184fe5aa7d295510dbca2ad",
+      "Assets/WindrunnerTerrain/Tests/Editor/ForestAssetImportTests.cs": "5bf96acf970f84483397c1cd492e80b8d7b2e4ca0e3f9706718ea3a3a0cd3f33"
+    }
   }
 }

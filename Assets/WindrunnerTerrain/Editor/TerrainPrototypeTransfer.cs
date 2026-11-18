@@ -138,12 +138,15 @@ namespace Windrunner.TerrainAuthoring.Editor
             Undo.RegisterCompleteObjectUndo(p.targetData, "Append terrain prototypes");
             try
             {
-                Write(p, p.targetData);
-                AssertPaintPreserved(before, p.targetData);
+                TerrainPainter.WithoutNativePaintTracking(() =>
+                {
+                    Write(p, p.targetData);
+                    AssertPaintPreserved(before, p.targetData);
+                });
                 EditorUtility.SetDirty(p.targetData);
                 Undo.CollapseUndoOperations(group);
             }
-            catch { Undo.RevertAllDownToGroup(group); throw; }
+            catch { TerrainPainter.WithoutNativePaintTracking(() => Undo.RevertAllDownToGroup(group)); throw; }
             finally { Object.DestroyImmediate(before); }
         }
 
