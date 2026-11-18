@@ -27070,5 +27070,33 @@
       "Gallery video handling uses the flag but there are no authored video replay clips to exercise.",
       "Manual moving-camera/high-speed traversal, physical controller and final artistic acceptance remain."
     ]
+  },
+  "floating_wayfinder_presentation": {
+    "base": "0d6b08a4",
+    "branch": "codex/cinematic-ui",
+    "change": "Remove Wayfinder rectangle; preserve icon/label/distance/arrow geometry and apply 0.75 canvas-unit individual glyph outlines only. No behavior or serialized asset changes.",
+    "edit_mode": {
+      "passed": 9,
+      "failed": 0,
+      "evidence": "Logs/ProductionMigration/floating-wayfinder-edit-EditMode.xml"
+    },
+    "play_mode": {
+      "passed": 2,
+      "failed": 0,
+      "evidence": "Logs/ProductionMigration/floating-wayfinder-play-PlayMode.xml"
+    },
+    "final_capture_rerun": {
+      "passed": 1,
+      "failed": 0,
+      "evidence": "Logs/ProductionMigration/floating-wayfinder-capture-final-PlayMode.xml"
+    },
+    "serialized": {
+      "passed": 67,
+      "failures": []
+    },
+    "captures": "Logs/ProductionMigration/floating-wayfinder-639306046506960854",
+    "visual_review": "All four 1920x1080 Editor Play Mode screenshots inspected: open terrain, offscreen arrow, bright sky and dark forest. Text/icon readable; no Wayfinder panel or frame. Existing separate tracked-quest panel is unchanged.",
+    "fixture": "Disposable installed spruce instances, temporary runtime lighting and sky contrast anchor; no scene, prefab, material or terrain is saved. Synchronous shader compilation avoids cyan asynchronous preview. First forest capture excluded from final visual evidence.",
+    "scope": "Focused tests, not full suites or a new Windows build. Prior Windows builds unchanged. High-speed human gameplay/artistic acceptance remains separate."
   }
 }

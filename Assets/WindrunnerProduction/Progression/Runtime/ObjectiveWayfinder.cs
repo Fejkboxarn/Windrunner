@@ -96,11 +96,23 @@ namespace Windrunner.Production.Progression
             if(text==null){text=new GUIStyle(GUI.skin.label){alignment=TextAnchor.MiddleCenter,fontSize=16};icon=new GUIStyle(text){fontSize=28};}
             text.font=icon.font=theme.Font;text.normal.textColor=theme.ink;icon.normal.textColor=theme.accent;
             var color=GUI.color;var matrix=GUI.matrix;
-            GUI.color=new Color(.025f,.04f,.05f,.83f);GUI.DrawTexture(new Rect(position.x-102,position.y-25,204,82),Texture2D.whiteTexture);GUI.color=Color.white;
+            GUI.color=Color.white;
             if(Offscreen)GUI.matrix=matrix * Matrix4x4.Translate(position) * Matrix4x4.Rotate(Quaternion.Euler(0,0,angle)) * Matrix4x4.Translate(-position);
-            GUI.Label(new Rect(position.x-18,position.y-18,36,36),Offscreen?"\u25b2":"\u25c7",icon);GUI.matrix=matrix;
-            GUI.Label(new Rect(position.x-100,position.y+10,200,24),caption??"",text);
-            GUI.Label(new Rect(position.x-100,position.y+32,200,24),DistanceText??"",text);GUI.color=color;
+            OutlinedLabel(new Rect(position.x-18,position.y-18,36,36),Offscreen?"\u25b2":"\u25c7",icon);GUI.matrix=matrix;
+            OutlinedLabel(new Rect(position.x-100,position.y+10,200,24),caption??"",text);
+            OutlinedLabel(new Rect(position.x-100,position.y+32,200,24),DistanceText??"",text);GUI.color=color;
+        }
+        private static void OutlinedLabel(Rect rect,string value,GUIStyle style)
+        {
+            // Glyph-only contrast treatment. Never draw a panel or background texture.
+            var foreground=style.normal.textColor;
+            style.normal.textColor=new Color(0,0,0,.85f);
+            const float offset=.75f;
+            GUI.Label(new Rect(rect.x-offset,rect.y-offset,rect.width,rect.height),value,style);
+            GUI.Label(new Rect(rect.x+offset,rect.y-offset,rect.width,rect.height),value,style);
+            GUI.Label(new Rect(rect.x-offset,rect.y+offset,rect.width,rect.height),value,style);
+            GUI.Label(new Rect(rect.x+offset,rect.y+offset,rect.width,rect.height),value,style);
+            style.normal.textColor=foreground;GUI.Label(rect,value,style);
         }
     }
 }

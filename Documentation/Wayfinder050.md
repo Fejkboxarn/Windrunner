@@ -63,3 +63,12 @@ Previous builds remain intact: all **19,124** pre-task files have unchanged exis
 Separate findings left explicit: the existing AirPower meter is clipped against the bottom at 2560x1080, and its existing cinematic skip hint overlaps it at 720p. Neither owner was modified by this change. Native Unity startup/capture logs contain two temporary-allocation lifetime notices per player run; there are no matched managed exception/error signatures. Those notices have not been diagnosed as leaks or attributed to a new gameplay feature. Future video Gallery playback still requires an actual authored video clip. Missing anchor content intentionally hides guidance rather than inventing destinations.
 
 The Windows launcher executable retains Unity engine FileVersion metadata (6000.6.2); the game version is PlayerSettings/Application.version, verified as 0.5.0 by each running player.
+
+
+## Floating presentation follow-up
+
+The Wayfinder now has a fully transparent background, no rectangle and no surrounding frame. Only its existing icon/arrow, optional label and distance draw, with a restrained 0.75 canvas-unit black outline on each glyph. Their geometry and all behavior remain unchanged. The separate upper-right tracked-quest summary is not the Wayfinder and retains its existing card.
+
+Final Editor Play Mode visual evidence: Logs/ProductionMigration/floating-wayfinder-639306046506960854/{01-open-terrain,02-offscreen,03-bright-sky,04-dark-forest-fixture}.png. The forest image uses temporary instances of the installed spruce prefab, resized for a foliage backdrop and darkened through runtime lighting only. The sky case uses a temporary world-space contrast anchor. Neither fixture alters authored content. All four images were inspected for background removal and glyph readability.
+
+Validation: floating-wayfinder-edit (9/9); floating-wayfinder-play (2/2, including actual hunt/retrieval/expiry/retry/reload/menu/cinematic regressions); floating-wayfinder-capture-final (1/1 rerun after waiting for shader compilation); floating-wayfinder-serialized (67/67). Existing Windows executables predate this follow-up and were not rebuilt or changed.
