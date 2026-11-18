@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853b6254808b4655807061fc23f04bb1, type: 3}
   m_Name: WindrunnerActionClips
   m_EditorClassIdentifier: PortableAnimation.Runtime::PortableAnimation.PortableCharacterActionProfile
-  stationaryEnterSpeed: 0.15
-  stationaryExitSpeed: 0.45
-  contextFadeSeconds: 0.12
   actions:
   - id: DoubleJumpFlip
     group: Flip
     clip: {fileID: 7400000, guid: f74194ee1e03fe947827dc7998d8d951, type: 2}
     mask: {fileID: 0}
+    blendWeight: 1
     blendInSeconds: 0.05
     blendOutSeconds: 0.14
     priority: 40
@@ -27,11 +25,78 @@ MonoBehaviour:
     playbackSpeed: 1.35
     loopUntilCanceled: 0
     interruptible: 1
-    blendWeight: 1
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
+    stationary:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: SlingTravel
     group: Sling
     clip: {fileID: 7400000, guid: 1005921774b245f4bb59b1a34983a4b2, type: 2}
     mask: {fileID: 0}
+    blendWeight: 1
     blendInSeconds: 0.04
     blendOutSeconds: 0.14
     priority: 20
@@ -39,11 +104,78 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
-    blendWeight: 1
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
+    stationary:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: SlingImpact
     group: Sling
     clip: {fileID: 7400000, guid: 27997fec0f45f0d4f9043f1c8215f191, type: 2}
     mask: {fileID: 0}
+    blendWeight: 1
     blendInSeconds: 0.04
     blendOutSeconds: 0.14
     priority: 30
@@ -51,11 +183,78 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 0
     interruptible: 1
-    blendWeight: 1
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
+    stationary:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: CastCharge
     group: Cast
     clip: {fileID: 7400000, guid: 6d1132187ccb39b458f35f60dc1a70b4, type: 2}
     mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendWeight: 0.6
     blendInSeconds: 0.09
     blendOutSeconds: 0.14
     priority: 10
@@ -63,16 +262,78 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
-    blendWeight: 0.6
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
     stationary:
       enabled: 1
       clip: {fileID: 7400000, guid: 6d1132187ccb39b458f35f60dc1a70b4, type: 2}
       mask: {fileID: 0}
       weight: 0.85
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: CastRelease
     group: Cast
     clip: {fileID: 7400000, guid: 3c22cd64846a70d439f6864c07b07b8f, type: 2}
     mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendWeight: 0.8
     blendInSeconds: 0.04
     blendOutSeconds: 0.14
     priority: 12
@@ -80,21 +341,190 @@ MonoBehaviour:
     playbackSpeed: 1.1
     loopUntilCanceled: 0
     interruptible: 1
-    blendWeight: 0.8
+    regions:
+      enabled: 1
+      source: {fileID: 0}
+      bones: []
+      regions:
+      - region: 11
+        position: 1
+        rotation: 1
+        scale: 1
+        clipInfluence:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      - region: 1
+        position: 0.17
+        rotation: 0.17
+        scale: 0.17
+        clipInfluence:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      - region: 2
+        position: 0.75
+        rotation: 0.75
+        scale: 0.75
+        clipInfluence:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      - region: 3
+        position: 0.875
+        rotation: 0.875
+        scale: 0.875
+        clipInfluence:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
     stationary:
       enabled: 1
-      clip: {fileID: 7400000, guid: 7de4eefb6acf2e049b698d5ec98bcc05, type: 2}
+      clip: {fileID: 7400000, guid: 400d7d3154e82d942bc97a17d36cc288, type: 2}
       mask: {fileID: 0}
       weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
     airborne:
       enabled: 1
       clip: {fileID: 7400000, guid: de7c5b8c5f8029e48a1de7ea18d2064f, type: 2}
       mask: {fileID: 0}
       weight: 0.8
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: AirDash
     group: Dash
     clip: {fileID: 7400000, guid: 3cdfec401b959674eb0ab1fa9bbd8f2b, type: 2}
     mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendWeight: 0.65
     blendInSeconds: 0.08
     blendOutSeconds: 0.14
     priority: 15
@@ -102,11 +532,78 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
-    blendWeight: 0.65
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
+    stationary:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: SlingCharge
     group: Sling
     clip: {fileID: 7400000, guid: 6d1132187ccb39b458f35f60dc1a70b4, type: 2}
     mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendWeight: 0.75
     blendInSeconds: 0.08
     blendOutSeconds: 0.14
     priority: 20
@@ -114,11 +611,78 @@ MonoBehaviour:
     playbackSpeed: 1
     loopUntilCanceled: 1
     interruptible: 1
-    blendWeight: 0.75
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
+    stationary:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
   - id: SecondWind
     group: Dagger
     clip: {fileID: 7400000, guid: 70bc4d66a7ae28d4994205bf2254a0ab, type: 2}
     mask: {fileID: 31900000, guid: dfa925e52b34449586e9d8b42417ef1e, type: 2}
+    blendWeight: 0.8
     blendInSeconds: 0.06
     blendOutSeconds: 0.14
     priority: 5
@@ -126,4 +690,73 @@ MonoBehaviour:
     playbackSpeed: 2.4
     loopUntilCanceled: 0
     interruptible: 1
-    blendWeight: 0.8
+    regions:
+      enabled: 0
+      source: {fileID: 0}
+      bones: []
+      regions: []
+    segment:
+      start: 0
+      end: 1
+      speed: 1
+      fadeIn: 0.08
+      fadeOut: 0.14
+      priority: 0
+      interruptible: 1
+      loop: 0
+      restart: 0
+    stationary:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+    airborne:
+      enabled: 0
+      clip: {fileID: 0}
+      mask: {fileID: 0}
+      weight: 1
+      inheritClip: 0
+      inheritMask: 0
+      inheritWeight: 0
+      regions:
+        enabled: 0
+        source: {fileID: 0}
+        bones: []
+        regions: []
+      timing:
+        start: 0
+        end: 1
+        speed: 1
+        fadeIn: 0.08
+        fadeOut: 0.14
+        priority: 0
+        interruptible: 1
+        loop: 0
+        restart: 0
+      overrideTiming: 0
+      muteWhenMissing: 0
+      timingFields: 127
+  stationaryEnterSpeed: 0.15
+  stationaryExitSpeed: 0.45
+  contextFadeSeconds: 0.12
