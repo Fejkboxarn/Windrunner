@@ -487,7 +487,6 @@ All **67 serialized contracts** pass (`zone-worldbuilding-serialized`), and five
 Manual acceptance remains: natural approach/camera comfort, ordinary/perfect Cast releases and reward feel on the actual routes, Dash chaining, and combining the Cast nodes with existing northern Sling creatures. Existing gizmos are reused. No new Windows build was requested or executed. Local checkpoint only; no push, merge or animation-branch changes.
 
 
-<<<<<<< HEAD
 ## Environment Authoring Studio — 2026-11-18
 
 Isolated branch `codex/environment-authoring-studio` from world-building `5b743597`; abandoned generation remains absent. Added Editor-only GUID catalog/import callbacks, approved source registry, virtualized library/native previews, persistent metadata/collections, explicit prefab placement with Undo, read-only diagnostics and safe prototype preparation using existing TerrainPrototypeTransfer transactions. Terrain Studio remains the painting/road/override authority. No production world or source-package changes. Full rendered Edit Mode **155/155**, serialized audit zero failures; 3,558 original-file SHA-256 comparisons unchanged. See EnvironmentAuthoringStudio.md and EnvironmentAuthoringEvidence.json for exact test scope, benchmark, failed-run resolutions and remaining manual UI acceptance. No push/merge; no new Windows build. Desktop control requires explicit user permission going forward.
@@ -515,8 +514,10 @@ Executed Unity 6000.6.2f1 compilation; full rendered functional Edit Mode **179/
 All 631 original scene records preserved; 81 new records. Only original Traversal/cinematic child lists, Journal area list and PlayableDirector binding list extend. Installation compared 494 original transforms and 280 non-Journal/director components. Final original-record field audit passed. All 24 protected existing world files, including TerrainData, remain byte-identical; original terrain/paint/roads/overrides/vegetation and environment packs untouched. Unity incidental vendor particle keyword normalization and test fixture/ProjectSettings line-ending output were restored.
 
 Failed runs are retained and explained in evidence: initial installer validation rejected duplicate ID/collider assumptions before scene save; test Cast was undercharged; near-miss setup initially approached during countdown; airborne placeholder solid collider genuinely blocked its own targeting ray and is now a trigger with regression coverage; initial Edit Mode scene-test teardown failed on empty scene setup and contaminated a later terrain test, fixed before full passing rerun. Rendered camera images in `Logs/ZoneActivities` show the actual Zone01 objects and player. Manual route navigation, chase fairness, aim/camera readability and placeholder presentation acceptance remain open. Source/performance worktrees untouched; no push, main merge, desktop control or terrain regeneration.
-=======
-## Cinematic UI redesign � 2026-11-18
+
+
+
+## Cinematic UI redesign — 2026-11-18
 
 Dedicated `codex/cinematic-ui` from clean world-building baseline `5b743597`. Original world branch and animation branch remain untouched. [UI inventory, original direction, customization and capture index](CinematicUI.md). Shared authored theme plus reusable focus, page motion and generated atmosphere extend the existing uGUI frontend; no new gameplay service or UI framework. Main/Pause/Settings/Save/Load/confirmation pages share the layout; Arsenal uses the actual posed production character with separate choice/portrait/detail columns. Journal retains progression leases/actions and gains three reading columns. Existing runtime meter leases receive the palette without changing shader assets, charge timing or resource values.
 
@@ -527,4 +528,12 @@ Final source passed **57/57 full rendered Play Mode** (`ui-release-play`) and **
 Manual gates remain art direction/contrast and motion quality, physical controller use, high-speed targeting readability and final character/font/sound assets. Existing female placeholder rig and posed-snapshot preview are intentionally preserved; no final male model or animation is invented. Optional UI sounds remain unassigned. Journal/HUD do not inherit the session-menu text-scale preference. Gallery keeps its existing locked/content-dependent behavior. No AAA-quality or manual-acceptance sign-off is inferred from automated tests.
 
 Windows Development candidate `cinematic-ui-candidate` succeeded with **0 errors / 24 warnings** in **32.86 seconds**; rendered startup survived **15 seconds**, zero matched errors. Warning origins are unchanged mesh import settings, three existing deprecated source lookups, Core debug stripping, optional FEEL resources and vendor shaders. Final Edit Mode rerun passed 146/146; final serialized rerun passed 67/67 (`ui-release-serialized`). Four incidental forest-particle keyword removals from URP importing were restored exactly after Editor shutdown. Only UI implementation/theme/tests/documentation are checkpointed; no push or merge.
->>>>>>> d4a78df0 (Redesign production menus and HUD with shared cinematic UI theme)
+
+
+## Neutral working-title presentation - 2026-11-18
+
+Continued from clean `d4a78df0` on `codex/cinematic-ui`. Removed the invented subtitle/tagline and repeated secondary-menu title; replaced the quit explanation with neutral functional copy. Extended the existing UI theme asset with temporary display title, empty optional subtitle/tagline, optional Sprite logo, optional texture background and generated-atmosphere toggle. Optional rows collapse; secondary menu headings move up into the previously branded area. Main/Pause/Settings/Save/Load/Journal/Arsenal/HUD/loading paths audited. Legitimate authored quest/item/ability text and all internal names/identifiers remain unchanged. See CinematicUI.md for customization and exact validation below.
+
+Validation: Unity 6000.6.2f1 compilation; 4/4 cinematic/presentation Play Mode checks (including the new configuration regression and 30-screen capture), 1/1 production mouse/gamepad/rebinding check, 146/146 full Edit Mode, 67/67 serialized contracts. Evidence labels: ui-identity, ui-identity-input, ui-identity-edit, ui-identity-serialized. Windows Development build ui-identity-candidate succeeded in 26.01 seconds with 0 errors and 24 warnings, with the same warning subjects as the prior candidate (shader variant details differ). Full Play Mode was not rerun for this scoped follow-up. Existing authored scene/content assets and all GUIDs remain unchanged.
+
+Rendered Windows startup survived 15 seconds with zero matched errors (ui-identity-candidate-rendered-player.json). This is startup evidence, not manual visual acceptance.

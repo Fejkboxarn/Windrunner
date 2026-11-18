@@ -4,6 +4,15 @@ namespace Windrunner.Production
     [CreateAssetMenu(menuName="Windrunner/UI Theme")]
     public sealed class WindrunnerUITheme : ScriptableObject
     {
+        [Header("Player-facing presentation (working title, not final identity)")]
+        public string displayTitle="WINDRUNNER";
+        public string subtitle="";
+        public Sprite logo;
+        public Texture2D backgroundPresentation;
+        public string tagline="";
+        [Tooltip("Neutral generated atmosphere when no background texture is assigned.")]
+        public bool generatedAtmosphere=true;
+        [Header("UI style")]
         public Color background=new Color(.025f,.038f,.058f,1);
         public Color panel=new Color(.055f,.085f,.12f,.94f);
         public Color ink=new Color(.91f,.95f,.98f,1);

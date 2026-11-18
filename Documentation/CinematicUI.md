@@ -109,3 +109,25 @@ Baseline title comparison: `Logs/ProductionMigration/main-menu-1920-639305955805
 Warning origins are unchanged assets/source: mesh Read/Write and collider pre-bake settings; three existing FindFirstObjectByType uses; stripped Core debug shaders; optional FEEL third-party resources; INab progress-bar, Toony Colors Pro and Raygeas shader compatibility warnings. No warning names a new UI implementation file. These warnings remain, and this pass does not silently repair unrelated vendor/terrain content.
 
 Earlier failures are retained: the capture fixture initially used an obsolete CanvasRenderer overload, then exposed a missing CanvasRenderer on the custom graphic; an optional unused AudioSource changed the existing audio-route count; the new fixture needed Unity's EntityId API and a title refresh after assigning its disposable save directory. Each was corrected. Screenshot inspection additionally caught initial white button transitions and ultrawide title clipping. Passing initial compilation was not treated as visual proof.
+
+
+## Working title versus game identity (2026-11-18)
+
+Windrunner is an internal working title, not a confirmed fictional or commercial identity. The earlier invented menu tagline is removed without replacement. Only the Main Menu may show the configurable temporary title. Pause, Settings, Save/Load, confirmations and Arsenal use functional screen headings without repeated project branding. The quit explanation is neutral. Journal/HUD/loading-path audit found no additional invented game-identity copy. Existing quest dialogue, catalog item/ability descriptions, AirPower, Air Cast, Air Sling and Second Wind are unchanged. Internal project/repository names, namespaces, tools, paths and serialized identifiers are deliberately retained.
+
+The existing central `Assets/WindrunnerProduction/Runtime/Resources/WindrunnerUITheme.asset` now has a **Player-facing presentation** section:
+
+- **Display Title:** temporary `WINDRUNNER`; replace here when the real title is approved.
+- **Subtitle:** empty by default; optional approved text only.
+- **Logo:** optional Sprite; when assigned, replaces the title text in the Main Menu and preserves its aspect ratio.
+- **Background Presentation:** optional Texture2D; replaces the generated background. Choose art appropriate for the output aspect ratio and verify text contrast.
+- **Tagline:** empty by default; optional approved text only.
+- **Generated Atmosphere:** neutral geometric fallback, enabled by default. Disable it with no background assigned for the plain theme background.
+
+Empty/whitespace subtitle and tagline fields deactivate their rows and return their vertical space to navigation. This is layout behavior, not hidden placeholder copy. Changing the configuration and reopening the menu is sufficient; no project rename or menu rewrite is required. No final logo or marketing copy was invented. The existing capture index now points to regenerated neutral-presentation screenshots; the prior checkpoint's captures are superseded.
+
+Regression coverage exercises default empty fields, configurable title, both optional text rows, collapsed rows, disposable logo/background substitution, plain-background fallback and absence of branding in secondary menus. Runtime test changes are restored; no test fixture branding is stored in the theme asset.
+
+Validation: Unity 6000.6.2f1 compilation; 4/4 cinematic/presentation Play Mode checks (including the new configuration regression and 30-screen capture), 1/1 production mouse/gamepad/rebinding check, 146/146 full Edit Mode, 67/67 serialized contracts. Evidence labels: ui-identity, ui-identity-input, ui-identity-edit, ui-identity-serialized. Windows Development build ui-identity-candidate succeeded in 26.01 seconds with 0 errors and 24 warnings, with the same warning subjects as the prior candidate (shader variant details differ). Full Play Mode was not rerun for this scoped follow-up. Existing authored scene/content assets and all GUIDs remain unchanged.
+
+Rendered Windows startup survived 15 seconds with zero matched errors (ui-identity-candidate-rendered-player.json). This is startup evidence, not manual visual acceptance.

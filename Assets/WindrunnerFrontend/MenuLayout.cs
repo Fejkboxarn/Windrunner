@@ -14,7 +14,10 @@ namespace Windrunner.Frontend
         private readonly Font font=WindrunnerUITheme.Current.Font;
         private readonly WindrunnerUITheme theme=WindrunnerUITheme.Current;
         private readonly UIPageMotion motion;
-        private readonly Text prompts,eyebrow;
+        private readonly Text prompts,subtitle,tagline;
+        private readonly Image logoImage;
+        private readonly RawImage backgroundImage;
+        private readonly GameObject atmosphere;
         private readonly RectTransform surface;
         private readonly CanvasScaler scaler;
         private string page;
@@ -56,13 +59,16 @@ namespace Windrunner.Frontend
             Root.AddComponent<GraphicRaycaster>();
             var background=Rect("Backdrop",Root.transform);Bounds(background,0,0,1,1);surface=background;
             background.gameObject.AddComponent<Image>().color=theme.background;
-            var atmosphere=Rect("Wind and slate",background);Bounds(atmosphere,.32f,0,1,1);atmosphere.gameObject.AddComponent<WindMenuBackdrop>().raycastTarget=false;
+            var art=Rect("Wind and slate",background);Bounds(art,.32f,0,1,1);atmosphere=art.gameObject;art.gameObject.AddComponent<WindMenuBackdrop>().raycastTarget=false;
+            var picture=Rect("Presentation background",background);Bounds(picture,0,0,1,1);backgroundImage=picture.gameObject.AddComponent<RawImage>();backgroundImage.raycastTarget=false;
             motion=Root.AddComponent<UIPageMotion>();motion.Bind(background);
-            eyebrow=Label(background,"E C H O E S   O N   T H E   W I N D",16,muted);Bounds(eyebrow.rectTransform,.075f,.66f,.60f,.71f);
+            subtitle=Label(background,"",theme.bodySize,muted);subtitle.name="Presentation subtitle";
+            tagline=Label(background,"",16,muted);tagline.name="Presentation tagline";
+            logoImage=Rect("Presentation logo",background).gameObject.AddComponent<Image>();logoImage.preserveAspect=true;logoImage.raycastTarget=false;
             prompts=Label(background,"",16,muted);Bounds(prompts.rectTransform,.075f,.025f,.94f,.065f);
             var rule=Rect("Accent",background);brandRule=rule.gameObject;Bounds(rule,.075f,.54f,.14f,.545f);
             rule.gameObject.AddComponent<Image>().color=theme.accent;
-            var title=Label(background,"WINDRUNNER",theme.brandSize,ink);brand=title.gameObject;title.fontStyle=FontStyle.Bold;Bounds(title.rectTransform,.075f,.55f,.49f,.72f);
+            var title=Label(background,theme.displayTitle,theme.brandSize,ink);brand=title.gameObject;brand.name="Presentation title";title.fontStyle=FontStyle.Bold;Bounds(title.rectTransform,.075f,.55f,.49f,.72f);
             heading=Label(background,"",theme.headingSize,ink);Bounds(heading.rectTransform,.50f,.79f,.93f,.92f);
             message=Label(background,"",theme.bodySize,muted);Bounds(message.rectTransform,.075f,.25f,.41f,.52f);
             var view=Rect("Choices",background);Bounds(view,.50f,.10f,.93f,.78f);
@@ -200,7 +206,7 @@ namespace Windrunner.Frontend
             Bounds(message.rectTransform,.71f,.16f,.94f,.76f);
             return image;
         }
-        internal void RestoreMessage(){brand.SetActive(true);brandRule.SetActive(true);}
+        internal void RestoreMessage()=>Arrange();
         internal void RestoreList()=>Arrange();
         private void ApplySafeArea()
         {
@@ -211,12 +217,23 @@ namespace Windrunner.Frontend
         {
             bool home=page=="Main menu",arsenal=page=="Dagger Arsenal";
             bool slots=page=="Load game"||page=="Save game"||page=="New game"||page=="Controls";
-            brand.SetActive(!arsenal);brandRule.SetActive(true);eyebrow.gameObject.SetActive(home);
-            var logo=brand.GetComponent<Text>();logo.fontSize=home?theme.brandSize:20;
-            Bounds(logo.rectTransform,.075f,home?.72f:.91f,.85f,home?.87f:.96f);
-            Bounds(heading.rectTransform,.075f,home?.58f:.79f,.93f,home?.64f:.89f);heading.fontSize=home?18:theme.headingSize;
-            Bounds(brandRule.GetComponent<RectTransform>(),.075f,home?.65f:.77f,.15f,home?.653f:.773f);
-            Bounds(scroll.GetComponent<RectTransform>(),.075f,.12f,arsenal?.30f:slots?.70f:.47f,home?.56f:.74f);
+            bool hasSubtitle=home&&!string.IsNullOrWhiteSpace(theme.subtitle),hasTagline=home&&!string.IsNullOrWhiteSpace(theme.tagline);
+            var title=brand.GetComponent<Text>();title.text=theme.displayTitle;title.fontSize=theme.brandSize;
+            brand.SetActive(home&&!theme.logo&&!string.IsNullOrWhiteSpace(theme.displayTitle));
+            logoImage.sprite=theme.logo;logoImage.gameObject.SetActive(home&&theme.logo);
+            Bounds(title.rectTransform,.075f,.72f,.85f,.87f);Bounds(logoImage.rectTransform,.075f,.72f,.47f,.87f);
+            subtitle.text=theme.subtitle;subtitle.gameObject.SetActive(hasSubtitle);
+            tagline.text=theme.tagline;tagline.gameObject.SetActive(hasTagline);
+            float optionalTop=.71f;
+            if(hasSubtitle){Bounds(subtitle.rectTransform,.075f,optionalTop-.05f,.85f,optionalTop);optionalTop-=.055f;}
+            if(hasTagline){Bounds(tagline.rectTransform,.075f,optionalTop-.05f,.85f,optionalTop);optionalTop-=.055f;}
+            float shift=.71f-optionalTop;
+            brandRule.SetActive(true);
+            backgroundImage.texture=theme.backgroundPresentation;backgroundImage.gameObject.SetActive(theme.backgroundPresentation);
+            atmosphere.SetActive(!theme.backgroundPresentation&&theme.generatedAtmosphere);
+            Bounds(heading.rectTransform,.075f,home?.61f-shift:.85f,.93f,home?.67f-shift:.95f);heading.fontSize=home?18:theme.headingSize;
+            Bounds(brandRule.GetComponent<RectTransform>(),.075f,home?.69f-shift:.82f,.15f,home?.693f-shift:.823f);
+            Bounds(scroll.GetComponent<RectTransform>(),.075f,.12f,arsenal?.30f:slots?.70f:.47f,home?.59f-shift:.79f);
             Bounds(message.rectTransform,arsenal?.71f:slots?.75f:.61f,.18f,.94f,.70f);message.fontSize=slots?18:theme.bodySize;
             message.color=muted;ApplySafeArea();
         }

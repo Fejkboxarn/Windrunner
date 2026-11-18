@@ -26877,5 +26877,61 @@
       "termination": "Harness stops only its launched process after observation",
       "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
     }
+  },
+  "working_title_presentation": {
+    "baseline": "d4a78df0",
+    "branch": "codex/cinematic-ui",
+    "configuration": "Assets/WindrunnerProduction/Runtime/Resources/WindrunnerUITheme.asset",
+    "changes": "Removed invented tagline, removed secondary-menu working-title labels, neutral quit explanation; optional subtitle/tagline rows collapse; optional logo/background and plain fallback",
+    "runs": {
+      "ui-identity": {
+        "result": "Passed",
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0
+      },
+      "ui-identity-input": {
+        "result": "Passed",
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0
+      },
+      "ui-identity-edit": {
+        "result": "Passed",
+        "passed": 146,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    "serialized_contracts": {
+      "passed": 67,
+      "failed": 0,
+      "evidence": "Logs/ProductionMigration/ui-identity-serialized.json"
+    },
+    "windows": {
+      "result": "Succeeded",
+      "errors": 0,
+      "warnings": 24,
+      "seconds": 26.010977399999998
+    },
+    "warning_messages_match_prior_candidate": false,
+    "rendered": "30 regenerated screenshots; title-only and secondary menus inspected",
+    "preserved": "Internal names, identifiers, scenes, world content, quest/item descriptions, gameplay terminology and mechanics",
+    "manual": "Future approved logo/background/text contrast requires visual acceptance. No final identity/content invented.",
+    "full_play_mode": "Not rerun for this scoped presentation change; five relevant Play Mode tests executed.",
+    "rendered_startup": {
+      "label": "ui-identity-candidate-rendered",
+      "seconds": 15,
+      "survived": true,
+      "rendered": true,
+      "totalProcessCpuSeconds": 12.671875,
+      "peakWorkingSetBytes": 285593600,
+      "privateBytesAtEnd": 456130560,
+      "hasPlayerInitialization": true,
+      "errors": [],
+      "termination": "Harness stops only its launched process after observation",
+      "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+    },
+    "warning_subjects_match_prior_candidate": true
   }
 }

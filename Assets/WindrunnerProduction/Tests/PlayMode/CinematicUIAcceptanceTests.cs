@@ -23,6 +23,50 @@ namespace Windrunner.Production.Tests
 {
     public sealed partial class MainMenuFlowTests
     {
+        [UnityTest] public IEnumerator CinematicIdentityIsConfigurableAndOptionalContentCollapses()
+        {
+            if(ProjectRoot.Active){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}
+            var theme=WindrunnerUITheme.Current;
+            string title=theme.displayTitle,subtitle=theme.subtitle,tagline=theme.tagline;
+            var logo=theme.logo;var background=theme.backgroundPresentation;bool generated=theme.generatedAtmosphere;
+            var texture=new Texture2D(4,4);var sprite=Sprite.Create(texture,new Rect(0,0,4,4),Vector2.one*.5f);
+            Text TextNamed(string name)=>Object.FindObjectsByType<Text>(FindObjectsInactive.Include).First(t=>t.name==name);
+            void HomeAgain(){Submit("Settings");Submit("Back");Canvas.ForceUpdateCanvases();}
+            try
+            {
+                Assert.AreEqual("",subtitle);Assert.AreEqual("",tagline);
+                yield return EditorSceneManager.LoadSceneAsyncInPlayMode(Title,new LoadSceneParameters(LoadSceneMode.Single));yield return null;
+                Assert.AreEqual(title,TextNamed("Presentation title").text);
+                Assert.IsFalse(TextNamed("Presentation subtitle").gameObject.activeSelf);
+                Assert.IsFalse(TextNamed("Presentation tagline").gameObject.activeSelf);
+                var choices=GameObject.Find("Choices").GetComponent<RectTransform>();float compact=choices.anchorMax.y;
+                theme.displayTitle="Presentation test title";theme.subtitle="Test subtitle";theme.tagline="Test tagline";HomeAgain();
+                Assert.AreEqual(theme.displayTitle,TextNamed("Presentation title").text);
+                Assert.IsTrue(TextNamed("Presentation subtitle").gameObject.activeSelf);
+                Assert.Less(choices.anchorMax.y,compact);
+                theme.subtitle=" ";theme.tagline="";HomeAgain();Assert.AreEqual(compact,choices.anchorMax.y,.001f);
+                theme.logo=sprite;theme.backgroundPresentation=texture;HomeAgain();
+                Assert.IsFalse(TextNamed("Presentation title").gameObject.activeSelf);
+                Assert.AreSame(sprite,GameObject.Find("Presentation logo").GetComponent<Image>().sprite);
+                Assert.AreSame(texture,GameObject.Find("Presentation background").GetComponent<RawImage>().texture);
+                Assert.IsNull(GameObject.Find("Wind and slate"));
+                Submit("Settings");
+                Assert.IsFalse(TextNamed("Presentation title").gameObject.activeSelf);
+                Assert.IsFalse(TextNamed("Presentation subtitle").gameObject.activeSelf);
+                Assert.IsFalse(TextNamed("Presentation tagline").gameObject.activeSelf);
+                Assert.IsNull(GameObject.Find("Presentation logo"));Submit("Back");
+                Submit("Quit game");Assert.IsTrue(Object.FindObjectsByType<Text>().Any(t=>t.text=="Close the game."));Submit("Cancel");
+                theme.logo=null;theme.backgroundPresentation=null;theme.generatedAtmosphere=false;HomeAgain();
+                Assert.IsNull(GameObject.Find("Wind and slate"));Assert.IsNull(GameObject.Find("Presentation background"));
+                Assert.IsTrue(TextNamed("Presentation title").gameObject.activeSelf);
+            }
+            finally
+            {
+                theme.displayTitle=title;theme.subtitle=subtitle;theme.tagline=tagline;theme.logo=logo;theme.backgroundPresentation=background;theme.generatedAtmosphere=generated;
+                Object.Destroy(sprite);Object.Destroy(texture);if(ProjectRoot.Active)Object.Destroy(ProjectRoot.Active.gameObject);
+            }
+            yield return null;var old=SceneManager.GetActiveScene();SceneManager.SetActiveScene(SceneManager.CreateScene("Presentation configuration teardown"));yield return SceneManager.UnloadSceneAsync(old);
+        }
         [UnityTest] public IEnumerator CinematicNavigationRemembersPagesAndSliderRespondsWithoutRebuilding()
         {
             if(ProjectRoot.Active){Object.Destroy(ProjectRoot.Active.gameObject);yield return null;}

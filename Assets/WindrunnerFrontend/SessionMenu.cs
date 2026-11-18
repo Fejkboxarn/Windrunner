@@ -106,7 +106,7 @@ namespace Windrunner.Frontend
                 ui.Choice("New game",()=>Slots("New game"));
                 ui.Choice("Load game",()=>Slots("Load game"));
                 ui.Choice("Settings",Settings);ui.Choice("Gallery",()=>Gallery(Home));
-                ui.Choice("Quit game",()=>Confirm("Quit game?","Close Windrunner.",Quit,Home));
+                ui.Choice("Quit game",()=>Confirm("Quit game?","Close the game.",Quit,Home));
             }
             else
             {
