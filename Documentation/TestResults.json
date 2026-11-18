@@ -26666,5 +26666,29 @@
       "Assets/WindrunnerTerrain/Editor/TerrainPrototypeTransferWindow.cs": "c3a5343e9159c5e532599584dbbed12f36eaa90fef961b984e1b68229e49bdb0",
       "Assets/WindrunnerTerrain/Tests/Editor/TerrainPrototypeTransferTests.cs": "f7b62cea4b3f0345b593aa3aab01c4a8db9d2fd68f37ed3309fc861e23f18b5c"
     }
+  },
+  "terrain_transfer_world_blockout": {
+    "target_branch": "feature/zone01-world-blockout",
+    "baseline": "e5d1fbf0",
+    "source_commit": "bbc9af04",
+    "cherry_pick": "9d77bd72",
+    "compatibility_changes": [],
+    "edit_mode": {
+      "label": "blockout-transfer-final",
+      "passed": 142,
+      "failed": 0,
+      "skipped": 0,
+      "transfer_cases": 5
+    },
+    "zone01_scene_open": "Passed: EditableBasinSupportsClearingAndQuestComposition; opened, validated and closed without saving",
+    "serialized_contracts": {
+      "label": "blockout-transfer-serialized",
+      "checked": 67,
+      "failures": []
+    },
+    "authored_content_diff_from_target_baseline": [],
+    "source_branch_unchanged": true,
+    "manual_acceptance": "Window and painted palette visual inspection remains pending",
+    "ignored_archive_backup": "Logs/ProductionMigration/blockout-preserved-forest-archive/manifest.json"
   }
 }
