@@ -26933,5 +26933,41 @@
       "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
     },
     "warning_subjects_match_prior_candidate": true
+  },
+  "permanent_crosshair_removal": {
+    "baseline": "fcc43a3b",
+    "branch": "codex/cinematic-ui",
+    "implementation": "Removed unconditional GUI.Label + from ProgressionJournal.DrawHud; corrected two help strings only.",
+    "runs": {
+      "no-crosshair-play": {
+        "result": "Passed",
+        "passed": 58,
+        "failed": 0,
+        "skipped": 0
+      },
+      "no-crosshair-edit": {
+        "result": "Passed",
+        "passed": 146,
+        "failed": 0,
+        "skipped": 0
+      },
+      "no-crosshair-render": {
+        "result": "Passed",
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    "serialized_contracts": {
+      "passed": 67,
+      "failed": 0,
+      "evidence": "Logs/ProductionMigration/no-crosshair-serialized.json"
+    },
+    "audit": "Logs/ProductionMigration/no-crosshair-audit.json",
+    "before": "Logs/ProductionMigration/no-crosshair-before.png",
+    "after": "Logs/ProductionMigration/no-crosshair-after.png",
+    "scope": "Source removal applies to all gameplay states and reloads; full suite exercises movement, jump, Dash, Cast/Sling execution/perfect feedback, menus, save load and world reload. Rendered HUD inspected separately. No per-state screenshot or manual gameplay acceptance claim.",
+    "unchanged": "Target acquisition, world-space target and charge/perfect feedback, camera, input, movement, development debug/animation overlays, scenes/prefabs and serialized fields.",
+    "windows_build": "Not rerun for this scoped presentation removal."
   }
 }

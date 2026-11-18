@@ -23,7 +23,7 @@ namespace Windrunner.Production.Progression
         }
         public void Probe()
         {
-            Target = null; Candidate = null; Rejection = "Aim the center reticle at a station.";
+            Target = null; Candidate = null; Rejection = "Look toward a station.";
             if (actor == null || actor.Input == null || actor.Input.IsGameplayBlocked || view == null) return;
             int count = Physics.RaycastNonAlloc(view.transform.position, view.transform.forward, hits, reach, interactionLayers, QueryTriggerInteraction.Collide);
             float nearest = float.PositiveInfinity; Collider selected = null;

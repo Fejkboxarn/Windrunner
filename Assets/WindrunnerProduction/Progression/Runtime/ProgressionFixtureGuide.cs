@@ -84,7 +84,7 @@ namespace Windrunner.Production.Progression
                 if (expanded)
                 {
                     scroll = GUILayout.BeginScrollView(scroll);
-                    GUILayout.Label("Aim the + reticle, move within range, then " + journal.Binding("Interact") + ". Colored signs mark every station.", ProgressionUiTheme.Body);
+                    GUILayout.Label("Look toward a station, move within range, then " + journal.Binding("Interact") + ". Colored signs mark every station.", ProgressionUiTheme.Body);
                     Step("1", "Accept both quests at the blue and violet offer stations.", "fixture-a-quest", "fixture-b-quest");
                     GUILayout.Label("2  " + journal.Binding("Journal") + " journal · " + journal.Binding("JournalNext") + " select · " + journal.Binding("TrackQuest") + " track. Mouse buttons and wheel work in the journal.", ProgressionUiTheme.Body);
                     GUILayout.Label("3  Activate the gold World Switch. Both active chapters observe it.", ProgressionUiTheme.Body);

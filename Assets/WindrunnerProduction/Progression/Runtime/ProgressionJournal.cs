@@ -256,7 +256,6 @@ namespace Windrunner.Production.Progression
                 hudScroll = GUILayout.BeginScrollView(hudScroll); GUILayout.Label(hud, ProgressionUiTheme.Body); GUILayout.EndScrollView();
                 GUILayout.Label(Binding("Journal") + " · full objectives", ProgressionUiTheme.Muted); GUILayout.EndArea();
             }
-            GUI.Label(new Rect(630, 348, 24, 24), "+", ProgressionUiTheme.Heading);
             if(interaction?.Target==null && interaction?.Candidate==null && Time.unscaledTime>=notificationUntil)return;
             GUILayout.BeginArea(new Rect(360, 520, 560, 104), ProgressionUiTheme.Card);
             GUILayout.Label(interaction != null && interaction.Target != null ? interaction.Prompt : interaction?.Candidate != null ? interaction.Candidate.prompt + " · " + interaction.Rejection : "Aim at a nearby character or object • " + Binding("Journal") + " opens your journal", ProgressionUiTheme.Body);
