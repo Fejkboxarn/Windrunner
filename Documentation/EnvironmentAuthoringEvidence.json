@@ -1,0 +1,166 @@
+{
+  "branch": "codex/environment-authoring-studio",
+  "baseline": "5b743597",
+  "unity": "6000.6.2f1",
+  "edit_mode": {
+    "path": "Logs\\ProductionMigration\\environment-studio-checkpoint-EditMode.xml",
+    "sha256": "f128f54565ec6aeff98c49830884cec6cced144fb45ad8ed7a59e442cebfb688",
+    "result": {
+      "id": "2",
+      "testcasecount": "155",
+      "result": "Passed",
+      "total": "155",
+      "passed": "155",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-11-18 21:14:41Z",
+      "end-time": "2026-11-18 21:15:31Z",
+      "duration": "50,7071577"
+    }
+  },
+  "new_tests": [
+    "AssetPreviewsRenderAndRepeatedEditorDisposalDoesNotCreateSceneObjects",
+    "CatalogFilteringBenchmarkAndIdleWorkAreBounded",
+    "ImportsMovesRemovalAndReconnectionRetainManualGuidMetadata",
+    "InstalledSourcesAreIndexedAndRegistryFiltersExcludeUnapprovedAssets",
+    "MetadataAndPresetDiskRoundTripRebuildsCatalogWithoutPathIdentity",
+    "MissingPacksSourcesAndSavedCollectionsAreSafe",
+    "PlacementKeepsPrefabLinkAndSupportsUndoRedoWithoutTouchingSource",
+    "PreparedLayerUsesExistingTransferAndPreservesPaintAndSharedDataGuard",
+    "PreparedTreeAndDetailsDeduplicateRejectStalePreviewAndReleaseTemporaryObjects"
+  ],
+  "serialized": {
+    "baseline": "7bfdfe5e",
+    "checked_source_contracts": [
+      "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+      "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+      "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+      "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs",
+      "Assets/AirflowPrototype/Runtime/AirDash.cs",
+      "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
+      "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+      "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirPower.cs",
+      "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirPowerState.cs",
+      "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+      "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetDebugHUD.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+      "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+      "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputActionsFactory.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputService.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+      "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs"
+    ],
+    "failures": []
+  },
+  "preservation": {
+    "original_files_checked": 3558,
+    "changed": []
+  },
+  "benchmark": {
+    "synthetic_entries": 5000,
+    "queries": 20,
+    "total_ms": 371.702,
+    "mean_query_ms": 18.5851,
+    "idle_entries_processed": 0,
+    "scope": "Synthetic filter+sort, not asset loading, frame time, allocation or native-memory measurement"
+  },
+  "ui": {
+    "observed_indexed_assets": 1374,
+    "capture": "Actual Studio window screenshots displayed inline in the conversation; no screenshot file exported",
+    "interaction_status": "Desktop control stopped at user request. No further control without explicit permission.",
+    "manual_checks_remaining": [
+      "Preview orbit/zoom comfort",
+      "Full mouse-driven placement/cancellation flow",
+      "Favorites across an actual interactive Editor restart",
+      "Representative vendor grass rendering after deliberate native painting"
+    ]
+  },
+  "prior_runs": [
+    {
+      "label": "environment-studio-first",
+      "passed": 4,
+      "failed": 2,
+      "reason": "Disposable additive-scene test setup with untitled scene; corrected fixture"
+    },
+    {
+      "label": "environment-studio-second",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "label": "environment-studio-full",
+      "passed": 154,
+      "failed": 1,
+      "reason": "Async AssetPreview queue unavailable in batch runner; native RenderStaticPreview test substituted"
+    }
+  ],
+  "not_executed": [
+    "New Windows build (Editor-only addition; existing builds untouched)",
+    "New Play Mode suite (no runtime changes)",
+    "Long-session native-memory profiling"
+  ],
+  "limitations": [
+    "Catalog suggestions are conservative; many assets require manual classification",
+    "Shared TerrainData detection covers loaded scenes, not every unopened scene",
+    "Diagnostic scans are explicit synchronous operations; no automatic scene fixes",
+    "Placement bounds are guides, not collision-resolution or rendered ghost objects",
+    "No automatic material conversion or source-package changes",
+    "Existing vendor defects remain documented exceptions",
+    "Highlands package remains pre-existing untracked local content"
+  ],
+  "final_review": "Bounded flexible grid viewport corrected after UI observation; full suite rerun, desktop interaction not repeated."
+}
