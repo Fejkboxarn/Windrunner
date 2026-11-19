@@ -1,5 +1,7 @@
 # Wind Relay & Dynamic Pursuit — authoring and acceptance guide
 
+> Zone 01 integration: use the normal `D:/Fork/Windrunner` checkout on `feature/zone01-world-blockout`. See [ZoneActivityIntegration.md](ZoneActivityIntegration.md) for the four NPC quests, scene placement and current validation. Worktree-specific details and results below describe the original isolated implementation.
+
 Worktree: `D:/Fork/Windrunner/Logs/QuestRelayPursuitWorktree`, branch `codex/quest-relay-pursuit`, baseline `5db46de2`. No animation, cinematic UI or performance branch was merged. All production assets/world content remain at the baseline. This guide describes the new activity code; exact test results are recorded separately in RelayPursuit.md.
 
 ## Open the demonstrations

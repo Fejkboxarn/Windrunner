@@ -86,6 +86,100 @@ MonoBehaviour:
         clue: Look east for a single spire.
         clueTextId: 
         showArea: 1
+    - id: zone-wind-relay
+      displayName: Wind Relay
+      description: 'Development placeholder: complete the marked western relay, then return here.'
+      nameTextId: 
+      descriptionTextId: 
+      kind: 0
+      characterId: waykeeper
+      chapterId: zone-wind-relay-chapter
+      requiresQuests:
+      - ridge-retrieval
+      groups:
+      - id: relay
+        requiresGroups: []
+        objectives:
+        - id: relay
+          description: Complete the Wind Relay
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: zone-wind-relay-course
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 0
+      guidance:
+        areaId: Wind Relay course
+        clue: Follow the marked course west of the contact. Return to the contact afterward.
+        clueTextId: 
+        showArea: 1
+    - id: zone-pursuit
+      displayName: Ground and Air Pursuit
+      description: 'Development placeholder: capture the western ground target, then the eastern flying target. Return here afterward.'
+      nameTextId: 
+      descriptionTextId: 
+      kind: 0
+      characterId: waykeeper
+      chapterId: zone-pursuit-chapter
+      requiresQuests:
+      - zone-wind-relay
+      groups:
+      - id: ground
+        requiresGroups: []
+        objectives:
+        - id: ground
+          description: Capture the ground target
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: zone-pursuit-ground
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      - id: air
+        requiresGroups:
+        - ground
+        objectives:
+        - id: air
+          description: Capture the airborne target with Air Cast
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: zone-pursuit-air
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 0
+      guidance:
+        areaId: Pursuit courses
+        clue: Ground course southwest; airborne course southeast. Return to the contact after both.
+        clueTextId: 
+        showArea: 1
     relationships:
     - id: waykeeper
       displayName: Waykeeper
@@ -94,6 +188,8 @@ MonoBehaviour:
       ranks:
       - Ally
       - Trusted
+      - Placeholder Rank 3
+      - Placeholder Rank 4
       chapters:
       - id: basin-hunt-chapter
         questId: basin-hunt
@@ -107,6 +203,16 @@ MonoBehaviour:
         rank: 2
         rewards:
         - ridge-retrieval-recognition
+      - id: zone-wind-relay-chapter
+        questId: zone-wind-relay
+        cutsceneId: zone-wind-relay-placeholder-milestone
+        rank: 3
+        rewards: []
+      - id: zone-pursuit-chapter
+        questId: zone-pursuit
+        cutsceneId: zone-pursuit-placeholder-milestone
+        rank: 4
+        rewards: []
     rewards:
     - id: basin-hunt-recognition
       kind: unlock
@@ -127,6 +233,34 @@ MonoBehaviour:
       content: {fileID: 11400000, guid: f6c6db7704d31ee40a1536465ed91093, type: 2}
       galleryReplay: {fileID: 0}
       allowSkip: 1
-    challenges: []
+    - id: zone-wind-relay-placeholder-milestone
+      displayName: Placeholder chapter 3 milestone
+      content: {fileID: 11400000, guid: f93c28109f289f14a9e8254801f51dad, type: 2}
+      galleryReplay: {fileID: 0}
+      allowSkip: 1
+    - id: zone-pursuit-placeholder-milestone
+      displayName: Placeholder chapter 4 milestone
+      content: {fileID: 11400000, guid: 5760b534c30d8a64c837cd22ac3b3606, type: 2}
+      galleryReplay: {fileID: 0}
+      allowSkip: 1
+    challenges:
+    - id: zone-wind-relay-course
+      displayName: zone-wind-relay-course
+      resultKind: 6
+      replayable: 0
+      requiresQuests: []
+      firstClearRewards: []
+    - id: zone-pursuit-ground
+      displayName: zone-pursuit-ground
+      resultKind: 6
+      replayable: 0
+      requiresQuests: []
+      firstClearRewards: []
+    - id: zone-pursuit-air
+      displayName: zone-pursuit-air
+      resultKind: 6
+      replayable: 0
+      requiresQuests: []
+      firstClearRewards: []
     races: []
     puzzles: []

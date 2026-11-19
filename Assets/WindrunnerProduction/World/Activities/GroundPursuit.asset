@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4118af8c9c2542cab14196e56270cc02, type: 3}
+  m_Name: GroundPursuit
+  m_EditorClassIdentifier: Windrunner.Production.Progression::Windrunner.Production.Progression.Activities.PursuitProfile
+  targetPrefab: {fileID: 0}
+  definition:
+    challengeId: zone-pursuit-ground
+    regionId: 
+    mode: 0
+    end: 2
+    points:
+    - position: {x: 0, y: 0.8999996, z: 0}
+      incoming: {x: 0, y: 0, z: -2}
+      outgoing: {x: 0, y: 0, z: 2}
+      curved: 0
+      airborne: 0
+      allowReversal: 1
+      capturable: 1
+      speedOverride: -1
+      pause: 0
+      eventId: ground-checkpoint-0
+    - position: {x: 0, y: 0.8999996, z: 24}
+      incoming: {x: 0, y: 0, z: -2}
+      outgoing: {x: 0, y: 0, z: 2}
+      curved: 0
+      airborne: 0
+      allowReversal: 1
+      capturable: 1
+      speedOverride: -1
+      pause: 0
+      eventId: ground-checkpoint-1
+    - position: {x: 30, y: 0.8999996, z: 24}
+      incoming: {x: 0, y: 0, z: -2}
+      outgoing: {x: 0, y: 0, z: 2}
+      curved: 0
+      airborne: 0
+      allowReversal: 1
+      capturable: 1
+      speedOverride: -1
+      pause: 0
+      eventId: ground-checkpoint-2
+    - position: {x: 30, y: 0.8999996, z: 0}
+      incoming: {x: 0, y: 0, z: -2}
+      outgoing: {x: 0, y: 0, z: 2}
+      curved: 0
+      airborne: 0
+      allowReversal: 1
+      capturable: 1
+      speedOverride: -1
+      pause: 0
+      eventId: ground-checkpoint-3
+    speed: 4
+    minSpeed: 0
+    maxSpeed: 9
+    acceleration: 8
+    deceleration: 12
+    turnDegrees: 180
+    startDistance: 0
+    startDelay: 2
+    maxSeconds: 150
+    escapeDistance: 180
+    reverse: 0
+    distanceResponse: 0
+    response:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 30
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    capture: 12
+    captureRadius: 1.8
+    teleportDistance: 40
+    nearMiss: 1
+    missRadius: 4
+    approachSpeed: 1
+    retreatDistance: 0.8
+    minimumApproachTime: 0
+    reactionDelay: 0.3
+    reactionProbability: 1
+    cooldown: 3
+    maxReactions: 5
+    evasion: 1
+    burstSpeed: 15
+    burstAcceleration: 20
+    burstSeconds: 2

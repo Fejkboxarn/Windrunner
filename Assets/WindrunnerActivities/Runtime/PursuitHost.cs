@@ -20,6 +20,7 @@ namespace Windrunner.Activities
         public float groundRayHeight=50,groundOffset=.6f;
         public bool startOnEnable=true;
         public string requiredActiveQuest;
+        public string requiredObjectiveId;
         public UnityEvent<int> stateChanged;
         public UnityEvent<string> waypointEvent;
         public PursuitSession Session {get;private set;}
@@ -31,7 +32,7 @@ namespace Windrunner.Activities
         bool capturedTransform;
         readonly RaycastHit[] groundHits=new RaycastHit[32];
         public Transform ObjectiveAnchor=>Session!=null&&(Session.State==PursuitState.Pursuing||Session.State==PursuitState.Reacting||Session.State==PursuitState.Waiting)?target:null;
-        bool CanRun=>actor&&actor.Service!=null&&!actor.Service.IsDisposed&&(string.IsNullOrEmpty(requiredActiveQuest)||actor.Service.Status(requiredActiveQuest)==QuestStatus.Active);
+        bool CanRun=>actor&&actor.Service!=null&&!actor.Service.IsDisposed&&(string.IsNullOrEmpty(requiredActiveQuest)||actor.Service.Status(requiredActiveQuest)==QuestStatus.Active)&&(string.IsNullOrEmpty(requiredObjectiveId)||actor.Service.ObjectiveOpen(requiredActiveQuest,requiredObjectiveId));
         void OnEnable(){if(caster)caster.PulseHit+=Cast;if(sling)sling.NodeImpact+=Sling;}
         void Start()
         {

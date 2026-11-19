@@ -1,0 +1,221 @@
+{
+  "branch": "feature/zone01-world-blockout",
+  "baseline": "5db46de2",
+  "source": "f54d6894",
+  "preSceneCheckpoint": "6fd8d01b",
+  "project": "D:/Fork/Windrunner",
+  "unity": "6000.6.2f1",
+  "tests": [
+    {
+      "path": "Logs/ProductionMigration/zone-activities-target01-EditMode.xml",
+      "sha256": "bedf804730b40f4105647635bb103551d93ac67e704deb95d2a278ca1b5415d3",
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0,059945"
+    },
+    {
+      "path": "Logs/ProductionMigration/zone-activities-flow05-PlayMode.xml",
+      "sha256": "3e26193976d655ec7b4abd67caf69c8cfe499bbbb91af6165a1317792fb7530d",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "10,2682877"
+    },
+    {
+      "path": "Logs/ProductionMigration/zone-activities-full02-EditMode.xml",
+      "sha256": "6c65e0f41545a74b3064cf154154542476f51ac8c324fffd9548cba86bfad4b5",
+      "result": "Passed",
+      "total": "179",
+      "passed": "179",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "56,0220319"
+    },
+    {
+      "path": "Logs/ProductionMigration/zone-activities-full01-PlayMode.xml",
+      "sha256": "4a8bc414d972fd8526f217e404e1cd610305efcbc289a68d09ee77e8ffb179f6",
+      "result": "Passed",
+      "total": "66",
+      "passed": "66",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "249,1791559"
+    }
+  ],
+  "serializedContracts": 67,
+  "scenePreservation": {
+    "originalRecordCount": 631,
+    "newRecordCount": 81,
+    "changedOriginalRecords": [
+      {
+        "fileId": "863015129",
+        "classId": "114",
+        "field": "^  areas:.*\\Z"
+      },
+      {
+        "fileId": "954294479",
+        "classId": "4",
+        "field": "^  m_Children:.*?(?=^  m_Father:)"
+      },
+      {
+        "fileId": "1417973267",
+        "classId": "4",
+        "field": "^  m_Children:.*?(?=^  m_Father:)"
+      },
+      {
+        "fileId": "1417973268",
+        "classId": "320",
+        "field": "^  m_SceneBindings:.*?(?=^  m_ExposedReferences:)"
+      }
+    ],
+    "protectedWorldFilesUnchanged": 24
+  },
+  "guidAudit": {
+    "referencesChecked": 158,
+    "missingGuids": [],
+    "duplicateNewGuids": {},
+    "missingMetas": []
+  },
+  "failedAttempts": {
+    "install01": "Stopped before scene save: duplicate challenge/quest ID and collider assumption; rejected generated assets preserved in Logs/ZoneActivities/rejected-install01. Fixed before install02.",
+    "flow01": "Undercharged test Cast missed; test uses ready charge with unchanged gameplay values.",
+    "flow02and03": "Near-miss test approached during authored countdown; fixed test setup to wait for pursuing state.",
+    "flow04": "Confirmed new airborne sphere solid collider blocked own Cast line of sight; fixed new target to trigger and added scene validation.",
+    "fullEdit01": "177/179; new test failed restoring empty scene setup and polluted later terrain physics test. Fixed teardown; full rerun 179/179."
+  },
+  "renderedEvidence": [
+    {
+      "path": "Logs/ZoneActivities/air-active.png",
+      "sha256": "a6087603affcc1a1f87d52dd635475e7e7db6bec2c63eb347a2ce79061a20215"
+    },
+    {
+      "path": "Logs/ZoneActivities/four-quests-complete.png",
+      "sha256": "e42c8e96b99e451847eaf1a05857a7ef438f96d51f20cddff81fa7508dd7298c"
+    },
+    {
+      "path": "Logs/ZoneActivities/ground-captured.png",
+      "sha256": "cddad0f4d00c517554e2c580a9e551b7c3f73127319b5b56e7faf8081963765e"
+    },
+    {
+      "path": "Logs/ZoneActivities/ground-near-miss.png",
+      "sha256": "170f2e5ec2fb5fedb96d888d9c40000cbaf12300fc8bcc9077c1a205ea35bc6d"
+    },
+    {
+      "path": "Logs/ZoneActivities/relay-available.png",
+      "sha256": "6b526e66eea3f19d38e1337126eed6f9bf359dc0bee4205f7e5fc840ba613d77"
+    },
+    {
+      "path": "Logs/ZoneActivities/relay-completed.png",
+      "sha256": "73595172f73e94325d1f249f52cfcc59ceb14f1ce7865003e54db100a3dbcda2"
+    },
+    {
+      "path": "Logs/ZoneActivities/relay-expired.png",
+      "sha256": "05c91b0edcddec11bed913616cd9e38fcbcb3fa15d47e043fe939c64e28894f4"
+    }
+  ],
+  "manualOutstanding": [
+    "Course navigation and Journal readability",
+    "Relay timing comfort",
+    "Ground interception and near-miss fairness",
+    "Airborne aiming/camera readability",
+    "Placeholder milestone presentation",
+    "Obstacle clearance after future authoring"
+  ],
+  "windowsBuild": {
+    "path": "Logs/ProductionMigration/zone-activities-candidate-build.json",
+    "sha256": "eba35c72e9a339c73daa9d3e8fcb40edeadc9e54d00699a1fffcd269899c0579",
+    "result": {
+      "result": "Succeeded",
+      "outputPath": "D:/Fork/Windrunner/Builds/zone-activities-candidate/Windrunner.exe",
+      "unity": "6000.6.2f1",
+      "utc": "2026-11-19T10:44:12.2272271Z",
+      "errors": 0,
+      "warnings": 24,
+      "seconds": 28.204953,
+      "bytes": 1296288313,
+      "warningMessages": [
+        "Read/Write is disabled on 1 mesh(es) referenced by components in this build. In future versions of Unity, the build process will no longer automatically enable Read/Write on the meshes referenced by these components. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Shadow_Dagger' (referenced by a Particle System Renderer component)",
+        "Pre-baked collision is disabled on 41 mesh(es) referenced by Mesh Collider components in this build. In future versions of Unity, the build process will no longer automatically pre-bake collision for these meshes; enable pre-baked collision in the Mesh import settings. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Stone_2_LOD1' (convex collision is disabled)\n - 'Stone_7_LOD0' (triangle collision is disabled)\n - 'Stone_9_LOD0' (triangle collision is disabled)\n - 'Stone_8_LOD0' (triangle collision is disabled)\n - 'Stone_1_LOD1' (convex collision is disabled)\n - 'Stone_6_LOD1' (convex collision is disabled)\n - 'Stone_4_LOD1' (convex collision is disabled)\n - 'Stone_3_LOD1' (convex collision is disabled)\n - 'Ore_1_LOD0' (triangle collision is disabled)\n - 'Ore_2_LOD0' (triangle collision is disabled)\n - 'Small_Stone_6_LOD0' (convex collision is disabled)\n - 'Small_Stone_7_LOD0' (convex collision is disabled)\n - 'Ladder_LOD1' (convex collision is disabled)\n - 'Shrine_LOD1' (triangle collision is disabled)\n - 'Column_3_LOD1' (triangle collision is disabled)\n - 'Arch_1_Collider' (triangle collision is disabled)\n - 'Floor_1_LOD0' (convex collision is disabled)\n - 'Fence_1_LOD1' (triangle collision is disabled)\n - 'Fence_3_LOD1' (triangle collision is disabled)\n - 'Column_4_LOD1' (triangle collision is disabled)\n - 'Fence_2_LOD1' (triangle collision is disabled)\n - 'Column_1_LOD1' (triangle collision is disabled)\n - 'Walls_Collider' (triangle collision is disabled)\n - 'Bridge_Collider' (triangle collision is disabled)\n - 'Arch_2_Collider' (triangle collision is disabled)\n - 'Stump_LOD1' (triangle collision is disabled)\n - 'Snag_LOD1' (triangle collision is disabled)\n - 'Column_2_LOD1' (triangle collision is disabled)\n - 'Chest_Base' (triangle collision is disabled)\n - 'Chest_Lid' (triangle collision is disabled)\n - 'Vase_3' (convex collision is disabled)\n - 'Vase_1' (convex collision is disabled)\n - 'Barrel_LOD1' (convex collision is disabled)\n - 'Vase_2' (convex collision is disabled)\n - 'Cart_1_Collider' (triangle collision is disabled)\n - 'Cart_2_Collider' (triangle collision is disabled)\n - 'Chair_Collider' (triangle collision is disabled)\n - 'Table_LOD1' (triangle collision is disabled)\n - 'Clif_3' (triangle collision is disabled)\n - 'Clif_1' (triangle collision is disabled)\n - 'Clif_2' (triangle collision is disabled)",
+        "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+        "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+        "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+        "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+        "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with _FILL_OVERLAY_USE_GUIDES\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_SEGMENTS_ENABLE",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+        "Shader warning in 'Raygeas/URP/Waterfall': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Waterfall': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Billboard': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Billboard': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Surface': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Surface': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Water': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Water': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Vegetation': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+        "Shader warning in 'Raygeas/URP/Vegetation': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+        "Shader warning in 'Raygeas/URP/Mountains': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)"
+      ],
+      "scenes": [
+        "Assets/WindrunnerFrontend/Scenes/MainMenu.unity",
+        "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity",
+        "Assets/WindrunnerFrontend/Scenes/StartingWorld.unity"
+      ],
+      "development": true,
+      "gymFlight": false
+    }
+  },
+  "renderedStartup": {
+    "path": "Logs/ProductionMigration/zone-activities-candidate-rendered-player.json",
+    "sha256": "91982ed814502a74c14e128fae40394febf5987bdec5878f79a7497d725ec5d4",
+    "result": {
+      "label": "zone-activities-candidate-rendered",
+      "seconds": 15,
+      "survived": true,
+      "rendered": true,
+      "totalProcessCpuSeconds": 1.984375,
+      "peakWorkingSetBytes": 284356608,
+      "privateBytesAtEnd": 487337984,
+      "hasPlayerInitialization": true,
+      "errors": [],
+      "termination": "Harness stops only its launched process after observation",
+      "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+    }
+  },
+  "protectedFileHashes": {
+    "Assets/WindrunnerProduction/World/BeaconAmber.mat": "d8065dc756e220c2ff095b645719bb7da046107b9986bcf1c026aab94f93c6d2",
+    "Assets/WindrunnerProduction/World/BeaconAmber.mat.meta": "2a2ebd409540fe68210fd064bb3c9b5b835327be744752a83b0181f27d1510eb",
+    "Assets/WindrunnerProduction/World/Cinematics.meta": "ab63826a23bf16d02768992e8bf1eae9952e59382ea3cc02ca254bd634001501",
+    "Assets/WindrunnerProduction/World/LandmarkStone.mat": "34a986e8d1c8c8a534d64978dd98f4ae8af138cef2e252e096f657e6a86e3eff",
+    "Assets/WindrunnerProduction/World/LandmarkStone.mat.meta": "12679763b09e0066e0c81942c281bc658f89714fc877924d45cdeb543b437f62",
+    "Assets/WindrunnerProduction/World/Prefabs.meta": "2f42a551a1fba8f5b67d40736b402210c46b62abb9de96ed1143ef5138e4c78e",
+    "Assets/WindrunnerProduction/World/RidgeBlue.mat": "86b96f55592808d8fa6d5fcc5fc7555f8335874354667fe7ac431416a22bceb2",
+    "Assets/WindrunnerProduction/World/RidgeBlue.mat.meta": "339aa834927898c9b19427287c5801efdf2c061a9df8b728db30e6c891ee48d9",
+    "Assets/WindrunnerProduction/World/Scenes.meta": "18b4f1e4a3f7aacee420385df210d092e539409fab2b4d5bfc445d2d39ea7403",
+    "Assets/WindrunnerProduction/World/Terrain.meta": "0db4dda4833b9ad3d30435914924205d56bd51b506c534d97e409744e1a2dbfa",
+    "Assets/WindrunnerProduction/World/Zone01Catalog.asset.meta": "17a8ef37e0eaa63ee9557b3f28816e13ad258ebcb1c5b96f12a1f7e3aa7920c0",
+    "Assets/WindrunnerProduction/World/Cinematics/basin-hunt-milestone.playable": "1b7929aa83463bb175eed6598c5401f3959dabfcd939c49e6c97d7ce2a215526",
+    "Assets/WindrunnerProduction/World/Cinematics/basin-hunt-milestone.playable.meta": "01a0ac45bd9ad8099bb1a89db4128b011c5d9c722f21978f6fa6435ec22fb343",
+    "Assets/WindrunnerProduction/World/Cinematics/ridge-retrieval-milestone.playable": "36fca29669f9b7c4988e70511befd68884b20a0aa1f63a78d483c79e8dc3688c",
+    "Assets/WindrunnerProduction/World/Cinematics/ridge-retrieval-milestone.playable.meta": "b151d8ae1cddef90e0823a55726573ff56df5cd616fba5165889abd59a21a852",
+    "Assets/WindrunnerProduction/World/Prefabs/ZoneAirNode.prefab": "17f339b11643ffa524fa1d6b6622ffeb157d0bada8dcd59cf92c025098cd074b",
+    "Assets/WindrunnerProduction/World/Prefabs/ZoneAirNode.prefab.meta": "f4b640fce8c5b3aac9ecaedbc4efce588a6f67d57cee89beb2b08184be539c75",
+    "Assets/WindrunnerProduction/World/Scenes/World_Zone01.unity.meta": "f18d501211482bfe9198230377ca978a615b9b0bcd19e60f82ca64febac487ac",
+    "Assets/WindrunnerProduction/World/Terrain/BasinGround.terrainlayer": "24eeb0b844ffcfed1cbcb6d0c0f56f91d605a730adc3d09404a8420762704b96",
+    "Assets/WindrunnerProduction/World/Terrain/BasinGround.terrainlayer.meta": "40d5956b262fa2fa612ce4a65c1b9bd3bd768b07dd13143ef1975198ff72ecbd",
+    "Assets/WindrunnerProduction/World/Terrain/BlockoutGround.asset": "4b1189aeaa9be9e4a63951f75a4b4e7b2f3eac0d4e49825dc05401686f2747d1",
+    "Assets/WindrunnerProduction/World/Terrain/BlockoutGround.asset.meta": "a65f6efb88f071bfee53a042905bd6b288aa9e01f2967abb0c3d79d7829eddbf",
+    "Assets/WindrunnerProduction/World/Terrain/CentralBasin.asset": "08be816ea3d3e26a019735a4e11f5654d8b2589a626890ce49faa69aeeaca131",
+    "Assets/WindrunnerProduction/World/Terrain/CentralBasin.asset.meta": "2c74942ae28c62e75da1e794df1460f089c305cd3cb62d64e921a4d84744387a"
+  },
+  "finalOriginalRecordFieldAudit": "Passed: only the four documented fields differ; no original record removed.",
+  "incidentalImportRestoration": "Restored original four TriForge particle keywords and byte/line-ending-only test fixture/ProjectSettings output after validation; no gameplay or integration changes."
+}

@@ -23,8 +23,24 @@ namespace AirflowPrototype.EditorTools
             {
                 string location = scene.path + "/" + interaction.name;
                 if (string.IsNullOrWhiteSpace(interaction.stableId) || !ids.Add(interaction.stableId)) errors.Add(location + ": missing/duplicate world object ID.");
-                if (interaction.range <= 0 || interaction.GetComponentInChildren<Collider>(true) == null || (!interaction.allowInput && !interaction.allowAbilityHit && !interaction.allowTraversal)) errors.Add(location + ": invalid range/collider/interaction channels.");
+                if (interaction.range <= 0 || (interaction.GetComponentInChildren<Collider>(true) == null && !(interaction is Windrunner.Activities.RelayInteraction nodeBinding && nodeBinding.castNode)) || (!interaction.allowInput && !interaction.allowAbilityHit && !interaction.allowTraversal)) errors.Add(location + ": invalid range/collider/interaction channels.");
                 if (!string.IsNullOrEmpty(interaction.requiredCompletedQuest) && !catalog.definitions.quests.Any(q => q.id == interaction.requiredCompletedQuest)) errors.Add(location + ": missing prerequisite quest.");
+                if (interaction is Windrunner.Activities.ZoneQuestActivity activity)
+                {
+                    var quest=catalog.definitions.quests.Find(q=>q.id==activity.questId);
+                    if(!activity.actor || quest==null || !quest.groups.SelectMany(g=>g.objectives).Any(o=>o.id==activity.objectiveId) || (!activity.relay && !activity.pursuit))errors.Add(location+": missing activity actor/objective/host binding.");
+                    continue;
+                }
+                if (interaction is Windrunner.Activities.RelayInteraction relay)
+                {
+                    if(!relay.relay || !relay.relay.profile || !relay.relay.profile.definition.nodes.Any(n=>n.id==relay.relayId))errors.Add(location+": invalid relay binding.");
+                    continue;
+                }
+                if (interaction is Windrunner.Activities.PursuitHost pursuit)
+                {
+                    if(!pursuit.profile || !pursuit.target || !pursuit.actor || !catalog.definitions.challenges.Any(c=>c.id==pursuit.profile.definition.challengeId))errors.Add(location+": invalid pursuit binding.");
+                    continue;
+                }
                 if (interaction is TimedRetrieval item)
                 {
                     var quest = catalog.definitions.quests.Find(q => q.id == item.questId);

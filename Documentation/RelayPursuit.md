@@ -1,5 +1,7 @@
 # Wind Relay & Dynamic Pursuit implementation report
 
+> Zone 01 integration: use the normal `D:/Fork/Windrunner` checkout on `feature/zone01-world-blockout`. See [ZoneActivityIntegration.md](ZoneActivityIntegration.md) for the four NPC quests, scene placement and current validation. Worktree-specific details and results below describe the original isolated implementation.
+
 ## Isolation and installed baseline
 
 Isolated branch `codex/quest-relay-pursuit`, worktree `D:/Fork/Windrunner/Logs/QuestRelayPursuitWorktree`, based on clean world-building `5db46de2`. Production progression, movement, Dagger/Second Wind, portable animation, Terrain Studio, Prototype Transfer, Environment Authoring Studio and approved forest packages are present. Separate performance/cinematic UI branches were not merged. No desktop control, push or merge.
