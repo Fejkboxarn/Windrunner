@@ -78,3 +78,8 @@
 "Assets/TriForge Assets/**/*.[fF][bB][xX]" filter=lfs diff=lfs merge=lfs -text
 "Assets/TriForge Assets/**/*.[tT][gG][aA]" filter=lfs diff=lfs merge=lfs -text
 "Assets/TriForge Assets/**/*.[pP][nN][gG]" filter=lfs diff=lfs merge=lfs -text
+
+# Terrain stamp R16 subassets and disposable TerrainData/history are binary Unity assets.
+Assets/WindrunnerTerrain/Editor/Brushes/Library/*.asset -text
+Assets/WindrunnerTerrain/Editor/Brushes/Library/Preset*.asset text
+Assets/WindrunnerTerrain/Editor/Brushes/Demonstration/*.asset -text

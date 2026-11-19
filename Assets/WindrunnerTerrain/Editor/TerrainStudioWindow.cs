@@ -46,6 +46,7 @@ namespace Windrunner.TerrainAuthoring.Editor
         {
             using(new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
             {
+                if(GUILayout.Button("Open Sculpt / Paint Brush Library"))TerrainBrushWindow.Open();
                 var next=(Terrain)EditorGUILayout.ObjectField("Target terrain",terrain,typeof(Terrain),true);if(next!=terrain)SetTerrain(next);
                 if(!terrain||!terrain.terrainData){EditorGUILayout.HelpBox("Open Zone 01 and select its Terrain.",MessageType.Info);return;}
                 var tile=Tile;

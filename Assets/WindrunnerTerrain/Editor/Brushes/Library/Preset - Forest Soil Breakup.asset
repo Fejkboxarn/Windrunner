@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9a33da51244923b0357f04e4adca83, type: 3}
+  m_Name: Preset - Forest Soil Breakup
+  m_EditorClassIdentifier: Windrunner.TerrainAuthoring.Editor::Windrunner.TerrainAuthoring.Editor.TerrainStampPreset
+  brush: {fileID: 11400000, guid: 7c654f299f24da440bccf3038e10e6dd, type: 2}
+  settings:
+    size: 45
+    strength: 0.35
+    rotation: 0
+    falloff: 0.3
+    height: 45
+    absoluteHeight: 20
+    invert: 0
+    operation: 0
+    layer: {fileID: 8574412962073106934, guid: b1fb9b5336f794c4686cdd4999de8e25, type: 2}

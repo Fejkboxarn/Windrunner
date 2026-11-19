@@ -1,0 +1,57 @@
+{
+  "baseline": "b7e7f1a8",
+  "branch": "codex/terrain-brush-library",
+  "unity": "6000.6.2f1",
+  "scope": "Editor-only manual Terrain Studio brush workspace; no production world edits",
+  "library": {
+    "sculpt": 10,
+    "paint": 9,
+    "presets": 8,
+    "format": "257x257 linear readable R16"
+  },
+  "full_edit_mode": {
+    "result": "Passed",
+    "total": "197",
+    "passed": "197",
+    "failed": "0",
+    "skipped": "0",
+    "duration": "135,5226187"
+  },
+  "full_edit_mode_xml": "Logs/ProductionMigration/terrain-brush-final-EditMode.xml",
+  "protected_world_files": 41,
+  "changed_protected_world_files": [],
+  "rendered_evidence": [
+    "Logs/TerrainBrushLibrary/game-camera.png",
+    "Logs/TerrainBrushLibrary/scene-camera.png"
+  ],
+  "demonstration_log": "Logs/TerrainBrushLibrary/demonstration-2.log",
+  "manual_limitations": [
+    "Mouse-driven workspace ergonomics have not been tested; command-line validation only.",
+    "Heightfields are mathematical primitives, not a physical erosion simulation or a finished landscape.",
+    "Explicit ownership checks traverse the project dependency graph and can pause Preview/Apply for several seconds."
+  ],
+  "not_run": [
+    "Play Mode: no runtime code changed",
+    "Windows build: Editor-only feature; not requested for this task"
+  ],
+  "intermediate_issue": "First demonstration setup failed on an unsaved untitled scene. Fixture scene-opening policy corrected; second run exited 0.",
+  "final_terrain_edit_mode": {
+    "result": "Passed",
+    "total": "42",
+    "passed": "42",
+    "failed": "0",
+    "skipped": "0",
+    "duration": "116,2739543"
+  },
+  "final_terrain_xml": "Logs/ProductionMigration/terrain-brush-ui-final-EditMode.xml",
+  "serialized_contracts": {
+    "count": 67,
+    "failures": []
+  },
+  "metadata_audit": {
+    "new_meta_count": 44,
+    "yaml_referenced_guids": 25,
+    "duplicate_new_guids": {},
+    "unresolved_yaml_guids": []
+  }
+}
