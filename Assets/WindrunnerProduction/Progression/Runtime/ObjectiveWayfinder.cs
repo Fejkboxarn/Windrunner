@@ -3,12 +3,14 @@ using System.Globalization;
 using UnityEngine;
 namespace Windrunner.Production.Progression
 {
+    public interface IObjectiveAnchorProvider { Transform ObjectiveAnchor { get; } }
     public enum WayfinderPhase { Objective, TurnIn }
     [Serializable] public sealed class ObjectiveAnchor
     {
         public string questId, objectiveId;
         public WayfinderPhase phase;
         public Transform anchor;
+        public MonoBehaviour provider;
         public string label;
         public bool approximateArea;
         public string areaId;
@@ -17,6 +19,9 @@ namespace Windrunner.Production.Progression
         {
             var target = retrieval && retrieval.Carrying && retrieval.Remaining > 0
                 ? (retrieval.destination ? retrieval.destination.transform : null) : anchor;
+            // Explicit providers resolve moving/branching activity anchors without scene searches.
+            // A destroyed provider must not fall back to a stale authored position.
+            if(!ReferenceEquals(provider,null))target=provider ? (provider as IObjectiveAnchorProvider)?.ObjectiveAnchor : null;
             return target && actor && target.gameObject.activeInHierarchy && target.gameObject.scene == actor.gameObject.scene ? target : null;
         }
     }

@@ -15,7 +15,7 @@ Normal checkout: `D:/Fork/Windrunner`, `feature/zone01-world-blockout`. Baseline
 
 The user explicitly authorized the two appended placeholder ranks and chapters. Existing thresholds, rewards, unlocks and quest definitions are retained. No new permanent reward or invented lore was added. A challenge completion only makes its quest ready for NPC turn-in; chapter rank advances through the existing transaction. The next quest remains locked until the prior milestone resolves. Existing saves completing one or two original chapters retain their earned state.
 
-The existing Waykeeper RelationshipContact offers all four quests without a new NPC or quest authority. Journal tracking and objective facts use the existing progression catalog and save writer. The cinematic-UI Wayfinder is absent on this branch; `ZoneQuestActivity.ObjectiveAnchor` supplies the current relay, moving pursuit target or NPC turn-in anchor for later integration. Relay hosts also expose all currently available anchors.
+The existing Waykeeper RelationshipContact offers all four quests without a new NPC or quest authority. Journal tracking and objective facts use the existing progression catalog and save writer. The cinematic-UI Wayfinder is now integrated; see [CinematicUIIntegration.md](CinematicUIIntegration.md). `ZoneQuestActivity.ObjectiveAnchor` supplies the current relay, moving pursuit target or NPC turn-in anchor through the explicit Journal binding. Relay hosts also expose all currently available anchors.
 
 ## Find and play
 

@@ -1,5 +1,7 @@
 # Development 0.5.0: cinematic warnings and objective guidance
 
+> Integrated into the normal `D:/Fork/Windrunner` project on `feature/zone01-world-blockout`. See [CinematicUIIntegration.md](CinematicUIIntegration.md) for current four-quest bindings, validation and captures. Source-branch evidence below is historical.
+
 Starting point: 0a820fd2 on codex/cinematic-ui. No branch merge.
 
 ## Placeholder cinematics

@@ -11,7 +11,7 @@ namespace Windrunner.Production.Tests
         [Test] public void ProductionSceneBindingsAndCastTargetVisibilityValidate()
         {
             var setup=UnityEditor.SceneManagement.EditorSceneManager.GetSceneManagerSetup();
-            try { System.Type.GetType("Windrunner.Activities.Editor.ZoneActivityIntegration, Assembly-CSharp-Editor",true).GetMethod("ValidateSaved").Invoke(null,null); }
+            try { System.Type.GetType("Windrunner.Activities.Editor.ZoneActivityIntegration, Assembly-CSharp-Editor",true).GetMethod("ValidateSaved").Invoke(null,null); var j=Object.FindAnyObjectByType<ProgressionJournal>();Assert.AreEqual(9,j.objectiveAnchors.Length);Assert.AreEqual(3,j.objectiveAnchors.Count(a=>a.provider is IObjectiveAnchorProvider));Assert.IsTrue(j.catalog.definitions.cutscenes.All(c=>c.isPlaceholder)); }
             finally { if(setup.Any(s=>s.isLoaded)&&setup.Any(s=>s.isActive)) UnityEditor.SceneManagement.EditorSceneManager.RestoreSceneManagerSetup(setup); else UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,UnityEditor.SceneManagement.NewSceneMode.Single); }
         }
         const string Catalog="Assets/WindrunnerProduction/World/Zone01Catalog.asset";

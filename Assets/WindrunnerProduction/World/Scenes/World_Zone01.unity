@@ -8575,6 +8575,49 @@ MonoBehaviour:
     approximateArea: 0
     areaId:
     retrieval: {fileID: 0}
+  - questId: zone-wind-relay
+    objectiveId: relay
+    phase: 0
+    anchor: {fileID: 0}
+    provider: {fileID: 2015589801}
+    label: Wind Relay
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
+  - questId: zone-pursuit
+    objectiveId: ground
+    phase: 0
+    anchor: {fileID: 0}
+    provider: {fileID: 164961299}
+    label: Ground pursuit
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
+  - questId: zone-pursuit
+    objectiveId: air
+    phase: 0
+    anchor: {fileID: 0}
+    provider: {fileID: 919146752}
+    label: Air pursuit
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
+  - questId: zone-wind-relay
+    objectiveId:
+    phase: 1
+    anchor: {fileID: 101792422}
+    label: Return to Waykeeper
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
+  - questId: zone-pursuit
+    objectiveId:
+    phase: 1
+    anchor: {fileID: 101792422}
+    label: Return to Waykeeper
+    approximateArea: 0
+    areaId:
+    retrieval: {fileID: 0}
 --- !u!114 &863015130
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 # Windrunner cinematic UI
 
+> Integrated into the normal `D:/Fork/Windrunner` project on `feature/zone01-world-blockout`. See [CinematicUIIntegration.md](CinematicUIIntegration.md) for current four-quest bindings, validation and captures. Source-branch evidence below is historical.
+
 ## Baseline and scope
 
 Dedicated `codex/cinematic-ui` branch from clean `5b743597` on `feature/zone01-world-blockout`. The original world branch and `codex/dagger-pack-animation` are unchanged. No merge. The world branch has the portable production character and existing posed Arsenal portrait, but does not include later animation-branch authoring work. No new character, animation, terrain or quest content is imported.

@@ -5,7 +5,7 @@ namespace Windrunner.Activities
 {
     /// <summary>Scene composition only: the existing objective evaluator owns stage eligibility.</summary>
     [DefaultExecutionOrder(12000)]
-    public sealed class ZoneQuestActivity : ProgressionInteraction
+    public sealed class ZoneQuestActivity : ProgressionInteraction, IObjectiveAnchorProvider
     {
         public ProgressionActor actor;
         public string questId, objectiveId;

@@ -5,8 +5,23 @@ using UnityEngine;
 using Windrunner.Production.Progression;
 namespace Windrunner.Production.Tests
 {
+    public sealed class TestAnchorProvider : MonoBehaviour, IObjectiveAnchorProvider
+    { public Transform target; public Transform ObjectiveAnchor => target; }
     public sealed class WayfinderTests
     {
+        [Test] public void DynamicProviderTracksReplacementAndNeverFallsBackAfterDestruction()
+        {
+            var player=new GameObject("actor");var host=new GameObject("provider");var first=new GameObject("first");var second=new GameObject("replacement");
+            try
+            {
+                var actor=player.AddComponent<ProgressionActor>();var provider=host.AddComponent<TestAnchorProvider>();provider.target=first.transform;
+                var binding=new ObjectiveAnchor{provider=provider,anchor=player.transform};Assert.AreSame(first.transform,binding.Resolve(actor));
+                first.transform.position=new Vector3(10,20,30);Assert.AreEqual(first.transform.position,binding.Resolve(actor).position);
+                first.SetActive(false);Assert.IsNull(binding.Resolve(actor));provider.target=second.transform;Assert.AreSame(second.transform,binding.Resolve(actor));
+                UnityEngine.Object.DestroyImmediate(second);Assert.IsNull(binding.Resolve(actor));UnityEngine.Object.DestroyImmediate(host);Assert.IsNull(binding.Resolve(actor));
+            }
+            finally {UnityEngine.Object.DestroyImmediate(player);if(host)UnityEngine.Object.DestroyImmediate(host);if(first)UnityEngine.Object.DestroyImmediate(first);if(second)UnityEngine.Object.DestroyImmediate(second);}
+        }
         [TestCase(48,"48 m")][TestCase(275,"275 m")][TestCase(1200,"1.2 km")][TestCase(999.6f,"1.0 km")][TestCase(-2,"0 m")]
         public void MetricDistance(float value,string expected)=>Assert.AreEqual(expected,WayfinderRules.Distance(value));
         [Test] public void ProjectionKeepsBehindAndOffscreenTargetsInsideHudSafeBounds()
