@@ -1,0 +1,471 @@
+{
+  "dateUtc": "2026-11-19T09:50:57.073166+00:00",
+  "branch": "codex/quest-relay-pursuit",
+  "baseline": "5db46de2d0d0370eb74208cc809fcc3d26cfe6f6",
+  "worktree": "D:\\Fork\\Windrunner\\Logs\\QuestRelayPursuitWorktree",
+  "unity": "6000.6.2f1",
+  "tests": [
+    {
+      "xml": "Logs/ProductionMigration/relay-pursuit-authoring-final-EditMode.xml",
+      "sha256": "5c963262f076f8e75f35956760702534cb4897578e3d54c61e7502df2d3bfcaa",
+      "result": "Passed",
+      "total": "175",
+      "passed": "175",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "49,1549462",
+      "start-time": "2026-11-19 09:48:42Z",
+      "end-time": "2026-11-19 09:49:31Z"
+    },
+    {
+      "xml": "Logs/ProductionMigration/relay-pursuit-release-PlayMode.xml",
+      "sha256": "0c59363f1f399e3c23d5c01c56b5c73e010beb6acf929901cfc20bc2b96d74a0",
+      "result": "Passed",
+      "total": "65",
+      "passed": "65",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "239,4543903",
+      "start-time": "2026-11-19 09:43:03Z",
+      "end-time": "2026-11-19 09:47:02Z"
+    },
+    {
+      "xml": "Logs/ProductionMigration/relay-pursuit-completed-gate-after-PlayMode.xml",
+      "sha256": "9a815a830fe1c13ae29d9070965e652e141275aa0095ff7eb1a5afba9aab46f5",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0,0435855",
+      "start-time": "2026-11-19 09:41:53Z",
+      "end-time": "2026-11-19 09:41:53Z"
+    },
+    {
+      "xml": "Logs/ProductionMigration/relay-pursuit-verified-demo-PlayMode.xml",
+      "sha256": "7da105a403096adb8cb09340026a0e5e44e50611b8b2b7d60eca960810e38248",
+      "result": "Passed",
+      "total": "4",
+      "passed": "4",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "26,8592773",
+      "start-time": "2026-11-19 09:53:59Z",
+      "end-time": "2026-11-19 09:54:26Z"
+    }
+  ],
+  "testScope": "Full functional suites exclude Profiling. Full Edit Mode reran after Editor gizmo corrections. Only demo instruction text encoding changed after the full 65 Play Mode tests; all four demo Play Mode tests reran afterward. The final verified Windows build compiles all final source.",
+  "reproducedAndFixed": {
+    "xml": "Logs/ProductionMigration/relay-pursuit-completed-gate-before-PlayMode.xml",
+    "sha256": "c33185b695e85507ebe6fc35dbabaf7e6de90905f70c8fe8229c9ef915de94b2",
+    "result": "Failed(Child)",
+    "total": "1",
+    "passed": "0",
+    "failed": "1",
+    "skipped": "0",
+    "duration": "0,0485562",
+    "start-time": "2026-11-19 09:41:01Z",
+    "end-time": "2026-11-19 09:41:01Z"
+  },
+  "build": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 24,
+    "seconds": 30.5774594,
+    "bytes": 1419307593,
+    "messages": [
+      "Read/Write is disabled on 1 mesh(es) referenced by components in this build. In future versions of Unity, the build process will no longer automatically enable Read/Write on the meshes referenced by these components. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Shadow_Dagger' (referenced by a Particle System Renderer component)",
+      "Pre-baked collision is disabled on 41 mesh(es) referenced by Mesh Collider components in this build. In future versions of Unity, the build process will no longer automatically pre-bake collision for these meshes; enable pre-baked collision in the Mesh import settings. Use Project Auditor (Window > Analysis > Project Auditor > Game Objects) to find and fix similar issues across the project. Affected meshes:\n - 'Stone_2_LOD1' (convex collision is disabled)\n - 'Stone_7_LOD0' (triangle collision is disabled)\n - 'Stone_9_LOD0' (triangle collision is disabled)\n - 'Stone_8_LOD0' (triangle collision is disabled)\n - 'Stone_1_LOD1' (convex collision is disabled)\n - 'Stone_6_LOD1' (convex collision is disabled)\n - 'Stone_4_LOD1' (convex collision is disabled)\n - 'Stone_3_LOD1' (convex collision is disabled)\n - 'Ore_1_LOD0' (triangle collision is disabled)\n - 'Ore_2_LOD0' (triangle collision is disabled)\n - 'Small_Stone_6_LOD0' (convex collision is disabled)\n - 'Small_Stone_7_LOD0' (convex collision is disabled)\n - 'Ladder_LOD1' (convex collision is disabled)\n - 'Shrine_LOD1' (triangle collision is disabled)\n - 'Column_3_LOD1' (triangle collision is disabled)\n - 'Arch_1_Collider' (triangle collision is disabled)\n - 'Floor_1_LOD0' (convex collision is disabled)\n - 'Fence_1_LOD1' (triangle collision is disabled)\n - 'Fence_3_LOD1' (triangle collision is disabled)\n - 'Column_4_LOD1' (triangle collision is disabled)\n - 'Fence_2_LOD1' (triangle collision is disabled)\n - 'Column_1_LOD1' (triangle collision is disabled)\n - 'Walls_Collider' (triangle collision is disabled)\n - 'Bridge_Collider' (triangle collision is disabled)\n - 'Arch_2_Collider' (triangle collision is disabled)\n - 'Stump_LOD1' (triangle collision is disabled)\n - 'Snag_LOD1' (triangle collision is disabled)\n - 'Column_2_LOD1' (triangle collision is disabled)\n - 'Chest_Base' (triangle collision is disabled)\n - 'Chest_Lid' (triangle collision is disabled)\n - 'Vase_3' (convex collision is disabled)\n - 'Vase_1' (convex collision is disabled)\n - 'Barrel_LOD1' (convex collision is disabled)\n - 'Vase_2' (convex collision is disabled)\n - 'Cart_1_Collider' (triangle collision is disabled)\n - 'Cart_2_Collider' (triangle collision is disabled)\n - 'Chair_Collider' (triangle collision is disabled)\n - 'Table_LOD1' (triangle collision is disabled)\n - 'Clif_3' (triangle collision is disabled)\n - 'Clif_1' (triangle collision is disabled)\n - 'Clif_2' (triangle collision is disabled)",
+      "Assets\\AirflowPrototype\\Runtime\\AirChimeTrial.cs(45,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+      "Assets\\AirflowPrototype\\Runtime\\PlayerWindFeedback.cs(41,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+      "Assets\\AirflowPrototype\\Runtime\\AutumnPostProcessController.cs(70,21): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'",
+      "Shader 'Hidden/Core/DebugOccluder': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+      "Shader 'Hidden/Core/DebugOcclusionTest': All SubShaders were stripped because their RenderPipeline tags do not match any active render pipeline asset configured for this build target. This shader will not render. Configure the matching RenderPipelineAsset in QualitySettings/GraphicsSettings, or remove this shader from the build.",
+      "Script attached to 'MM_6D_Shake' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/Cinemachine/Resources/MM_6D_Shake.asset' is missing or no valid script is attached.",
+      "Script attached to 'MMDefaultPostProcessingProfile' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingProfile.asset' is missing or no valid script is attached.",
+      "Script attached to 'MMDefaultPostProcessingVolume' in asset 'Assets/Feel/MMFeedbacks/MMFeedbacksForThirdParty/PostProcessing/Resources/MMDefaultPostProcessingVolume.prefab' is missing or no valid script is attached.",
+      "Shader warning in 'INab Studio/Procedural Progress Bar Canvas': pow(f, e) will not work for negative f, use abs(f) or conditionally handle negative values if you expect them at Canvas.shadergraph(929) (on dx11)\n\nCompiling Subshader: 0, Pass: Default, Fragment program with _FILL_OVERLAY_USE_GUIDES\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UI_ALPHACLIP UNITY_UI_CLIP_RECT UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _CUSTOM_OUTLINE_ENABLE _CUSTOM_SHAPE_ENABLE _END_LINE_ENABLE _FILL_OVERLAY_ENABLE _FILL_SEGMENTS_ENABLE",
+      "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx11)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_MATCAP TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP _SHADOWS_SOFT\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+      "Shader warning in 'Toony Colors Pro 2/User/My TCP2 Shader': gradient instruction used in a loop with varying iteration; partial derivatives may have undefined value at Shader.shader(463) (on dx12)\n\nCompiling Subshader: 0, Pass: Main, Fragment program with TCP2_SPECULAR _ADDITIONAL_LIGHT_SHADOWS _CLUSTER_LIGHT_LOOP _MAIN_LIGHT_SHADOWS_CASCADE _NORMALMAP\nPlatform defines: SHADER_API_DESKTOP UNITY_ENABLE_DETAIL_NORMALMAP UNITY_ENABLE_REFLECTION_BUFFERS UNITY_LIGHTMAP_FULL_HDR UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_PBS_USE_BRDF1 UNITY_PLATFORM_SUPPORTS_DEPTH_FETCH UNITY_SPECCUBE_BLENDING UNITY_SPECCUBE_BOX_PROJECTION UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS\nDisabled keywords: INSTANCING_ON LIGHTMAP_SHADOW_MIXING SHADER_API_GLES30 SHADER_API_GLES31 SHADER_API_GLES32 SHADOWS_SHADOWMASK TCP2_MATCAP UNITY_ASTC_NORMALMAP_ENCODING UNITY_COLORSPACE_GAMMA UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_DXT5nm UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_UNIFIED_SHADER_PRECISION_MODEL UNITY_VIRTUAL_TEXTURING _ADDITIONAL_LIGHTS _ADDITIONAL_LIGHTS_VERTEX _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_SCREEN _RECEIVE_SHADOWS_OFF _SHADOWS_SOFT _SHADOWS_SOFT_HIGH _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM",
+      "Shader warning in 'Raygeas/URP/Waterfall': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Logs/QuestRelayPursuitWorktree/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+      "Shader warning in 'Raygeas/URP/Waterfall': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+      "Shader warning in 'Raygeas/URP/Billboard': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Logs/QuestRelayPursuitWorktree/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+      "Shader warning in 'Raygeas/URP/Billboard': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+      "Shader warning in 'Raygeas/URP/Surface': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Logs/QuestRelayPursuitWorktree/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+      "Shader warning in 'Raygeas/URP/Surface': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+      "Shader warning in 'Raygeas/URP/Water': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Logs/QuestRelayPursuitWorktree/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+      "Shader warning in 'Raygeas/URP/Water': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+      "Shader warning in 'Raygeas/URP/Vegetation': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Logs/QuestRelayPursuitWorktree/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)",
+      "Shader warning in 'Raygeas/URP/Vegetation': \"UnityGBuffer.hlsl\" is deprecated in 6.1! Please upgrade your shaders to include \"GBufferOutput.hlsl\" or \"GBufferInput.hlsl\" instead!",
+      "Shader warning in 'Raygeas/URP/Mountains': _FORWARD_PLUS shader keyword has been deprecated. Please update your shaders to use _CLUSTER_LIGHT_LOOP shader keyword instead, otherwise shader compilation times may be negatively affected. at /Fork/Windrunner/Logs/QuestRelayPursuitWorktree/Library/PackageCache/com.unity.render-pipelines.universal@1e1cf3dcbd40/ShaderLibrary/ForwardPlusKeyword.deprecated.hlsl(12)"
+    ]
+  },
+  "buildPath": "Builds/relay-pursuit-verified/Windrunner.exe",
+  "buildExecutableSha256": "6833a3b986da4acf7ef8b009bae7136a01be3734071d9ddc57b3dd115830536a",
+  "renderedStartup": {
+    "label": "relay-pursuit-verified-rendered",
+    "seconds": 15,
+    "survived": true,
+    "rendered": true,
+    "totalProcessCpuSeconds": 10.125,
+    "peakWorkingSetBytes": 1075167232,
+    "privateBytesAtEnd": 2724614144,
+    "hasPlayerInitialization": true,
+    "errors": [],
+    "termination": "Harness stops only its launched process after observation",
+    "scope": "Process startup/idle only, including startup CPU and memory; no frame/GPU budget, gameplay input, pixel or graceful-shutdown validation"
+  },
+  "serializedContracts": {
+    "baseline": "7bfdfe5e",
+    "checked_source_contracts": [
+      "Assets/AirflowPrototype/Editor/AirAnimationAudioBatch11Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirCastBatch4Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirPresentationBatch10Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetChargeBatch12Setup.cs",
+      "Assets/AirflowPrototype/Editor/AirTargetingBatch3Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerAnimationBatch19Setup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerGroundedFootIKSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimationProfileEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerHumanoidAnimatorControllerBuilder.cs",
+      "Assets/AirflowPrototype/Editor/PlayerInputStartupRepairSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerKnifeFlickSetup.cs",
+      "Assets/AirflowPrototype/Editor/PlayerProceduralKnifeFlickEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseControllerEditor.cs",
+      "Assets/AirflowPrototype/Editor/PlayerRunningArmPoseSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationClipBinder.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerAnimationSetup.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerLegacyPresentationMigration.cs",
+      "Assets/AirflowPrototype/Editor/WindrunnerProductionOwnershipAudit.cs",
+      "Assets/AirflowPrototype/Runtime/AirCastFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirCaster.cs",
+      "Assets/AirflowPrototype/Runtime/AirChargeVisual.cs",
+      "Assets/AirflowPrototype/Runtime/AirChimeStartSeal.cs",
+      "Assets/AirflowPrototype/Runtime/AirDash.cs",
+      "Assets/AirflowPrototype/Runtime/AirDashSession.cs",
+      "Assets/AirflowPrototype/Runtime/AirFlowHitSystem.cs",
+      "Assets/AirflowPrototype/Runtime/AirHitFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirPerfectTimingFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/AirPower.cs",
+      "Assets/AirflowPrototype/Runtime/AirPowerProgressBarUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirPowerState.cs",
+      "Assets/AirflowPrototype/Runtime/AirPresentationController.cs",
+      "Assets/AirflowPrototype/Runtime/AirPulseProjectile.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingController.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingDeathReward.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargetChargeUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirSlingTargeter.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetChargeUI.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetDebugHUD.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargetIndicator.cs",
+      "Assets/AirflowPrototype/Runtime/AirTargeter.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowPortableAnimationBridge.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackAdapter.cs",
+      "Assets/AirflowPrototype/Runtime/AirflowProductionFeedbackEmitter.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerCustomAnimationDriver.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerDebugHUD.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerDualThrowPose.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerGroundedFootIK.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerHumanoidAnimatorDriver.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerInputReader.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerInputStartupRepair.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMotor.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerMovementVisuals.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerOrbitCamera.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerProceduralKnifeFlick.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerRunningArmPoseController.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerSpeedFeedback.cs",
+      "Assets/AirflowPrototype/Runtime/PlayerWaterSwim.cs",
+      "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationProfile.cs",
+      "Assets/WindrunnerProduction/Animation/Runtime/WindrunnerAnimationSession.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackContracts.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/FeedbackService.cs",
+      "Assets/WindrunnerProduction/Feedback/Runtime/WindrunnerFeedbackHost.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputActionsFactory.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputHost.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerInputService.cs",
+      "Assets/WindrunnerProduction/Input/Runtime/WindrunnerPauseMenuController.cs",
+      "Assets/WindrunnerProduction/Runtime/Unity/ProjectRoot.cs"
+    ],
+    "failures": []
+  },
+  "assetGuids": {
+    "scannedMetaFiles": 24133,
+    "newFiles": 53,
+    "assetReferencesPerFile": 165,
+    "missingGuids": [],
+    "duplicateNewGuids": [],
+    "missingMetas": []
+  },
+  "baselinePreservation": {
+    "baseline": "5db46de2d0d0370eb74208cc809fcc3d26cfe6f6",
+    "restoredVerifiedUnityGeneratedPaths": [
+      "Assets/AirflowPrototype/Generated/FacingMarker.mat",
+      "Assets/AirflowPrototype/Generated/Player.mat",
+      "Assets/Settings/PC_RPAsset.asset",
+      "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "ProjectSettings/GraphicsSettings.asset",
+      "ProjectSettings/ProjectAuditorSettings.asset",
+      "ProjectSettings/ProjectSettings.asset"
+    ],
+    "remainingExistingAssetOrSettingsDiffs": []
+  },
+  "renderedEvidence": [
+    {
+      "path": "Logs/RelayPursuit/Air.png",
+      "sha256": "2f2a405224a66b8ef3347cccbe230d3715a232fb3a351b705c912622e192e084"
+    },
+    {
+      "path": "Logs/RelayPursuit/Ground.png",
+      "sha256": "5b77dbd2673d088e938975ebca5609c77823e03340c7b34245c32c99b385919a"
+    },
+    {
+      "path": "Logs/RelayPursuit/hybrid-air-peak.png",
+      "sha256": "feac7ef0a346d1b6f9e081ffa75f2867bc67518b72321c54ff9b599aa8d1622d"
+    },
+    {
+      "path": "Logs/RelayPursuit/hybrid-ground-return.png",
+      "sha256": "dc33579f8faf53766891fc3aea3a42f8f3747d98e50560f0db3c58ede8fdf850"
+    },
+    {
+      "path": "Logs/RelayPursuit/Hybrid.png",
+      "sha256": "3b229883b75cfaa98f9e40c479693c6f6932a553f97d0791cbeb4ebb5056e3d0"
+    },
+    {
+      "path": "Logs/RelayPursuit/production-capture.png",
+      "sha256": "df533870054137483cb50eeef17903b77344015fbb3c418b12e976d27ab8d246"
+    },
+    {
+      "path": "Logs/RelayPursuit/production-near-miss-reversal.png",
+      "sha256": "251acbaa338800deb2c2a216c8b5baebbf5aeee472a46e7521b692088366360b"
+    },
+    {
+      "path": "Logs/RelayPursuit/relay-available.png",
+      "sha256": "6b0b044053927174c3dbc6a3132480a677a38c4018932c476700f9b18d411f35"
+    },
+    {
+      "path": "Logs/RelayPursuit/relay-complete.png",
+      "sha256": "26a174afd1d1839eb28fd10cabd93347495d2b7992ad5390194e8b3b0b759ef3"
+    },
+    {
+      "path": "Logs/RelayPursuit/relay-expired.png",
+      "sha256": "1011b7d74a80a9bb15e5ce245bfae9e2e0301f54f0b106558a4a751e81721ea0"
+    },
+    {
+      "path": "Logs/RelayPursuit/relay-retry.png",
+      "sha256": "73491313f0d138a02208d763ba682acdfaf08bd9abbfdbbef2f38aa708ee3b98"
+    }
+  ],
+  "sourceManifest": [
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/AirPursuit.asset",
+      "sha256": "a27c216b3d6aac80b11c9fd99a14e85b5d79ad1270c40bedac77222500bc5c80"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/AirPursuit.asset.meta",
+      "sha256": "c37695a80190532ced25315af4433632e687b6786f338dff0180f871d9c12c9d"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/Catalog.asset",
+      "sha256": "b284d492fdc1cb2942ac9b7a83084e275f7abe23829c666dec75153aaa0d001b"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/Catalog.asset.meta",
+      "sha256": "9c0976db991f9cf12accd176d9ec23b2ec008c5ec7f44ecb23238af99bc3a0c5"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/GroundPursuit.asset",
+      "sha256": "6bf1838190aa237989d6b3c80b257818bc125de731ac2ccbe74b52b58b1ba3da"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/GroundPursuit.asset.meta",
+      "sha256": "93433c563fdaba3b617acbd772b31360c1b67969981ce91f42a972bd6349c108"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/HybridPursuit.asset",
+      "sha256": "ce2bf41423d77047d6f270bbc1dbfd545e557ba29fd476247ec16f05db82780d"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/HybridPursuit.asset.meta",
+      "sha256": "a6830f7df5cb126719d38d5d1aa4043e716c56ae0effbdc888db2043edae22a2"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/RelayPursuitDemo.unity",
+      "sha256": "940407b2266e8e9d59f8e6418d7edbcd2c8969024ff25ef51f3c8a0f276055e3"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/RelayPursuitDemo.unity.meta",
+      "sha256": "8d94e649951dbada86f3881ad08ab7faeaa4228c3a4caf317ad5414cac68ce74"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/WindRelay.asset",
+      "sha256": "d125a008bea58fafd9fce71b052e7ddc76b20a459f2443941e8a03ea161acaf1"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration/WindRelay.asset.meta",
+      "sha256": "9eb710ca9ad4ac001033b2236e45946c244c0d74bc8e62da756f6719edfdb8d7"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Demonstration.meta",
+      "sha256": "dbcab14c35a513fa1073dbe0aa6cc7683bf4d513e5736bf5a702fc78fe0ca3cf"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Editor/ActivityDemoBuilder.cs",
+      "sha256": "e1a1f4873759543b690e80235430e7fcbff782b931cdc73f7a309ead4969d5d5"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Editor/ActivityDemoBuilder.cs.meta",
+      "sha256": "c4c2a8febc2c5bd216e0e9d2d0a27881c163c0c6dbdef2d8d04bc59c5bf5b6e8"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Editor/RelayPursuitStudio.cs",
+      "sha256": "dcfece8a01f7a9e781267f8fe0ceaf499f7dae789cb7921f8a105af1813448b5"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Editor/RelayPursuitStudio.cs.meta",
+      "sha256": "f1878448a13c326a18c1036ecf06ea2488fb15df903a56088bb4bc2efdbd34de"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Editor.meta",
+      "sha256": "17142c8fefbb3bd1059bdc4afc178b7b95b09384e71117d6096e314846779fd7"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/ActivityDemoGuide.cs",
+      "sha256": "47ac066e6d74be721b71554c6a5a65f02f0dfea9f3774cdc2195835492129a1e"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/ActivityDemoGuide.cs.meta",
+      "sha256": "fe9615f747cf479cc2940c9b8295906b56e11793019d137be5229da5e8a5c7f6"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/ActivityStartInteraction.cs",
+      "sha256": "dfb52dc6d0e64cab18e26ebdeb8201fbb68a87f90c90bdbc2464f5bfc63336b2"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/ActivityStartInteraction.cs.meta",
+      "sha256": "9158ae845cffcde0a04e59ac18f42e17e2755c7bd84c564f50e06892e78c2456"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/PursuitHost.cs",
+      "sha256": "d667ebb061b7091343832fc98de8662843c8b1e3d5cfa0ba4417ccd9597d0ee0"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/PursuitHost.cs.meta",
+      "sha256": "ad1a84f99cc9f61d001a47240b838591ba6a0d885e6a1b24d79c863d12254666"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/RelayInteraction.cs",
+      "sha256": "039170b5d81b06acef8d6f8b28c9e16905b29794fcf630fa561656b46922bb63"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/RelayInteraction.cs.meta",
+      "sha256": "e658faed65e34ba54190f334990f66107745d43545662384de177b72148099ad"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/WindRelayHost.cs",
+      "sha256": "9140262d8ddb105d8b0dd3b967b3dd27277e2f97b64c22aa922a5293cad216bf"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime/WindRelayHost.cs.meta",
+      "sha256": "b549dcc0c2d46915f0dce0e98fb9b45e03b07f6b057727a676c9f09d01123692"
+    },
+    {
+      "path": "Assets/WindrunnerActivities/Runtime.meta",
+      "sha256": "ada3d437adb2afb7b063b35275be5bdf4413f7c63a1b52f43cb501e4d24d8d27"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/ActivityProgression.cs",
+      "sha256": "c744e60fc8db764a86a97906fa612aaec11b14f292a43665772da0c00d250942"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/ActivityProgression.cs.meta",
+      "sha256": "6346f601b1ee7c56a7c69ac282812416c3403d1e2228ed0c2f18503ef0bfc4b6"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/PursuitProfile.cs",
+      "sha256": "2862d5a6dc79753e3efb261f3b4babde6ba3155ca3aa2b0930e56ef50feee56b"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/PursuitProfile.cs.meta",
+      "sha256": "5de2969f7f5a46d7220e539c460fa51c00eca7fe41d51e44e724f1800585bc65"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/PursuitRoute.cs",
+      "sha256": "f75eb0161f3a0bc0204a9e8e1e041f581dad5ebaf038a79edd6458d420becee9"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/PursuitRoute.cs.meta",
+      "sha256": "fa2ad860656e01459754a437fb4e9816dc4106fedd38dd548960e928130c679b"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/PursuitSession.cs",
+      "sha256": "db7394b185045d03165dd8939b80e47b36d342164f28b20b72f2a53dd2b37676"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/PursuitSession.cs.meta",
+      "sha256": "30b510b4baf572adda19c00544362a0685f31220c97148291391827cce3f550d"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/WindRelayProfile.cs",
+      "sha256": "3e64f63e0881f174a99bf54ed728d0131455eb9b3547dacae2a9e689417f1502"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/WindRelayProfile.cs.meta",
+      "sha256": "3fc5f0464e554618faea9aa4058173efdf21c2910ef3223c2bd9702fb6f974be"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/WindRelaySession.cs",
+      "sha256": "74707f1269c5be79aa4e692869207f76a1a510a39daebde5f9680a5027e3cbec"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Progression/Runtime/Activities/WindRelaySession.cs.meta",
+      "sha256": "2123d5fd3210741ba1c667d6795c23406bd8b811c154d426bd59bd171b3e9b7c"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/ActivityAuthoringSafetyTests.cs",
+      "sha256": "8015e2952a6041cb09e6d65f3ca5dd5d4bb4d3d823d09f33fa5cd0002a43f774"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/ActivityAuthoringSafetyTests.cs.meta",
+      "sha256": "94bd5d0d6b9e81f2236c2a9c270f38b060aaa236499e9c97071d8f0cfdf7fe01"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/ActivityPersistenceTests.cs",
+      "sha256": "93493134780e9d6f7aebaa53e400ed83ec01ca1ee4b1479b21725d7ee1b8da9a"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/ActivityPersistenceTests.cs.meta",
+      "sha256": "dfc7ae2391473c38c2ab0913ccccd0207c9eb3662b4e4b6c6eeca2127d2ab714"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/RelayPursuitRuleTests.cs",
+      "sha256": "2a8d91f00ab029f0c9246393251c16f5320001ae4a26f48fb941fce76109ecc2"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/Editor/RelayPursuitRuleTests.cs.meta",
+      "sha256": "c2a56cc7c2163f759ed361f52ce7d55c972e8b2df19f81ff3ab766f1f21f77c2"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/ActivityAbilityIntegrationTests.cs",
+      "sha256": "d4a9d217f7c6ef26d3745fb1e251969ae7e88db1b485b734357eb6fe0f0a66d6"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/ActivityAbilityIntegrationTests.cs.meta",
+      "sha256": "f146a6da9b60c57582ceba8c196c79ad5188dbccade3d86920721e938f642b20"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/ActivityDemoTests.cs",
+      "sha256": "c4380e575a7e0831ca22de17e2480596fdb16e0e5243ff29b552165eb976e1a7"
+    },
+    {
+      "path": "Assets/WindrunnerProduction/Tests/PlayMode/ActivityDemoTests.cs.meta",
+      "sha256": "87e7d2be0175eac3ca6e1f26412060e2291ff797b661fdba7b8de59a4c6c58d7"
+    }
+  ],
+  "manualAcceptance": [
+    "Mouse-driven authoring, Scene handles and preview usability",
+    "Chase difficulty and reversal readability at normal/high-speed traversal",
+    "Moving-target Sling and authored target animation/VFX/audio presentation",
+    "Actual uneven-terrain route authoring and target-hardware frame budget"
+  ],
+  "safety": "No desktop control, production world changes, real save-slot writes, push or merge."
+}

@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aed4b07764f1164d8b8fece0f3e3bb8, type: 3}
+  m_Name: Catalog
+  m_EditorClassIdentifier: Windrunner.Production.Progression::Windrunner.Production.Progression.ProgressionCatalog
+  definitions:
+    quests:
+    - id: demo-relay-quest
+      displayName: demo-relay demonstration
+      description: 
+      nameTextId: 
+      descriptionTextId: 
+      kind: 1
+      characterId: 
+      chapterId: 
+      requiresQuests: []
+      groups:
+      - id: complete
+        requiresGroups: []
+        objectives:
+        - id: result
+          description: Complete the demonstration
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: demo-relay
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 1
+      guidance:
+        areaId: 
+        clue: 
+        clueTextId: 
+        showArea: 0
+    - id: demo-ground-quest
+      displayName: demo-ground demonstration
+      description: 
+      nameTextId: 
+      descriptionTextId: 
+      kind: 1
+      characterId: 
+      chapterId: 
+      requiresQuests: []
+      groups:
+      - id: complete
+        requiresGroups: []
+        objectives:
+        - id: result
+          description: Complete the demonstration
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: demo-ground
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 1
+      guidance:
+        areaId: 
+        clue: 
+        clueTextId: 
+        showArea: 0
+    - id: demo-air-quest
+      displayName: demo-air demonstration
+      description: 
+      nameTextId: 
+      descriptionTextId: 
+      kind: 1
+      characterId: 
+      chapterId: 
+      requiresQuests: []
+      groups:
+      - id: complete
+        requiresGroups: []
+        objectives:
+        - id: result
+          description: Complete the demonstration
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: demo-air
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 1
+      guidance:
+        areaId: 
+        clue: 
+        clueTextId: 
+        showArea: 0
+    - id: demo-hybrid-quest
+      displayName: demo-hybrid demonstration
+      description: 
+      nameTextId: 
+      descriptionTextId: 
+      kind: 1
+      characterId: 
+      chapterId: 
+      requiresQuests: []
+      groups:
+      - id: complete
+        requiresGroups: []
+        objectives:
+        - id: result
+          description: Complete the demonstration
+          textId: 
+          evaluator: fact
+          kind: 6
+          definitionId: demo-hybrid
+          regionId: 
+          count: 1
+          uniqueTargets: 0
+          credit: 0
+          maximumSeconds: 0
+          guidance:
+            areaId: 
+            clue: 
+            clueTextId: 
+            showArea: 0
+      rewards: []
+      automaticTurnIn: 1
+      guidance:
+        areaId: 
+        clue: 
+        clueTextId: 
+        showArea: 0
+    relationships: []
+    rewards: []
+    cutscenes: []
+    challenges:
+    - id: demo-relay
+      displayName: demo-relay
+      resultKind: 6
+      replayable: 1
+      requiresQuests: []
+      firstClearRewards: []
+    - id: demo-ground
+      displayName: demo-ground
+      resultKind: 6
+      replayable: 1
+      requiresQuests: []
+      firstClearRewards: []
+    - id: demo-air
+      displayName: demo-air
+      resultKind: 6
+      replayable: 1
+      requiresQuests: []
+      firstClearRewards: []
+    - id: demo-hybrid
+      displayName: demo-hybrid
+      resultKind: 6
+      replayable: 1
+      requiresQuests: []
+      firstClearRewards: []
+    races: []
+    puzzles: []
