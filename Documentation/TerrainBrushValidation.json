@@ -53,5 +53,68 @@
     "yaml_referenced_guids": 25,
     "duplicate_new_guids": {},
     "unresolved_yaml_guids": []
+  },
+  "world_branch_integration": {
+    "baseline": "b7e7f1a8",
+    "source": "f063f4bb",
+    "cherry_pick": "41ceee44",
+    "branch": "feature/zone01-world-blockout",
+    "conflicts": [],
+    "unity": "6000.6.2f1",
+    "edit_mode": {
+      "result": "Passed",
+      "total": "200",
+      "passed": "200",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "189,2050203"
+    },
+    "results_xml": "Logs/ProductionMigration/terrain-brush-world-verified-EditMode.xml",
+    "terrain_and_environment_tests": 43,
+    "serialized_contracts": 67,
+    "serialized_failures": [],
+    "protected_world_files_unchanged": 41,
+    "vendor_asset_diff": [],
+    "source_brush_asset_and_guid_diff": [],
+    "native_query_samples": [
+      {
+        "sample": 0,
+        "roots": 970,
+        "dependencies": 4980,
+        "local_ms": 0.099,
+        "discovery_ms": 36.825,
+        "query_ms": 5192.054
+      },
+      {
+        "sample": 1,
+        "roots": 970,
+        "dependencies": 4980,
+        "local_ms": 0.162,
+        "discovery_ms": 17.126,
+        "query_ms": 5158.793
+      },
+      {
+        "sample": 2,
+        "roots": 970,
+        "dependencies": 4980,
+        "local_ms": 0.155,
+        "discovery_ms": 16.163,
+        "query_ms": 5001.487
+      }
+    ],
+    "optimization": "Rejected direct-dependency traversal after implicit importer dependency mismatch; original implementation retained without caches or exclusions.",
+    "intermediate_runs": [
+      "terrain-brush-integrated: 198/199, experimental dependency parity failure",
+      "terrain-brush-ownership: 0/1, exact missing/extra dependencies identified",
+      "terrain-brush-world-final: 199/200, placement fixture wrapper-identity assertion corrected"
+    ],
+    "manual_limitations": [
+      "Mouse-driven usability not exercised; command-line validation only.",
+      "Native recursive ownership query remains approximately 5 seconds per explicit Preview/Apply."
+    ],
+    "not_run": [
+      "Play Mode",
+      "Windows build"
+    ]
   }
 }

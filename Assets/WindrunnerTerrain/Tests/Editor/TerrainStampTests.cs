@@ -48,6 +48,7 @@ namespace Windrunner.TerrainAuthoring.Tests
             var t=Tile();Bake(t);var d=t.state.working;var before=Weights(t);
             var original=AssetDatabase.LoadAssetAtPath<TerrainStampPreset>(TerrainStampLibrary.Folder+"/Preset - Natural Grass Variation.asset");float strength=original.settings.strength;var draft=original.settings.Copy();draft.strength=.9f;Assert.AreEqual(strength,original.settings.strength);Assert.AreSame(original.settings.layer,draft.layer);
             var p=TerrainStampOperations.Prepare(t,Brush("Organic Variation"),new StampSettings{layer=profile.soil,size=100,strength=.8f},Vector2.one*64);TerrainStampOperations.Apply(p);var after=Weights(t);Assert.IsFalse(before.SequenceEqual(after));Undo.PerformUndo();EqualMap(before,Weights(t));Undo.PerformRedo();EqualMap(after,Weights(t));
+            AssetDatabase.SaveAssetIfDirty(d);string path=AssetDatabase.GetAssetPath(d);AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);EqualMap(after,TerrainPainter.Capture(AssetDatabase.LoadAssetAtPath<TerrainData>(path),TerrainPainter.Full(d)).weights);
         }
         [Test] public void SavedDisposableDemonstrationReopensWithIndependentData()
         {
@@ -60,6 +61,40 @@ namespace Windrunner.TerrainAuthoring.Tests
                 foreach(var gameObject in opened.GetRootGameObjects())foreach(var transform in gameObject.GetComponentsInChildren<Transform>(true))Assert.AreEqual(0,GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(transform.gameObject));
             }
             finally{UnityEditor.SceneManagement.EditorSceneManager.CloseScene(opened,true);}
+        }
+        [Test] public void OwnershipValidationMeasuresNativeQueryWithoutWeakeningChecks()
+        {
+            var tile=Tile();var dataPath=AssetDatabase.GetAssetPath(tile.state.working);
+            for(int iteration=0;iteration<3;iteration++)
+            {
+                var timer=System.Diagnostics.Stopwatch.StartNew();TerrainStampOperations.Validate(tile,false);double localMs=timer.Elapsed.TotalMilliseconds;
+                timer.Restart();var roots=AssetDatabase.FindAssets("t:Scene t:Prefab").Select(AssetDatabase.GUIDToAssetPath).Where(p=>p.StartsWith("Assets/",StringComparison.Ordinal)&&p!=tile.gameObject.scene.path).ToArray();double discoveryMs=timer.Elapsed.TotalMilliseconds;
+                timer.Restart();var dependencies=AssetDatabase.GetDependencies(roots,true);double queryMs=timer.Elapsed.TotalMilliseconds;
+                Assert.IsFalse(dependencies.Contains(dataPath),"Disposable unsaved working terrain must have no other saved scene/prefab owner.");
+                UnityEngine.Debug.Log($"Ownership native sample {iteration}: roots={roots.Length}, dependencies={dependencies.Length}, localMs={localMs:F3}, discoveryMs={discoveryMs:F3}, queryMs={queryMs:F3}");
+            }
+        }
+        [Test] public void OwnershipRejectsNewIndirectReferenceBetweenPreviewAndApply()
+        {
+            var tile=Tile();var preview=TerrainStampOperations.Prepare(tile,Brush("Rolling Hills"),new StampSettings(),Vector2.one*64);
+            // An otherwise unrelated prefab references the paint-state asset, which owns working data.
+            var holder=new GameObject("Indirect dependency");var binding=holder.AddComponent<StudioTile>();binding.state=tile.state;
+            PrefabUtility.SaveAsPrefabAsset(holder,folder+"/Indirect.prefab");UnityEngine.Object.DestroyImmediate(holder);
+            Assert.Throws<InvalidOperationException>(()=>TerrainStampOperations.Apply(preview));
+            AssetDatabase.DeleteAsset(folder+"/Indirect.prefab");
+            TerrainStampOperations.Apply(preview);
+        }
+        [Test] public void EnvironmentPlacementOnStampedTerrainPreservesSculptAndPaint()
+        {
+            var source=new GameObject("Disposable prop");
+            var prefab=PrefabUtility.SaveAsPrefabAsset(source,folder+"/Prop.prefab");UnityEngine.Object.DestroyImmediate(source);
+            var t=Tile();Bake(t);var d=t.state.working;string terrainPath=AssetDatabase.GetAssetPath(d);
+            TerrainStampOperations.Apply(TerrainStampOperations.Prepare(t,Brush("Rolling Hills"),new StampSettings(),Vector2.one*64));
+            var heights=d.GetHeights(0,0,65,65);var paint=Weights(t);
+            var point=new Vector3(64,t.terrain.SampleHeight(new Vector3(64,0,64)),64);
+            var placed=EnvironmentPlacement.Place(prefab,scene,null,point,Vector3.up,new EnvironmentPlacementSettings());
+            Assert.AreEqual(point,placed.transform.position);Assert.AreEqual(terrainPath,AssetDatabase.GetAssetPath(t.terrain.terrainData));CollectionAssert.AreEqual(heights,t.terrain.terrainData.GetHeights(0,0,65,65));EqualMap(paint,Weights(t));
+            Undo.FlushUndoRecordObjects();Undo.PerformUndo();Assert.IsTrue(!placed);CollectionAssert.AreEqual(heights,d.GetHeights(0,0,65,65));EqualMap(paint,Weights(t));
         }
         [Test] public void StampSizeStrengthAndLowerRemainBounded()
         {
