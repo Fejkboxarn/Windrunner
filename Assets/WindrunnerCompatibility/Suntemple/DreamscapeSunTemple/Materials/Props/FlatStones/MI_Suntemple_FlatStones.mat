@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7238917562890293706
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MI_Suntemple_FlatStones
+  m_Shader: {fileID: -6465566751694194690, guid: 43f30d167ac25a1096e039e25bc4c8a0, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _USE_COVERAGE_LAYER
+  - _USE_LAYER_1
+  - _USE_LAYER_2
+  - _USE_LAYER_3
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Coverage_Color_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000010175880626495185359, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Coverage_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000014531271237764080392, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Edge_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000008524634244505073768, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer_1_Color_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000008572066086946159783, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer_1_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000002657599176371777174, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer_2_Color_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000006755401549304914813, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer_2_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000015433829145638731740, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer_3_Color_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000004246079205210026496, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Layer_3_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000009257782462039345543, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000014844591060043905967, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RGB_Map:
+        m_Texture: {fileID: 2800000, guid: abc00000000003845280936184170634, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO_Mask_Contrast: 0
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
+    - _Coverage_Brightness: 1
+    - _Coverage_Height_Mask_Length: 5
+    - _Coverage_Height_Mask_Pivot_Offset: 6.3
+    - _Coverage_Hue: 0
+    - _Coverage_Normal_Mask_Gradience: 0.24
+    - _Coverage_Normal_Mask_Slope: 0.67
+    - _Coverage_Normal_Strength: 1
+    - _Coverage_Smoothness_Strength: 1
+    - _Coverage_Tiling: 1
+    - _Dirt_Mask_Contrast: 0
+    - _Edgewear_Mask_Contrast: 0
+    - _Layer_1_Brightness: 1
+    - _Layer_1_Hue: 0
+    - _Layer_1_Normal_Strength: 1
+    - _Layer_1_Smoothness_Strength: 1
+    - _Layer_1_Tiling: 1
+    - _Layer_2_Brightness: 1
+    - _Layer_2_Hue: 0
+    - _Layer_2_Normal_Strength: 1
+    - _Layer_2_Smoothness_Strength: 1
+    - _Layer_2_Tiling: 1
+    - _Layer_3_Brightness: 1
+    - _Layer_3_Hue: 0
+    - _Layer_3_Normal_Strength: 1
+    - _Layer_3_Smoothness_Strength: 1
+    - _Layer_3_Tiling: 33
+    - _Normal_Strength: 1
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _Scale_UVs_with_Object: 0
+    - _Stylization_Mask_Contrast: 0
+    - _USE_COVERAGE_LAYER: 1
+    - _USE_LAYER_1: 1
+    - _USE_LAYER_2: 1
+    - _USE_LAYER_3: 1
+    m_Colors:
+    - _AO_Color: {r: 0.21698102, g: 0.21698102, b: 0.21698102, a: 0}
+    - _Dirt_Color: {r: 0.16500527, g: 0.33962256, b: 0.19294405, a: 1}
+    - _Edgewear_Color: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0}
+    - _Stylization_Color: {r: 0.45283014, g: 0.45283014, b: 0.45283014, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &6484627309786177843
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0

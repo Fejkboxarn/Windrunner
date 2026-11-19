@@ -58,8 +58,20 @@
     {
       "path": "ProjectSettings/ProjectSettings.asset",
       "baseline_sha256": "2d07fb2a6d641f7fa7dab73d96df9975e23b7def2ee5ed9660b42077c7fbe901",
-      "approved_sha256": "030df86ac96b1e9f98ba00b580703be24cc0ecd3ff5a5794bcd22438afe98701",
-      "reason": "Development version 0.5.0. Preserves two pre-existing local Windows Store defaults (metroPackageVersion 1.0.0.0 and metroTileShortName Windrunner); no rendering, input, balance or world settings changes."
+      "approved_sha256": "8729b1e46649acaec36d53bf918ec24fdda5a645ac444d1eca715f9515ace2f4",
+      "reason": "Development version 0.5.0. Preserves two pre-existing local Windows Store defaults (metroPackageVersion 1.0.0.0 and metroTileShortName Windrunner); no rendering, input, balance or world settings changes. Suntemple repair checkpoint preserves pre-existing local import configuration: Post Processing 3.5.4 / Terrain Tools 5.3.3 and PPv2 platform defines. Present before repair; no render pipeline or input backend change."
+    },
+    {
+      "path": "Packages/manifest.json",
+      "baseline_sha256": "fc2c23fa153ca43f39e47b54c77c5658e9aa46c5cc96b2b7ce04a34c6e9b4c9d",
+      "reason": " Suntemple repair checkpoint preserves pre-existing local import configuration: Post Processing 3.5.4 / Terrain Tools 5.3.3 and PPv2 platform defines. Present before repair; no render pipeline or input backend change.",
+      "approved_sha256": "af8465cd3ad74464f5b9a0b8562e540ae1938e0fdcb47c7d917871d1dbf90557"
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "baseline_sha256": "3bbfa7ef07784bcf42649e49cf79963fc83c6854b677a2f8da5d0870c4e9318c",
+      "reason": " Suntemple repair checkpoint preserves pre-existing local import configuration: Post Processing 3.5.4 / Terrain Tools 5.3.3 and PPv2 platform defines. Present before repair; no render pipeline or input backend change.",
+      "approved_sha256": "3a5cf98ef993d9a2b185c01075069137e2dc2cc010f6ee3b13e534fb65244736"
     }
   ]
 }

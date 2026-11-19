@@ -83,3 +83,12 @@
 Assets/WindrunnerTerrain/Editor/Brushes/Library/*.asset -text
 Assets/WindrunnerTerrain/Editor/Brushes/Library/Preset*.asset text
 Assets/WindrunnerTerrain/Editor/Brushes/Demonstration/*.asset -text
+
+# Locally imported Suntemple: oversized demo scenes, native terrain/lightmap data and textures.
+Assets/Polyart/**/*.unity filter=lfs diff=lfs merge=lfs -text
+Assets/Polyart/**/*.asset filter=lfs diff=lfs merge=lfs -text
+Assets/Polyart/**/*.[pP][nN][gG] filter=lfs diff=lfs merge=lfs -text
+Assets/Polyart/**/*.[fF][bB][xX] filter=lfs diff=lfs merge=lfs -text
+Assets/WindrunnerCompatibility/Suntemple/**/*.unity filter=lfs diff=lfs merge=lfs -text
+Assets/WindrunnerCompatibility/Suntemple/**/*.asset filter=lfs diff=lfs merge=lfs -text
+Documentation/Evidence/Suntemple/*.png filter=lfs diff=lfs merge=lfs -text

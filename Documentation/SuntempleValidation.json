@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-19",
+  "unity": "6000.6.2f1",
+  "branch": "feature/zone01-world-blockout",
+  "baseline": "ddc888ee",
+  "scope": "Isolated project-owned Suntemple compatibility variants; original import and production Zone01 retained",
+  "focused_edit_mode": {
+    "result": "Passed",
+    "total": "6",
+    "passed": "6",
+    "failed": "0",
+    "skipped": "0",
+    "duration": "17,3319285"
+  },
+  "windows_development_build": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 64,
+    "duration_seconds": 33.4697688,
+    "path": "Builds/SuntempleURP_20261119_161413/Suntemple.exe",
+    "log": "Logs/SuntempleRepair/build-r4-unity.log",
+    "cached": true
+  },
+  "standalone_render": {
+    "result": "Passed",
+    "errors": 0,
+    "exit_code": 0,
+    "captures": 6,
+    "width": 1600,
+    "height": 900,
+    "graphics": "D3D11 / NVIDIA GeForce RTX 5070 Ti",
+    "evidence": "Documentation/Evidence/Suntemple/runtime-*.png",
+    "log_directory": "Logs/SuntempleRepair/runtime-r4",
+    "method": "Opt-in development probe, explicit offscreen Camera.Render; no desktop control",
+    "visually_inspected": true
+  },
+  "play_mode_suite": "Not run; standalone lifecycle/render validation recorded separately",
+  "remaining_limitations": [
+    "Original Built-in underwater OnRenderImage effect unsupported in URP",
+    "Missing source fountain shader uses documented approximate fallback",
+    "Missing alternate grass diffuse uses same-pack grass; olive mask uses shader default",
+    "Unused SharedResources examples retain unavailable dependencies",
+    "Interactive camera ergonomics and artistic acceptance require manual review",
+    "Large demo performance not optimized or certified"
+  ],
+  "intermediate_failures": [
+    "First full Edit Mode 199/207; unused shaders and leaked scene isolation fixed",
+    "Second full Edit Mode 207/208; OceanTool OnValidate fixed",
+    "Standalone explicit-render first attempt had 836 decal invalid mesh errors; runtime bounds and authored-mesh preservation fixed",
+    "Black batch back-buffer images rejected; explicit Camera.Render used"
+  ],
+  "variant_mapping_entries": 832,
+  "variant_materials": 270,
+  "variant_prefabs": 523,
+  "source_archives": "Preserved locally, deliberately excluded from Git as redundant package archives",
+  "full_edit_mode": {
+    "result": "Passed",
+    "total": "209",
+    "passed": "209",
+    "failed": "0",
+    "skipped": "0",
+    "duration": "355,5258233",
+    "results": "Logs/SuntempleRepair/edit-final-results.xml"
+  },
+  "preservation": {
+    "checked": 3751,
+    "failures": [],
+    "optional_local_archives_absent": []
+  },
+  "serialized_contracts": {
+    "checked": 67,
+    "failures": [],
+    "results": "Logs/SuntempleRepair/serialized-final.json"
+  },
+  "lfs": {
+    "staged_paths": 5570,
+    "unique_staged_lfs_objects_hashed": 810,
+    "bytes": 3810844254,
+    "failures": []
+  },
+  "metadata_audit": {
+    "missing_meta_files": 0,
+    "unexpected_staged_paths": 0,
+    "archives_caches_builds_staged": 0
+  }
+}
