@@ -5789,6 +5789,96 @@ Transform:
   m_Children: []
   m_Father: {fileID: 816112991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &613664468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613664469}
+  - component: {fileID: 613664471}
+  - component: {fileID: 613664470}
+  m_Layer: 0
+  m_Name: Baked wheel wear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &613664469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613664468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2143257707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &613664470
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613664468}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &613664471
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613664468}
+  m_Mesh: {fileID: 4300000, guid: 0dfedd7dc3959764c84e0f7276c5a912, type: 2}
 --- !u!1 &615797032
 GameObject:
   m_ObjectHideFlags: 0
@@ -7155,6 +7245,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8742959748924899423, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
   m_PrefabInstance: {fileID: 1472093721}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &735989327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735989328}
+  - component: {fileID: 735989329}
+  m_Layer: 0
+  m_Name: Terrain Studio authoring
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &735989328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735989327}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2143257707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735989329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735989327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59515cc4adc34ce4680f9827f911902c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Windrunner.TerrainAuthoring::Windrunner.TerrainAuthoring.StudioTile
+  terrain: {fileID: 2143257709}
+  state: {fileID: 11400000, guid: 6e872ec89136efc48acf76cab885f88b, type: 2}
+  ribbons: {fileID: 613664471}
 --- !u!4 &752086713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2736930529830475219, guid: 93a4163bfc4f50348be5ef20aef9d156, type: 3}
@@ -8547,33 +8684,37 @@ MonoBehaviour:
     objectiveId: defeat
     phase: 0
     anchor: {fileID: 424593282}
+    provider: {fileID: 0}
     label: North Basin
     approximateArea: 1
     areaId: North Basin
     retrieval: {fileID: 0}
   - questId: basin-hunt
-    objectiveId:
+    objectiveId: 
     phase: 1
     anchor: {fileID: 101792422}
+    provider: {fileID: 0}
     label: Return to Waykeeper
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
   - questId: ridge-retrieval
     objectiveId: deliver
     phase: 0
     anchor: {fileID: 615797035}
+    provider: {fileID: 0}
     label: East overlook
     approximateArea: 1
     areaId: East overlook
     retrieval: {fileID: 615797034}
   - questId: ridge-retrieval
-    objectiveId:
+    objectiveId: 
     phase: 1
     anchor: {fileID: 101792422}
+    provider: {fileID: 0}
     label: Return to Waykeeper
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
   - questId: zone-wind-relay
     objectiveId: relay
@@ -8582,7 +8723,7 @@ MonoBehaviour:
     provider: {fileID: 2015589801}
     label: Wind Relay
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
   - questId: zone-pursuit
     objectiveId: ground
@@ -8591,7 +8732,7 @@ MonoBehaviour:
     provider: {fileID: 164961299}
     label: Ground pursuit
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
   - questId: zone-pursuit
     objectiveId: air
@@ -8600,23 +8741,25 @@ MonoBehaviour:
     provider: {fileID: 919146752}
     label: Air pursuit
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
   - questId: zone-wind-relay
-    objectiveId:
+    objectiveId: 
     phase: 1
     anchor: {fileID: 101792422}
+    provider: {fileID: 0}
     label: Return to Waykeeper
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
   - questId: zone-pursuit
-    objectiveId:
+    objectiveId: 
     phase: 1
     anchor: {fileID: 101792422}
+    provider: {fileID: 0}
     label: Return to Waykeeper
     approximateArea: 0
-    areaId:
+    areaId: 
     retrieval: {fileID: 0}
 --- !u!114 &863015130
 MonoBehaviour:
@@ -18557,13 +18700,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Windrunner.Frontend.PlayerSession
   legacyCatalog: {fileID: 11400000, guid: daf0be77f6ba9284c9466d6b7a53bfc8, type: 2}
+  zoneCatalog: {fileID: 0}
   project: {fileID: 1936097419}
   input: {fileID: 1936097421}
   catalog: {fileID: 11400000, guid: d8b9924770efb7b4388311f33b340103, type: 2}
+  daggers: {fileID: 2137784001}
   character: {fileID: 863015094}
   arrival: {fileID: 912356162}
   orbit: {fileID: 1438593766}
-  daggers: {fileID: 2137784001}
 --- !u!1 &1938172987
 GameObject:
   m_ObjectHideFlags: 0
@@ -20454,7 +20598,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5db5efecca22bd478f26bd1f2a1c103, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Windrunner.Daggers.DaggerPlayer
   session: {fileID: 1936097426}
   catalog: {fileID: 11400000, guid: aa7c43773efbaf2429e5640cfc25ba4c, type: 2}
@@ -20497,7 +20641,9 @@ Transform:
   m_LocalPosition: {x: -1024, y: 0, z: -1024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 735989328}
+  - {fileID: 613664469}
   m_Father: {fileID: 2017964321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!154 &2143257708
@@ -20518,7 +20664,7 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 03e91ebfac0687e48b31e8746b49e85b, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: d8e2dfd5a0f286d499566592c373bc01, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &2143257709
 Terrain:
@@ -20529,7 +20675,7 @@ Terrain:
   m_GameObject: {fileID: 2143257706}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 03e91ebfac0687e48b31e8746b49e85b, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: d8e2dfd5a0f286d499566592c373bc01, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
